@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8761}
+ 
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
+    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    org.springframework.web: INFO
+  file: app.log
