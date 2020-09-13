@@ -23,13 +23,13 @@ eureka:
 zuul:
   routes:
    service-a:
-     path: /spring/**
+     path: /client-service/**
      service-id: client-service
    service-b:
      path: /django/**
-     service-id: django-app
+     service-id: django
    service-c:
-     path: /security/**
+     path: /auth-center/**
      service-id: auth-center
      sensitive-headers:
       - 
