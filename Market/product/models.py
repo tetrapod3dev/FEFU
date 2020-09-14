@@ -9,8 +9,6 @@ from django.db import models
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete
 # Feel free to rename the models, but don't rename db_table values or field names.
 
-
-
 class BadgeInfo(models.Model):
     no = models.AutoField(primary_key=True)
     badge_name = models.CharField(max_length=45)
@@ -22,7 +20,7 @@ class BadgeInfo(models.Model):
 
 class CampaignBadge(models.Model):
     no = models.AutoField(primary_key=True)
-    campaign_no = models.ForeignKey('CampaignInfo', models.DO_NOTHING, db_column='campaign_no'
+    campaign_no = models.ForeignKey('CampaignInfo', models.DO_NOTHING, db_column='campaign_no')
     badge_no = models.ForeignKey(BadgeInfo, models.DO_NOTHING, db_column='badge_no')
 
     class Meta:
@@ -48,7 +46,7 @@ class CampaignInfo(models.Model):
 class CampaignProofMessage(models.Model):
     no = models.AutoField(primary_key=True)
     campaign_no = models.ForeignKey(CampaignInfo, models.DO_NOTHING, db_column='campaign_no')
-    proof_message_no = models.ForeignKey('ProofMessageInfo', models.DO_NOTHING, db_column='proo')
+    proof_message_no = models.ForeignKey('ProofMessageInfo', models.DO_NOTHING, db_column='proof_message_no')
 
     class Meta:
         managed = False
@@ -119,8 +117,8 @@ class ProductInfo(models.Model):
     contact = models.CharField(max_length=100)
     price = models.IntegerField()
     eco_point = models.IntegerField(blank=True, null=True)
-    main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_)
-    sub_category_no = models.ForeignKey('SubCategoryInfo', models.DO_NOTHING, db_column='sub_c
+    main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
+    sub_category_no = models.ForeignKey('SubCategoryInfo', models.DO_NOTHING, db_column='sub_category_no')
     reg_time = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
 
@@ -157,7 +155,7 @@ class QuestionCommentInfo(models.Model):
     no = models.AutoField(primary_key=True)
     content = models.CharField(max_length=100)
     writer = models.ForeignKey('User', models.DO_NOTHING, db_column='writer')
-    question_no = models.ForeignKey('QuestionInfo', models.DO_NOTHING, db_column='question_no'
+    question_no = models.ForeignKey('QuestionInfo', models.DO_NOTHING, db_column='question_no')
 
     class Meta:
         managed = False
@@ -180,7 +178,7 @@ class QuestionInfo(models.Model):
 class SubCategoryInfo(models.Model):
     no = models.AutoField(primary_key=True)
     sub_category_name = models.CharField(max_length=45, blank=True, null=True)
-    main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_)
+    main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
 
     class Meta:
         managed = False
