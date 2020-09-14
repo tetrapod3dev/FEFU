@@ -21,7 +21,6 @@ public class JwtPreFilter extends ZuulFilter{
 	public Object run() throws ZuulException {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		if(username != null) {
-			logger.info(username);
 			RequestContext context = RequestContext.getCurrentContext();
 			context.addZuulRequestHeader("X-USERNAME", username);
 		}
@@ -35,7 +34,7 @@ public class JwtPreFilter extends ZuulFilter{
 
 	@Override
 	public int filterOrder() {
-		return 2;
+		return 1;
 	}
 
 }
