@@ -1,6 +1,15 @@
-# readmExample
+# A402 - 팀이름
 
-> 리드미 양식입니다. 꼭 따라야 할 필요는 없지만 뭘 넣을 지 고민된다면 참고해주세요
+<center>
+    <img src="https://img.shields.io/badge/platform-web-green">
+    <img src="https://img.shields.io/static/v1.svg?label=&message=Vue&style=flat-square&logo=Vue.js&logoColor=white&color=42b883">
+    <img src="https://img.shields.io/badge/framework-spring boot-blue">
+    <img src="https://img.shields.io/badge/framework-django-green">
+    <img src="https://img.shields.io/badge/database-MariaDB-9cf">
+    <img src="https://img.shields.io/badge/server-AWS-yellow">
+    <img src="https://img.shields.io/badge/language-python%2C java%2C javascript-yellowgreen">
+    <img src="https://img.shields.io/badge/swagger-valid-brightgreen">
+</center>
 
 ## 목차
 - [개요](#개요)
@@ -15,8 +24,14 @@
 - [테스트 방법](#테스트-방법)
 
 ## 개요
-> 프로젝트를 간략하게 설명해주세요  
-> 프로젝트를 개발하게 된 동기도 들어가 있으면 좋습니다.
+> 자연과 공존할 수 있는 삶터를 지키고 
+> 행복한 미래를 만들어 가는 녹색의 길에서
+> 지구 그리고 당신과 함께 하겠습니다.
+
+지구의 날은 1970년 부터 시작하여 50주년을 맞은 이 시점에서
+환경 보호에 대한 중요성을 다시 한번 상기하고 
+사람들로부터 참여할 수 있도록 도와주어
+아름답고 건강한 미래를 위해 실현하는데 매진합니다.
 
 ## 기능
 > 프로젝트의 기능들을 설명해주세요  
