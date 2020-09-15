@@ -3,7 +3,7 @@
     <v-app-bar app color="primary" dark>
       <v-toolbar-title @click="$router.push({name: 'Home'})">Application</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu class="hidden-md-and-up" offset-y="true" v-model="menu">
+      <v-menu class="hidden-md-and-up" :offset-y="true" v-model="menu">
         <template v-slot:activator="{ on, attrs }">
           <v-app-bar-nav-icon dark v-bind="attrs" v-on="on"></v-app-bar-nav-icon>
         </template>
@@ -24,11 +24,15 @@ export default {
       menu: false,
       links: [
         {
-          text: "Home",
+          text: "홈",
           href: "/",
         },
         {
-          text: "login",
+          text: "중고마켓",
+          href: "/market",
+        },
+        {
+          text: "로그인",
           href: "/user/login",
         },
       ],
