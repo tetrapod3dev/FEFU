@@ -1,10 +1,12 @@
 package com.cloud.domain;
 
+import java.util.List;
+
 public class UserDto {
 
 	private String username;
 	private String password;
-	private String auth;
+	private List<String> auth;
 
 	public String getUsername() {
 		return username;
@@ -22,12 +24,12 @@ public class UserDto {
 		this.password = password;
 	}
 
-	public String getAuth() {
+	public List<String> getAuth() {
 		return auth;
 	}
 
-	public void setAuth(String auth) {
-		this.auth = auth;
+	public void setAuth(List<String> list) {
+		this.auth = list;
 	}
 
 }
