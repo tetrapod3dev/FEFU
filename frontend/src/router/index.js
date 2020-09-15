@@ -8,6 +8,9 @@ import Home from "../views/Home.vue";
 import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
 
+// market
+import MarketMainView from "../views/market/MarketMainView.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -16,6 +19,7 @@ const routes = [
     name: "Home",
     component: Home,
   },
+  // Account Start
   {
     path: "/user/login",
     name: "LoginView",
@@ -26,6 +30,16 @@ const routes = [
     name: "SignupView",
     component: SignupView,
   },
+  // Account End
+
+  // Market Start
+  {
+    path: "/market",
+    name: "MarketMainView",
+    component: MarketMainView,
+  },
+  // Market End
+
   {
     path: "/about",
     name: "About",
