@@ -8,4 +8,14 @@
 		where username = #{username}
 	</select>
 	
+	<select id="findAuthority" resultType="String">
+		select authority
+		from user_authority
+		where user_no =	(
+			select no
+			from user
+			where username = #{username}
+		)
+	</select>
+	
 </mapper>

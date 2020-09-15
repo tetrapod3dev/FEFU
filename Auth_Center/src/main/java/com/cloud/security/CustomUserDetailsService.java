@@ -22,6 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if(user == null) {
 			throw new UsernameNotFoundException("유저 아이디 업음");
 		}
+		user.setAuth(userMapper.findAuthority(user.getUsername()));
 		CustomUserDetails principal = new CustomUserDetails(user);
 		return principal;
 	}
