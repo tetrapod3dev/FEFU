@@ -22,14 +22,14 @@ eureka:
 
 zuul:
   routes:
-   service-a:
-     path: /client-service/**
-     service-id: client-service
+   service-user:
+     path: /user/**
+     service-id: user-service
    service-b:
      path: /django/**
      service-id: django
-   service-c:
-     path: /auth-center/**
+   service-auth:
+     path: /auth/**
      service-id: auth-center
      sensitive-headers:
       - 
