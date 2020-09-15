@@ -197,11 +197,12 @@ class OfficialPersonalCampaignInfo(models.Model):
 
 class ProductInfo(models.Model):
     no = models.AutoField(primary_key=True)
-    writer = models.ForeignKey('User', models.DO_NOTHING, db_column='writer')
+    writer = models.ForeignKey('User', models.DO_NOTHING, db_column='writer', to_field="username")
     title = models.CharField(max_length=45)
     content = models.CharField(max_length=500)
     contact = models.CharField(max_length=100)
     price = models.IntegerField()
+    photo = models.CharField(max_length=45, blank=True, null=True)
     eco_point = models.IntegerField(blank=True, null=True)
     main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
     sub_category_no = models.ForeignKey('SubCategoryInfo', models.DO_NOTHING, db_column='sub_category_no')
