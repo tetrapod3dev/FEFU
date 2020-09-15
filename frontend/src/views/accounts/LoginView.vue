@@ -14,20 +14,42 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field label="Login" name="login" prepend-icon="mdi-account" type="text"></v-text-field>
+                  <v-text-field
+                    label="Login"
+                    name="login"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    v-model="loginData.email"
+                    required
+                    autofocus
+                    autocapitalize="off"
+                    autocorrect="off"
+                    autocomplete="off"
+                  ></v-text-field>
 
                   <v-text-field
                     id="password"
                     label="Password"
                     name="password"
                     prepend-icon="mdi-lock"
-                    type="password"
+                    append-outer-icon
+                    :append-icon="isShowPW ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="isShowPW = !isShowPW"
+                    :type="isShowPW ? 'text' : 'password'"
+                    autocomplete="off"
+                    required
+                    v-model="loginData.password"
+                    @keydown.enter.prevent="login(loginData)"
                   ></v-text-field>
                 </v-form>
+                <v-col>
+                  <span>아직 회원이 아니신가요?</span>
+                  <router-link to="/user/signup" tag="span">회원 가입</router-link>
+                </v-col>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Login</v-btn>
+                <v-btn color="primary" @click="login(loginData)">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -38,7 +60,27 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+
+export default {
+  name: "LoginView",
+  data() {
+    return {
+      loginData: {
+        email: null,
+        password: null,
+      },
+      isShowPW: false,
+    };
+  },
+
+  methods: {
+    ...mapActions("accounts", ["login"]),
+    moveToSignup() {
+      this.$router.push({ name: "Signup" });
+    },
+  },
+};
 </script>
 
 <style>
