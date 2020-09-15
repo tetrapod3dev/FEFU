@@ -9,6 +9,9 @@ import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
 import Layout from "../views/Layout.vue";
 
+// Campaigns
+import CampaignList from "../views/campaigns/CampaignList.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -30,6 +33,11 @@ const routes = [
         path: "/user/signup",
         name: "SignupView",
         component: SignupView,
+      },
+      {
+        path: "/campaigns",
+        name: "CampaignList",
+        component: CampaignList,
       },
       {
         path: "/about",
