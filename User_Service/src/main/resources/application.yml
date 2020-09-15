@@ -1,0 +1,39 @@
+server:
+  port: 8803
+  
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/ssafy?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: user
+    password: user
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 5
+      maximum-pool-size: 12
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      auto-commit: true
+      
+mybatis:
+  type-aliases-package: com.cloud.mapper
+  mapper-locations:
+  - classpath:/mapper/**/*Mapper.xml
+  
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: user-service
+      
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
+    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    org.springframework.web: INFO
+  file: app.log
