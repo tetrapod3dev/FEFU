@@ -10,14 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cloud.domain.UserDto;
 
-public class CustomUserDetails implements UserDetails{
-	
-	/**
-	 * 
-	 */
+public class CustomUserDetails implements UserDetails {
+
 	private static final long serialVersionUID = 1L;
 	private UserDto user;
-	
+
 	public CustomUserDetails(UserDto user) {
 		this.user = user;
 	}
@@ -25,7 +22,10 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authority = new ArrayList<>();
-		authority.add(new SimpleGrantedAuthority("USER_ROLE"));
+		for (int i = 0; i < user.getAuth().size(); i++) {
+			authority.add(new SimpleGrantedAuthority(user.getAuth().get(i)));
+		}
+//		authority.add(new SimpleGrantedAuthority("USER_ROLE"));
 		return authority;
 	}
 
