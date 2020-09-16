@@ -57,8 +57,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             instance = self.get_object()
             instance.delete()
             return Response(status=204)
-        # else:
-        #     return {}
+        else:
+            return Response("NO AUTHORIZATION")
         
     
     @action(detail=False)
