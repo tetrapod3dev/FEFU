@@ -11,6 +11,9 @@ import SignupView from "../views/accounts/SignupView.vue";
 // market
 import MarketMainView from "../views/market/MarketMainView.vue";
 
+// Campaigns
+import CampaignList from "../views/campaigns/CampaignList.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,6 +34,14 @@ const routes = [
     component: SignupView,
   },
   // Account End
+
+  // Campaign Start
+  {
+    path: "/campaigns",
+    name: "CampaignList",
+    component: CampaignList,
+  },
+  // Campaign End
 
   // Market Start
   {
