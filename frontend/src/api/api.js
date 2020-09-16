@@ -1,11 +1,12 @@
 export default {
-  URL: "http://localhost:8080",
+  // URL: "http://localhost:8080",
   // URL: "http://j3a402.p.ssafy.io",
+  URL: "http://j3a402.p.ssafy.io:8801",
   ROUTES: {
     accounts: {
-      URL: "user/",
-      login: "login",
-      signup: "join",
+      URL: "/auth",
+      login: "/login",
+      signup: "/join",
     },
   },
 };
