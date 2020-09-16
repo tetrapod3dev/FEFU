@@ -7,7 +7,9 @@ import Home from "../views/Home.vue";
 // Account
 import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
-import Layout from "../views/Layout.vue";
+
+// market
+import MarketMainView from "../views/market/MarketMainView.vue";
 
 // Campaigns
 import CampaignList from "../views/campaigns/CampaignList.vue";
@@ -17,38 +19,42 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    component: Layout,
-    children: [
-      {
-        path: "/",
-        name: "Home",
-        component: Home,
-      },
-      {
-        path: "/user/login",
-        name: "LoginView",
-        component: LoginView,
-      },
-      {
-        path: "/user/signup",
-        name: "SignupView",
-        component: SignupView,
-      },
-      {
-        path: "/campaigns",
-        name: "CampaignList",
-        component: CampaignList,
-      },
-      {
-        path: "/about",
-        name: "About",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/About.vue"),
-      },
-    ],
+    name: "Home",
+    component: Home,
+  },
+  // Account Start
+  {
+    path: "/user/login",
+    name: "LoginView",
+    component: LoginView,
+  },
+  {
+    path: "/user/signup",
+    name: "SignupView",
+    component: SignupView,
+  },
+  // Account End
+
+  // Campaign Start
+  {
+    path: "/campaigns",
+    name: "CampaignList",
+    component: CampaignList,
+  },
+  // Campaign End
+
+  // Market Start
+  {
+    path: "/market",
+    name: "MarketMainView",
+    component: MarketMainView,
+  },
+  // Market End
+
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue"),
   },
 ];
 

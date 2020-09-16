@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <v-app id="inspire">
+      <core-header />
+      <v-main>
+        <router-view />
+      </v-main>
+      <core-footer />
+    </v-app>
   </div>
 </template>
+
+<script>
+export default {
+  components: {
+    CoreFooter: () => import("./components/core/Footer"),
+    CoreHeader: () => import("./components/core/Header"),
+  },
+};
+</script>>
 
 <style lang="scss">
 #app {
@@ -15,18 +26,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
