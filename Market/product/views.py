@@ -22,13 +22,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     # due to login/auth check
     def create(self, request, *args, **kwargs):
         #로그인된 사용자일 경우에만
-
+        
         if request.META["HTTP_X_USERNAME"] != 'anonymousUser':
             serializer = self.serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(status=200)
-
+        else:
+            return Response("NO USER")
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
