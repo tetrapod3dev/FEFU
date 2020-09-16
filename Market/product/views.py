@@ -23,7 +23,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         #로그인된 사용자일 경우에만
 
-        if request.META["HTTP_X-USERNAME"] != 'anonymousUser':
+        if request.META["HTTP_X_USERNAME"] != 'anonymousUser':
             serializer = self.serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -40,7 +40,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs):
         # 나 == 글작성자
-        username = request.META["HTTP_X-USERNAME"]
+        username = request.META["HTTP_X_USERNAME"]
         writer = request.data["writer"]
         if username == writer:
             kwargs['partial'] = True
@@ -50,7 +50,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
     def destroy(self, request, *args, **kwargs):
-        username = request.META["HTTP_X-USERNAME"]
+        username = request.META["HTTP_X_USERNAME"]
         writer = request.data["writer"]
         if username == writer:
             instance = self.get_object()
@@ -91,7 +91,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     def sold(self, request, pk):
         # 요청 보내는 사람과 판매글 작성자가 같은지 확인
         
-        username = request.META["HTTP_X-USERNAME"]
+        username = request.META["HTTP_X_USERNAME"]
 
         buyer = request.data["buyer"]
         product = self.queryset.get(pk=pk)
