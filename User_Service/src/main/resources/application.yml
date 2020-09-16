@@ -1,10 +1,13 @@
 server:
-  port: 8801
+  port: 8803
+  
 spring:
   application:
-    name: api-gateway
+    name: user-service
   datasource:
-    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: user
+    password: a402
     hikari:
       connection-timeout: 20000
       minimum-idle: 5
@@ -12,28 +15,21 @@ spring:
       idle-timeout: 300000
       max-lifetime: 1200000
       auto-commit: true
-
+      
+mybatis:
+  type-aliases-package: com.cloud.mapper
+  mapper-locations:
+  - classpath:/mapper/**/*Mapper.xml
+  
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-
-zuul:
-  routes:
-   service-user:
-     path: /user/**
-     service-id: user-service
-   service-b:
-     path: /product/**
-     service-id: product-service
-   service-auth:
-     path: /auth/**
-     service-id: auth-center
-     sensitive-headers:
-      - 
-     
+  instance:
+    instance-id: user-service
+      
 logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
@@ -41,4 +37,3 @@ logging:
   level:
     org.springframework.web: INFO
   file: app.log
-  
