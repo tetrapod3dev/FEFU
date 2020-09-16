@@ -18,6 +18,7 @@
 </template>
 
 <script>
+// config
 export default {
   data() {
     return {
