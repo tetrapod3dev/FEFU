@@ -26,8 +26,8 @@ zuul:
      path: /user/**
      service-id: user-service
    service-b:
-     path: /django/**
-     service-id: django
+     path: /product/**
+     service-id: product-service
    service-auth:
      path: /auth/**
      service-id: auth-center
