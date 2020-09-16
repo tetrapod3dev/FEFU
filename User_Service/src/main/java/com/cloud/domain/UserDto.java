@@ -5,6 +5,7 @@ public class UserDto {
 	private int no;
 	private String username;
 	private String password;
+	private String nickname;
 	private int age;
 	private String gender;
 	private int ecoPoint;
@@ -33,6 +34,14 @@ public class UserDto {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public int getAge() {

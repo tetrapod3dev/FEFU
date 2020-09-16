@@ -22,17 +22,17 @@ public class UserController {
 	public ResponseEntity<String> signup(@RequestBody UserDto dto){
 		int res = userService.userRegistier(dto);
 		if(res == 0) {
-			return new ResponseEntity<String>("FAIL", HttpStatus.OK);
+			return new ResponseEntity<String>("등록실패", HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("OK", HttpStatus.OK);
+		return new ResponseEntity<String>("등록성공", HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/check-email/{email}")
 	public ResponseEntity<String> checkEmail(@PathVariable("email") String username){
 		int res = userService.checkByUsername(username);
 		if(res == 0) {
-			return new ResponseEntity<String>("OK", HttpStatus.OK);
+			return new ResponseEntity<String>("사용가능", HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("FAIL", HttpStatus.OK);
+		return new ResponseEntity<String>("사용불가능", HttpStatus.OK);
 	}
 }
