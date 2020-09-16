@@ -2,24 +2,27 @@
   <div>
     <!-- 헤더 캐로젤 -->
     <div>
-      <h2>운영자 추천 캠페인</h2>
       <v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
-        <v-carousel-item v-for="(slide, i) in slides" :key="i">
-          <v-sheet :color="colors[i]" height="100%">
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="display-3">{{ slide }} Slide</div>
-            </v-row>
-          </v-sheet>
+        <v-carousel-item v-for="(slide, i) in slides" :key="i" :src="slide.src">
+          <v-row class="fill-height" justify="start" align="center">
+            <v-col>
+              <div class="d-flex flex-column mb-5">
+                <span class="display-1">{{ slide.title }}</span>
+                <span class="body-2 mt-3">{{ slide.content }}</span>
+              </div>
+            </v-col>
+          </v-row>
         </v-carousel-item>
       </v-carousel>
     </div>
 
     <!-- 탭 -->
-    <v-container class="mt-5">
-      <v-tabs v-model="tab" align-with-title fixed-tabs color="indigo">
-        <v-tabs-slider color="indigo"></v-tabs-slider>
-        <v-tab v-for="item in items" :key="item">
-          <h2>{{ item }}</h2>
+    <v-container>
+      <!-- <v-container :class="[$vuetify.breakpoint.smAndDown ? '': 'mt-5']"> -->
+      <v-tabs v-model="tab" centered grow color="#222">
+        <v-tabs-slider color="#222"></v-tabs-slider>
+        <v-tab v-for="item in items" :key="item" class="ml-0">
+          <span :class="[$vuetify.breakpoint.smAndDown ? 'text-caption': 'text-h6']">{{ item }}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
@@ -29,6 +32,7 @@
           <DailyQuest v-if="item=='일일 퀘스트'" />
         </v-tab-item>
       </v-tabs-items>
+      <!-- </v-container> -->
     </v-container>
   </div>
 </template>
@@ -47,11 +51,28 @@ export default {
   data() {
     return {
       colors: ["indigo", "warning", "pink darken-2"],
-      slides: ["First", "Second", "Third"],
+      slides: [
+        {
+          title: "100일 캠페인",
+          content:
+            "뜻을 함께하는 사람들과 함께, 100일 동안 함께하며 지구를 살리는 습관 만들기.",
+          src: require("@/assets/images/nature-3.jpg"),
+        },
+        {
+          title: "상시 캠페인",
+          content:
+            "오늘 당장 시작할 수 있는 기업캠페인과 공식 캠페인, 오늘 지구를 살리기 위한 당신의 실천은 무엇인가요?",
+          src: require("@/assets/images/bg3.jpg"),
+        },
+        {
+          title: "일일퀘스트",
+          content:
+            "일상 생활 속에서 쉽게 실천할 수 있는 12가지의 환경보호 생활 방안들, 지구를 살리는 한발자국",
+          src: require("@/assets/images/bg7.jpg"),
+        },
+      ],
       tab: null,
       items: ["100일 캠페인", "상시 캠페인", "일일 퀘스트"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     };
   },
   methods: {},
