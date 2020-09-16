@@ -271,6 +271,7 @@ class TagInfo(models.Model):
 class User(models.Model):
     no = models.AutoField(primary_key=True)
     username = models.CharField(unique=True, max_length=45)
+    nickname = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
     age = models.IntegerField()
     gender = models.CharField(max_length=45)
