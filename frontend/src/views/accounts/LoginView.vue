@@ -19,7 +19,7 @@
                     name="login"
                     prepend-icon="mdi-account"
                     type="text"
-                    v-model="loginData.email"
+                    v-model="loginData.username"
                     required
                     autofocus
                     autocapitalize="off"
@@ -49,7 +49,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="login(loginData)">Login</v-btn>
+                <v-btn color="primary" @click="login(loginData)">로그인</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       loginData: {
-        email: null,
+        username: null,
         password: null,
       },
       isShowPW: false,

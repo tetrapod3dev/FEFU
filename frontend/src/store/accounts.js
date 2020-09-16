@@ -23,9 +23,11 @@ export default {
   },
   actions: {
     postAuthData({ commit }, info) {
+      console.log(info);
       axios
         .post(SERVER.URL + info.location, info.data)
         .then((res) => {
+          console.log(res);
           if (info.name == "signup") {
             alert("회원 가입에 성공했습니다");
           } else {
@@ -34,6 +36,7 @@ export default {
           router.push({ name: "Home" });
         })
         .catch((err) => {
+          console.log(err);
           if (err.response.data.msg == "이메일 인증 미완료") {
             alert("이메일 미인증 사용자입니다. 이메일 인증을 진행해주세요!");
           } else {
@@ -44,17 +47,19 @@ export default {
     signup({ dispatch }, signupData) {
       const info = {
         data: signupData,
-        route: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.signup,
+        location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.signup,
         name: "signup",
       };
       dispatch("postAuthData", info);
     },
 
     login({ dispatch }, loginData) {
+      console.log(loginData);
       const info = {
         data: loginData,
         location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.login,
       };
+      console.log(info);
       dispatch("postAuthData", info);
     },
 
