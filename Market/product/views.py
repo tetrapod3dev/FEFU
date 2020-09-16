@@ -23,11 +23,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         #로그인된 사용자일 경우에만
 
-        # if request.META["user_id"]:
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=200)
+        if request.META["HTTP_X-USERNAME"] != 'anonymousUser':
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(status=200)
+
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
@@ -37,25 +38,24 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-    # @action(methods="PATCH" , detail=True)
     def partial_update(self, request, *args, **kwargs):
         # 나 == 글작성자
-        user_id = request.META["user_id"]
+        username = request.META["HTTP_X-USERNAME"]
         writer = request.data["writer"]
-        if user_id == writer:
+        if username == writer:
             kwargs['partial'] = True
             return self.update(request, *args, **kwargs)
-        else:
-            return {}
+        # else:
+        #     return {}
 
 
     def destroy(self, request, *args, **kwargs):
-        # user_id = request.META["user_id"]
-        # writer = request.data["writer"]
-        # if user_id == writer:
-        instance = self.get_object()
-        instance.delete()
-        return Response(status=204)
+        username = request.META["HTTP_X-USERNAME"]
+        writer = request.data["writer"]
+        if username == writer:
+            instance = self.get_object()
+            instance.delete()
+            return Response(status=204)
         # else:
         #     return {}
         
@@ -90,38 +90,35 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(detail=True)
     def sold(self, request, pk):
         # 요청 보내는 사람과 판매글 작성자가 같은지 확인
-        # 토큰  값
-        # request.META["HTTP_AUTHORIZATION"]
-        # request.META.get("Authorization")
         
-        # user_id = request.META["user_id"]
-        buyer = request.data["buyer"]
+        username = request.META["HTTP_X-USERNAME"]
 
+        buyer = request.data["buyer"]
         product = self.queryset.get(pk=pk)
         seller = product.writer
         status = product.status
 
-        # if user_id == seller:
-        if status == 1: #팔 -> 안팔
-            product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
+        if username == seller:
+            if status == 1: #팔 -> 안팔
+                product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
 
-            purchase_detail = PurchaseDetails.objects.get(product_no=pk)
-            purchase_detail.delete()
+                purchase_detail = PurchaseDetails.objects.get(product_no=pk)
+                purchase_detail.delete()
 
-        else: # 안팔 -> 팔
-            product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
-            purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
-            if purchase_serializer.is_valid():
-                purchase_serializer.save()
-            else:
-                return HTTPResponse("형식 또는 입력이 옳지 않습니다.")
+            else: # 안팔 -> 팔
+                product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
+                purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
+                if purchase_serializer.is_valid():
+                    purchase_serializer.save()
+                else:
+                    return HTTPResponse("형식 또는 입력이 옳지 않습니다.")
 
-        if product_serializer.is_valid():
-            product_serializer.save()
+            if product_serializer.is_valid():
+                product_serializer.save()
 
-            return HTTPResponse(status=200)
+                return HTTPResponse(status=200)
         
-        # return HTTPResponse("본인의 판매글만 변경할 수 있습니다.")
+        return HTTPResponse("본인의 판매글만 변경할 수 있습니다.")
 
 
 
