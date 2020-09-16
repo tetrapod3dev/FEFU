@@ -50,11 +50,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         #     return {}
 
 
-    def destroy(self, request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         username = request.META["HTTP_X_USERNAME"]
         writer = request.data["writer"]
+        pk = request.data["product_no"]
         if username == writer:
-            instance = self.get_object()
+            instance = get_object_or_404(ProductInfo, pk=pk)
             instance.delete()
             return Response(status=204)
         else:
