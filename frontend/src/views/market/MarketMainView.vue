@@ -81,6 +81,7 @@
               v-for="(product, index) in products"
               :key="index"
               v-slot:default="{ active, toggle }"
+              href="/market/detail/1"
             >
               <v-card
                 :color="active ? 'primary' : ''"

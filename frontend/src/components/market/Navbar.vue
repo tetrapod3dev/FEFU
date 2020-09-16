@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fixed-tool-bar">
     <v-toolbar flat prominent>
       <v-menu top :offset-y="true" open-on-hover transition="slide-y-transition">
         <template v-slot:activator="{ on, attrs }">
@@ -210,5 +210,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.fixed-tool-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 1656px;
+  z-index: 2;
+}
 </style>
