@@ -28,6 +28,10 @@ export default {
           href: "/",
         },
         {
+          text: "캠페인",
+          href: "/campaigns",
+        },
+        {
           text: "중고마켓",
           href: "/market",
         },
