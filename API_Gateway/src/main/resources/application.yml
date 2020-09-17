@@ -25,13 +25,18 @@ zuul:
    service-user:
      path: /user/**
      service-id: user-service
-   service-b:
+   service-product:
      path: /product/**
      service-id: product-service
    service-auth:
      path: /auth/**
      service-id: auth-center
      sensitive-headers:
+      - 
+   service-file:
+      path: /images/**
+      service-id: image-service
+      sensitive-headers:
       - 
      
 logging:
