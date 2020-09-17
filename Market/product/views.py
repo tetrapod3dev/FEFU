@@ -31,23 +31,22 @@ class ProductViewSet(viewsets.ModelViewSet):
         else:
             return Response("NO USER")
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        # instance = get_object_or_404(ProductInfo, pk=request.data["product_no"])
-        instance = self.get_object()
-        serializer = self.serializer_class(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
 
-    def partial_update(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         # 나 == 글작성자
         username = request.META["HTTP_X_USERNAME"]
         writer = request.data["writer"]
+        product_no = request.data["product_no"]
         if username == writer:
             kwargs['partial'] = True
-            return self.update(request, *args, **kwargs)
-        # else:
-        #     return {}
+            partial = kwargs.pop('partial', False)
+            instance = get_object_or_404(ProductInfo, pk=product_no)
+            serializer = self.serializer_class(instance, data=request.data, partial=partial)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(status=200)
+        else:
+            return Response("WRONG USER")
 
 
     def delete(self, request, *args, **kwargs):
