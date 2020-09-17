@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.mapper.DailyQuestMapper">
+
+	<select id="findAll" resultType="com.cloud.domain.DailyQuestDto">
+		select *
+		from daily_quest_info
+	</select>
+	
+	<select id="findByCompleteList" resultType="com.cloud.domain.DailyQuestDto">
+		select quest_no
+		from user_quest_complete uqc INNER JOIN user u
+		on u.username = #{username}
+	</select>
+	
+	<insert id="insertComplete">
+		insert into user_quest_complete (user_no, quest_no)
+		values((select no from user where username = #{username}), #{no});					
+	</insert>
+	
+</mapper>
