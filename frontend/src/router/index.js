@@ -8,11 +8,15 @@ import Home from "../views/Home.vue";
 import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
 
-// market
-import MarketMainView from "../views/market/MarketMainView.vue";
-
 // Campaigns
 import CampaignList from "../views/campaigns/CampaignList.vue";
+
+// market
+import MarketMainView from "../views/market/MarketMainView.vue";
+import MarketListView from "../views/market/MarketListView.vue";
+import MarketMakeView from "../views/market/MarketMakeView.vue";
+import MarketDetailView from "../views/market/MarketDetailView.vue";
+import MarketUpdateView from "../views/market/MarketUpdateView.vue";
 
 Vue.use(VueRouter);
 
@@ -48,6 +52,31 @@ const routes = [
     path: "/market",
     name: "MarketMainView",
     component: MarketMainView,
+  },
+  {
+    path: "/market/all",
+    name: "MarketListView",
+    component: MarketListView,
+  },
+  {
+    path: "/market/all/:pageNo",
+    name: "MarketListView",
+    component: MarketListView,
+  },
+  {
+    path: "/market/make",
+    name: "MarketMakeView",
+    component: MarketMakeView,
+  },
+  {
+    path: "/market/detail/:productNo",
+    name: "MarketDetailView",
+    component: MarketDetailView,
+  },
+  {
+    path: "/market/update/:productNo",
+    name: "MarketUpdateView",
+    component: MarketUpdateView,
   },
   // Market End
 
