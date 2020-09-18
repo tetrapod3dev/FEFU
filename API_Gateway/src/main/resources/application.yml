@@ -38,6 +38,9 @@ zuul:
       service-id: image-service
       sensitive-headers:
       - 
+   service-campaign:
+      path: /campaigns/**
+      service-id: campaign-service
      
 logging:
   pattern:
