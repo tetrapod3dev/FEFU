@@ -1,4 +1,3 @@
-import cookies from "vue-cookies";
 import axios from "axios";
 
 import SERVER from "@/api/api";
@@ -7,21 +6,32 @@ import router from "@/router";
 export default {
   namespaced: true,
   state: {
-    authToken: cookies.get("auth-token"),
+    category: "",
+    subCategory: "",
+    pageNo: 1,
   },
   getters: {
-    isLoggedIn(state) {
-      return !!state.authToken;
-    },
-    config: (state) => `Bearer ${state.authToken}`,
+    category: (state) => state.searchData,
+    subCategory: (state) => state.subCategory,
+    pageNo: (state) => state.pageNo,
   },
   mutations: {
-    SET_TOKEN(state, token) {
-      state.authToken = token;
-      cookies.set("auth-token", token, 60 * 60);
+    SET_CATEGORY(state, category) {
+      state.category = category;
+    },
+    SET_SUBCATEGORY(state, subCategory) {
+      state.subCategory = subCategory;
+    },
+    SET_PAGENO(state, pageNo) {
+      state.pageNo = pageNo;
     },
   },
   actions: {
+    clearMarketPageData({ commit }) {
+      commit("SET_CATEGORY", "");
+      commit("SET_SUbCATEGORY", "");
+      commit("SET_PAGENO", 1);
+    },
     postAuthData({ commit }, info) {
       axios
         .post(SERVER.URL + info.location, info.data)
