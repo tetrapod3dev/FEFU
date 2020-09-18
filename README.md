@@ -12,17 +12,17 @@
 </center>
 
 ## :book: 목차
-- [FEFU](#FEFU)
-- [와이어프레임](#와이어프레임)
-- [기술 설명](#기술-설명)
+- [FEFU](#fefu)
+- [와이어프레임](#wire-frame)
+- [기술 설명](#tech)
 	- [ERD](#erd)
-	- [디렉토리 구조도](#디렉토리-구조도)
-	- [시스템 구성도](#시스템 구성도)
-	- [기타](#기타)
-- [Among Earth Team](#Among Earth Team)
+	- [디렉토리 구조도](#directory)
+	- [시스템 구성도](#system)
+	- [기타](#etc)
+- [Among Earth Team](#Among-Earth-Team)
 
 
-
+<div id='fefu' />
 ## 🌏 FEFU
 
 > **For Earth, For Us**
@@ -36,28 +36,28 @@
 아름답고 건강한 미래를 위해 실현하는데 매진합니다.  
 
 
-
+<div id='wire-frame' />
 ## :desktop_computer: [와이어프레임](https://xd.adobe.com/view/3881961c-b080-4c11-84fe-019b89b3ba21-6dd2/?fullscreen&hints=off)
 > Adobe XD를 활용하여 만든 와이어 프레임입니다.
 
 
-
+<div id='tech' />
 ## :gear: 기술 설명
-
+<div id='erd' />
 ### ERD
 
-![ERD](images/ERD.jpg)
-
+![ERD](images/new_ERD.JPG)
+<div id='directory' />
 ### 디렉토리 구조도
 > 폴더 구조가 어떻게 되는지 폴더, 파일별 역할들을 간략하게 적어주세요  
 > 너무 자세히 적을 필요는 없습니다
-
+<div id='system' />
 ### 시스템 구성도
 
-![Tech_Flow](images/Tech_Flow.jpg)
+![Tech_Flow](images/Tech_Flow.JPG)
 
 
-
+<div id='etc' />
 ### 기타
 
 #### [API Documentation](document/REST_API_document.md)
@@ -67,7 +67,7 @@
 
 
 
-
+<div id='Among-Earth-Team' />
 ## 🍀 Among Earth Team
 
 * **권경은** - *PM, backend*- [chriskwon96](https://lab.ssafy.com/chriskwon96)
