@@ -94,8 +94,12 @@ doc/_build/
 # PyBuilder
 target/
 
-# Jupyter Notebook
+### JupyterNotebooks ###
+# gitignore template for Jupyter Notebooks
+# website: http://jupyter.org/
+
 .ipynb_checkpoints
+*/.ipynb_checkpoints/*
 
 # IPython
 profile_default/
@@ -227,3 +231,11 @@ pip-selfcheck.json
 
 # DB setting 저장
 db_settings.py
+
+# Remove previous ipynb_checkpoints
+#   git rm -r .ipynb_checkpoints/
+
+# End of https://www.toptal.com/developers/gitignore/api/jupyternotebooks
+
+# raw_data
+data/
