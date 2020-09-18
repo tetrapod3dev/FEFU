@@ -28,7 +28,7 @@ SECRET_KEY = 'hujv*k(8)_t+m=efphbt3!(edp#$&t+%y)=dsbwa02a2r)ysh*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["j3a402.p.ssafy.io","127.0.0.1"]
 
 
 # Application definition
@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #rest
+    'rest_framework',
+
+    #swagger
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -102,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'UTC'
 
