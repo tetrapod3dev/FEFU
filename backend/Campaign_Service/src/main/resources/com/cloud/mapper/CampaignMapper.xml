@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.mapper.CampaignMapper">
+
+	<select id="findAll" resultType="com.cloud.domain.CampaignDto">
+		<choose>
+			<when test="type.equals('') and content.equals('')">
+				select *
+				from campaign_info 
+				where type = #{campaignType} 
+			</when>
+			<when test="type.equals('title')">
+				select *
+				from campaign_info
+				where type = #{campaignType}
+				and title like CONCAT("%", #{content}, "%")
+			</when>
+			<when test="type.equals('tag')">
+				select distinct c.*
+				from campaign_info c inner join (
+			            select campaign_no, tag_name
+						from campaign_tag ct inner join tag_info ti
+			            on ti.tag_name like CONCAT("%", #{content}, "%")
+		            ) sub
+				on c.type = #{campaignType} and c.no = sub.campaign_no
+			</when>
+		</choose>
+	</select>
+	
+	<select id="findDetail" resultType="com.cloud.domain.CampaignDto">
+		select *
+		from campaign_info
+		where no = #{no}
+	</select>
+	
+	<select id="findTagByNo" resultType="String">
+		select ti.tag_name
+		from campaign_tag ct inner join tag_info ti
+		on ct.campaign_no = #{no} and ct.tag_no = ti.no;
+	</select>
+	
+	<insert id="insertCampaign" parameterType="com.cloud.domain.CampaignDto" useGeneratedKeys="true" keyProperty="no">
+		insert into campaign_info (type, writer, title, content, photo, start_date, end_date)
+		values (#{type}, #{writer}, #{title}, #{content}, #{photo}, #{startDate}, #{endDate})
+	</insert>
+	
+	<insert id="insertTag">
+		insert into campaign_tag (campaign_no, tag_no)
+		values
+		<foreach collection="tag" item="i" separator=" , ">
+			(#{no}, (select no from tag_info where tag_name = #{i}))
+		</foreach>
+	</insert>
+	
+	<update id="updateCampaign">
+	
+	</update>
+	
+	<delete id="deleteCampaign">
+	
+	</delete>
+		
+</mapper>
