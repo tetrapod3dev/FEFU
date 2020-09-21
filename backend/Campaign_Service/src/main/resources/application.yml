@@ -3,7 +3,7 @@ server:
   
 spring:
   application:
-    name: campaign-service
+    name: campaigns
   datasource:
     url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: user
@@ -28,7 +28,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
-    instance-id: campaign-service
+    instance-id: campaigns
       
 logging:
   pattern:
