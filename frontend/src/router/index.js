@@ -54,11 +54,6 @@ const routes = [
     component: MarketMainView,
   },
   {
-    path: "/market/all",
-    name: "MarketListView",
-    component: MarketListView,
-  },
-  {
     path: "/market/all/:pageNo",
     name: "MarketListView",
     component: MarketListView,
