@@ -1,61 +1,68 @@
 <template>
   <div class="home">
     <section id="hero">
-      <v-row no-gutters>
-        <v-img
-          :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
-          src="https://www.netclipart.com/pp/m/389-3896024_transparent-save-earth-png-famous-people-born-in.png"
-        >
-          <v-theme-provider dark>
+      <v-container
+        :style="'min-height: calc(100vh - ' + $vuetify.application.top + 'px)'"
+        fill-height
+      >
+        <v-row></v-row>
+        <v-row align="center" class="mx-auto" justify="center" style="position: relative;">
+          <v-img src="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif" />
+          <v-overlay :absolute="true" opacity="0">
             <v-container fill-height>
-              <v-row align="center" class="black--text mx-auto" justify="center">
-                <v-col class="black--text text-center" cols="12" tag="h1">
-                  <span
-                    :class="[$vuetify.breakpoint.smAndDown ? 'display-3': 'display-4']"
-                    class="font-weight-black"
-                  >SAVE THE EARTH</span>
-                </v-col>
-              </v-row>
-              <v-row align="end">
-                <v-col align-self="center">
-                  <v-btn class="black" fab outlined @click="$vuetify.goTo('#about-me')">
-                    <v-icon>mdi-chevron-double-down</v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
+              <v-col
+                class="black--text custom-text"
+                :class="'custom-text-'+$vuetify.breakpoint.name"
+                cols="12"
+              >우리 함께 지구를 구해요</v-col>
+              <v-col>
+                <v-img max-height="260" contain :src="require('@/assets/illust/hero-title.svg')" />
+              </v-col>
             </v-container>
-          </v-theme-provider>
-        </v-img>
-      </v-row>
+          </v-overlay>
+        </v-row>
+        <v-row align="end">
+          <v-col align="center">
+            <v-img
+              style="cursor: pointer"
+              width="40"
+              height="40"
+              contain
+              @click="$vuetify.goTo('#the-problem')"
+              :src="require('@/assets/illust/arrow-down.svg')"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
     </section>
 
-    <section id="about-me">
+    <section id="the-problem">
       <div class="py-12"></div>
 
       <v-container class="text-center">
         <v-row>
-          <v-col cols="12" md="8">
-            <h2 class="display-2 font-weight-bold mb-3">왜 캠페인과 중고거래인가?</h2>
-
-            <v-responsive class="mx-auto mb-8" width="56">
-              <v-divider class="mb-1"></v-divider>
-
-              <v-divider></v-divider>
-            </v-responsive>
+          <v-col
+            class="black--text custom-subtitle"
+            :class="'custom-subtitle-'+$vuetify.breakpoint.name"
+            cols="12"
+          >THE PROBLEM</v-col>
+          <v-col cols="12">
+            <h2 class="custom-title mb-3" :class="'custom-title-'+$vuetify.breakpoint.name">
+              현 시점에서 인류의 존망을
+              <br />크게 위협하는 문제
+            </h2>
+          </v-col>
+          <v-col>
+            <v-responsive class="mx-auto mb-8" width="56"></v-responsive>
             <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-              <p>환경보호는 의외로 실천하기에는 막막합니다.</p>
-              <p>지구 온난화로 인해 지구가 아파하고 있는것은 누구나 알고 있습니다.</p>
-              <p>지구와 사람은 뗄 수 없는 사이입니다.</p>
-              <p>지구 용사가 되어 지구를 지켜보세요.</p>
+              <p>
+                환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할 수 없어
+                자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수 입니다.
+              </p>
             </v-responsive>
             <v-btn color="grey" href="https://vuetifyjs.com" outlined large>
               <span class="grey--text text--darken-1 font-weight-bold">더 알아보기</span>
             </v-btn>
-          </v-col>
-          <v-col cols="12" md="4">
-            <v-img
-              src="https://cindybriggs.com/wp-content/uploads/2019/12/7-Unique-Watercolor-Painting-Ideas-for-Beginners-1.jpg"
-            ></v-img>
           </v-col>
         </v-row>
 
@@ -161,17 +168,15 @@
           <v-divider></v-divider>
         </v-responsive>
 
-        <v-theme-provider light>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field flat label="이메일" solo></v-text-field>
-            </v-col>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field flat label="이메일" solo></v-text-field>
+          </v-col>
 
-            <v-col class="mx-auto" cols="auto">
-              <v-btn color="accent" x-large>Submit</v-btn>
-            </v-col>
-          </v-row>
-        </v-theme-provider>
+          <v-col class="mx-auto" cols="auto">
+            <v-btn color="accent" x-large>Submit</v-btn>
+          </v-col>
+        </v-row>
       </v-container>
 
       <div class="py-12"></div>
@@ -236,12 +241,63 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
-
-.display-3 {
-  font-family: "Patrick Hand", cursive !important;
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;600;700;800;900&display=swap");
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
-.display-4 {
-  font-family: "Patrick Hand", cursive !important;
+@font-face {
+  font-family: "NanumBarunpen";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumBarunpen.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.custom-title {
+  font-size: 35px;
+  letter-spacing: -2px;
+  line-height: 1.3;
+  font-weight: 700;
+  font-family: "Nunito", "NanumBarunpen", sans-serif;
+}
+.custom-title-md {
+  font-size: 52px;
+  letter-spacing: -2.5px;
+  line-height: 1.2;
+}
+.custom-title-lg {
+  font-size: 64px;
+  letter-spacing: -3px;
+  line-height: 1.2;
+}
+
+.custom-subtitle {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+}
+.custom-subtitle-md {
+  font-size: 15px;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+}
+.custom-subtitle-lg {
+  font-size: 16px;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+}
+
+.custom-text {
+  font-size: 18px;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+}
+.custom-text-md {
+  font-size: 20px;
+}
+.custom-text-lg {
+  font-size: 24px;
 }
 </style>
