@@ -2,10 +2,11 @@
   <div>
     <div class="section">
       <v-container>
-        <div class="d-flex justify-space-between">
-          <h3 class="text-left">기업 캠페인</h3>
+        <div class="campaign-title">
+          <h1>기업 캠페인</h1>
           <p>* 클릭하시면 해당 기업 캠페인 페이지로 이동합니다.</p>
         </div>
+
         <v-row>
           <v-col sm="12" md="4">
             <CompanyCampaignCard />
@@ -16,7 +17,7 @@
 
     <div class="section">
       <v-container>
-        <h3 class="text-left">공식 캠페인</h3>
+        <h1 class="campaign-title">공식 캠페인</h1>
         <v-row>
           <v-col sm="12" md="4">
             <CampaignCard />
@@ -48,5 +49,9 @@ export default {
 .section {
   margin-top: 30px;
   margin-bottom: 100px;
+}
+
+.campaign-title {
+  margin: 30px 0;
 }
 </style>
