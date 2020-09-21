@@ -7,7 +7,7 @@
           <span class="title-point">진행중인</span> 캠페인
         </h1>
         <v-row>
-          <v-col v-for="n in 6" :key="n" cols="12" md="4">
+          <v-col v-for="n in 6" :key="n" cols="12" md="4" @click="goCampaignDetail">
             <CampaignCard />
           </v-col>
         </v-row>
@@ -39,6 +39,11 @@ export default {
   data() {
     return {};
   },
+  methods: {
+    goCampaignDetail() {
+      this.$router.push({ name: "CampaignDetail" });
+    },
+  },
 };
 </script>
 
@@ -53,6 +58,6 @@ export default {
 }
 
 .title-point {
-  color: #23efb8;
+  color: var(--primary-color);
 }
 </style>
