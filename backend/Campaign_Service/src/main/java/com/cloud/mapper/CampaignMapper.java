@@ -10,7 +10,8 @@ import com.cloud.domain.CampaignDto;
 @Mapper
 public interface CampaignMapper {
 
-	public List<CampaignDto> findAll(String campaignType, int pageNo, String type, String content);
+	public List<CampaignDto> findAll(String campaignType, int pageNo, String type, String content, int startIndex, int perPageNum);
+	public int findByCount(String campaignType, int pageNo, String type, String content);
 	public List<String> findTagByNo(int no);
 	public CampaignDto findDetail(int no);
 	public int insertCampaign(CampaignDto dto);
