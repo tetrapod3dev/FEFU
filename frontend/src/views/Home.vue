@@ -11,26 +11,17 @@
               <v-row align="center" class="black--text mx-auto" justify="center">
                 <v-col class="black--text text-center" cols="12" tag="h1">
                   <span
-                    :class="[$vuetify.breakpoint.smAndDown ? 'display-1' : 'display-2']"
-                    class="font-weight-light"
-                  >일어나세요</span>
-
-                  <br />
-
-                  <span
                     :class="[$vuetify.breakpoint.smAndDown ? 'display-3': 'display-4']"
                     class="font-weight-black"
-                  >용사님</span>
+                  >SAVE THE EARTH</span>
                 </v-col>
-
-                <v-btn
-                  class="align-self-end black"
-                  fab
-                  outlined
-                  @click="$vuetify.goTo('#about-me')"
-                >
-                  <v-icon>mdi-chevron-double-down</v-icon>
-                </v-btn>
+              </v-row>
+              <v-row align="end">
+                <v-col align-self="center">
+                  <v-btn class="black" fab outlined @click="$vuetify.goTo('#about-me')">
+                    <v-icon>mdi-chevron-double-down</v-icon>
+                  </v-btn>
+                </v-col>
               </v-row>
             </v-container>
           </v-theme-provider>
@@ -243,3 +234,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
+.display-3 {
+  font-family: "Patrick Hand", cursive !important;
+}
+.display-4 {
+  font-family: "Patrick Hand", cursive !important;
+}
+</style>
