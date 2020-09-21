@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="custom-header">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -23,13 +23,14 @@
         <span class="js-nametag">Us</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
+      <router-link
+        tag="button"
         v-for="(link, index) in links"
         :key="index"
-        :href="link.href"
+        :to="link.href"
         class="hidden-sm-and-down custom-button mx-1"
-        text
-      >{{ link.textEn }}</v-btn>
+        :class="{'custom-primary': link.textKr == '로그인'}"
+      >{{ link.textKr }}</router-link>
       <v-app-bar-nav-icon class="hidden-md-and-up custom-button" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
   </div>
@@ -68,7 +69,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
 @font-face {
   font-family: "S-CoreDream-7ExtraBold";
@@ -85,21 +86,22 @@ export default {
 
 .js-nametag {
   position: absolute;
-}
-.js-nametag:nth-child(1) {
-  animation-name: fade;
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
-  animation-duration: 8s;
-  animation-direction: alternate-reverse;
-}
 
-.js-nametag:nth-child(2) {
-  animation-name: fade;
-  animation-fill-mode: both;
-  animation-iteration-count: infinite;
-  animation-duration: 8s;
-  animation-direction: alternate;
+  &:nth-child(1) {
+    animation-name: fade;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+    animation-direction: alternate-reverse;
+  }
+
+  &:nth-child(2) {
+    animation-name: fade;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+    animation-direction: alternate;
+  }
 }
 
 @keyframes fade {
@@ -112,7 +114,7 @@ export default {
   }
 }
 
-.custom-button {
+#custom-header .custom-button {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px !important;
@@ -121,12 +123,19 @@ export default {
   font-family: "S-CoreDream-7ExtraBold";
   letter-spacing: 0px;
   transition: 0.3s;
+
+  &:hover {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+    transform: translate3d(0px, -5px, -5px);
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: 0;
+  }
 }
 
-.custom-button:hover {
-  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
-  transform: translate3d(0px, -5px, -5px);
-  transition: 0.3s;
-  cursor: pointer;
+.custom-primary {
+  background-color: var(--primary-color);
 }
 </style>
