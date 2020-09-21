@@ -16,10 +16,17 @@ public class CampaignServiceImpl implements CampaignService {
 	private CampaignMapper campaignMapper;
 
 	@Override
-	public List<CampaignDto> findAll(String campaignType, int pageNo, String type, String content) {
+	public List<CampaignDto> findAll(String campaignType, int pageNo, String type, String content, int startIndex, int perPageNum) {
 		type = type.trim();
 		content = content.trim();
-		return campaignMapper.findAll(campaignType, pageNo, type, content);
+		return campaignMapper.findAll(campaignType, pageNo, type, content, startIndex, perPageNum);
+	}
+	
+	@Override
+	public int findByCount(String campaignType, int pageNo, String type, String content) {
+		type = type.trim();
+		content = content.trim();
+		return campaignMapper.findByCount(campaignType, pageNo, type, content);
 	}
 
 	@Override

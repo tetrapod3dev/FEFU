@@ -1,6 +1,8 @@
 package com.cloud.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cloud.domain.CampaignDto;
+import com.cloud.domain.PageDto;
 import com.cloud.service.CampaignService;
 
 @RestController
@@ -26,14 +29,20 @@ public class CampaignController {
 	private CampaignService campaignService;
 	
 	@GetMapping(value = "/")
-	public ResponseEntity<List<CampaignDto>> searchAll(
+	public ResponseEntity<Map<String, Object>> searchAll(
 			@RequestParam("campaign_type") String campaignType,
 			@RequestParam("type") String type,
 			@RequestParam("content") String content,
 			@RequestParam("page_no") int pageNo){
-		List<CampaignDto> list = campaignService.findAll(campaignType, pageNo, type, content);
-		list.forEach(el -> logger.info(el.getTitle() + "<<<<<<<<<<<<<<<<<<<<<<<<<"));
-		return new ResponseEntity<List<CampaignDto>>(list, HttpStatus.OK);
+		int totalCount = campaignService.findByCount(campaignType, pageNo, type, content);
+		PageDto page = new PageDto();
+		page.setTotalCount(totalCount);
+		
+		List<CampaignDto> list = campaignService.findAll(campaignType, pageNo, type, content, page.getStartIndex(), page.getPerPageNum());
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("list", list);
+		data.put("page", page);
+		return new ResponseEntity<Map<String, Object>>(data, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{campaign_no}")

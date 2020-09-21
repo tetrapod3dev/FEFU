@@ -25,6 +25,32 @@
 				on c.type = #{campaignType} and c.no = sub.campaign_no
 			</when>
 		</choose>
+		limit #{startIndex}, #{perPageNum}
+	</select>
+	
+	<select id="findByCount" resultType="Integer">
+		<choose>
+			<when test="type.equals('') and content.equals('')">
+				select count(*)
+				from campaign_info 
+				where type = #{campaignType} 
+			</when>
+			<when test="type.equals('title')">
+				select count(*)
+				from campaign_info
+				where type = #{campaignType}
+				and title like CONCAT("%", #{content}, "%")
+			</when>
+			<when test="type.equals('tag')">
+				select distinct count(*)
+				from campaign_info c inner join (
+			            select campaign_no, tag_name
+						from campaign_tag ct inner join tag_info ti
+			            on ti.tag_name like CONCAT("%", #{content}, "%")
+		            ) sub
+				on c.type = #{campaignType} and c.no = sub.campaign_no
+			</when>
+		</choose>
 	</select>
 	
 	<select id="findDetail" resultType="com.cloud.domain.CampaignDto">
@@ -59,5 +85,5 @@
 	<delete id="deleteCampaign">
 	
 	</delete>
-		
+	
 </mapper>
