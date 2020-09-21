@@ -39,6 +39,7 @@
 <script>
 // config
 export default {
+  name: "CoreHeader",
   data() {
     return {
       drawer: null,

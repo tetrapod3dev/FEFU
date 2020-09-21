@@ -101,8 +101,44 @@
           <router-link
             tag="button"
             :to="{name: 'CampaignList'}"
-            class="hidden-sm-and-down mx-1 custom-button custom-primary"
+            class="custom-button custom-primary"
           >더보기</router-link>
+        </v-col>
+      </template>
+    </core-section>
+
+    <core-section id="section-secondhand" subtitle="SECONDHAND" pb="12">
+      <template slot="title">
+        <span class="custom-highlight">재활용보다 재사용이</span>
+        <br />환경을 더욱 보호하는 길이예요
+      </template>
+      <template slot="text">
+        전 세계에서 매년 최소 800만 톤의 플라스틱이 바다로 유출되지만 재활용되는
+        양은 전체의 단 7%에 불과합니다. 재활용보단 재사용을 하세요.
+      </template>
+      <template>
+        <v-col cols="12">
+          <router-link
+            tag="a"
+            :to="{name: 'MarketMainView'}"
+            class="custom-text-button"
+            :class="'custom-text-button-'+$vuetify.breakpoint.name"
+          >
+            더보기
+            <v-img
+              style="cursor: pointer; margin-top: 3px"
+              :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
+              :height="$vuetify.breakpoint.smAndDown ? 15 : 17"
+              class="custom-text-button-icon"
+              contain
+              :src="require('@/assets/illust/arrow-right.svg')"
+            />
+          </router-link>
+        </v-col>
+      </template>
+      <template slot="content">
+        <v-col class="ml-auto mr-auto" cols="8" md="4">
+          <v-img src="@/assets/images/ecobag.png" />
         </v-col>
       </template>
     </core-section>
@@ -190,32 +226,6 @@
 
       <div class="py-12"></div>
     </section>
-
-    <v-sheet id="contact" color="#333333" dark tag="section" tile>
-      <div class="py-12"></div>
-
-      <v-container>
-        <h2 class="display-2 font-weight-bold mb-3 text-uppercase text-center">우리와 함께하세요</h2>
-
-        <v-responsive class="mx-auto mb-12" width="56">
-          <v-divider class="mb-1"></v-divider>
-
-          <v-divider></v-divider>
-        </v-responsive>
-
-        <v-row>
-          <v-col cols="12">
-            <v-text-field flat label="이메일" solo></v-text-field>
-          </v-col>
-
-          <v-col class="mx-auto" cols="auto">
-            <v-btn color="accent" x-large>Submit</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <div class="py-12"></div>
-    </v-sheet>
   </div>
 </template>
 
@@ -339,22 +349,6 @@ export default {
 //   }
 // }
 
-// .custom-text {
-//   font-size: 16px;
-//   word-break: keep-all;
-//   font-weight: bold;
-//   color: black;
-//   font-family: "Nunito", "NanumSquareRound", sans-serif;
-//   max-width: 650px;
-
-//   &-md {
-//     font-size: 18px;
-//   }
-//   &-lg {
-//     font-size: 20px;
-//   }
-// }
-
 .custom-img {
   border: 2px solid black;
   border-radius: 5px;
@@ -408,5 +402,26 @@ export default {
 
 .custom-primary {
   background-color: var(--primary-color);
+}
+
+.custom-text-button {
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 2px solid #000000;
+  padding: 2px 0;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+  font-size: 16px;
+  color: #000000;
+  transition: 0.3s;
+
+  &-md,
+  &-lg {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+}
+
+.custom-text-button-icon {
+  display: inline-block;
 }
 </style>
