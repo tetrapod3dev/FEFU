@@ -1,19 +1,19 @@
 <template>
-  <v-hover v-slot:default="{ hover }" open-delay="200">
-    <v-card class="custom-card mx-auto" max-width="400" outlined :elevation="hover ? 10 : 0">
-      <v-img
-        class="campaign-img"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-      >
-        <span class="campaign-state">진행여부</span>
-      </v-img>
-      <v-card-text class="text--primary text-left">
-        <h3>캠페인 제목</h3>
-        <div>주최</div>
-      </v-card-text>
-    </v-card>
-  </v-hover>
+  <!-- <v-hover v-slot:default="{ hover }" open-delay="200"> -->
+  <v-card class="custom-card mx-auto" max-width="400" outlined>
+    <v-img
+      class="campaign-img"
+      height="200px"
+      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+    >
+      <!-- <span class="campaign-state">진행여부</span> -->
+    </v-img>
+    <v-card-text class="text--primary text-left">
+      <h3>캠페인 제목</h3>
+      <div>주최</div>
+    </v-card-text>
+  </v-card>
+  <!-- </v-hover> -->
 </template>
 
 <script>
@@ -30,6 +30,12 @@ export default {
 .custom-card {
   border: 2px solid black;
   border-radius: 15px;
+  top: 0px;
+}
+.custom-card:hover {
+  box-shadow: 5px 5px black;
+  top: -10px;
+  transition: 0.4s;
 }
 
 .campaign-img {
