@@ -10,6 +10,7 @@ import SignupView from "../views/accounts/SignupView.vue";
 
 // Campaigns
 import CampaignList from "../views/campaigns/CampaignList.vue";
+import CampaignDetail from "../views/campaigns/CampaignDetail.vue";
 
 // market
 import MarketMainView from "../views/market/MarketMainView.vue";
@@ -45,6 +46,17 @@ const routes = [
     name: "CampaignList",
     component: CampaignList,
   },
+  {
+    path: "/campaigns/detail",
+    name: "CampaignDetail",
+    component: CampaignDetail,
+  },
+  // 데이터 생기면 연결할게용
+  // {
+  //   path: "/campaigns/:campaignNo",
+  //   name: "CampaignDetail",
+  //   component: CampaignDetail,
+  // },
   // Campaign End
 
   // Market Start
