@@ -53,10 +53,25 @@
 		</choose>
 	</select>
 	
-	<select id="findDetail" resultType="com.cloud.domain.CampaignDto">
-		select *
+	<select id="findTypeByNo" resultType="String">
+		select type
 		from campaign_info
 		where no = #{no}
+	</select>
+	
+	<select id="findDetail" resultType="com.cloud.util.CamelHashMap">
+		<choose>
+			<when test="type.equals('company')">
+				select ci.*, cci.company_name company_name, cci.campaign_link campaign_link
+				from campaign_info ci inner join company_campaign_info cci
+				on ci.no = #{no} and cci.campaign_no = #{no};
+			</when>
+			<when test="type.equals('official') or type.equals('personal')">
+				select ci.*, mission, auth_process, auth_start_time, auth_end_time, headcount, requirement
+				from campaign_info ci inner join official_personal_campaign_info opci
+				on ci.no = #{no} and opci.campaign_no = #{no};
+			</when>
+		</choose>
 	</select>
 	
 	<select id="findTagByNo" resultType="String">
@@ -68,6 +83,16 @@
 	<insert id="insertCampaign" parameterType="com.cloud.domain.CampaignDto" useGeneratedKeys="true" keyProperty="no">
 		insert into campaign_info (type, writer, title, content, photo, start_date, end_date)
 		values (#{type}, #{writer}, #{title}, #{content}, #{photo}, #{startDate}, #{endDate})
+	</insert>
+	
+	<insert id="insertCompany" parameterType="com.cloud.domain.CompanyDto">
+		insert into company_campaign_info (campaign_no, company_name, campaign_link)
+		values (#{no}, #{companyName}, #{campaignLink})
+	</insert>
+	
+	<insert id="insertOfficialAndPersonal" parameterType="com.cloud.domain.OfficialAndPersonalDto">
+		insert into official_personal_campaign_info (campaign_no, mission, auth_process, auth_start_time, auth_end_time, headcount)
+		values (#{no}, #{mission}, #{authProcess}, #{authStartTime}, #{authEndTime}, #{headcount})
 	</insert>
 	
 	<insert id="insertTag">
