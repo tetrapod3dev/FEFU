@@ -10,7 +10,7 @@
       <h3>캠페인 제목</h3>
       <div>주최</div>
       <div class="mt-2">
-        <v-progress-linear v-model="valueDeterminate" color="#23EFB8"></v-progress-linear>
+        <v-progress-linear class="custom-progress" v-model="valueDeterminate" color="#37CDC2"></v-progress-linear>
         <div class="mt-1">인증률 %</div>
       </div>
     </v-card-text>
@@ -38,6 +38,7 @@ export default {
   box-shadow: 3px 3px black;
   top: -10px;
   transition: 0.4s;
+  cursor: pointer;
 }
 
 .campaign-img {

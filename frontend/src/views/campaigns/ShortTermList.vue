@@ -20,7 +20,9 @@
         <h1 class="campaign-title">공식 캠페인</h1>
         <v-row>
           <v-col sm="12" md="4">
-            <CampaignCard />
+            <div @click="goCampaignDetail">
+              <CampaignCard />
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -41,6 +43,11 @@ export default {
     return {
       campaigninfo: [],
     };
+  },
+  methods: {
+    goCampaignDetail() {
+      this.$router.push({ name: "CampaignDetail" });
+    },
   },
 };
 </script>
