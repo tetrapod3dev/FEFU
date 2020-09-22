@@ -11,5 +11,9 @@ export default {
     products: {
       URL: "/product",
     },
+    campaigns: {
+      URL: "/campaigns",
+      search: "/search",
+    },
   },
 };

@@ -1,3 +1,9 @@
+import cookies from "vue-cookies";
+import axios from "axios";
+
+import SERVER from "@/api/api";
+import router from "@/router";
+
 export default {
   namespaced: true,
   state: {
