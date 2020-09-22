@@ -10,7 +10,7 @@
       <slot>
         <v-row align="center" class="mx-auto" justify="center" style="position: relative;">
           <v-img src="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif" />
-          <v-overlay :absolute="true" opacity="0">
+          <v-overlay :absolute="true" opacity="0" z-index="0">
             <v-container fill-height>
               <v-col
                 class="black--text custom-hero-text"

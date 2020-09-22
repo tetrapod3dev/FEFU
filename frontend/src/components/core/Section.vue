@@ -28,9 +28,9 @@
           </v-responsive>
         </v-col>
         <slot></slot>
-        <v-col cols="12" class="py-12"></v-col>
+        <v-col cols="12" class="py-12" v-if="centerPadding"></v-col>
         <slot name="content"></slot>
-        <v-col cols="12" class="py-12"></v-col>
+        <v-col cols="12" class="py-12" v-if="endPadding"></v-col>
       </v-row>
     </v-container>
   </section>
@@ -39,7 +39,15 @@
 <script>
 export default {
   name: "CoreSection",
-  props: ["id", "minHeight", "subtitle", "title", "text"],
+  props: {
+    id: String,
+    minHeight: String,
+    subtitle: String,
+    title: String,
+    text: String,
+    centerPadding: { type: Boolean, default: true },
+    endPadding: { type: Boolean, default: true },
+  },
 };
 </script>
 

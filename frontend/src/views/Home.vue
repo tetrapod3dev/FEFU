@@ -147,8 +147,8 @@
         </v-container>
       </v-overlay>
     </v-row>
-    <v-col class="py-12 custom-primary"></v-col>
-    <v-col class="py-12 custom-primary"></v-col>
+    <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
+    <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
 
     <core-section id="section-group" class="custom-primary" pb="12">
       <template slot="title">
