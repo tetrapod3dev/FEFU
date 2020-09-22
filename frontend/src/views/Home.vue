@@ -1,78 +1,147 @@
 <template>
   <div class="home">
-    <section id="hero">
-      <v-row no-gutters>
-        <v-img
-          :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
-          src="https://www.netclipart.com/pp/m/389-3896024_transparent-save-earth-png-famous-people-born-in.png"
-        >
-          <v-theme-provider dark>
-            <v-container fill-height>
-              <v-row align="center" class="black--text mx-auto" justify="center">
-                <v-col class="black--text text-center" cols="12" tag="h1">
-                  <span
-                    :class="[$vuetify.breakpoint.smAndDown ? 'display-1' : 'display-2']"
-                    class="font-weight-light"
-                  >일어나세요</span>
-
-                  <br />
-
-                  <span
-                    :class="[$vuetify.breakpoint.smAndDown ? 'display-3': 'display-4']"
-                    class="font-weight-black"
-                  >용사님</span>
-                </v-col>
-
-                <v-btn
-                  class="align-self-end black"
-                  fab
-                  outlined
-                  @click="$vuetify.goTo('#about-me')"
-                >
-                  <v-icon>mdi-chevron-double-down</v-icon>
-                </v-btn>
-              </v-row>
-            </v-container>
-          </v-theme-provider>
-        </v-img>
-      </v-row>
-    </section>
-
-    <section id="about-me">
-      <div class="py-12"></div>
-
-      <v-container class="text-center">
-        <v-row>
-          <v-col cols="12" md="8">
-            <h2 class="display-2 font-weight-bold mb-3">왜 캠페인과 중고거래인가?</h2>
-
-            <v-responsive class="mx-auto mb-8" width="56">
-              <v-divider class="mb-1"></v-divider>
-
-              <v-divider></v-divider>
-            </v-responsive>
-            <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-              <p>환경보호는 의외로 실천하기에는 막막합니다.</p>
-              <p>지구 온난화로 인해 지구가 아파하고 있는것은 누구나 알고 있습니다.</p>
-              <p>지구와 사람은 뗄 수 없는 사이입니다.</p>
-              <p>지구 용사가 되어 지구를 지켜보세요.</p>
-            </v-responsive>
-            <v-btn color="grey" href="https://vuetifyjs.com" outlined large>
-              <span class="grey--text text--darken-1 font-weight-bold">더 알아보기</span>
-            </v-btn>
-          </v-col>
-          <v-col cols="12" md="4">
+    <core-hero>
+      <template slot="footer">
+        <v-row align="end">
+          <v-col align="center">
             <v-img
-              src="https://cindybriggs.com/wp-content/uploads/2019/12/7-Unique-Watercolor-Painting-Ideas-for-Beginners-1.jpg"
-            ></v-img>
+              style="cursor: pointer"
+              width="40"
+              height="40"
+              contain
+              @click="$vuetify.goTo('#section-theproblem')"
+              :src="require('@/assets/illust/arrow-down.svg')"
+            />
           </v-col>
         </v-row>
+      </template>
+    </core-hero>
 
-        <div></div>
-      </v-container>
+    <core-section
+      id="section-theproblem"
+      subtitle="THE PROBLEM"
+      text="환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할 수 없어 자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수 입니다."
+      min-height="100vh"
+    >
+      <template slot="title">
+        현 시점에서 인류의 존망을
+        <br />
+        <span class="custom-highlight">크게 위협하는 문제</span>
+      </template>
+      <template slot="text">
+        환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할 수
+        없어 자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수 입니다.
+      </template>
+    </core-section>
 
-      <div class="py-12"></div>
-    </section>
+    <core-section id="section-thesolution" subtitle="THE SOLUTION" pb="12">
+      <template slot="title">
+        작은 실천부터 시작하고,
+        <br />
+        <span class="custom-highlight">더 이상 버리지 말고 재사용하자!</span>
+      </template>
+      <template slot="text">
+        쓰레기를 버리는 것만으로도 환경 오염에 영향이 가요.
+        <br />불필요한 물건을 다른 사람들과 나눠보면 어떨까요?
+      </template>
+      <template slot="content">
+        <v-col cols="12" sm="4">
+          <card-with-caption
+            caption="캠페인"
+            :src="require('@/assets/images/main-info-campaign.jpg')"
+          />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <card-with-caption caption="중고거래" :src="require('@/assets/images/main-info-market.jpg')" />
+        </v-col>
+        <v-col cols="12" sm="4">
+          <card-with-caption caption="에코포인트" :src="require('@/assets/images/main-info-point.jpg')" />
+        </v-col>
+      </template>
+    </core-section>
+
+    <core-section id="section-campaign" subtitle="CAMPAIGN">
+      <template slot="title">
+        <span class="custom-highlight">다양한 종류의 캠페인으로</span>
+        <br />여러 사람들과 같이 실천해요!
+      </template>
+      <template slot="text">
+        아래 사진들은 다양한 캠페인들을 보여주고 있는 사진이에요.
+        <br />어때요? 정말 멋지지 않나요?
+      </template>
+      <template slot="content">
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-campaign.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-market.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-campaign.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-market.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-campaign.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-market.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
+        </v-col>
+        <v-col cols="12" class="py-12">
+          <router-link
+            tag="button"
+            :to="{name: 'CampaignList'}"
+            class="custom-button custom-primary"
+          >더보기</router-link>
+        </v-col>
+      </template>
+    </core-section>
+
+    <core-section id="section-secondhand" subtitle="SECONDHAND" pb="12">
+      <template slot="title">
+        <span class="custom-highlight">재활용보다 재사용이</span>
+        <br />환경을 더욱 보호하는 길이예요
+      </template>
+      <template slot="text">
+        전 세계에서 매년 최소 800만 톤의 플라스틱이 바다로 유출되지만 재활용되는
+        양은 전체의 단 7%에 불과합니다. 재활용보단 재사용을 하세요.
+      </template>
+      <template>
+        <v-col cols="12">
+          <router-link
+            tag="a"
+            :to="{name: 'MarketMainView'}"
+            class="custom-text-button"
+            :class="'custom-text-button-'+$vuetify.breakpoint.name"
+          >
+            더보기
+            <v-img
+              style="cursor: pointer; margin-top: 3px"
+              :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
+              :height="$vuetify.breakpoint.smAndDown ? 15 : 17"
+              class="custom-text-button-icon"
+              contain
+              :src="require('@/assets/illust/arrow-right.svg')"
+            />
+          </router-link>
+        </v-col>
+      </template>
+      <template slot="content">
+        <v-col class="ml-auto mr-auto" cols="8" md="4">
+          <v-img src="@/assets/images/ecobag.png" />
+        </v-col>
+      </template>
+    </core-section>
 
     <section id="features" class="grey lighten-3">
       <div class="py-12"></div>
@@ -157,40 +226,21 @@
 
       <div class="py-12"></div>
     </section>
-
-    <v-sheet id="contact" color="#333333" dark tag="section" tile>
-      <div class="py-12"></div>
-
-      <v-container>
-        <h2 class="display-2 font-weight-bold mb-3 text-uppercase text-center">우리와 함께하세요</h2>
-
-        <v-responsive class="mx-auto mb-12" width="56">
-          <v-divider class="mb-1"></v-divider>
-
-          <v-divider></v-divider>
-        </v-responsive>
-
-        <v-theme-provider light>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field flat label="이메일" solo></v-text-field>
-            </v-col>
-
-            <v-col class="mx-auto" cols="auto">
-              <v-btn color="accent" x-large>Submit</v-btn>
-            </v-col>
-          </v-row>
-        </v-theme-provider>
-      </v-container>
-
-      <div class="py-12"></div>
-    </v-sheet>
   </div>
 </template>
 
 <script>
+import CoreHero from "@/components/core/Hero";
+import CoreSection from "@/components/core/Section";
+import CardWithCaption from "@/components/home/CardWithCaption";
+
 export default {
   name: "Home",
+  components: {
+    CoreHero,
+    CoreSection,
+    CardWithCaption,
+  },
   data() {
     return {
       articles: [
@@ -243,3 +293,135 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;600;700;800;900&display=swap");
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NanumBarunpen";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumBarunpen.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.custom-highlight {
+  background: url("~@/assets/illust/one-line-highlight.svg") no-repeat center;
+  background-size: 100%;
+}
+
+// .custom-title {
+//   font-size: 35px;
+//   letter-spacing: -2px;
+//   line-height: 1.3;
+//   font-weight: 700;
+//   font-family: "Nunito", "NanumBarunpen", sans-serif;
+
+//   &-md {
+//     font-size: 52px;
+//     letter-spacing: -2.5px;
+//     line-height: 1.2;
+//   }
+//   &-lg {
+//     font-size: 64px;
+//     letter-spacing: -3px;
+//     line-height: 1.2;
+//   }
+// }
+
+// .custom-subtitle {
+//   font-size: 13px;
+//   font-weight: bold;
+//   letter-spacing: 4px;
+//   font-family: "Nunito", "NanumSquareRound", sans-serif;
+
+//   &-md {
+//     font-size: 15px;
+//   }
+//   &-lg {
+//     font-size: 16px;
+//   }
+// }
+
+.custom-img {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 100%;
+  height: 260px;
+}
+
+.custom-img-group {
+  padding: 6px;
+
+  .custom-img-caption {
+    position: relative;
+    display: inline-block;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    min-width: 120px;
+    font-family: "S-CoreDream-7ExtraBold";
+    transition: 0.3s;
+    z-index: 2;
+  }
+  .custom-img {
+    position: relative;
+    margin-top: -45px;
+    overflow: hidden;
+    z-index: 1;
+  }
+}
+
+.custom-button {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px !important;
+  background-color: #ffffff;
+  top: 0px;
+  font-family: "S-CoreDream-7ExtraBold";
+  letter-spacing: 0px;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+    transform: translate3d(0px, -5px, -5px);
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  &:focus {
+    outline: 0;
+  }
+}
+
+.custom-primary {
+  background-color: var(--primary-color);
+}
+
+.custom-text-button {
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 2px solid #000000;
+  padding: 2px 0;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+  font-size: 16px;
+  color: #000000;
+  transition: 0.3s;
+
+  &-md,
+  &-lg {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+}
+
+.custom-text-button-icon {
+  display: inline-block;
+}
+</style>
