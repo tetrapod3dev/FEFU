@@ -107,6 +107,10 @@
         </v-col>
         <v-col cols="12" class="py-8"></v-col>
       </v-row>
+      <v-row class="custom-text text-left ml-auto mr-auto py-8 custom-banner">
+        For Earth For Us의 일원이 되고 싶지 않나요? 환경 보호를 위해 한번 시작해 보지 않을래요? 그럼 바로 여기예요!
+        당장의 한번의 활동도 환경보호에 큰 도움이 된답니다. 얼른 가입해 보세요!
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -199,5 +203,12 @@ export default {
   &-xl {
     font-size: 20px;
   }
+}
+
+.custom-banner {
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  padding: 10px 20px;
+  margin: 12px;
 }
 </style>
