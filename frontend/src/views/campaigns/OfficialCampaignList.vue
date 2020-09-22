@@ -1,5 +1,5 @@
 <template>
-  <div>company campaign list</div>
+  <div></div>
 </template>
 
 <script>
