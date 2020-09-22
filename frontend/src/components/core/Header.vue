@@ -29,7 +29,6 @@
         :key="index"
         :to="link.href"
         class="hidden-sm-and-down custom-button mx-1"
-        :class="{'custom-primary': link.textKr == '로그인'}"
       >{{ link.textKr }}</router-link>
       <v-app-bar-nav-icon class="hidden-md-and-up custom-button" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
@@ -128,15 +127,12 @@ export default {
   &:hover {
     box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
     transform: translate3d(0px, -5px, -5px);
+    background-color: var(--primary-color);
     transition: 0.3s;
     cursor: pointer;
   }
   &:focus {
     outline: 0;
   }
-}
-
-.custom-primary {
-  background-color: var(--primary-color);
 }
 </style>
