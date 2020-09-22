@@ -8,5 +8,9 @@ export default {
       login: "/login",
       signup: "/join",
     },
+    campaigns: {
+      URL: "/campaigns",
+      search: "/search",
+    },
   },
 };
