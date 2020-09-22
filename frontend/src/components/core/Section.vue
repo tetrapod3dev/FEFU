@@ -56,7 +56,8 @@ export default {
     letter-spacing: -2.5px;
     line-height: 1.2;
   }
-  &-lg {
+  &-lg,
+  &-xl {
     font-size: 64px;
     letter-spacing: -3px;
     line-height: 1.2;
@@ -72,7 +73,8 @@ export default {
   &-md {
     font-size: 15px;
   }
-  &-lg {
+  &-lg,
+  &-xl {
     font-size: 16px;
   }
 }
@@ -88,7 +90,8 @@ export default {
   &-md {
     font-size: 18px;
   }
-  &-lg {
+  &-lg,
+  &-xl {
     font-size: 20px;
   }
 }
