@@ -86,6 +86,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import SERVER from "@/api/api";
+
 import MarketHero from "@/components/market/Hero";
 import MarketNavbar from "@/components/market/Navbar";
 
@@ -94,6 +97,18 @@ export default {
   components: {
     MarketHero,
     MarketNavbar,
+  },
+  created() {
+    console.log("test market product detail rest api");
+    console.log(SERVER.URL + SERVER.ROUTES.products.URL + "/1");
+    axios
+      .get(SERVER.URL + SERVER.ROUTES.products.URL + "/1")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   computed: {
     cardWidth() {
