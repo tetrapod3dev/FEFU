@@ -8,23 +8,14 @@
           <market-navbar />
         </v-col>
       </v-row>
-
-      <h3>이 상품 어때요? (추천 상품)</h3>
+      <h1 class="market-title">
+        <span class="title-point">이 상품</span> 어때요
+      </h1>
       <v-row justify="center">
         <v-col cols="12" xl="10">
-          <v-slide-group v-model="cardSlide1" center-active show-arrows>
-            <v-slide-item
-              v-for="(product, index) in products"
-              :key="index"
-              v-slot:default="{ active, toggle }"
-            >
-              <v-card
-                :color="active ? 'primary' : ''"
-                class="ma-4"
-                :height="1.6 * cardWidth"
-                :width="cardWidth"
-                @click="toggle"
-              >
+          <v-slide-group center-active v-model="cardSlide1" show-arrows>
+            <v-slide-item v-for="(product, index) in products" :key="index">
+              <v-card class="custom-card ma-4" :height="1.6 * cardWidth" :width="cardWidth">
                 <v-img
                   :height="1.2 * cardWidth"
                   src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
@@ -41,7 +32,11 @@
         </v-col>
       </v-row>
 
-      <h3>지금 바로 신상품</h3>
+      <h1 class="market-title">
+        지금 바로
+        <span class="title-point">신상품</span>
+      </h1>
+
       <v-row justify="center">
         <v-col cols="12" xl="10">
           <v-slide-group v-model="cardSlide2" center-active show-arrows>
@@ -52,7 +47,7 @@
             >
               <v-card
                 :color="active ? 'primary' : ''"
-                class="ma-4"
+                class="custom-card ma-4"
                 :height="1.6 * cardWidth"
                 :width="cardWidth"
                 @click="toggle"
@@ -72,8 +67,10 @@
           </v-slide-group>
         </v-col>
       </v-row>
+      <h1 class="market-title">
+        <span class="title-point">지금 인기</span> 상품
+      </h1>
 
-      <h3>지금 인기 상품</h3>
       <v-row justify="center">
         <v-col cols="12" xl="10">
           <v-slide-group v-model="cardSlide3" center-active show-arrows>
@@ -85,7 +82,7 @@
             >
               <v-card
                 :color="active ? 'primary' : ''"
-                class="ma-4"
+                class="custom-card ma-4"
                 :height="1.6 * cardWidth"
                 :width="cardWidth"
                 @click="toggle"
@@ -276,5 +273,28 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.custom-card {
+  border: 2px solid black;
+  border-radius: 15px;
+  top: 0px;
+  font-family: "NanumBarunpen";
+}
+
+.custom-card:hover {
+  transform: translate3d(0px, -5px, -5px);
+  box-shadow: 3px 3px black;
+  top: -5px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.market-title {
+  margin-top: 30px;
+  font-family: "NanumBarunpen";
+}
+
+.title-point {
+  color: var(--primary-color);
+}
 </style>
