@@ -1,14 +1,18 @@
 <template>
   <div class="custom-img-group">
     <p class="custom-img-caption">{{caption}}</p>
-    <v-img class="custom-img" :src="src" />
+    <v-img class="custom-img" :style="'height: ' + height" :src="src" />
   </div>
 </template>
 
 <script>
 export default {
   name: "CardWithCaption",
-  props: ["caption", "src"],
+  props: {
+    caption: String,
+    src: String,
+    height: { type: String, default: "260px" },
+  },
 };
 </script>
 

@@ -16,7 +16,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app flat color="transparent">
+    <v-app-bar fixed flat color="transparent">
       <v-toolbar-title class="nav-logo text-left" @click="$router.push({name: 'Home'})">
         For
         <span class="js-nametag">Earth</span>
