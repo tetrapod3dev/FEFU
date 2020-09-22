@@ -33,6 +33,9 @@
 <script>
 import CampaignCard from "../../components/CampaignCard.vue";
 import CompanyCampaignCard from "../../components/CompanyCampaignCard.vue";
+import { mapGetters } from "vuex";
+import axios from "axios";
+import SERVER from "@/api/api";
 
 export default {
   components: {
@@ -44,7 +47,22 @@ export default {
       campaigninfo: [],
     };
   },
+  created() {
+    this.getCampaignInfo("company", 1);
+    this.getCampaignInfo("official", 1);
+  },
+  computed: {
+    ...mapGetters(["config"]),
+  },
   methods: {
+    getCampaignInfo(type, pageNo) {
+      axios
+        .get(
+          SERVER.URL + SERVER.ROUTES.campaigns.URL + "/" + type + "/" + pageNo
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    },
     goCampaignDetail() {
       this.$router.push({ name: "CampaignDetail" });
     },
@@ -56,9 +74,11 @@ export default {
 .section {
   margin-top: 30px;
   margin-bottom: 100px;
+  background: #fcfcfc;
 }
 
 .campaign-title {
   margin: 30px 0;
+  font-family: "NanumBarunpen";
 }
 </style>
