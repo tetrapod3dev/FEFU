@@ -13,6 +13,7 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-btn>더보기</v-btn>
     </div>
 
     <div class="section">
@@ -26,13 +27,22 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-btn>
+        <!-- <router-link :to="{ name: 'CompanyCampaignList' }">더보기</router-link> -->
+        <div @click="goCompanyCampaignList">
+          <button>더보기</button>
+        </div>
+      </v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import CampaignCard from "../../components/CampaignCard.vue";
-import CompanyCampaignCard from "../../components/CompanyCampaignCard.vue";
+import CampaignCard from "../../components/campaign/CampaignCard.vue";
+import CompanyCampaignCard from "../../components/campaign/CompanyCampaignCard.vue";
+import { mapGetters } from "vuex";
+import axios from "axios";
+import SERVER from "@/api/api";
 
 export default {
   components: {
@@ -44,9 +54,27 @@ export default {
       campaigninfo: [],
     };
   },
+  created() {
+    this.getCampaignInfo("company", 1);
+    this.getCampaignInfo("official", 1);
+  },
+  computed: {
+    ...mapGetters(["config"]),
+  },
   methods: {
+    getCampaignInfo(type, pageNo) {
+      axios
+        .get(
+          SERVER.URL + SERVER.ROUTES.campaigns.URL + "/" + type + "/" + pageNo
+        )
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    },
     goCampaignDetail() {
       this.$router.push({ name: "CampaignDetail" });
+    },
+    goCompanyCampaignList() {
+      this.$router.push({ name: "CompanyCampaignList" });
     },
   },
 };
@@ -56,9 +84,11 @@ export default {
 .section {
   margin-top: 30px;
   margin-bottom: 100px;
+  background: #fcfcfc;
 }
 
 .campaign-title {
   margin: 30px 0;
+  font-family: "NanumBarunpen";
 }
 </style>

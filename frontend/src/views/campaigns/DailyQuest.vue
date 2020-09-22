@@ -1,6 +1,5 @@
 <template>
   <div class="section">
-    <div>{{ selected }}</div>
     <v-card max-width="900" class="mx-auto px-3" flat>
       <v-container class="pa-1">
         <v-item-group v-model="selected" multiple>
