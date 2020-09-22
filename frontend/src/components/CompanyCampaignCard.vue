@@ -33,9 +33,10 @@ export default {
   top: 0px;
 }
 .custom-card:hover {
-  box-shadow: 5px 5px black;
+  box-shadow: 3px 3px black;
   top: -10px;
   transition: 0.4s;
+  cursor: pointer;
 }
 
 .campaign-img {
