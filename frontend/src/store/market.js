@@ -1,3 +1,4 @@
+import cookies from "vue-cookies";
 import axios from "axios";
 
 import SERVER from "@/api/api";
