@@ -13,6 +13,7 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-btn>더보기</v-btn>
     </div>
 
     <div class="section">
@@ -26,13 +27,19 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-btn>
+        <!-- <router-link :to="{ name: 'CompanyCampaignList' }">더보기</router-link> -->
+        <div @click="goCompanyCampaignList">
+          <button>더보기</button>
+        </div>
+      </v-btn>
     </div>
   </div>
 </template>
 
 <script>
-import CampaignCard from "../../components/CampaignCard.vue";
-import CompanyCampaignCard from "../../components/CompanyCampaignCard.vue";
+import CampaignCard from "../../components/campaign/CampaignCard.vue";
+import CompanyCampaignCard from "../../components/campaign/CompanyCampaignCard.vue";
 import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
@@ -65,6 +72,9 @@ export default {
     },
     goCampaignDetail() {
       this.$router.push({ name: "CampaignDetail" });
+    },
+    goCompanyCampaignList() {
+      this.$router.push({ name: "CompanyCampaignList" });
     },
   },
 };

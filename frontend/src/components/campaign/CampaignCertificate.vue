@@ -1,5 +1,5 @@
 <template>
-  <div>company campaign list</div>
+  <div>인증</div>
 </template>
 
 <script>

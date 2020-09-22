@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import CampaignCard from "../../components/CampaignCard.vue";
+import CampaignCard from "../../components/campaign/CampaignCard.vue";
 
 export default {
   components: {
