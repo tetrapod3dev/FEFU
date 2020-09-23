@@ -286,20 +286,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .custom-card {
   border: 2px solid black;
   border-radius: 15px;
   top: 0px;
   font-family: "NanumBarunpen";
-}
 
-.custom-card:hover {
-  transform: translate3d(0px, -5px, -5px);
-  box-shadow: 3px 3px black;
-  top: -5px;
-  transition: 0.4s;
-  cursor: pointer;
+  &:hover {
+    transform: translate3d(0px, -5px, -5px);
+    box-shadow: 3px 3px black;
+    top: -5px;
+    transition: 0.4s;
+    cursor: pointer;
+  }
 }
 
 .market-section {

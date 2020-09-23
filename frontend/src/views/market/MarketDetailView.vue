@@ -1,15 +1,21 @@
 <template>
-  <div id="market-detail">
-    <market-hero />
-
+  <div class="market-main">
+    <section id="section-hero">
+      <v-img
+        id="about-hero"
+        style="position: absolute"
+        position="top"
+        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        src="@/assets/images/market-hero.jpg"
+      />
+      <v-img
+        style="position: relative; z-index: 3;"
+        position="bottom"
+        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        src="@/assets/illust/market-hero.svg"
+      />
+    </section>
     <section id="product-list">
-      <v-container class="text-center">
-        <v-row justify="center">
-          <v-col cols="12" md="10">
-            <market-navbar />
-          </v-col>
-        </v-row>
-      </v-container>
       <div>
         <v-container>
           <v-row justify="center">
@@ -19,7 +25,11 @@
                   <v-carousel class="custom-carousel">
                     <v-carousel-item v-for="(slide, i) in slides" :key="i">
                       <v-sheet :color="colors[i]" height="100%">
-                        <v-row class="fill-height" align="center" justify="center">
+                        <v-row
+                          class="fill-height"
+                          align="center"
+                          justify="center"
+                        >
                           <div class="display-3">{{ slide }} Slide</div>
                         </v-row>
                       </v-sheet>
@@ -27,13 +37,19 @@
                   </v-carousel>
                 </div>
                 <div class="col-md-7 col-sm-7 col-xs-12">
-                  <div class="product-info-wrapper text-left d-flex flex-column">
+                  <div
+                    class="product-info-wrapper text-left d-flex flex-column"
+                  >
                     <div></div>
                     <p class="product-title">상품명</p>
                     <p>대분류 > 중분류</p>
                     <p class="product-price">10,000원</p>
-                    <p class="product-ecopoint">사용가능한 에코포인트는 1,000p 입니다.</p>
-                    <p class="product-description">상품 설명 부분입니다. 이 상품은 무슨 상품 일까요?</p>
+                    <p class="product-ecopoint">
+                      사용가능한 에코포인트는 1,000p 입니다.
+                    </p>
+                    <p class="product-description">
+                      상품 설명 부분입니다. 이 상품은 무슨 상품 일까요?
+                    </p>
                     <div class="seller-info mt-16">
                       <p class="mb-2">판매자</p>
                       <div class="d-flex">
@@ -44,16 +60,24 @@
                         </div>
                       </div>
                     </div>
-                    <v-btn class="product-state align-self-end" outlined tile>판매 중</v-btn>
+                    <v-btn class="product-state align-self-end" outlined tile
+                      >판매 중</v-btn
+                    >
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12 col-xs-12 col-md-12">
-                  <p class="subtitle-1 font-weight-light pt-3 text-center">둘러볼 상품</p>
+                <div class="col-sm-12 col-xs-12 col-md-12 mt-12">
+                  <p class="text-center">
+                    같이 보면 좋을 상품
+                  </p>
                   <v-divider></v-divider>
                   <div class="row text-center">
-                    <v-slide-group v-model="cardSlide1" center-active show-arrows>
+                    <v-slide-group
+                      v-model="cardSlide1"
+                      center-active
+                      show-arrows
+                    >
                       <v-slide-item
                         v-for="(product, index) in products"
                         :key="index"
@@ -73,9 +97,9 @@
                           ></v-img>
 
                           <v-card-text class="text--primary text-left">
-                            <div>{{product.name}}</div>
-                            <div>{{product.price}}</div>
-                            <div>{{product.price}}</div>
+                            <div>{{ product.name }}</div>
+                            <div>{{ product.price }}</div>
+                            <div>{{ product.price }}</div>
                           </v-card-text>
                         </v-card>
                       </v-slide-item>
@@ -96,15 +120,9 @@
 import axios from "axios";
 import SERVER from "@/api/api";
 
-import MarketHero from "@/components/market/Hero";
-import MarketNavbar from "@/components/market/Navbar";
-
 export default {
   name: "MarketDetailView",
-  components: {
-    MarketHero,
-    MarketNavbar,
-  },
+  components: {},
   created() {
     console.log("test market product detail rest api");
     console.log(SERVER.URL + SERVER.ROUTES.products.URL + "/1");
