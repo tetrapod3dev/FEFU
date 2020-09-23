@@ -3,103 +3,117 @@
     <market-hero />
 
     <v-container>
-      <v-row justify="center">
+      <v-row>
         <v-col cols="12" xl="10">
           <market-navbar />
         </v-col>
       </v-row>
-      <h1 class="market-title">
-        <span class="title-point">이 상품</span> 어때요
-      </h1>
-      <v-row justify="center">
-        <v-col cols="12" xl="10">
-          <v-slide-group center-active v-model="cardSlide1" show-arrows>
-            <v-slide-item v-for="(product, index) in products" :key="index">
-              <v-card class="custom-card ma-4" :height="1.6 * cardWidth" :width="cardWidth">
-                <v-img
-                  :height="1.2 * cardWidth"
-                  src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                ></v-img>
-
-                <v-card-text class="text-left text--primary">
-                  <div>{{product.name}}</div>
-                  <div>{{product.price}}</div>
-                  <div>{{product.price}}</div>
-                </v-card-text>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
+      <v-row>
+        <v-col cols="3">
+          <market-category />
         </v-col>
-      </v-row>
+        <v-col cols="9">
+          <v-row justify="center">
+            <v-col cols="12"> </v-col>
+          </v-row>
+          <h1 class="market-title">
+            <span class="title-point">이 상품</span> 어때요
+          </h1>
+          <v-row justify="center">
+            <v-col cols="12" xl="10">
+              <v-slide-group center-active v-model="cardSlide1" show-arrows>
+                <v-slide-item v-for="(product, index) in products" :key="index">
+                  <v-card
+                    class="custom-card ma-4"
+                    :height="1.6 * cardWidth"
+                    :width="cardWidth"
+                  >
+                    <v-img
+                      :height="1.2 * cardWidth"
+                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    ></v-img>
 
-      <h1 class="market-title">
-        지금 바로
-        <span class="title-point">신상품</span>
-      </h1>
+                    <v-card-text class="text-left text--primary">
+                      <div>{{ product.name }}</div>
+                      <div>{{ product.price }}</div>
+                      <div>{{ product.price }}</div>
+                    </v-card-text>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-col>
+          </v-row>
 
-      <v-row justify="center">
-        <v-col cols="12" xl="10">
-          <v-slide-group v-model="cardSlide2" center-active show-arrows>
-            <v-slide-item
-              v-for="(product, index) in products"
-              :key="index"
-              v-slot:default="{ active, toggle }"
-            >
-              <v-card
-                :color="active ? 'primary' : ''"
-                class="custom-card ma-4"
-                :height="1.6 * cardWidth"
-                :width="cardWidth"
-                @click="toggle"
-              >
-                <v-img
-                  :height="1.2 * cardWidth"
-                  src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                ></v-img>
+          <h1 class="market-title">
+            지금 바로
+            <span class="title-point">신상품</span>
+          </h1>
 
-                <v-card-text class="text-left text--primary">
-                  <div>{{product.name}}</div>
-                  <div>{{product.price}}</div>
-                  <div>{{product.price}}</div>
-                </v-card-text>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
-        </v-col>
-      </v-row>
-      <h1 class="market-title">
-        <span class="title-point">지금 인기</span> 상품
-      </h1>
+          <v-row justify="center">
+            <v-col cols="12" xl="10">
+              <v-slide-group v-model="cardSlide2" center-active show-arrows>
+                <v-slide-item
+                  v-for="(product, index) in products"
+                  :key="index"
+                  v-slot:default="{ active, toggle }"
+                >
+                  <v-card
+                    :color="active ? 'primary' : ''"
+                    class="custom-card ma-4"
+                    :height="1.6 * cardWidth"
+                    :width="cardWidth"
+                    @click="toggle"
+                  >
+                    <v-img
+                      :height="1.2 * cardWidth"
+                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    ></v-img>
 
-      <v-row justify="center">
-        <v-col cols="12" xl="10">
-          <v-slide-group v-model="cardSlide3" center-active show-arrows>
-            <v-slide-item
-              v-for="(product, index) in products"
-              :key="index"
-              v-slot:default="{ active, toggle }"
-              href="/market/detail/1"
-            >
-              <v-card
-                :color="active ? 'primary' : ''"
-                class="custom-card ma-4"
-                :height="1.6 * cardWidth"
-                :width="cardWidth"
-                @click="toggle"
-              >
-                <v-img
-                  :height="1.2 * cardWidth"
-                  src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                ></v-img>
+                    <v-card-text class="text-left text--primary">
+                      <div>{{ product.name }}</div>
+                      <div>{{ product.price }}</div>
+                      <div>{{ product.price }}</div>
+                    </v-card-text>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-col>
+          </v-row>
+          <h1 class="market-title">
+            <span class="title-point">지금 인기</span> 상품
+          </h1>
 
-                <v-card-text class="text-left text--primary">
-                  <div>{{product.name}}</div>
-                  <div>{{product.price}}</div>
-                  <div>{{product.price}}</div>
-                </v-card-text>
-              </v-card>
-            </v-slide-item>
-          </v-slide-group>
+          <v-row justify="center">
+            <v-col cols="12" xl="10">
+              <v-slide-group v-model="cardSlide3" center-active show-arrows>
+                <v-slide-item
+                  v-for="(product, index) in products"
+                  :key="index"
+                  v-slot:default="{ active, toggle }"
+                  href="/market/detail/1"
+                >
+                  <v-card
+                    :color="active ? 'primary' : ''"
+                    class="custom-card ma-4"
+                    :height="1.6 * cardWidth"
+                    :width="cardWidth"
+                    @click="toggle"
+                  >
+                    <v-img
+                      :height="1.2 * cardWidth"
+                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    ></v-img>
+
+                    <v-card-text class="text-left text--primary">
+                      <div>{{ product.name }}</div>
+                      <div>{{ product.price }}</div>
+                      <div>{{ product.price }}</div>
+                    </v-card-text>
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -109,12 +123,14 @@
 <script>
 import MarketHero from "@/components/market/Hero";
 import MarketNavbar from "@/components/market/Navbar";
+import MarketCategory from "@/components/market/Category";
 
 export default {
   name: "MarketMainView",
   components: {
     MarketHero,
     MarketNavbar,
+    MarketCategory,
   },
   computed: {
     cardWidth() {
