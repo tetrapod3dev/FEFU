@@ -81,27 +81,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response(status=204)
         else:
             return Response("NO AUTHORIZATION")
-        
     
-    @action(detail=False)
-    def search(self, request):
-        main_category_no = request.GET.get('main_category', None)
-        sub_category_no = request.GET.get('sub_category', None)
-        content = request.GET.get('content', None)
-
-        products = self.queryset
-        # 카테고리 필터링
-        if main_category_no:
-            products = products.filter(main_category_no=main_category_no)
-            if sub_category_no:
-                products = products.filter(sub_category_no=sub_category_no)
-        # 검색어 필터링
-        if content:
-            products = products.filter(title__icontains=content)
-
-        serializer = self.serializer_class(products, many=True)
-
-        return Response(serializer.data)
 
     
     @action(detail=False)
