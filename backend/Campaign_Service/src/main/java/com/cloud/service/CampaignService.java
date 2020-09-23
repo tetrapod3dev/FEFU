@@ -14,4 +14,7 @@ public interface CampaignService {
 	public int insertCampaign(Map<String, Object> data);
 	public int updateCampaign(CampaignDto dto);
 	public int deleteCampaign(int no);
+	public int checkJoin(int no, String username);
+	public int joinCampaign(int no, String username);
+	public int leaveCampaign(int no, String username);
 }

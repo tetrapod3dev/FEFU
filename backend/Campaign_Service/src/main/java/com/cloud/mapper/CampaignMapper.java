@@ -18,6 +18,9 @@ public interface CampaignMapper {
 	public List<String> findTagByNo(int no);
 	public Map<String, Object> findDetail(int no, String type);
 	public String findTypeByNo(int no);
+	public int checkJoin(int no, String username);
+	public int joinCampaign(int no, String username);
+	public int leaveCampaign(int no, String username);
 	public int insertCampaign(CampaignDto dto);
 	public int insertCompany(CompanyDto dto);
 	public int insertOfficialAndPersonal(OfficialAndPersonalDto dto);
