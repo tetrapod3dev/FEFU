@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import ProductInfo, MainCategoryInfo, SubCategoryInfo, PurchaseDetails
+from .models import ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails
 from .serializers import ProductSerializer, PurchaseDetailsSerializer
 
 
@@ -17,6 +17,23 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = ProductInfo.objects.order_by("-pk")
     serializer_class = ProductSerializer
 
+    #create category json
+    category_group = dict()
+    main_categories = MainCategoryInfo.objects.all()
+    medium_categories = MediumCategoryInfo.objects.all()
+    sub_categories = SubCategoryInfo.objects.all()
+
+    for main_cat in main_categories:
+        category_group[main_cat.main_category_name] = dict()
+        for med_cat in medium_categories:
+            if med_cat.main_category_no.main_category_name in category_group:
+                category_group[med_cat.main_category_no.main_category_name][med_cat.medium_category_name] = []
+
+                for sub_cat in sub_categories:
+                    if sub_cat.medium_category_no.medium_category_name in category_group[med_cat.main_category_no.main_category_name]:
+                        category_group[med_cat.main_category_no.main_category_name][sub_cat.medium_category_no.medium_category_name].append(sub_cat.sub_category_name)
+                    
+    # print(category_group)
     
     
     # general view override 
@@ -39,6 +56,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(products, many=True)
 
         return Response(serializer.data)
+
 
 
 
@@ -127,18 +145,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def categories(self, request):
-        main_categories = MainCategoryInfo.objects.all()
-        sub_categories = SubCategoryInfo.objects.all()
-
-        total_categories = dict()
-
-        for main_cat in main_categories:
-            total_categories[main_cat.main_category_name] = []
-
-        for sub_cat in sub_categories:
-            total_categories[sub_cat.main_category_no.main_category_name].append(sub_cat.sub_category_name)
-
-        return Response(total_categories)
+        
+        return Response(self.category_group)
         
         
 
