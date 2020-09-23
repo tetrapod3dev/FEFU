@@ -38,7 +38,6 @@
                 :key="index"
                 cols="12"
                 md="4"
-                @click="goCampaignDetail"
               >
                 <v-card
                   class="custom-card ma-4"
@@ -71,7 +70,6 @@
                 :key="index"
                 cols="12"
                 md="4"
-                @click="goCampaignDetail"
               >
                 <v-card
                   class="custom-card ma-4"
@@ -103,7 +101,6 @@
                 :key="index"
                 cols="12"
                 md="4"
-                @click="goCampaignDetail"
               >
                 <v-card
                   class="custom-card ma-4"
