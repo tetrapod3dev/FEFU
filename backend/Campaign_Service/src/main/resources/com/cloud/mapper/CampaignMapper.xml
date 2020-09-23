@@ -94,8 +94,15 @@
 		insert into official_personal_campaign_info (campaign_no, mission, auth_process, auth_start_time, auth_end_time, headcount)
 		values (#{no}, #{mission}, #{authProcess}, #{authStartTime}, #{authEndTime}, #{headcount})
 	</insert>
-	
+
 	<insert id="insertTag">
+		insert ignore into tag_info (tag_name) values
+		<foreach collection="list" item="i" separator=" , ">
+			(#{i})
+		</foreach>
+	</insert>
+	
+	<insert id="insertCampaignTag">
 		insert into campaign_tag (campaign_no, tag_no)
 		values
 		<foreach collection="tag" item="i" separator=" , ">

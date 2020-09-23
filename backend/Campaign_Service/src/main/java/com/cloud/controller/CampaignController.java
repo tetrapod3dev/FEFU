@@ -20,6 +20,8 @@ import com.cloud.domain.CampaignDto;
 import com.cloud.domain.PageDto;
 import com.cloud.service.CampaignService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class CampaignController {
 
@@ -28,6 +30,7 @@ public class CampaignController {
 	@Autowired
 	private CampaignService campaignService;
 
+	@ApiOperation(value = "캠페인 목록 검색")
 	@GetMapping(value = "/")
 	public ResponseEntity<Map<String, Object>> searchAll(@RequestParam("campaign_type") String campaignType,
 			@RequestParam("type") String type, @RequestParam("content") String content,
@@ -44,12 +47,14 @@ public class CampaignController {
 		return new ResponseEntity<Map<String, Object>>(data, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "캠페인 상세 정보")
 	@GetMapping(value = "/{campaign_no}")
 	public ResponseEntity<Map<String, Object>> campaignDetail(@PathVariable("campaign_no") int no) {
 		Map<String, Object> list = campaignService.findDetail(no);
 		return new ResponseEntity<Map<String, Object>>(list, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "모든 타입별 캠페인 등록")
 	@PostMapping(value = "/")
 	public ResponseEntity<String> registCampaign(@RequestBody Map<String, Object> data) {
 		int res = campaignService.insertCampaign(data);
