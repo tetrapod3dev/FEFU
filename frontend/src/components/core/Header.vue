@@ -8,16 +8,25 @@
       :temporary="true"
     >
       <v-list dense>
-        <v-list-item v-for="(link, index) in links" :key="index" :href="link.href">
+        <v-list-item
+          v-for="(link, index) in links"
+          :key="index"
+          :href="link.href"
+        >
           <v-list-item-content>
-            <v-list-item-title class="text-left">{{link.textKr}} {{link.textEn}}</v-list-item-title>
+            <v-list-item-title class="text-left"
+              >{{ link.textKr }} {{ link.textEn }}</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar fixed flat color="transparent">
-      <v-toolbar-title class="nav-logo text-left" @click="$router.push({name: 'Home'})">
+      <v-toolbar-title
+        class="nav-logo text-left"
+        @click="$router.push({ name: 'Home' })"
+      >
         For
         <span class="js-nametag">Earth</span>
         <span class="js-nametag">Us</span>
@@ -29,8 +38,12 @@
         :key="index"
         :to="link.href"
         class="hidden-sm-and-down custom-button mx-1"
-      >{{ link.textKr }}</router-link>
-      <v-app-bar-nav-icon class="hidden-md-and-up custom-button" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        >{{ link.textKr }}</router-link
+      >
+      <v-app-bar-nav-icon
+        class="hidden-md-and-up custom-button"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
     </v-app-bar>
   </div>
 </template>
@@ -82,6 +95,7 @@ export default {
 .nav-logo {
   font-family: "Patrick Hand", cursive;
   font-size: 32px;
+  cursor: pointer;
 }
 
 .js-nametag {

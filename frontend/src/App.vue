@@ -17,7 +17,7 @@ export default {
     CoreHeader: () => import("./components/core/Header"),
   },
 };
-</script>>
+</script>
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:wght@400;600;700;800;900&display=swap");
@@ -38,6 +38,7 @@ export default {
 
 :root {
   --primary-color: #37cdc2;
+  --white-color: #fcfcfc;
 }
 
 #app {
