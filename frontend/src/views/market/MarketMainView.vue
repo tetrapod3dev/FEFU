@@ -1,119 +1,129 @@
 <template>
-  <div>
-    <market-hero />
-
+  <div class="market-main">
+    <section id="section-hero">
+      <v-img
+        id="about-hero"
+        style="position: absolute"
+        position="top"
+        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        src="@/assets/images/market-hero.jpg"
+      />
+      <v-img
+        style="position: relative; z-index: 3;"
+        position="bottom"
+        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        src="@/assets/illust/market-hero.svg"
+      />
+    </section>
     <v-container>
-      <v-row>
+      <!-- 네브 -->
+      <!-- <v-row>
         <v-col cols="12" xl="10">
           <market-navbar />
         </v-col>
-      </v-row>
+      </v-row> -->
       <v-row>
         <v-col cols="3">
-          <market-category />
+          <market-category class="mt-16" />
         </v-col>
-        <v-col cols="9">
-          <v-row justify="center">
-            <v-col cols="12"> </v-col>
-          </v-row>
-          <h1 class="market-title">
-            <span class="title-point">이 상품</span> 어때요
-          </h1>
-          <v-row justify="center">
-            <v-col cols="12" xl="10">
-              <v-slide-group center-active v-model="cardSlide1" show-arrows>
-                <v-slide-item v-for="(product, index) in products" :key="index">
-                  <v-card
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                  >
-                    <v-img
-                      :height="1.2 * cardWidth"
-                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                    ></v-img>
 
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ product.name }}</div>
-                      <div>{{ product.price }}</div>
-                      <div>{{ product.price }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-slide-item>
-              </v-slide-group>
-            </v-col>
-          </v-row>
-
-          <h1 class="market-title">
-            지금 바로
-            <span class="title-point">신상품</span>
-          </h1>
-
-          <v-row justify="center">
-            <v-col cols="12" xl="10">
-              <v-slide-group v-model="cardSlide2" center-active show-arrows>
-                <v-slide-item
-                  v-for="(product, index) in products"
-                  :key="index"
-                  v-slot:default="{ active, toggle }"
+        <v-col cols="9" class="pt-0">
+          <div class="market-section">
+            <h1 class="market-title">
+              <span class="title-point">이 상품</span> 어때요
+            </h1>
+            <v-row>
+              <v-col
+                v-for="(product, index) in products"
+                :key="index"
+                cols="12"
+                md="4"
+                @click="goCampaignDetail"
+              >
+                <v-card
+                  class="custom-card ma-4"
+                  :height="1.6 * cardWidth"
+                  :width="cardWidth"
                 >
-                  <v-card
-                    :color="active ? 'primary' : ''"
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    @click="toggle"
-                  >
-                    <v-img
-                      :height="1.2 * cardWidth"
-                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                    ></v-img>
+                  <v-img
+                    :height="1.2 * cardWidth"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                  ></v-img>
 
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ product.name }}</div>
-                      <div>{{ product.price }}</div>
-                      <div>{{ product.price }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-slide-item>
-              </v-slide-group>
-            </v-col>
-          </v-row>
-          <h1 class="market-title">
-            <span class="title-point">지금 인기</span> 상품
-          </h1>
+                  <v-card-text class="text-left text--primary">
+                    <div>{{ product.name }}</div>
+                    <div>{{ product.price }}</div>
+                    <div>{{ product.price }}</div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
 
-          <v-row justify="center">
-            <v-col cols="12" xl="10">
-              <v-slide-group v-model="cardSlide3" center-active show-arrows>
-                <v-slide-item
-                  v-for="(product, index) in products"
-                  :key="index"
-                  v-slot:default="{ active, toggle }"
-                  href="/market/detail/1"
+          <div class="market-section">
+            <h1 class="market-title">
+              지금 바로
+              <span class="title-point">신상품</span>
+            </h1>
+            <v-row>
+              <v-col
+                v-for="(product, index) in products"
+                :key="index"
+                cols="12"
+                md="4"
+                @click="goCampaignDetail"
+              >
+                <v-card
+                  class="custom-card ma-4"
+                  :height="1.6 * cardWidth"
+                  :width="cardWidth"
                 >
-                  <v-card
-                    :color="active ? 'primary' : ''"
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    @click="toggle"
-                  >
-                    <v-img
-                      :height="1.2 * cardWidth"
-                      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-                    ></v-img>
+                  <v-img
+                    :height="1.2 * cardWidth"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                  ></v-img>
 
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ product.name }}</div>
-                      <div>{{ product.price }}</div>
-                      <div>{{ product.price }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-slide-item>
-              </v-slide-group>
-            </v-col>
-          </v-row>
+                  <v-card-text class="text-left text--primary">
+                    <div>{{ product.name }}</div>
+                    <div>{{ product.price }}</div>
+                    <div>{{ product.price }}</div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="market-section">
+            <h1 class="market-title">
+              <span class="title-point">지금 인기</span> 상품
+            </h1>
+            <v-row>
+              <v-col
+                v-for="(product, index) in products"
+                :key="index"
+                cols="12"
+                md="4"
+                @click="goCampaignDetail"
+              >
+                <v-card
+                  class="custom-card ma-4"
+                  :height="1.6 * cardWidth"
+                  :width="cardWidth"
+                >
+                  <v-img
+                    :height="1.2 * cardWidth"
+                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                  ></v-img>
+
+                  <v-card-text class="text-left text--primary">
+                    <div>{{ product.name }}</div>
+                    <div>{{ product.price }}</div>
+                    <div>{{ product.price }}</div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -121,15 +131,13 @@
 </template>
 
 <script>
-import MarketHero from "@/components/market/Hero";
-import MarketNavbar from "@/components/market/Navbar";
+// import MarketNavbar from "@/components/market/Navbar";
 import MarketCategory from "@/components/market/Category";
 
 export default {
   name: "MarketMainView",
   components: {
-    MarketHero,
-    MarketNavbar,
+    // MarketNavbar,
     MarketCategory,
   },
   computed: {
@@ -137,19 +145,19 @@ export default {
       let resultWidth;
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          resultWidth = 220;
+          resultWidth = 120;
           break;
         case "sm":
-          resultWidth = 220;
+          resultWidth = 120;
           break;
         case "md":
-          resultWidth = 220;
+          resultWidth = 120;
           break;
         case "lg":
-          resultWidth = 280;
+          resultWidth = 180;
           break;
         case "xl":
-          resultWidth = 280;
+          resultWidth = 180;
           break;
       }
       return resultWidth;
@@ -229,60 +237,60 @@ export default {
           price: "25.00",
           src: require("@/assets/logo.png"),
         },
-        {
-          id: 4,
-          name: "SKULL TEE",
-          price: "30.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 5,
-          name: "MANGO WINTER",
-          price: "50.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 6,
-          name: "SHIRT",
-          price: "34.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 7,
-          name: "TRUCKER JACKET",
-          price: "38.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 8,
-          name: "COATS",
-          price: "25.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 9,
-          name: "MANGO WINTER",
-          price: "50.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 10,
-          name: "SHIRT",
-          price: "34.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 11,
-          name: "TRUCKER JACKET",
-          price: "38.00",
-          src: require("@/assets/logo.png"),
-        },
-        {
-          id: 12,
-          name: "COATS",
-          price: "25.00",
-          src: require("@/assets/logo.png"),
-        },
+        // {
+        //   id: 4,
+        //   name: "SKULL TEE",
+        //   price: "30.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 5,
+        //   name: "MANGO WINTER",
+        //   price: "50.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 6,
+        //   name: "SHIRT",
+        //   price: "34.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 7,
+        //   name: "TRUCKER JACKET",
+        //   price: "38.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 8,
+        //   name: "COATS",
+        //   price: "25.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 9,
+        //   name: "MANGO WINTER",
+        //   price: "50.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 10,
+        //   name: "SHIRT",
+        //   price: "34.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 11,
+        //   name: "TRUCKER JACKET",
+        //   price: "38.00",
+        //   src: require("@/assets/logo.png"),
+        // },
+        // {
+        //   id: 12,
+        //   name: "COATS",
+        //   price: "25.00",
+        //   src: require("@/assets/logo.png"),
+        // },
       ],
     };
   },
@@ -305,8 +313,12 @@ export default {
   cursor: pointer;
 }
 
+.market-section {
+  margin-bottom: 0px;
+}
+
 .market-title {
-  margin-top: 30px;
+  margin-top: 10px;
   font-family: "NanumBarunpen";
 }
 

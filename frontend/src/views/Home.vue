@@ -29,8 +29,9 @@
         <span class="custom-highlight">크게 위협하는 문제</span>
       </template>
       <template slot="text">
-        환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할 수
-        없어 자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수 입니다.
+        환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할
+        수 없어 자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수
+        입니다.
       </template>
     </core-section>
 
@@ -52,10 +53,16 @@
           />
         </v-col>
         <v-col cols="12" sm="4">
-          <card-with-caption caption="중고거래" :src="require('@/assets/images/main-info-market.jpg')" />
+          <card-with-caption
+            caption="중고거래"
+            :src="require('@/assets/images/main-info-market.jpg')"
+          />
         </v-col>
         <v-col cols="12" sm="4">
-          <card-with-caption caption="에코포인트" :src="require('@/assets/images/main-info-point.jpg')" />
+          <card-with-caption
+            caption="에코포인트"
+            :src="require('@/assets/images/main-info-point.jpg')"
+          />
         </v-col>
       </template>
     </core-section>
@@ -71,28 +78,46 @@
       </template>
       <template slot="content">
         <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-campaign.jpg" />
+          <v-img
+            class="custom-img"
+            src="@/assets/images/main-info-campaign.jpg"
+          />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-market.jpg" />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-campaign.jpg" />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-market.jpg" />
+          <v-img
+            class="custom-img"
+            src="@/assets/images/main-info-market.jpg"
+          />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-campaign.jpg" />
+          <v-img
+            class="custom-img"
+            src="@/assets/images/main-info-campaign.jpg"
+          />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-market.jpg" />
+          <v-img
+            class="custom-img"
+            src="@/assets/images/main-info-market.jpg"
+          />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img
+            class="custom-img"
+            src="@/assets/images/main-info-campaign.jpg"
+          />
+        </v-col>
+        <v-col cols="12" sm="4" class="pr-3 pb-3">
+          <v-img
+            class="custom-img"
+            src="@/assets/images/main-info-market.jpg"
+          />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
@@ -100,9 +125,10 @@
         <v-col cols="12" class="py-12">
           <router-link
             tag="button"
-            :to="{name: 'CampaignList'}"
+            :to="{ name: 'CampaignList' }"
             class="custom-button custom-primary"
-          >더보기</router-link>
+            >더보기</router-link
+          >
         </v-col>
       </template>
     </core-section>
@@ -120,9 +146,9 @@
         <v-col cols="12">
           <router-link
             tag="a"
-            :to="{name: 'MarketMainView'}"
+            :to="{ name: 'MarketMainView' }"
             class="custom-text-button"
-            :class="'custom-text-button-'+$vuetify.breakpoint.name"
+            :class="'custom-text-button-' + $vuetify.breakpoint.name"
           >
             더보기
             <v-img
@@ -137,12 +163,21 @@
         </v-col>
       </template>
     </core-section>
-    <v-row align="center" class="mx-auto" justify="center" style="position: relative;">
+    <v-row
+      align="center"
+      class="mx-auto"
+      justify="center"
+      style="position: relative;"
+    >
       <v-img src="@/assets/illust/wave-line.svg" />
       <v-overlay :absolute="true" opacity="0">
         <v-container fill-height>
           <v-col>
-            <v-img max-height="260" contain :src="require('@/assets/images/ecobag.png')" />
+            <v-img
+              max-height="260"
+              contain
+              :src="require('@/assets/images/ecobag.png')"
+            />
           </v-col>
         </v-container>
       </v-overlay>
@@ -208,7 +243,7 @@ export default {
     border: 2px solid black;
     border-radius: 5px;
     padding: 15px 20px;
-    background-color: #ffffff;
+    background-color: var(--white-color);
     min-width: 120px;
     font-family: "S-CoreDream-7ExtraBold";
     transition: 0.3s;
@@ -226,7 +261,7 @@ export default {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px !important;
-  background-color: #ffffff;
+  background-color: var(--white-color);
   top: 0px;
   font-family: "S-CoreDream-7ExtraBold";
   letter-spacing: 0px;

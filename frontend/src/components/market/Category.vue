@@ -232,6 +232,7 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   padding: 0 0;
+  font-family: "S-CoreDream-7ExtraBold";
 }
 
 .custom-list-item:not(:last-child) {
