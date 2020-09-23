@@ -16,10 +16,32 @@ from .serializers import ProductSerializer, PurchaseDetailsSerializer
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = ProductInfo.objects.order_by("-pk")
     serializer_class = ProductSerializer
+
     
     
     # general view override 
     # due to login/auth check
+    def list(self, request, *args, **kwargs):
+        main_category = request.GET.get('mainCategory',None)
+        medium_category = request.GET.get('mediumCategory', None)
+        search_word = request.GET.get('content', None)
+        
+        products = self.queryset
+
+        if main_category:
+            products = products.filter(main_category_no=main_category)
+            if medium_category:
+                products = products.filter(medium_category_no=medium_category)
+        if search_word:
+
+            products = products.filter(title__icontains=search_word)
+
+        serializer = self.serializer_class(products, many=True)
+
+        return Response(serializer.data)
+
+
+
     def create(self, request, *args, **kwargs):
         #로그인된 사용자일 경우에만
         
