@@ -92,7 +92,8 @@ public class CampaignServiceImpl implements CampaignService {
 
 		int res = campaignMapper.insertCampaign(campaign);
 		int no = campaign.getNo();
-		res += campaignMapper.insertTag(campaign.getTag(), no);
+		res += campaignMapper.insertTag(campaign.getTag());
+		res += campaignMapper.insertCampaignTag(campaign.getTag(), no);
 		if (campaign.getType().equals("company")) {
 			company.setNo(no);
 			res += campaignMapper.insertCompany(company);

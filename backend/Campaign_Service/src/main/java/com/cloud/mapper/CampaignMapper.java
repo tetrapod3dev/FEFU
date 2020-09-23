@@ -21,7 +21,8 @@ public interface CampaignMapper {
 	public int insertCampaign(CampaignDto dto);
 	public int insertCompany(CompanyDto dto);
 	public int insertOfficialAndPersonal(OfficialAndPersonalDto dto);
-	public int insertTag(List<String> tag, @Param("no") int no);
+	public int insertTag(List<String> tag);
+	public int insertCampaignTag(List<String> tag, @Param("no") int no);
 	public int updateCampaign(CampaignDto dto);
 	public int deleteCampaign(int no);
 }
