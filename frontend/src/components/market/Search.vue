@@ -22,4 +22,8 @@ export default {};
   width: 100%;
   font-family: "NanumBarunpen";
 }
+
+.custom-search:focus {
+  outline: none;
+}
 </style>
