@@ -13,6 +13,7 @@ class PurchaseDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseDetails
         fields = "__all__"
+        read_only_fields = (["no"])
 
 class ViewDetailsSerializer(serializers.ModelSerializer):
     class Meta:
