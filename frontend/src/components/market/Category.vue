@@ -1,19 +1,19 @@
 <template>
   <div>
     <v-list class="custom-list">
-      <v-list-item-group>
+      <v-list-item-group active-class="custom-white">
         <template v-for="(category, index) in Object.keys(marketCategories)">
-          <v-hover v-slot:default="{ hover }" :key="index">
-            <v-list-item
-              :key="index"
-              class="custom-list-item"
-              :style="hover ? `background: ${listColor[index]}` : ''"
-            >
-              <v-list-item-content>
-                <v-list-item-title>{{ category }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-hover>
+          <v-list-item
+            :key="index"
+            class="custom-list-item"
+            :class="
+              `custom-list-item-${listColorName[index % listColorName.length]}`
+            "
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ category }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </template>
       </v-list-item-group>
     </v-list>
@@ -25,6 +25,15 @@ export default {
   name: "MarketCategory",
   data() {
     return {
+      listColorName: [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "indigo",
+        "purple",
+      ],
       listColor: [
         "#cf6a87",
         "#f19066",
@@ -227,7 +236,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .custom-list {
   border: 2px solid black;
   border-radius: 10px;
@@ -235,7 +244,41 @@ export default {
   font-family: "S-CoreDream-7ExtraBold";
 }
 
-.custom-list-item:not(:last-child) {
-  border-bottom: 2px solid black;
+.custom-list-item {
+  &:not(:last-child) {
+    border-bottom: 2px solid black;
+  }
+
+  &-red:hover {
+    background: #cf6a87;
+  }
+
+  &-orange:hover {
+    background: #f19066;
+  }
+
+  &-yellow:hover {
+    background: #fdcb6e;
+  }
+
+  &-green:hover {
+    background: #b8e994;
+  }
+
+  &-blue:hover {
+    background: #82ccdd;
+  }
+
+  &-indigo:hover {
+    background: #60a3bc;
+  }
+
+  &-purple:hover {
+    background: #786fa6;
+  }
+}
+
+.custom-white {
+  background: var(--white-color);
 }
 </style>
