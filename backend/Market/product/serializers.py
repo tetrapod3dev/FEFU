@@ -6,7 +6,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductInfo
         fields = "__all__"
-        read_only_fields = (["no", "reg_time"])
+        read_only_fields = (["no", "reg_time", "writer"])
 
 
 class PurchaseDetailsSerializer(serializers.ModelSerializer):
