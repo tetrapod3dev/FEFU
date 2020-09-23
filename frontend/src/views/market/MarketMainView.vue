@@ -24,7 +24,7 @@
       </v-row> -->
       <v-row>
         <v-col cols="3">
-          <market-category class="mt-16" />
+          <market-category class="custom-category mt-16" />
         </v-col>
 
         <v-col cols="9" class="pt-0">
@@ -33,12 +33,7 @@
               <span class="title-point">이 상품</span> 어때요
             </h1>
             <v-row>
-              <v-col
-                v-for="(product, index) in products"
-                :key="index"
-                cols="12"
-                md="4"
-              >
+              <v-col v-for="(product, index) in products" :key="index" cols="4">
                 <v-card
                   class="custom-card ma-4"
                   :height="1.6 * cardWidth"
@@ -145,16 +140,16 @@ export default {
           resultWidth = 120;
           break;
         case "sm":
-          resultWidth = 120;
+          resultWidth = 160;
           break;
         case "md":
-          resultWidth = 120;
+          resultWidth = 180;
           break;
         case "lg":
-          resultWidth = 180;
+          resultWidth = 250;
           break;
         case "xl":
-          resultWidth = 180;
+          resultWidth = 250;
           break;
       }
       return resultWidth;

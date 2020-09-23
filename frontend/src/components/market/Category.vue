@@ -34,25 +34,7 @@ export default {
         "indigo",
         "purple",
       ],
-      listColor: [
-        "#cf6a87",
-        "#f19066",
-        "#fdcb6e",
-        "#b8e994",
-        "#82ccdd",
-        "#60a3bc",
-        "#786fa6",
-        "#596275",
-        "#63cdda",
-        "#cf6a87",
-        "#f19066",
-        "#fdcb6e",
-        "#b8e994",
-        "#82ccdd",
-        "#60a3bc",
-        "#786fa6",
-        "#596275",
-      ],
+
       marketCategories: {
         뷰티: [
           "스킨케어",
