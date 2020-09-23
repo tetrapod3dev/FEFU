@@ -4,8 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails
-from .serializers import ProductSerializer, PurchaseDetailsSerializer
+from .models import User, ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails
+from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer
 
 
 # Create your views here.
@@ -32,12 +32,10 @@ class ProductViewSet(viewsets.ModelViewSet):
                 for sub_cat in sub_categories:
                     if sub_cat.medium_category_no.medium_category_name in category_group[med_cat.main_category_no.main_category_name]:
                         category_group[med_cat.main_category_no.main_category_name][sub_cat.medium_category_no.medium_category_name].append(sub_cat.sub_category_name)
-                    
-    # print(category_group)
-    
-    
-    # general view override 
-    # due to login/auth check
+
+
+    # general view override -----------------------------------------------------------
+
     def list(self, request, *args, **kwargs):
         main_category = request.GET.get('mainCategory',None)
         medium_category = request.GET.get('mediumCategory', None)
@@ -59,15 +57,16 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 
-
     def create(self, request, *args, **kwargs):
         #로그인된 사용자일 경우에만
-        
-        if request.META["HTTP_X_USERNAME"] != 'anonymousUser':
+        username = request.META["HTTP_X_USERNAME"]
+        if username != 'anonymousUser':
             serializer = self.serializer_class(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response(status=200)
+
+            if serializer.is_valid(raise_exception=True):
+                
+                serializer.save()
+                return Response(status=200)
         else:
             return Response("NO USER")
 
@@ -89,12 +88,12 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response("WRONG USER")
 
 
-    def delete(self, request, *args, **kwargs):
+    def destroy(self, request, pk):
         username = request.META["HTTP_X_USERNAME"]
         writer = request.data["writer"]
-        pk = request.data["product_no"]
+        pk = pk
         if username == writer:
-            instance = get_object_or_404(ProductInfo, pk=pk)
+            instance = get_object_or_404(ProductInfo, no=pk)
             instance.delete()
             return Response(status=204)
         else:
@@ -102,20 +101,36 @@ class ProductViewSet(viewsets.ModelViewSet):
     
 
     
+    # custom functions -----------------------------------------------------------------
+    @action(methods=["POST"], detail=False)
+    def add_viewed(self, request):
+        username = request.META["HTTP_X_USERNAME"]
+        product_no = request.GET.get("product_no")
+        sub_category_no = request.GET.get("sub_category_no")
+
+        serializer = ViewDetailsSerializer(data={"user":username, "product_no":product_no, "sub_category_no":sub_category_no})
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        
+
+
+
+
     @action(detail=False)
     def recommendation(self, request):
         # 상품 추천 로직
         # 추천 상품 목록 리턴
         pass
     
-    @action(detail=True)
-    def sold(self, request, pk):
+    @action(methods=["POST"], detail=True)
+    def sold(self, request):
         # 요청 보내는 사람과 판매글 작성자가 같은지 확인
         
         username = request.META["HTTP_X_USERNAME"]
+        product_no = request.GET.get("product_no")
 
         buyer = request.data["buyer"]
-        product = self.queryset.get(pk=pk)
+        product = self.queryset.get(pk=product_no)
         seller = product.writer
         status = product.status
 
