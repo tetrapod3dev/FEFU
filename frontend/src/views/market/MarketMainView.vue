@@ -16,15 +16,10 @@
       />
     </section>
     <v-container>
-      <!-- 네브 -->
-      <!-- <v-row>
-        <v-col cols="12" xl="10">
-          <market-navbar />
-        </v-col>
-      </v-row> -->
       <v-row>
         <v-col cols="3">
-          <market-category class="custom-category mt-16" />
+          <market-search />
+          <market-category class="custom-category" />
         </v-col>
 
         <v-col cols="9" class="pt-0">
@@ -38,6 +33,8 @@
                   class="custom-card ma-4"
                   :height="1.6 * cardWidth"
                   :width="cardWidth"
+                  cols="12"
+                  md="4"
                 >
                   <v-img
                     :height="1.2 * cardWidth"
@@ -123,33 +120,33 @@
 </template>
 
 <script>
-// import MarketNavbar from "@/components/market/Navbar";
 import MarketCategory from "@/components/market/Category";
+import MarketSearch from "@/components/market/Search";
 
 export default {
   name: "MarketMainView",
   components: {
-    // MarketNavbar,
     MarketCategory,
+    MarketSearch,
   },
   computed: {
     cardWidth() {
       let resultWidth;
       switch (this.$vuetify.breakpoint.name) {
         case "xs":
-          resultWidth = 120;
+          resultWidth = 220;
           break;
         case "sm":
-          resultWidth = 160;
+          resultWidth = 220;
           break;
         case "md":
-          resultWidth = 180;
+          resultWidth = 220;
           break;
         case "lg":
-          resultWidth = 250;
+          resultWidth = 280;
           break;
         case "xl":
-          resultWidth = 250;
+          resultWidth = 280;
           break;
       }
       return resultWidth;
