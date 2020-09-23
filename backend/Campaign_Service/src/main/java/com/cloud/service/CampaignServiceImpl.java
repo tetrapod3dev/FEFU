@@ -49,10 +49,10 @@ public class CampaignServiceImpl implements CampaignService {
 	@Override
 	public Map<String, Object> findDetail(int no) {
 		Map<String, Object> list = new HashMap<>();
-		
+
 		String type = campaignMapper.findTypeByNo(no);
 		Map<String, Object> map = campaignMapper.findDetail(no, type.trim());
-		
+
 		CampaignDto campaign = setCampaign(map);
 		campaign.setNo(no);
 		campaign.setTag(findTagByNo(no));
@@ -115,13 +115,28 @@ public class CampaignServiceImpl implements CampaignService {
 		return campaignMapper.deleteCampaign(no);
 	}
 
+	@Override
+	public int checkJoin(int no, String username) {
+		return campaignMapper.checkJoin(no, username);
+	}
+
+	@Override
+	public int joinCampaign(int no, String username) {
+		return campaignMapper.joinCampaign(no, username);
+	}
+
+	@Override
+	public int leaveCampaign(int no, String username) {
+		return campaignMapper.leaveCampaign(no, username);
+	}
+
 	private CampaignDto setCampaign(Map<String, Object> map) {
 		CampaignDto campaign = new CampaignDto();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			campaign.setTitle((String) map.get("title"));
 			campaign.setContent((String) map.get("content"));
-			if(map.get("endDate") instanceof String) {
+			if (map.get("endDate") instanceof String) {
 				campaign.setEndDate(format.parse((String) map.get("endDate")));
 				campaign.setStartDate(format.parse((String) map.get("startDate")));
 			} else {
@@ -150,7 +165,7 @@ public class CampaignServiceImpl implements CampaignService {
 		oap.setAuthStartTime((String) map.get("authStartTime"));
 		oap.setAuthProcess((String) map.get("authProcess"));
 		oap.setMission((String) map.get("mission"));
-		oap.setHeadcount((int)map.get("headcount"));
+		oap.setHeadcount((int) map.get("headcount"));
 		oap.setRequirement((String) map.get("requirement"));
 		return oap;
 	}

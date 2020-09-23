@@ -74,11 +74,22 @@
 		</choose>
 	</select>
 	
+	<select id="checkJoin" resultType="Integer">
+		select count(*)
+		from campaign_user
+		where campaign_no = #{no} and user_id = #{username}
+	</select>
+	
 	<select id="findTagByNo" resultType="String">
 		select ti.tag_name
 		from campaign_tag ct inner join tag_info ti
 		on ct.campaign_no = #{no} and ct.tag_no = ti.no;
 	</select>
+	
+	<insert id="joinCampaign">
+		insert into campaign_user (campaign_no, user_id)
+		values (#{no}, #{username})
+	</insert>
 	
 	<insert id="insertCampaign" parameterType="com.cloud.domain.CampaignDto" useGeneratedKeys="true" keyProperty="no">
 		insert into campaign_info (type, writer, title, content, photo, start_date, end_date)
@@ -116,6 +127,11 @@
 	
 	<delete id="deleteCampaign">
 	
+	</delete>
+	
+	<delete id="leaveCampaign">
+		delete from campaign_user
+		where campaign_no = #{no} and user_id = #{username}
 	</delete>
 	
 </mapper>
