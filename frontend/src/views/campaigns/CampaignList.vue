@@ -1,8 +1,28 @@
 <template>
-  <div>
+  <div id="campaign-list">
+    <section id="section-hero">
+      <v-img
+        id="campaign-hero"
+        style="position: absolute"
+        position="top"
+        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49h'"
+        src="@/assets/images/campaign-hero.jpg"
+      />
+      <v-img
+        style="position: relative; z-index: 3"
+        position="bottom"
+        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        src="@/assets/illust/campaign-hero.svg"
+      />
+    </section>
     <!-- 헤더 캐로젤 -->
     <div>
-      <v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
+      <v-carousel
+        cycle
+        height="400"
+        hide-delimiter-background
+        show-arrows-on-hover
+      >
         <v-carousel-item v-for="(slide, i) in slides" :key="i" :src="slide.src">
           <v-row class="fill-height" justify="start" align="center">
             <v-col>
@@ -21,15 +41,24 @@
       <!-- <v-container :class="[$vuetify.breakpoint.smAndDown ? '': 'mt-5']"> -->
       <v-tabs v-model="tab" centered grow color="#222">
         <v-tabs-slider color="#222"></v-tabs-slider>
-        <v-tab v-for="item in items" :key="item" class="ml-0" style="background: #fcfcfc">
+        <v-tab
+          v-for="item in items"
+          :key="item"
+          class="ml-0"
+          style="background: #fcfcfc"
+        >
           <span class="custom-tab">{{ item }}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in items" :key="item" style="background: #fcfcfc">
-          <LongTermList v-if="item=='100일 캠페인'" />
-          <ShortTermList v-if="item=='상시 캠페인'" />
-          <DailyQuest v-if="item=='일일 퀘스트'" />
+        <v-tab-item
+          v-for="item in items"
+          :key="item"
+          style="background: #fcfcfc"
+        >
+          <LongTermList v-if="item == '100일 캠페인'" />
+          <ShortTermList v-if="item == '상시 캠페인'" />
+          <DailyQuest v-if="item == '일일 퀘스트'" />
         </v-tab-item>
       </v-tabs-items>
       <!-- </v-container> -->

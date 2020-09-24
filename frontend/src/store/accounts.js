@@ -17,8 +17,8 @@ export default {
   },
   mutations: {
     SET_TOKEN(state, token) {
-      state.authToken = token.substr(7);
-      cookies.set("auth-token", state.authToken, 60 * 60);
+      state.authToken = token;
+      cookies.set("auth-token", token, 60 * 60);
     },
   },
   actions: {
@@ -31,7 +31,7 @@ export default {
             router.push({ name: "LoginView" });
           } else {
             console.log(res);
-            commit("SET_TOKEN", res.headers.authorization);
+            commit("SET_TOKEN", res.headers.authorization.substr(7));
             router.push({ name: "Home" });
           }
         })
@@ -60,7 +60,11 @@ export default {
     logout({ commit }) {
       commit("SET_TOKEN", null);
       cookies.remove("auth-token");
-      router.push({ name: "Home" });
+      router.push({ name: "Home" }).catch((error) => {
+        if (error.name === "NavigationDuplicated") {
+          location.reload();
+        }
+      });
     },
   },
 };
