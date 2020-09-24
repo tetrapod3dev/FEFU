@@ -5,7 +5,7 @@
         id="about-hero"
         style="position: absolute"
         position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
         src="@/assets/images/market-hero.jpg"
       />
       <v-img
@@ -25,11 +25,27 @@
           <section id="product-list">
             <v-container>
               <v-row>
-                <v-col
-                  cols="12"
-                  md="7"
-                  :order="$vuetify.breakpoint.smAndDown ? 1 : 2"
-                >
+                <v-col cols="12" md="5">
+                  <v-img
+                    class="custom-carousel"
+                    :src="product.src"
+                    height="400px"
+                  />
+                  <!-- <v-carousel class="custom-carousel" height="360">
+                    <v-carousel-item v-for="(slide, i) in slides" :key="i">
+                      <v-sheet :color="colors[i]" height="100%">
+                        <v-row
+                          class="fill-height"
+                          align="center"
+                          justify="center"
+                        >
+                          <div class="display-3">{{ slide }} Slide</div>
+                        </v-row>
+                      </v-sheet>
+                    </v-carousel-item>
+                  </v-carousel> -->
+                </v-col>
+                <v-col cols="12" md="7">
                   <div
                     class="product-info-wrapper text-left d-flex flex-column pa-3"
                   >
@@ -54,58 +70,40 @@
                     >
                   </div>
                 </v-col>
-                <v-col
-                  cols="12"
-                  md="5"
-                  :order="$vuetify.breakpoint.smAndDown ? 2 : 1"
-                >
-                  <v-img class="custom-carousel" :src="product.src" />
-                  <!-- <v-carousel class="custom-carousel" height="360">
-                    <v-carousel-item v-for="(slide, i) in slides" :key="i">
-                      <v-sheet :color="colors[i]" height="100%">
-                        <v-row
-                          class="fill-height"
-                          align="center"
-                          justify="center"
-                        >
-                          <div class="display-3">{{ slide }} Slide</div>
-                        </v-row>
-                      </v-sheet>
-                    </v-carousel-item>
-                  </v-carousel> -->
-                </v-col>
-                <v-col cols="12" order="3">
+                <v-col cols="12">
                   <p class="product-description">
                     상품 설명 부분입니다. 이 상품은 무슨 상품 일까요?
                   </p>
                   <div class="py-12"></div>
                 </v-col>
-                <v-col cols="12" order="4">
-                  <v-row justify="center">
-                    <h1 class="market-title">같이 보면 좋을 상품</h1>
-                    <v-row>
-                      <v-col v-for="index in 3" :key="index" cols="4">
-                        <v-card
-                          class="custom-card ma-4"
-                          :height="1.6 * cardWidth"
-                          :width="cardWidth"
-                          cols="12"
-                          md="4"
-                        >
-                          <v-img
-                            :height="1.2 * cardWidth"
-                            :src="products[index]"
-                          ></v-img>
+                <v-col cols="12">
+                  <h1 class="market-title">같이 보면 좋을 상품</h1>
+                </v-col>
+                <v-col v-for="index in 3" :key="index" cols="4">
+                  <v-card
+                    class="custom-card ma-4"
+                    :height="1.6 * cardWidth"
+                    :width="cardWidth"
+                    cols="12"
+                    md="4"
+                    @click="
+                      moveToPage({
+                        name: 'MarketDetailView',
+                        params: { productNo: products[index].id },
+                      })
+                    "
+                  >
+                    <v-img
+                      :height="1.2 * cardWidth"
+                      :src="products[index]"
+                    ></v-img>
 
-                          <v-card-text class="text-left text--primary">
-                            <div>{{ products[index].name }}</div>
-                            <div>{{ products[index].price }}</div>
-                            <div>{{ products[index].price }}</div>
-                          </v-card-text>
-                        </v-card>
-                      </v-col>
-                    </v-row>
-                  </v-row>
+                    <v-card-text class="text-left text--primary">
+                      <div>{{ products[index].name }}</div>
+                      <div>{{ products[index].price }}</div>
+                      <div>{{ products[index].eco }}</div>
+                    </v-card-text>
+                  </v-card>
                 </v-col>
               </v-row>
             </v-container>
@@ -162,6 +160,20 @@ export default {
           break;
       }
       return resultWidth;
+    },
+  },
+  methods: {
+    moveToPage(_url) {
+      this.$router
+        .push(_url)
+        .then(() => {
+          location.reload();
+        })
+        .catch((error) => {
+          if (error.name === "NavigationDuplicated") {
+            location.reload();
+          }
+        });
     },
   },
   data() {

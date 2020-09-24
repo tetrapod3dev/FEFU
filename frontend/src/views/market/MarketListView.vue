@@ -5,7 +5,7 @@
         id="about-hero"
         style="position: absolute"
         position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
         src="@/assets/images/market-hero.jpg"
       />
       <v-img

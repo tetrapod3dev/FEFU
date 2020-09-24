@@ -19,6 +19,20 @@
             >
           </v-list-item-content>
         </v-list-item>
+        <v-list-item v-if="!isLoggedIn" href="/user/login">
+          <v-list-item-content>
+            <v-list-item-title class="text-left"
+              >로그인 LOGIN</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="isLoggedIn" @click="logout">
+          <v-list-item-content>
+            <v-list-item-title class="text-left"
+              >로그아웃 LOGOUT</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -40,6 +54,20 @@
         class="hidden-sm-and-down custom-button mx-1"
         >{{ link.textKr }}</router-link
       >
+      <router-link
+        v-if="!isLoggedIn"
+        tag="button"
+        to="/user/login"
+        class="hidden-sm-and-down custom-button mx-1"
+        >로그인</router-link
+      >
+      <button
+        v-if="isLoggedIn"
+        @click="logout"
+        class="hidden-sm-and-down custom-button mx-1"
+      >
+        로그아웃
+      </button>
       <v-app-bar-nav-icon
         class="hidden-md-and-up custom-button"
         @click.stop="drawer = !drawer"
@@ -49,6 +77,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 // config
 export default {
   name: "CoreHeader",
@@ -71,13 +100,14 @@ export default {
           textEn: "MARKET",
           href: "/market",
         },
-        {
-          textKr: "로그인",
-          textEn: "LOGIN",
-          href: "/user/login",
-        },
       ],
     };
+  },
+  computed: {
+    ...mapGetters("accounts", ["isLoggedIn"]),
+  },
+  methods: {
+    ...mapActions("accounts", ["logout"]),
   },
 };
 </script>
