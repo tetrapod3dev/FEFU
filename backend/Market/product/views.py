@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 
 from .models import User, ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails
 from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer
+
+from datetime import date
 
 
 # Create your views here.
@@ -36,6 +38,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     # general view override -----------------------------------------------------------
 
+
+    # 전체 상품 목록 / 검색
     def list(self, request, *args, **kwargs):
         main_category = request.GET.get('mainCategory',None)
         medium_category = request.GET.get('mediumCategory', None)
@@ -56,7 +60,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
+    #상품 등록
     def create(self, request, *args, **kwargs):
         #로그인된 사용자일 경우에만
         username = request.META["HTTP_X_USERNAME"]
@@ -70,7 +74,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         else:
             return Response("NO USER")
 
-
+    #상품 수정
     def patch(self, request, *args, **kwargs):
         # 나 == 글작성자
         username = request.META["HTTP_X_USERNAME"]
@@ -87,13 +91,13 @@ class ProductViewSet(viewsets.ModelViewSet):
         else:
             return Response("WRONG USER")
 
-
+    #상품 삭제
     def destroy(self, request, pk):
         username = request.META["HTTP_X_USERNAME"]
-        writer = request.data["writer"]
+        instance = get_object_or_404(ProductInfo, no=pk)
+        writer = instance.writer.username
         pk = pk
         if username == writer:
-            instance = get_object_or_404(ProductInfo, no=pk)
             instance.delete()
             return Response(status=204)
         else:
@@ -102,17 +106,32 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     
     # custom functions -----------------------------------------------------------------
-    @action(methods=["POST"], detail=False)
-    def add_viewed(self, request):
+    @action(detail=False)
+    def get_latest_products(self, reqeust):
+        latest_queryset = self.queryset[:3]
+        serialzier = self.serializer_class(latest_queryset, many=True)
+        return Response(serialzier.data)
+
+    
+    @action(detail=True, methods=["POST"] )
+    def viewed(self, request, pk=None):
         username = request.META["HTTP_X_USERNAME"]
-        product_no = request.GET.get("product_no")
-        sub_category_no = request.GET.get("sub_category_no")
+        # product_no = request.data["product_no"]
+        product_no = pk
+        sub_category_no = request.data["sub_category_no"]
+        # print(product_no, sub_category_no)
 
-        serializer = ViewDetailsSerializer(data={"user":username, "product_no":product_no, "sub_category_no":sub_category_no})
+        today = date.today()
+
+        serializer = ViewDetailsSerializer(data={"user":username, "product_no":product_no, "sub_category_no":sub_category_no, "reg_time":today})
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-        
+            today_viewed_products = ViewDetails.objects.filter(reg_time__date=today)
 
+            if not today_viewed_products.filter(user=username, product_no=product_no, sub_category_no=sub_category_no).exists():
+                serializer.save()
+                return Response(status=200)
+            return Response("already viewed")
+        
 
 
 
