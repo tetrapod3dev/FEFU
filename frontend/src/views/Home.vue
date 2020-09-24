@@ -80,48 +80,25 @@
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
             class="custom-img"
-            src="@/assets/images/main-info-campaign.jpg"
+            src="@/assets/campaign/4.png"
+            position="50% 30%"
           />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
             class="custom-img"
-            src="@/assets/images/main-info-market.jpg"
-          />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img
-            class="custom-img"
-            src="@/assets/images/main-info-campaign.jpg"
+            src="@/assets/campaign/5.png"
+            position="50% 13%"
           />
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
             class="custom-img"
-            src="@/assets/images/main-info-market.jpg"
+            src="@/assets/campaign/6.png"
+            position="50% 10%"
           />
         </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img
-            class="custom-img"
-            src="@/assets/images/main-info-campaign.jpg"
-          />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img
-            class="custom-img"
-            src="@/assets/images/main-info-market.jpg"
-          />
-        </v-col>
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
-          <v-img class="custom-img" src="@/assets/images/main-info-point.jpg" />
-        </v-col>
+
         <v-col cols="12" class="py-12">
           <router-link
             tag="button"
@@ -191,12 +168,41 @@
         <br />살펴보세요!
       </template>
       <template slot="content">
-        <v-col v-for="i in 6" :key="i" cols="12" sm="6" md="4">
-          <h3
-            style="border: 2px solid #000000; border-radius: 5px;padding: 10px 20px; background-color: #ffffff"
-            class="font-weight-black mb-4 text-uppercase"
-            v-text="i + ' 환경단체'"
-          ></h3>
+        <v-col cols="12" sm="6" md="4">
+          <img
+            src="@/assets/images/logo1.jpg"
+            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
+          />
+        </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <img
+            src="@/assets/images/logo2.jpg"
+            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
+          />
+        </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <img
+            src="@/assets/images/logo6.jpg"
+            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
+          />
+        </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <img
+            src="@/assets/images/logo5.jpg"
+            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
+          />
+        </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <img
+            src="@/assets/images/logo4.jpg"
+            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
+          />
+        </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <img
+            src="@/assets/images/logo3.jpg"
+            style="height:80px;width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
+          />
         </v-col>
       </template>
     </core-section>
@@ -216,7 +222,18 @@ export default {
     CardWithCaption,
   },
   data() {
-    return {};
+    return {
+      logos: [
+        {
+          id: 1,
+          src: "@/assets/images/logo1.jpg",
+        },
+        {
+          id: 2,
+          src: "@/assets/images/logo2.jpg",
+        },
+      ],
+    };
   },
 };
 </script>
@@ -231,7 +248,7 @@ export default {
   border: 2px solid black;
   border-radius: 5px;
   width: 100%;
-  height: 260px;
+  height: 290px;
 }
 
 .custom-img-group {
