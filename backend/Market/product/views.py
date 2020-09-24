@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.db.models import Count
 from rest_framework import viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -35,7 +36,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                     if sub_cat.medium_category_no.medium_category_name in category_group[med_cat.main_category_no.main_category_name]:
                         category_group[med_cat.main_category_no.main_category_name][sub_cat.medium_category_no.medium_category_name].append(sub_cat.sub_category_name)
 
-
+    
     # general view override -----------------------------------------------------------
 
 
@@ -120,9 +121,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         product_no = pk
         sub_category_no = request.data["sub_category_no"]
         # print(product_no, sub_category_no)
-
         today = date.today()
-
         serializer = ViewDetailsSerializer(data={"user":username, "product_no":product_no, "sub_category_no":sub_category_no, "reg_time":today})
         if serializer.is_valid(raise_exception=True):
             today_viewed_products = ViewDetails.objects.filter(reg_time__date=today)
@@ -131,6 +130,25 @@ class ProductViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 return Response(status=200)
             return Response("already viewed")
+    
+    @action(detail=False)
+    def most_viewed(self, reqeust):
+        today = date.today()
+        today_viewed_products = ViewDetails.objects.filter(reg_time__date=today) # 오늘 조회
+        queryset = today_viewed_products.values('product_no_id').annotate(count=Count('product_no_id')).values('product_no_id')
+        queryset = queryset.order_by("-count")
+        queryset = queryset[:3]
+        top_product_ids = []
+        
+        for q in queryset:
+            top_product_ids.append(q["product_no_id"])
+        
+        top_products = ProductInfo.objects.filter(no__in=top_product_ids)
+        serializer = self.serializer_class(top_products, many=True)
+        return Response(serializer.data, status=200)
+
+
+
         
 
 
