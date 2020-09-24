@@ -16,5 +16,8 @@ public interface ProofBoardMapper {
 	public int updateProof(int no);
 	public int findHeadcount(int no);
 	public int findTodayPassOfficial(int no);
-	public Map<String, Object> findWeekPassOfficial(int no);
+	public List<Map<String, Object>> findWeekPassOfficial(int no);
+	public int findUserPassPersonal(int no, String username);
+	public List<Map<String, Object>> findAllPassPersonal(int no);
+	public int findDurationPersonal(int no);
 }

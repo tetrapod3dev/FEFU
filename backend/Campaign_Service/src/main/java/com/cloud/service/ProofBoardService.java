@@ -11,6 +11,8 @@ public interface ProofBoardService {
 	public int totalCount(int no, boolean flag);
 	public int insertProof(ProofBoardDto dto);
 	public int updateProof(int no);
-	public int findTodayPassOfficial(int no);
-	public Map<String, Object> findWeekPassOfficial(int no);
+	public double findTodayPassOfficial(int no);
+	public List<Map<String, Object>> findWeekPassOfficial(int no);
+	public double findUserPassPersonal(int no, String username);
+	public List<Map<String, Object>> findAllPassPersonal(int no);
 }
