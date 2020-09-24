@@ -6,9 +6,14 @@
           <v-list-item
             :key="index"
             class="custom-list-item"
-            :class="
-              `custom-list-item-${listColorName[index % listColorName.length]}`
-            "
+            :class="`custom-list-item-${
+              listColorName[index % listColorName.length]
+            }`"
+            :link="true"
+            :to="{
+              name: 'MarketListView',
+              params: { pageNo: 1, category: category },
+            }"
           >
             <v-list-item-content>
               <v-list-item-title>{{ category }}</v-list-item-title>
