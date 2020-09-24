@@ -14,21 +14,21 @@
           :href="link.href"
         >
           <v-list-item-content>
-            <v-list-item-title class="text-left"
+            <v-list-item-title class="text-left custom-drawer"
               >{{ link.textKr }} {{ link.textEn }}</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="!isLoggedIn" href="/user/login">
           <v-list-item-content>
-            <v-list-item-title class="text-left"
+            <v-list-item-title class="text-left custom-drawer"
               >로그인 LOGIN</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="isLoggedIn" @click="logout">
           <v-list-item-content>
-            <v-list-item-title class="text-left"
+            <v-list-item-title class="text-left custom-drawer"
               >로그아웃 LOGOUT</v-list-item-title
             >
           </v-list-item-content>
@@ -158,12 +158,15 @@ export default {
   }
 }
 
+.custom-drawer {
+  font-family: "S-CoreDream-7ExtraBold";
+}
+
 #custom-header .custom-button {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px !important;
   background-color: #ffffff;
-  top: 0px;
   font-family: "S-CoreDream-7ExtraBold";
   letter-spacing: 0px;
   transition: 0.3s;

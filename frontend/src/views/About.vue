@@ -6,9 +6,19 @@
         style="position: absolute"
         :height="$vuetify.breakpoint.smAndDown ? '50vh' : '100vh'"
         src="@/assets/images/about-hero.jpg"
-      />
+        lazy-src="@/assets/images/lazy-loading.jpg"
+      >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
       <v-img
-        style="position: relative; z-index: 3;"
+        style="position: relative; z-index: 3"
         position="bottom"
         :height="$vuetify.breakpoint.smAndDown ? '50vh' : '100vh'"
         src="@/assets/illust/aboutus-hero.svg"
@@ -17,7 +27,7 @@
 
     <v-col
       class="py-12 custom-white"
-      style="position: relative;margin: -1px 0 -1px 0"
+      style="position: relative; margin: -1px 0 -1px 0"
     >
       <h1 class="about-title">TEAM. AMONG EARTH</h1>
     </v-col>

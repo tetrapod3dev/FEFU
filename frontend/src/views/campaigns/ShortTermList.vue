@@ -9,7 +9,10 @@
 
         <v-row>
           <v-col sm="12" md="4">
-            <CompanyCampaignCard />
+            <CompanyCampaignCard
+              :campaign="campaigninfo[0]"
+              :src="require('@/assets/campaign/' + campaigninfo[0].src)"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -22,7 +25,10 @@
         <v-row>
           <v-col sm="12" md="4">
             <div @click="goCampaignDetail">
-              <CampaignCard />
+              <CampaignCard
+                :campaign="campaigninfo[1]"
+                :src="require('@/assets/campaign/' + campaigninfo[1].src)"
+              />
             </div>
           </v-col>
         </v-row>
@@ -51,7 +57,26 @@ export default {
   },
   data() {
     return {
-      campaigninfo: [],
+      campaigninfo: [
+        {
+          title: "분리수거해요",
+          org: "경기도시공사",
+          valueDeterminate: 50,
+          src: "4.png",
+        },
+        {
+          title: "에코영수증캠페인",
+          org: "환경부",
+          valueDeterminate: 34,
+          src: "5.png",
+        },
+        {
+          title: "분바스틱캠페인",
+          org: "바나나맛우유",
+          valueDeterminate: 79,
+          src: "6.png",
+        },
+      ],
     };
   },
   created() {

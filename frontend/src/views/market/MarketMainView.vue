@@ -7,7 +7,17 @@
         position="top"
         :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
         src="@/assets/images/market-hero.jpg"
-      />
+        lazy-src="@/assets/images/lazy-loading.jpg"
+      >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
       <v-img
         style="position: relative; z-index: 3"
         position="bottom"
@@ -39,7 +49,7 @@
                   align="center"
                 >
                   <v-card
-                    class="custom-card ma-4"
+                    class="custom-card"
                     :height="1.6 * cardWidth"
                     :width="cardWidth"
                     :to="{
@@ -47,7 +57,24 @@
                       params: { productNo: product.id },
                     }"
                   >
-                    <v-img :height="1.1 * cardWidth" :src="product.src"></v-img>
+                    <v-img
+                      :height="1.1 * cardWidth"
+                      :src="product.src"
+                      lazy-src="@/assets/images/lazy-loading.jpg"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
 
                     <v-card-text class="text-left text--primary">
                       <div>{{ product.name }}</div>
@@ -80,7 +107,24 @@
                       params: { productNo: product.id },
                     }"
                   >
-                    <v-img :height="1.1 * cardWidth" :src="product.src"></v-img>
+                    <v-img
+                      :height="1.1 * cardWidth"
+                      :src="product.src"
+                      lazy-src="@/assets/images/lazy-loading.jpg"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
 
                     <v-card-text class="text-left text--primary">
                       <div>{{ product.name }}</div>
@@ -112,7 +156,24 @@
                       params: { productNo: product.id },
                     }"
                   >
-                    <v-img :height="1.1 * cardWidth" :src="product.src"></v-img>
+                    <v-img
+                      :height="1.1 * cardWidth"
+                      :src="product.src"
+                      lazy-src="@/assets/images/lazy-loading.jpg"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
 
                     <v-card-text class="text-left text--primary">
                       <div>{{ product.name }}</div>
