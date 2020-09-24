@@ -28,11 +28,12 @@ export default {
         .then((res) => {
           if (info.name == "signup") {
             alert("회원 가입에 성공했습니다");
+            router.push({ name: "LoginView" });
           } else {
             console.log(res);
             commit("SET_TOKEN", res.headers.authorization);
+            router.push({ name: "Home" });
           }
-          router.push({ name: "Home" });
         })
         .catch((err) => {
           // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
