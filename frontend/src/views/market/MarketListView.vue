@@ -31,8 +31,8 @@
 
         <v-col cols="9" class="pt-0">
           <div class="market-section">
-            <h1 class="market-title">
-              <span class="title-point">이 상품</span> 어때요
+            <h1 class="market-title text-left ml-3">
+              {{ $route.params.category }} > {{ $route.params.subCategory }}
             </h1>
             <v-row>
               <v-col v-for="(product, index) in products" :key="index" cols="4">
