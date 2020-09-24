@@ -1,5 +1,6 @@
 package com.cloud.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +11,8 @@ import com.cloud.domain.ProofBoardDto;
 import com.cloud.mapper.ProofBoardMapper;
 
 @Service
-public class ProofBoardServiceImpl implements ProofBoardService{
-	
+public class ProofBoardServiceImpl implements ProofBoardService {
+
 	@Autowired
 	private ProofBoardMapper proofMapper;
 
@@ -29,31 +30,64 @@ public class ProofBoardServiceImpl implements ProofBoardService{
 	public int updateProof(int no) {
 		return proofMapper.updateProof(no);
 	}
-	
+
 	@Override
 	public int totalCount(int no, boolean flag) {
 		return proofMapper.totalCount(no, flag);
 	}
-	
-	
+
 	@Override
-	public int findTodayPassOfficial(int no) {
+	public double findTodayPassOfficial(int no) {
 		int headcount = proofMapper.findHeadcount(no);
 		int pass = proofMapper.findTodayPassOfficial(no);
-		return (pass / headcount) * 100;
+
+		return getSoloPercent(pass, headcount);
 	}
-	
+
 	@Override
-	public Map<String, Object> findWeekPassOfficial(int no) {
+	public List<Map<String, Object>> findWeekPassOfficial(int no) {
 		int headcount = proofMapper.findHeadcount(no);
-		Map<String, Object> map = proofMapper.findWeekPassOfficial(no);
-		if(map == null) {
+		List<Map<String, Object>> list = proofMapper.findWeekPassOfficial(no);
+		for(int i=0; i<list.size(); i++) {
+			getTotalPercent(null, headcount);
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> findAllPassPersonal(int no) {
+		int duration = proofMapper.findDurationPersonal(no);
+		List<Map<String, Object>> list = proofMapper.findAllPassPersonal(no);
+		for(int i=0; i<list.size(); i++) {
+			getTotalPercent(list.get(i), duration);
+		}
+		return list;
+	}
+
+	@Override
+	public double findUserPassPersonal(int no, String username) {
+		int duration = proofMapper.findDurationPersonal(no);
+		int pass = proofMapper.findUserPassPersonal(no, username);
+		System.out.println(duration + " " + pass);
+		return getSoloPercent(pass, duration);
+	}
+
+	private Map<String, Object> getTotalPercent(Map<String, Object> data, int goal) {
+		if (data == null) {
 			return null;
 		}
-		for(String key : map.keySet()) {
-			int res = ((int)map.get(key) / headcount) * 100;
-			map.replace(key, res);
+		for (String key : data.keySet()) {
+			if (key.equals("count")) {
+				double per = getSoloPercent((long)data.get(key), goal);
+				data.replace(key, per);
+			}
 		}
-		return map;
+		return data;
+	}
+
+	private double getSoloPercent(long pass, int goal) {
+		double res = ((double) pass / (double) goal) * 100.0;
+		return Math.round(res * 100.0) / 100.0;
 	}
 }
