@@ -132,7 +132,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response("already viewed")
     
     @action(detail=False)
-    def most_viewed(self, reqeust):
+    def top_three_viewed_today(self, reqeust):
         today = date.today()
         today_viewed_products = ViewDetails.objects.filter(reg_time__date=today) # 오늘 조회
         queryset = today_viewed_products.values('product_no_id').annotate(count=Count('product_no_id')).values('product_no_id')
