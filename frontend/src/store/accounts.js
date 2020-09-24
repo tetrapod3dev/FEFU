@@ -17,8 +17,8 @@ export default {
   },
   mutations: {
     SET_TOKEN(state, token) {
-      state.authToken = token;
-      cookies.set("auth-token", token, 60 * 60);
+      state.authToken = token.substr(7);
+      cookies.set("auth-token", state.authToken, 60 * 60);
     },
   },
   actions: {
@@ -29,16 +29,14 @@ export default {
           if (info.name == "signup") {
             alert("회원 가입에 성공했습니다");
           } else {
-            commit("SET_TOKEN", res.data.token);
+            console.log(res);
+            commit("SET_TOKEN", res.headers.authorization);
           }
           router.push({ name: "Home" });
         })
         .catch((err) => {
-          if (err.response.data.msg == "이메일 인증 미완료") {
-            alert("이메일 미인증 사용자입니다. 이메일 인증을 진행해주세요!");
-          } else {
-            alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
-          }
+          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
+          console.log(err);
         });
     },
     signup({ dispatch }, signupData) {
@@ -55,7 +53,6 @@ export default {
         data: loginData,
         location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.login,
       };
-      console.log(info);
       dispatch("postAuthData", info);
     },
 

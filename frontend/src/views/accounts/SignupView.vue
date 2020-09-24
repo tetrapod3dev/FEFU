@@ -66,14 +66,18 @@
                   <router-link
                     to="/user/login"
                     tag="span"
-                    style="cursor:pointer; color:black;"
+                    style="cursor: pointer; color: black"
                     >로그인</router-link
                   >
                 </v-col>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn class="custom-login-btn" width="100%" large
+                <v-btn
+                  class="custom-login-btn"
+                  width="100%"
+                  large
+                  @click="signup(signupData)"
                   >회원가입
                 </v-btn>
               </v-card-actions>
@@ -86,7 +90,10 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
+  name: "SignupView",
   data() {
     return {
       isShowPW: false,
@@ -96,6 +103,9 @@ export default {
         username: null,
         password: null,
         passwordConfirm: null,
+        nickname: "지구용사",
+        age: 23,
+        gender: "남자",
       },
       emailRules: [
         (v) => !!v || "아이디로 사용하실 이메일을 입력해주세요",
@@ -117,6 +127,9 @@ export default {
         "비밀번호가 일치하지 않습니다."
       );
     },
+  },
+  methods: {
+    ...mapActions("accounts", ["signup"]),
   },
 };
 </script>
