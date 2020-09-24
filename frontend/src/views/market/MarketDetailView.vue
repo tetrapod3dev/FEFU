@@ -84,11 +84,7 @@
                   <v-row justify="center">
                     <h1 class="market-title">같이 보면 좋을 상품</h1>
                     <v-row>
-                      <v-col
-                        v-for="(product, index) in products"
-                        :key="index"
-                        cols="4"
-                      >
+                      <v-col v-for="index in 3" :key="index" cols="4">
                         <v-card
                           class="custom-card ma-4"
                           :height="1.6 * cardWidth"
@@ -98,13 +94,13 @@
                         >
                           <v-img
                             :height="1.2 * cardWidth"
-                            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                            :src="products[index]"
                           ></v-img>
 
                           <v-card-text class="text-left text--primary">
-                            <div>{{ product.name }}</div>
-                            <div>{{ product.price }}</div>
-                            <div>{{ product.price }}</div>
+                            <div>{{ products[index].name }}</div>
+                            <div>{{ products[index].price }}</div>
+                            <div>{{ products[index].price }}</div>
                           </v-card-text>
                         </v-card>
                       </v-col>
