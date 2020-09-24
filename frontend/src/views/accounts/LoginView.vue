@@ -112,6 +112,7 @@ export default {
   text-align: start;
   font-size: 1.3rem;
   font-family: "NanumBarunpen";
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.16), 0 1px 5px rgba(0, 0, 0, 0.23);
 }
 
 .login-title {
