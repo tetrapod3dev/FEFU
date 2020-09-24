@@ -82,7 +82,7 @@
                 <v-card-text class="text-left text--primary">
                   <div>{{ product.name }}</div>
                   <div>{{ product.price }}</div>
-                  <div>{{ product.price }}</div>
+                  <div>{{ product.eco }}</div>
                 </v-card-text>
               </v-card>
             </v-col>
@@ -113,7 +113,7 @@
                 <v-card-text class="text-left text--primary">
                   <div>{{ product.name }}</div>
                   <div>{{ product.price }}</div>
-                  <div>{{ product.price }}</div>
+                  <div>{{ product.eco }}</div>
                 </v-card-text>
               </v-card>
             </v-col>
