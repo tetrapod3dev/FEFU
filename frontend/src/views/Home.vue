@@ -82,21 +82,51 @@
             class="custom-img"
             src="@/assets/campaign/4.png"
             position="50% 30%"
-          />
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
             class="custom-img"
             src="@/assets/campaign/5.png"
             position="50% 13%"
-          />
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
             class="custom-img"
             src="@/assets/campaign/6.png"
             position="50% 10%"
-          />
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-col>
 
         <v-col cols="12" class="py-12">
@@ -144,7 +174,7 @@
       align="center"
       class="mx-auto"
       justify="center"
-      style="position: relative;"
+      style="position: relative"
     >
       <v-img src="@/assets/illust/wave-line.svg" />
       <v-overlay :absolute="true" opacity="0">
@@ -162,48 +192,179 @@
     <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
     <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
 
-    <core-section id="section-group" class="custom-primary" pb="12">
+    <core-section
+      id="section-group"
+      class="custom-primary"
+      pb="12"
+      :centerPadding="false"
+    >
       <template slot="title">
         다양한 환경 단체를
         <br />살펴보세요!
       </template>
       <template slot="content">
-        <v-col cols="12" sm="6" md="4">
-          <img
-            src="@/assets/images/logo1.jpg"
-            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <img
-            src="@/assets/images/logo2.jpg"
-            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <img
-            src="@/assets/images/logo6.jpg"
-            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <img
-            src="@/assets/images/logo5.jpg"
-            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <img
-            src="@/assets/images/logo4.jpg"
-            style="height:80px; width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
-          />
-        </v-col>
-        <v-col cols="12" sm="6" md="4">
-          <img
-            src="@/assets/images/logo3.jpg"
-            style="height:80px;width:100%; border: 2px solid #000000; border-radius: 5px; background-color: #ffffff;"
-          />
-        </v-col>
+        <v-row justify="center">
+          <v-col cols="12" xl="8"
+            ><v-row>
+              <v-col cols="12" sm="6" md="4">
+                <v-img
+                  src="@/assets/images/logo1.jpg"
+                  style="
+                    height: 80px;
+                    width: 100%;
+                    border: 2px solid #000000;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                  "
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-img
+                  src="@/assets/images/logo2.jpg"
+                  style="
+                    height: 80px;
+                    width: 100%;
+                    border: 2px solid #000000;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                  "
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-img
+                  src="@/assets/images/logo6.jpg"
+                  style="
+                    height: 80px;
+                    width: 100%;
+                    border: 2px solid #000000;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                  "
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-img
+                  src="@/assets/images/logo5.jpg"
+                  style="
+                    height: 80px;
+                    width: 100%;
+                    border: 2px solid #000000;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                  "
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-img
+                  src="@/assets/images/logo4.jpg"
+                  style="
+                    height: 80px;
+                    width: 100%;
+                    border: 2px solid #000000;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                  "
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-img
+                  src="@/assets/images/logo3.jpg"
+                  style="
+                    height: 80px;
+                    width: 100%;
+                    border: 2px solid #000000;
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                  "
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </template>
     </core-section>
   </div>

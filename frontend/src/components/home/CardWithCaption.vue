@@ -1,7 +1,22 @@
 <template>
   <div class="custom-img-group">
-    <p class="custom-img-caption">{{caption}}</p>
-    <v-img class="custom-img" :style="'height: ' + height" :src="src" />
+    <p class="custom-img-caption">{{ caption }}</p>
+    <v-img
+      class="custom-img"
+      :style="'height: ' + height"
+      :src="src"
+      aspect-ratio="1"
+      lazy-src="@/assets/images/lazy-loading.jpg"
+    >
+      <template v-slot:placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-5"
+          ></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
   </div>
 </template>
 

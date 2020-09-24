@@ -7,7 +7,17 @@
         position="top"
         :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49h'"
         src="@/assets/images/campaign-hero.jpg"
-      />
+        lazy-src="@/assets/images/lazy-loading.jpg"
+      >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
       <v-img
         style="position: relative; z-index: 3"
         position="bottom"

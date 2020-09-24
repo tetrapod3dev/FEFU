@@ -1,16 +1,12 @@
 <template>
   <!-- <v-hover v-slot:default="{ hover }" open-delay="200"> -->
   <v-card class="custom-card mx-auto" max-width="400" outlined>
-    <v-img
-      class="campaign-img"
-      height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-    >
+    <v-img class="campaign-img" height="200px" :src="src">
       <!-- <span class="campaign-state">진행여부</span> -->
     </v-img>
     <v-card-text class="text--primary text-left">
-      <h3>캠페인 제목</h3>
-      <div>주최</div>
+      <h3>{{ campaign.title }}</h3>
+      <div>{{ campaign.org }}</div>
     </v-card-text>
   </v-card>
   <!-- </v-hover> -->
@@ -23,6 +19,7 @@ export default {
       valueDeterminate: 50,
     };
   },
+  props: ["campaign", "src"],
 };
 </script>
 

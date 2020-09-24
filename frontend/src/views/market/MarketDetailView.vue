@@ -7,7 +7,17 @@
         position="top"
         :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
         src="@/assets/images/market-hero.jpg"
-      />
+        lazy-src="@/assets/images/lazy-loading.jpg"
+      >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
       <v-img
         style="position: relative; z-index: 3"
         position="bottom"
@@ -17,11 +27,11 @@
     </section>
     <v-container>
       <v-row>
-        <v-col cols="3">
+        <v-col cols="12" sm="3">
           <market-search />
           <market-category class="custom-category" />
         </v-col>
-        <v-col cols="9" class="pt-0">
+        <v-col cols="12" sm="9" class="pt-0">
           <section id="product-list">
             <v-container>
               <v-row>
@@ -30,7 +40,21 @@
                     class="custom-carousel"
                     :src="product.src"
                     height="400px"
-                  />
+                    lazy-src="@/assets/images/lazy-loading.jpg"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
                   <!-- <v-carousel class="custom-carousel" height="360">
                     <v-carousel-item v-for="(slide, i) in slides" :key="i">
                       <v-sheet :color="colors[i]" height="100%">
@@ -80,7 +104,13 @@
                 <v-col cols="12">
                   <h1 class="market-title">같이 보면 좋을 상품</h1>
                 </v-col>
-                <v-col v-for="index in 3" :key="index" cols="4">
+                <v-col
+                  v-for="index in 3"
+                  :key="index"
+                  cols="12"
+                  sm="4"
+                  align="center"
+                >
                   <v-card
                     class="custom-card ma-4"
                     :height="1.6 * cardWidth"
@@ -95,9 +125,23 @@
                     "
                   >
                     <v-img
-                      :height="1.2 * cardWidth"
+                      :height="1.1 * cardWidth"
                       :src="products[index]"
-                    ></v-img>
+                      lazy-src="@/assets/images/lazy-loading.jpg"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-5"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
 
                     <v-card-text class="text-left text--primary">
                       <div>{{ products[index].name }}</div>

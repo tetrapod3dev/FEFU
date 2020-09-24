@@ -7,7 +7,17 @@
         position="top"
         :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
         src="@/assets/images/market-hero.jpg"
-      />
+        lazy-src="@/assets/images/lazy-loading.jpg"
+      >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
       <v-img
         style="position: relative; z-index: 3"
         position="bottom"
@@ -24,30 +34,52 @@
         </v-col>
       </v-row>-->
       <v-row>
-        <v-col cols="3">
+        <v-col cols="12" sm="3">
           <market-search />
           <market-category class="custom-category" />
         </v-col>
 
-        <v-col cols="9" class="pt-0">
+        <v-col cols="12" sm="9" class="pt-0">
           <div class="market-section">
             <h1 class="market-title text-left ml-3">
               {{ $route.params.category }} > {{ $route.params.subCategory }}
             </h1>
             <v-row>
-              <v-col v-for="(product, index) in products" :key="index" cols="4">
+              <v-col
+                v-for="(product, index) in products"
+                :key="index"
+                cols="6"
+                sm="4"
+                justify="center"
+                align="center"
+              >
                 <v-card
-                  class="custom-card ma-4"
+                  class="custom-card"
                   :height="1.6 * cardWidth"
                   :width="cardWidth"
-                  cols="12"
-                  md="4"
                   :to="{
                     name: 'MarketDetailView',
                     params: { productNo: product.id },
                   }"
                 >
-                  <v-img :height="1.1 * cardWidth" :src="product.src"></v-img>
+                  <v-img
+                    :height="1.1 * cardWidth"
+                    :src="product.src"
+                    lazy-src="@/assets/images/lazy-loading.jpg"
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
 
                   <v-card-text class="text-left text--primary">
                     <div>{{ product.name }}</div>
