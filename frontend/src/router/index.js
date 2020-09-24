@@ -78,7 +78,7 @@ const routes = [
     component: MarketMainView,
   },
   {
-    path: "/market/all/:pageNo/:category",
+    path: "/market/all/:pageNo/:category/:subCategory",
     name: "MarketListView",
     component: MarketListView,
   },

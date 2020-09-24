@@ -1,26 +1,35 @@
 <template>
   <div>
     <v-list class="custom-list">
-      <v-list-item-group active-class="custom-white">
-        <template v-for="(category, index) in Object.keys(marketCategories)">
-          <v-list-item
-            :key="index"
-            class="custom-list-item"
-            :class="`custom-list-item-${
-              listColorName[index % listColorName.length]
-            }`"
-            :link="true"
-            :to="{
-              name: 'MarketListView',
-              params: { pageNo: 1, category: category },
-            }"
-          >
-            <v-list-item-content>
-              <v-list-item-title>{{ category }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+      <v-list-group
+        v-for="(category, index) in Object.keys(marketCategories)"
+        :key="index"
+        no-action
+        class="custom-list-item"
+        :class="
+          `custom-list-item-${listColorName[index % listColorName.length]}`
+        "
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="category"></v-list-item-title>
+          </v-list-item-content>
         </template>
-      </v-list-item-group>
+
+        <v-list-item
+          v-for="subCategory in marketCategories[category]"
+          :key="subCategory"
+          :link="true"
+          :to="{
+            name: 'MarketListView',
+            params: { pageNo: 1, category: category, subCategory: subCategory },
+          }"
+        >
+          <v-list-item-content class="custom-list-item-content">
+            <v-list-item-title v-text="subCategory"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
     </v-list>
   </div>
 </template>
@@ -130,93 +139,6 @@ export default {
           "삼각대/조명/플래시",
           "기타 악세서리",
         ],
-        스포츠: [
-          "골프",
-          "자전거",
-          "인라인/스케이트/전동",
-          "축구",
-          "야구",
-          "농구",
-          "라켓스포츠",
-          "헬스/요가",
-          "수상스포츠",
-          "겨울스포츠",
-          "검토/격투/권투",
-          "기타 스포츠",
-        ],
-        "티켓/쿠폰": [
-          "티켓",
-          "상품권/쿠폰",
-          "여행숙박/이용권",
-          "기타 티켓/쿠폰/이용권",
-        ],
-        게임: [
-          "PC게임",
-          "플레이스테이션",
-          "PSP",
-          "닌텐도",
-          "Wii",
-          "XBOX",
-          "게임타이틀",
-          "기타 게임",
-        ],
-        "도서/음반/문구": [
-          "유아동도서/음반",
-          "학습/교육",
-          "소설/만화책",
-          "여행/취미/레저",
-          "문학/과학/경영",
-          "예술/디자인",
-          "잡지",
-          "기타 도서",
-          "음반/DVD/굿즈",
-          "문구/사무용품",
-        ],
-        가전제품: [
-          "냉장고",
-          "TV",
-          "세탁기/건조기",
-          "주방가전",
-          "스마트홈",
-          "영상가전",
-          "음향가전",
-          "계절가전",
-          "생활가전",
-          "미용가전",
-          "기타 가전제품",
-        ],
-        "가구/인테리어": [
-          "침실가구",
-          "거실가구",
-          "주방가구",
-          "수납/선반/공간박스",
-          "학생/서재/사무용가구",
-          "기타가구",
-          "침구",
-          "커튼/카패트",
-          "조명/무드등",
-          "인테리어소품",
-          "이벤트/파티용품",
-          "디퓨저/캔들",
-          "시계/액자/팝아트",
-          "원예",
-        ],
-        패션의류: ["여성의류", "남성의류", "교복/체육복/단복"],
-        "노트북/데스크탑": [
-          "노트북/넷북",
-          "데스크탑/본체",
-          "모니터",
-          "CPU/메인보드",
-          "HDD/SSD/ODD",
-          "RAM/VGA/SOUND",
-          "USB/케이블",
-          "케이스/파워/쿨러",
-          "키보드/마우스/스피커",
-          "프린터/복합기/잉크/토너",
-          "공유기/랜카드",
-          "소프트웨어",
-          "기타 주변기기",
-        ],
       },
     };
   },
@@ -227,7 +149,7 @@ export default {
 .custom-list {
   border: 2px solid black;
   border-radius: 10px;
-  padding: 0 0;
+  padding: 5px 0;
   font-family: "S-CoreDream-7ExtraBold";
 }
 
