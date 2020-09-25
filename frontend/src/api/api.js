@@ -4,9 +4,16 @@ export default {
   URL: "http://j3a402.p.ssafy.io:8801",
   ROUTES: {
     accounts: {
-      URL: "/auth",
-      login: "/login",
-      signup: "/join",
+      URL: "",
+      login: "/auth/login",
+      signup: "/users",
+    },
+    products: {
+      URL: "/product",
+    },
+    campaigns: {
+      URL: "/campaigns",
+      search: "/search",
     },
   },
 };
