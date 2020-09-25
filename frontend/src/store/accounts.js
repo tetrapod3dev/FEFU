@@ -28,17 +28,16 @@ export default {
         .then((res) => {
           if (info.name == "signup") {
             alert("회원 가입에 성공했습니다");
+            router.push({ name: "LoginView" });
           } else {
-            commit("SET_TOKEN", res.data.token);
+            console.log(res);
+            commit("SET_TOKEN", res.headers.authorization.substr(7));
+            router.push({ name: "Home" });
           }
-          router.push({ name: "Home" });
         })
         .catch((err) => {
-          if (err.response.data.msg == "이메일 인증 미완료") {
-            alert("이메일 미인증 사용자입니다. 이메일 인증을 진행해주세요!");
-          } else {
-            alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
-          }
+          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
+          console.log(err);
         });
     },
     signup({ dispatch }, signupData) {
@@ -55,14 +54,17 @@ export default {
         data: loginData,
         location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.login,
       };
-      console.log(info);
       dispatch("postAuthData", info);
     },
 
     logout({ commit }) {
       commit("SET_TOKEN", null);
       cookies.remove("auth-token");
-      router.push({ name: "Home" });
+      router.push({ name: "Home" }).catch((error) => {
+        if (error.name === "NavigationDuplicated") {
+          location.reload();
+        }
+      });
     },
   },
 };

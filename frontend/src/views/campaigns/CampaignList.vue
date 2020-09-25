@@ -1,8 +1,38 @@
 <template>
-  <div>
+  <div id="campaign-list">
+    <section id="section-hero">
+      <v-img
+        id="campaign-hero"
+        style="position: absolute"
+        position="top"
+        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49h'"
+        src="@/assets/images/campaign-hero.jpg"
+        lazy-src="@/assets/images/lazy-loading.jpg"
+      >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
+      <v-img
+        style="position: relative; z-index: 3"
+        position="bottom"
+        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
+        src="@/assets/illust/campaign-hero.svg"
+      />
+    </section>
     <!-- 헤더 캐로젤 -->
     <div>
-      <v-carousel cycle height="400" hide-delimiter-background show-arrows-on-hover>
+      <v-carousel
+        cycle
+        height="400"
+        hide-delimiter-background
+        show-arrows-on-hover
+      >
         <v-carousel-item v-for="(slide, i) in slides" :key="i" :src="slide.src">
           <v-row class="fill-height" justify="start" align="center">
             <v-col>
@@ -17,19 +47,28 @@
     </div>
 
     <!-- 탭 -->
-    <v-container>
+    <v-container style="background: #fcfcfc">
       <!-- <v-container :class="[$vuetify.breakpoint.smAndDown ? '': 'mt-5']"> -->
       <v-tabs v-model="tab" centered grow color="#222">
         <v-tabs-slider color="#222"></v-tabs-slider>
-        <v-tab v-for="item in items" :key="item" class="ml-0">
-          <span :class="[$vuetify.breakpoint.smAndDown ? 'text-caption': 'text-h6']">{{ item }}</span>
+        <v-tab
+          v-for="item in items"
+          :key="item"
+          class="ml-0"
+          style="background: #fcfcfc"
+        >
+          <span class="custom-tab">{{ item }}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in items" :key="item">
-          <LongTermList v-if="item=='100일 캠페인'" />
-          <ShortTermList v-if="item=='상시 캠페인'" />
-          <DailyQuest v-if="item=='일일 퀘스트'" />
+        <v-tab-item
+          v-for="item in items"
+          :key="item"
+          style="background: #fcfcfc"
+        >
+          <LongTermList v-if="item == '100일 캠페인'" />
+          <ShortTermList v-if="item == '상시 캠페인'" />
+          <DailyQuest v-if="item == '일일 퀘스트'" />
         </v-tab-item>
       </v-tabs-items>
       <!-- </v-container> -->
@@ -83,5 +122,9 @@ export default {
 h2 {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.custom-tab {
+  font-family: "S-CoreDream-7ExtraBold";
 }
 </style>
