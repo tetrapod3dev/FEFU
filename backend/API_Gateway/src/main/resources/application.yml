@@ -23,11 +23,11 @@ eureka:
 zuul:
   routes:
    service-user:
-     path: /user/**
-     service-id: user-service
+     path: /users/**
+     service-id: users
    service-product:
-     path: /product/**
-     service-id: product-service
+     path: /products/**
+     service-id: products
    service-auth:
      path: /auth/**
      service-id: auth-center
@@ -35,12 +35,12 @@ zuul:
       - 
    service-file:
       path: /images/**
-      service-id: image-service
+      service-id: images
       sensitive-headers:
       - 
    service-campaign:
       path: /campaigns/**
-      service-id: campaign-service
+      service-id: campaigns
      
 logging:
   pattern:
