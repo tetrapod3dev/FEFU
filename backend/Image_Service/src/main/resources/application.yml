@@ -3,7 +3,7 @@ server:
   
 spring:
   application:
-    name: image-service
+    name: images
       
 eureka:
   client:
@@ -12,7 +12,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
-    instance-id: image-service
+    instance-id: images
       
 logging:
   pattern:
