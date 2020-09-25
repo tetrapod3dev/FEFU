@@ -112,6 +112,16 @@ class CampaignTag(models.Model):
         db_table = 'campaign_tag'
 
 
+class CampaignUser(models.Model):
+    no = models.AutoField(primary_key=True)
+    campaign_no = models.ForeignKey(CampaignInfo, models.DO_NOTHING, db_column='campaign_no')
+    user = models.ForeignKey('User', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'campaign_user'
+
+
 class CompanyCampaignInfo(models.Model):
     no = models.AutoField(primary_key=True)
     campaign_no = models.ForeignKey(CampaignInfo, models.DO_NOTHING, db_column='campaign_no')
@@ -126,7 +136,7 @@ class CompanyCampaignInfo(models.Model):
 class DailyQuestInfo(models.Model):
     no = models.AutoField(primary_key=True)
     title = models.CharField(max_length=45)
-    description = models.CharField(max_length=45)
+    description = models.CharField(max_length=500)
     count = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -180,13 +190,23 @@ class MainCategoryInfo(models.Model):
         db_table = 'main_category_info'
 
 
+class MediumCategoryInfo(models.Model):
+    no = models.AutoField(primary_key=True)
+    medium_category_name = models.CharField(max_length=45, blank=True, null=True)
+    main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'medium_category_info'
+
+
 class OfficialPersonalCampaignInfo(models.Model):
     no = models.AutoField(primary_key=True)
     campaign_no = models.ForeignKey(CampaignInfo, models.DO_NOTHING, db_column='campaign_no')
     mission = models.CharField(max_length=100, blank=True, null=True)
     auth_process = models.CharField(max_length=100, blank=True, null=True)
-    auth_start_time = models.CharField(max_length=10, blank=True, null=True)
-    auth_end_time = models.CharField(max_length=10, blank=True, null=True)
+    auth_start_time = models.CharField(max_length=20, blank=True, null=True)
+    auth_end_time = models.CharField(max_length=20, blank=True, null=True)
     headcount = models.IntegerField(blank=True, null=True)
     requirement = models.CharField(max_length=100, blank=True, null=True)
 
@@ -205,9 +225,10 @@ class ProductInfo(models.Model):
     photo = models.CharField(max_length=45, blank=True, null=True)
     eco_point = models.IntegerField(blank=True, null=True)
     main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
+    medium_category_no = models.ForeignKey(MediumCategoryInfo, models.DO_NOTHING, db_column='medium_category_no')
     sub_category_no = models.ForeignKey('SubCategoryInfo', models.DO_NOTHING, db_column='sub_category_no')
-    reg_time = models.DateTimeField(blank=True, null=True)
     status = models.IntegerField(blank=True, null=True)
+    reg_time = models.DateTimeField(blank=True, null=True, auto_now=True)
 
     class Meta:
         managed = False
@@ -249,10 +270,11 @@ class QuestBadge(models.Model):
         db_table = 'quest_badge'
 
 
+
 class SubCategoryInfo(models.Model):
     no = models.AutoField(primary_key=True)
     sub_category_name = models.CharField(max_length=45, blank=True, null=True)
-    main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
+    medium_category_no = models.ForeignKey(MediumCategoryInfo, models.DO_NOTHING, db_column='medium_category_no', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -261,7 +283,7 @@ class SubCategoryInfo(models.Model):
 
 class TagInfo(models.Model):
     no = models.AutoField(primary_key=True)
-    tag_name = models.CharField(max_length=45)
+    tag_name = models.CharField(unique=True, max_length=45)
 
     class Meta:
         managed = False
@@ -304,3 +326,16 @@ class UserQuestComplete(models.Model):
     class Meta:
         managed = False
         db_table = 'user_quest_complete'
+
+
+class ViewDetails(models.Model):
+    no = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, db_column='user', to_field="username")
+    product_no = models.ForeignKey(ProductInfo, models.DO_NOTHING, db_column='product_no')
+    sub_category_no = models.ForeignKey(SubCategoryInfo, models.DO_NOTHING, db_column='sub_category_no')
+    reg_time = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+
+    class Meta:
+        managed = False
+        db_table = 'view_details'
+        

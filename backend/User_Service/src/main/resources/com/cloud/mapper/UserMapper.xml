@@ -9,10 +9,8 @@
 	</select>
 	
 	<insert id="userRegistier" parameterType="com.cloud.domain.UserDto">
-		insert into user (username, password, age, gender)
-		values (#{username}, #{password}, #{age}, #{gender});
-					
-		
+		insert into user (username, password, nickname, age, gender)
+		values (#{username}, #{password}, #{nickname}, #{age}, #{gender});
 	</insert>
 	
 	<insert id="insertUserRole">
