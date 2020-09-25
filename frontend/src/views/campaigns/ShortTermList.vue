@@ -80,20 +80,25 @@ export default {
     };
   },
   created() {
-    this.getCampaignInfo("company", 1);
-    this.getCampaignInfo("official", 1);
+    this.getCampaignInfo("company", "", 1, "");
+    this.getCampaignInfo("official", "", 1, "");
   },
   computed: {
     ...mapGetters(["config"]),
   },
   methods: {
-    getCampaignInfo(type, pageNo) {
+    getCampaignInfo(campaign_type, content, page_no, type) {
       axios
-        .get(
-          SERVER.URL + SERVER.ROUTES.campaigns.URL + "/" + type + "/" + pageNo
-        )
+        .get(SERVER.URL + SERVER.ROUTES.campaigns.URL, {
+          params: {
+            campaign_type: campaign_type,
+            content: content,
+            page_no: page_no,
+            type: type,
+          },
+        })
         .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err.response));
     },
     goCampaignDetail() {
       this.$router.push({ name: "CampaignDetail" });
