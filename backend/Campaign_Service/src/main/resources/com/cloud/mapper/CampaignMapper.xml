@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.mapper.CampaignMapper">
+
+	<select id="findAll" resultType="com.cloud.domain.CampaignDto">
+		<choose>
+			<when test="type.equals('') and content.equals('')">
+				select *
+				from campaign_info 
+				where type = #{campaignType} 
+			</when>
+			<when test="type.equals('title')">
+				select *
+				from campaign_info
+				where type = #{campaignType}
+				and title like CONCAT("%", #{content}, "%")
+			</when>
+			<when test="type.equals('tag')">
+				select distinct c.*
+				from campaign_info c inner join (
+			            select campaign_no, tag_name
+						from campaign_tag ct inner join tag_info ti
+			            on ti.tag_name like CONCAT("%", #{content}, "%")
+		            ) sub
+				on c.type = #{campaignType} and c.no = sub.campaign_no
+			</when>
+		</choose>
+		limit #{startIndex}, #{perPageNum}
+	</select>
+	
+	<select id="findByCount" resultType="Integer">
+		<choose>
+			<when test="type.equals('') and content.equals('')">
+				select count(*)
+				from campaign_info 
+				where type = #{campaignType} 
+			</when>
+			<when test="type.equals('title')">
+				select count(*)
+				from campaign_info
+				where type = #{campaignType}
+				and title like CONCAT("%", #{content}, "%")
+			</when>
+			<when test="type.equals('tag')">
+				select distinct count(*)
+				from campaign_info c inner join (
+			            select campaign_no, tag_name
+						from campaign_tag ct inner join tag_info ti
+			            on ti.tag_name like CONCAT("%", #{content}, "%")
+		            ) sub
+				on c.type = #{campaignType} and c.no = sub.campaign_no
+			</when>
+		</choose>
+	</select>
+	
+	<select id="findTypeByNo" resultType="String">
+		select type
+		from campaign_info
+		where no = #{no}
+	</select>
+	
+	<select id="findDetail" resultType="com.cloud.util.CamelHashMap">
+		<choose>
+			<when test="type.equals('company')">
+				select ci.*, cci.company_name company_name, cci.campaign_link campaign_link
+				from campaign_info ci inner join company_campaign_info cci
+				on ci.no = #{no} and cci.campaign_no = #{no};
+			</when>
+			<when test="type.equals('official') or type.equals('personal')">
+				select ci.*, mission, auth_process, auth_start_time, auth_end_time, headcount, requirement
+				from campaign_info ci inner join official_personal_campaign_info opci
+				on ci.no = #{no} and opci.campaign_no = #{no};
+			</when>
+		</choose>
+	</select>
+	
+	<select id="checkJoin" resultType="Integer">
+		select count(*)
+		from campaign_user
+		where campaign_no = #{no} and user_id = #{username}
+	</select>
+	
+	<select id="findTagByNo" resultType="String">
+		select ti.tag_name
+		from campaign_tag ct inner join tag_info ti
+		on ct.campaign_no = #{no} and ct.tag_no = ti.no;
+	</select>
+	
+	<insert id="joinCampaign">
+		insert into campaign_user (campaign_no, user_id)
+		values (#{no}, #{username})
+	</insert>
+	
+	<insert id="insertCampaign" parameterType="com.cloud.domain.CampaignDto" useGeneratedKeys="true" keyProperty="no">
+		insert into campaign_info (type, writer, title, content, photo, start_date, end_date)
+		values (#{type}, #{writer}, #{title}, #{content}, #{photo}, #{startDate}, #{endDate})
+	</insert>
+	
+	<insert id="insertCompany" parameterType="com.cloud.domain.CompanyDto">
+		insert into company_campaign_info (campaign_no, company_name, campaign_link)
+		values (#{no}, #{companyName}, #{campaignLink})
+	</insert>
+	
+	<insert id="insertOfficialAndPersonal" parameterType="com.cloud.domain.OfficialAndPersonalDto">
+		insert into official_personal_campaign_info (campaign_no, mission, auth_process, auth_start_time, auth_end_time, headcount)
+		values (#{no}, #{mission}, #{authProcess}, #{authStartTime}, #{authEndTime}, #{headcount})
+	</insert>
+
+	<insert id="insertTag">
+		insert ignore into tag_info (tag_name) values
+		<foreach collection="list" item="i" separator=" , ">
+			(#{i})
+		</foreach>
+	</insert>
+	
+	<insert id="insertCampaignTag">
+		insert into campaign_tag (campaign_no, tag_no)
+		values
+		<foreach collection="tag" item="i" separator=" , ">
+			(#{no}, (select no from tag_info where tag_name = #{i}))
+		</foreach>
+	</insert>
+	
+	<update id="updateCampaign">
+	
+	</update>
+	
+	<delete id="deleteCampaign">
+	
+	</delete>
+	
+	<delete id="leaveCampaign">
+		delete from campaign_user
+		where campaign_no = #{no} and user_id = #{username}
+	</delete>
+	
+</mapper>

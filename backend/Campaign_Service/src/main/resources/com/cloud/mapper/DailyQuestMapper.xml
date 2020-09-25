@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="findByCompleteList" resultType="com.cloud.domain.DailyQuestDto">
-		select quest_no
+		select quest_no as no
 		from user_quest_complete uqc INNER JOIN user u
 		on u.username = #{username}
 	</select>

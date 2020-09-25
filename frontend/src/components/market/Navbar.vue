@@ -1,7 +1,7 @@
 <template>
   <div class="fixed-tool-bar">
-    <v-toolbar flat prominent>
-      <v-menu top :offset-y="true" open-on-hover transition="slide-y-transition">
+    <v-toolbar flat prominent style="background: #fcfcfc">
+      <v-menu top offset-y open-on-hover transition="slide-y-transition">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" dark v-bind="attrs" v-on="on">전체 카테고리</v-btn>
         </template>
@@ -17,7 +17,13 @@
         </v-list>
       </v-menu>
       <v-spacer></v-spacer>
-      <v-text-field append-icon="mdi-magnify" class="mx-4" filled solo-inverted></v-text-field>
+      <v-text-field
+        append-icon="mdi-magnify"
+        class="mx-4"
+        rounded
+        solo-inverted
+        placeholder="검색어를 입력하세요."
+      ></v-text-field>
     </v-toolbar>
   </div>
 </template>
@@ -27,6 +33,8 @@ export default {
   name: "MarketNavbar",
   data() {
     return {
+      expand: false,
+
       marketCategories: {
         뷰티: [
           "스킨케어",
