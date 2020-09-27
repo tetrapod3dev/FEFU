@@ -159,39 +159,37 @@ class ProductViewSet(viewsets.ModelViewSet):
         # 추천 상품 목록 리턴
         pass
     
-    @action(methods=["POST"], detail=True)
-    def sold(self, request):
+    @action(methods=["PATCH"], detail=True)
+    def sold(self, request, pk):
         # 요청 보내는 사람과 판매글 작성자가 같은지 확인
         
         username = request.META["HTTP_X_USERNAME"]
-        product_no = request.GET.get("product_no")
-
+        # username = request.data["username"]
         buyer = request.data["buyer"]
-        product = self.queryset.get(pk=product_no)
-        seller = product.writer
+        product = self.queryset.get(pk=pk)
+        seller = product.writer.username
         status = product.status
 
         if username == seller:
             if status == 1: #팔 -> 안팔
                 product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
-
                 purchase_detail = PurchaseDetails.objects.get(product_no=pk)
                 purchase_detail.delete()
 
             else: # 안팔 -> 팔
                 product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
                 purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
+                purchase_serializer.is_valid()
                 if purchase_serializer.is_valid():
                     purchase_serializer.save()
                 else:
-                    return HTTPResponse("형식 또는 입력이 옳지 않습니다.")
+                    return Response("형식 또는 입력이 옳지 않습니다.")
 
             if product_serializer.is_valid():
                 product_serializer.save()
-
-                return HTTPResponse(status=200)
+                return Response(status=200)
         
-        return HTTPResponse("본인의 판매글만 변경할 수 있습니다.")
+        return Response("본인의 판매글만 변경할 수 있습니다.")
 
 
 
