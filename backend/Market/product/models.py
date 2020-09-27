@@ -251,8 +251,8 @@ class ProofMessageInfo(models.Model):
 
 class PurchaseDetails(models.Model):
     no = models.AutoField(primary_key=True)
-    seller = models.ForeignKey('User', models.DO_NOTHING, db_column='seller', related_name='seller')
-    buyer = models.ForeignKey('User', models.DO_NOTHING, db_column='buyer', related_name='buyer')
+    seller = models.ForeignKey('User', models.DO_NOTHING, db_column='seller', related_name='seller', to_field="username")
+    buyer = models.ForeignKey('User', models.DO_NOTHING, db_column='buyer', related_name='buyer', to_field="username")
     product_no = models.ForeignKey(ProductInfo, models.DO_NOTHING, db_column='product_no')
 
     class Meta:
