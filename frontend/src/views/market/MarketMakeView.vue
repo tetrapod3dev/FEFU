@@ -169,14 +169,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-img
-      :src="
-        'http://j3a402.p.ssafy.io:8801/images/download' +
-        '/ee2ad744-13a4-4b70-ab55-39acc70aa4c0.jpg'
-      "
-      contain
-      height="200px"
-    />
   </div>
 </template>
 
@@ -260,7 +252,6 @@ export default {
           alert("상품 등록 완료 되었습니다.");
         })
         .catch((err) => {
-          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
           console.log(err);
         });
     },

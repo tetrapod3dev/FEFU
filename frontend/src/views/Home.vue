@@ -17,12 +17,6 @@
       </template>
     </core-hero>
 
-    <v-img
-      src="@/assets/images/박태록.jpg"
-      height="200"
-      contain
-      style="display: relative"
-    />
     <core-section
       id="section-theproblem"
       subtitle="THE PROBLEM"
