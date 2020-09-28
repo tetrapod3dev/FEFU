@@ -1,11 +1,12 @@
 <template>
   <v-card darkclass="mx-auto" max-width="400" outlined class="custom-card">
-    <v-img class="campaign-img" height="200px" :src="src"></v-img>
+    <v-img class="campaign-img" height="200px" :src="campaign.photo"></v-img>
 
     <v-card-text class="text--primary text-left">
       <h3>{{ campaign.title }}</h3>
-      <div>{{ campaign.org }}</div>
-      <div class="mt-2">
+      <div>{{ campaign.writer }}</div>
+
+      <div class="mt-2" v-if="campaign.valueDeterminate">
         <v-progress-linear
           class="custom-progress"
           v-model="campaign.valueDeterminate"
@@ -24,7 +25,7 @@ export default {
       valueDeterminate: 50,
     };
   },
-  props: ["campaign", "src"],
+  props: ["campaign"],
 };
 </script>
 
