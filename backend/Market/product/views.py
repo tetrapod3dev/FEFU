@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Count
+from django.core.paginator import Paginator
 from rest_framework import viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -43,6 +44,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         main_category = request.GET.get('mainCategory',None)
         medium_category = request.GET.get('mediumCategory', None)
         search_word = request.GET.get('content', None)
+        page = request.GET.get('pageNum', 1)
         
         products = self.queryset
 
@@ -53,6 +55,9 @@ class ProductViewSet(viewsets.ModelViewSet):
         if search_word:
 
             products = products.filter(title__icontains=search_word)
+
+        paginator = Paginator(products, 3)
+        products = paginator.get_page(page)
 
         serializer = self.serializer_class(products, many=True)
 
