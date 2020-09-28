@@ -17,6 +17,12 @@
       </template>
     </core-hero>
 
+    <v-img
+      src="@/assets/images/박태록.jpg"
+      height="200"
+      contain
+      style="display: relative"
+    />
     <core-section
       id="section-theproblem"
       subtitle="THE PROBLEM"
@@ -67,7 +73,12 @@
       </template>
     </core-section>
 
-    <core-section id="section-campaign" subtitle="CAMPAIGN">
+    <core-section
+      id="section-campaign"
+      subtitle="CAMPAIGN"
+      :centerPadding="false"
+      :endPadding="false"
+    >
       <template slot="title">
         <span class="custom-highlight">다양한 종류의 캠페인으로</span>
         <br />여러 사람들과 같이 실천해요!
@@ -76,8 +87,10 @@
         아래 사진들은 다양한 캠페인들을 보여주고 있는 사진이에요.
         <br />어때요? 정말 멋지지 않나요?
       </template>
-      <template slot="content">
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
+    </core-section>
+    <v-container>
+      <v-row>
+        <v-col cols="12" sm="4">
           <v-img
             class="custom-img"
             src="@/assets/campaign/4.png"
@@ -137,9 +150,8 @@
             >더보기</router-link
           >
         </v-col>
-      </template>
-    </core-section>
-
+      </v-row>
+    </v-container>
     <core-section id="section-secondhand" subtitle="SECONDHAND" pb="12">
       <template slot="title">
         <span class="custom-highlight">재활용보다 재사용이</span>
@@ -157,7 +169,7 @@
             class="custom-text-button"
             :class="'custom-text-button-' + $vuetify.breakpoint.name"
           >
-            더보기
+            중고마켓 둘러보러 가기
             <v-img
               style="cursor: pointer; margin-top: 3px"
               :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
@@ -189,156 +201,35 @@
         </v-container>
       </v-overlay>
     </v-row>
-    <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
-    <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
+    <v-col
+      class="py-12 custom-primary"
+      style="margin: -1px 0px -1px 0px"
+    ></v-col>
+    <v-col
+      class="py-12 custom-primary"
+      style="margin: -1px 0px -1px 0px"
+    ></v-col>
 
     <core-section
       id="section-group"
       class="custom-primary"
       pb="12"
       :centerPadding="false"
+      :endPadding="false"
     >
       <template slot="title">
         다양한 환경 단체를
         <br />살펴보세요!
       </template>
-      <template slot="content">
+    </core-section>
+    <section class="custom-primary">
+      <v-container>
         <v-row justify="center">
           <v-col cols="12" xl="8"
             ><v-row>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12" sm="6" md="4" v-for="index in 6" :key="index">
                 <v-img
-                  src="@/assets/images/logo1.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo2.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo6.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo5.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo4.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo3.jpg"
+                  :src="require('@/assets/images/logo' + index + '.jpg')"
                   style="
                     height: 80px;
                     width: 100%;
@@ -365,8 +256,8 @@
             </v-row>
           </v-col>
         </v-row>
-      </template>
-    </core-section>
+      </v-container>
+    </section>
   </div>
 </template>
 
@@ -410,29 +301,6 @@ export default {
   border-radius: 5px;
   width: 100%;
   height: 290px;
-}
-
-.custom-img-group {
-  padding: 6px;
-
-  .custom-img-caption {
-    position: relative;
-    display: inline-block;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 15px 20px;
-    background-color: var(--white-color);
-    min-width: 120px;
-    font-family: "S-CoreDream-7ExtraBold";
-    transition: 0.3s;
-    z-index: 2;
-  }
-  .custom-img {
-    position: relative;
-    margin-top: -45px;
-    overflow: hidden;
-    z-index: 1;
-  }
 }
 
 .custom-button {

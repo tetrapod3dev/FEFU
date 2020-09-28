@@ -8,17 +8,29 @@
         <v-row align="start"></v-row>
       </slot>
       <slot>
-        <v-row align="center" class="mx-auto" justify="center" style="position: relative;">
-          <v-img src="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif" />
+        <v-row
+          align="center"
+          class="mx-auto"
+          justify="center"
+          style="position: relative"
+        >
+          <v-img
+            src="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif"
+          />
           <v-overlay :absolute="true" opacity="0" z-index="0">
             <v-container fill-height>
               <v-col
                 class="black--text custom-hero-text"
-                :class="'custom-hero-text-'+$vuetify.breakpoint.name"
+                :class="'custom-hero-text-' + $vuetify.breakpoint.name"
                 cols="12"
-              >우리 함께 지구를 구해요</v-col>
+                >우리 함께 지구를 구해요</v-col
+              >
               <v-col>
-                <v-img max-height="260" contain :src="require('@/assets/illust/hero-title.svg')" />
+                <v-img
+                  max-height="260"
+                  contain
+                  :src="require('@/assets/illust/hero-title.svg')"
+                />
               </v-col>
             </v-container>
           </v-overlay>

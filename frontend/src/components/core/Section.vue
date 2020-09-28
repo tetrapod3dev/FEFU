@@ -1,29 +1,36 @@
 <template>
   <section :id="id">
-    <v-container class="text-center" :style="'min-height: ' + minHeight " fill-height>
+    <v-container
+      class="text-center pa-0"
+      :style="minHeight ? 'min-height: ' + minHeight : ''"
+      fill-height
+    >
       <v-col class="py-12"></v-col>
-      <v-row align="center">
+      <v-row justify="center" class="ma-0">
         <v-col
           class="black--text custom-subtitle"
-          :class="'custom-subtitle-'+$vuetify.breakpoint.name"
+          :class="'custom-subtitle-' + $vuetify.breakpoint.name"
           cols="12"
         >
-          <slot name="subtitle">{{subtitle}}</slot>
+          <slot name="subtitle">{{ subtitle }}</slot>
         </v-col>
         <v-col cols="12">
-          <h2 class="custom-title mb-3" :class="'custom-title-'+$vuetify.breakpoint.name">
-            <slot name="title">{{title}}</slot>
+          <h2
+            class="custom-title mb-3"
+            :class="'custom-title-' + $vuetify.breakpoint.name"
+          >
+            <slot name="title">{{ title }}</slot>
           </h2>
         </v-col>
         <v-col cols="12">
           <v-responsive class="mb-8"></v-responsive>
           <v-responsive
             class="mx-auto mb-8 custom-text"
-            :class="'custom-text-'+$vuetify.breakpoint.name"
+            :class="'custom-text-' + $vuetify.breakpoint.name"
             max-width="650"
           >
             <p>
-              <slot name="text">{{text}}</slot>
+              <slot name="text">{{ text }}</slot>
             </p>
           </v-responsive>
         </v-col>
