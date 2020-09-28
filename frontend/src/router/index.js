@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 // Home
 import Home from "../views/Home.vue";
+import ErrorPage from "../views/ErrorPage.vue";
 
 // Account
 import LoginView from "../views/accounts/LoginView.vue";
@@ -73,7 +74,7 @@ const routes = [
     component: MarketMainView,
   },
   {
-    path: "/market/all/:pageNo/:category/:subCategory",
+    path: "/market/list/:pageNum/:mainCategory?/:mediumCategory?/:content?",
     name: "MarketListView",
     component: MarketListView,
   },
@@ -98,6 +99,11 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("../views/About.vue"),
+  },
+  {
+    path: "*",
+    name: "ErrorPage",
+    component: ErrorPage,
   },
 ];
 

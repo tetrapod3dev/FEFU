@@ -9,7 +9,8 @@ export default {
       signup: "/users",
     },
     products: {
-      URL: "/product",
+      URL: "/products",
+      top_three_viewed_today: "/products/top_three_viewed_today/",
     },
     campaigns: {
       URL: "/campaigns",
