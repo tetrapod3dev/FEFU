@@ -10,6 +10,7 @@ import SignupView from "../views/accounts/SignupView.vue";
 
 // Campaigns
 import CampaignMain from "../views/campaigns/CampaignMain.vue";
+import CampaignMake from "../views/campaigns/CampaignMake.vue";
 import CampaignDetail from "../views/campaigns/CampaignDetail.vue";
 
 // market
@@ -45,6 +46,11 @@ const routes = [
     path: "/campaigns",
     name: "CampaignMain",
     component: CampaignMain,
+  },
+  {
+    path: "/campaigns/make",
+    name: "CampaignMake",
+    component: CampaignMake,
   },
   {
     path: "/campaigns/detail",

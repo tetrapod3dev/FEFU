@@ -37,6 +37,7 @@
                   <v-col cols="4">
                     <v-select
                       label="대분류"
+                      v-model="product.main_category_no"
                       :menu-props="{ bottom: true, offsetY: true }"
                       required
                       filled
@@ -47,20 +48,20 @@
                   <v-col cols="4">
                     <v-select
                       label="중분류"
+                      v-model="product.medium_category_no"
                       :menu-props="{ bottom: true, offsetY: true }"
                       required
                       filled
-                      autofocus
                       color="#37cdc2"
-                    ></v-select
-                  ></v-col>
+                    ></v-select>
+                  </v-col>
                   <v-col cols="4">
                     <v-select
                       label="소분류"
+                      v-model="product.sub_category_no"
                       :menu-props="{ bottom: true, offsetY: true }"
                       required
                       filled
-                      autofocus
                       color="#37cdc2"
                     ></v-select
                   ></v-col>
@@ -69,7 +70,7 @@
                   <v-col cols="4">
                     <v-file-input
                       label="상품 이미지"
-                      v-model="image"
+                      v-model="images"
                       :roules="imageRules"
                       filled
                       prepend-icon=""
@@ -82,18 +83,18 @@
                       id="Preview_image_create"
                       height="230px"
                       :src="
-                        url ? url : 'https://cdn-ds.com/noimage/noimage.jpg'
+                        !!url ? url : require('@/assets/images/noimage.jpg')
                       "
                     />
                   </v-col>
                   <v-col cols="8">
                     <v-text-field
                       label="상품명"
-                      name="상품명"
+                      v-model="product.title"
+                      name="title"
                       type="text"
                       required
                       filled
-                      autofocus
                       autocapitalize="off"
                       autocorrect="off"
                       autocomplete="off"
@@ -101,7 +102,8 @@
                     ></v-text-field>
                     <v-text-field
                       label="판매금액"
-                      name="판매금액"
+                      v-model="product.price"
+                      name="price"
                       type="number"
                       required
                       filled
@@ -112,7 +114,8 @@
 
                     <v-text-field
                       label="에코포인트"
-                      name="에코포인트"
+                      v-model="product.eco_point"
+                      name="ecopoint"
                       type="number"
                       required
                       filled
@@ -125,11 +128,11 @@
 
                     <v-text-field
                       label="판매자 연락 방법"
-                      name="판매자 연락 방법"
+                      v-model="product.contact"
+                      name="contact"
                       type="text"
                       required
                       filled
-                      autofocus
                       autocapitalize="off"
                       autocorrect="off"
                       autocomplete="off"
@@ -139,11 +142,11 @@
                 </v-row>
                 <v-textarea
                   label="상세 내용"
-                  name="상세 내용"
+                  v-model="product.content"
+                  name="content"
                   type="text"
                   required
                   filled
-                  autofocus
                   autocapitalize="off"
                   autocorrect="off"
                   autocomplete="off"
@@ -154,8 +157,13 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn class="custom-market-make-btn">취소 </v-btn>
-              <v-btn class="custom-market-make-btn">등록 </v-btn>
+              <v-btn class="custom-market-make-btn" @click="uploadImage"
+                >이미지 업로드 테스트 버튼</v-btn
+              >
+              <v-btn class="custom-market-make-btn">취소</v-btn>
+              <v-btn class="custom-market-make-btn" @click="registProduct"
+                >등록
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -165,12 +173,29 @@
 </template>
 
 <script>
+import axios from "axios";
+import SERVER from "@/api/api";
+import { mapGetters } from "vuex";
+import router from "@/router";
+
 export default {
   name: "MarketMakeView",
   data() {
     return {
+      product: {
+        title: "",
+        content: "",
+        writer: "",
+        contact: "",
+        price: "",
+        photo: "",
+        eco_point: 0,
+        main_category_no: 1,
+        medium_category_no: 1,
+        sub_category_no: 1,
+      },
       url: null,
-      image: null,
+      images: null,
       imageRules: [
         (value) =>
           !value ||
@@ -179,13 +204,56 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters(["config"]),
+  },
   methods: {
     Preview_image() {
-      if (!this.image) {
+      if (!this.images) {
         this.url = null;
       } else {
-        this.url = URL.createObjectURL(this.image);
+        this.url = URL.createObjectURL(this.images);
       }
+    },
+    registProduct() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .post(SERVER.URL + SERVER.products.URL, this.product, configs)
+        .then((res) => {
+          console.log(res);
+          alert("상품 등록 완료 되었습니다.");
+          router.push({ name: "MarketListView", params: { pageNo: 1 } });
+        })
+        .catch((err) => {
+          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
+          console.log(err);
+        });
+    },
+    uploadImage() {
+      let configs = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      let file = this.images;
+
+      let formData = new FormData();
+      formData.append("file", file);
+
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
+        .then((res) => {
+          console.log(res);
+          alert("상품 등록 완료 되었습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
