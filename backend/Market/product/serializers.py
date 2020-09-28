@@ -21,12 +21,21 @@ class ViewDetailsSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = (["no"])
 
-class ProductDetailSerializer(serializers.Serializer):
-    main_category_name = serializers.CharField(max_length=45, read_only=True)
-    medium_category_name = serializers.CharField(max_length=45, read_only=True)
-    sub_category_name = serializers.CharField(max_length=45, read_only=True)
+class ProductDetailSerializer(serializers.ModelSerializer):
+    main_category_name = serializers.SerializerMethodField('get_main_category_name')
+    medium_category_name = serializers.SerializerMethodField('get_medium_category_name')
+    sub_category_name = serializers.SerializerMethodField('get_sub_category_name')
+    
     class Meta:
         model = ProductInfo
-        fields = ["no", "writer", "title", "content", "contact", "price", "photo", "eco_point", "status", "reg_time"]
+        fields = ["no", "writer", "title", "content", "contact", "price", "photo", "eco_point", "main_category_no", "medium_category_no", "sub_category_no", "status", "reg_time","main_category_name", "medium_category_name", "sub_category_name"]
 
+    def get_main_category_name(self, product):
+        return product.main_category_no.main_category_name
+    
+    def get_medium_category_name(self, product):
+        return product.medium_category_no.medium_category_name
+
+    def get_sub_category_name(self, product):
+        return product.sub_category_no.sub_category_name
 
