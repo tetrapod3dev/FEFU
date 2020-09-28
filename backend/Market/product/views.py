@@ -61,7 +61,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         serializer = self.serializer_class(products, many=True)
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=200)
 
 
     #상품 등록
@@ -74,9 +74,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             if serializer.is_valid(raise_exception=True):
                 
                 serializer.save()
-                return Response(status=200)
+                return Response("resource created successfully", status=201)
         else:
-            return Response("NO USER")
+            return Response("unauthorized user", status=401)
 
     #상품 수정
     def patch(self, request, *args, **kwargs):
@@ -91,9 +91,9 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer = self.serializer_class(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(status=200)
+            return Response("resource updated successfully", status=200)
         else:
-            return Response("WRONG USER")
+            return Response("forbidden user", status=403)
 
     #상품 삭제
     def destroy(self, request, pk):
@@ -103,9 +103,9 @@ class ProductViewSet(viewsets.ModelViewSet):
         pk = pk
         if username == writer:
             instance.delete()
-            return Response(status=204)
+            return Response("resource deleted successfully", status=204)
         else:
-            return Response("NO AUTHORIZATION")
+            return Response("forbidden user", status=403)
     
 
     
@@ -114,7 +114,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     def get_latest_products(self, reqeust):
         latest_queryset = self.queryset[:3]
         serialzier = self.serializer_class(latest_queryset, many=True)
-        return Response(serialzier.data)
+        return Response(serialzier.data, status=200)
 
     
     @action(detail=True, methods=["POST"] )
@@ -131,8 +131,8 @@ class ProductViewSet(viewsets.ModelViewSet):
 
             if not today_viewed_products.filter(user=username, product_no=product_no, sub_category_no=sub_category_no).exists():
                 serializer.save()
-                return Response(status=200)
-            return Response("already viewed")
+                return Response("resource created successfully", status=201)
+            return Response("resource already created", status=200)
     
     @action(detail=False)
     def top_three_viewed_today(self, request):
@@ -182,24 +182,23 @@ class ProductViewSet(viewsets.ModelViewSet):
             else: # 안팔 -> 팔
                 product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
                 purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
-                purchase_serializer.is_valid()
+                purchase_serializer.is_valid(raise_exception=True)
                 if purchase_serializer.is_valid():
                     purchase_serializer.save()
-                else:
-                    return Response("형식 또는 입력이 옳지 않습니다.")
+                
 
             if product_serializer.is_valid():
                 product_serializer.save()
                 return Response(status=200)
         
-        return Response("본인의 판매글만 변경할 수 있습니다.")
+        return Response("forbidden user", status=403)
 
 
 
     @action(detail=False)
     def categories(self, request):
         
-        return Response(self.category_group)
+        return Response(self.category_group, status=200)
         
         
 
