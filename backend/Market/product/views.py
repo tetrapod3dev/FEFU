@@ -28,15 +28,13 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     for main_cat in main_categories:
         category_group[main_cat.main_category_name] = dict()
-        for med_cat in medium_categories:
-            if med_cat.main_category_no.main_category_name in category_group:
-                category_group[med_cat.main_category_no.main_category_name][med_cat.medium_category_name] = []
+    for med_cat in medium_categories:        
+        category_group[med_cat.main_category_no.main_category_name][med_cat.medium_category_name] = []
+    for sub_cat in sub_categories:        
+        main = sub_cat.medium_category_no.main_category_no.main_category_name
+        med = sub_cat.medium_category_no.medium_category_name
+        category_group[main][med].append(sub_cat.sub_category_name)
 
-                for sub_cat in sub_categories:
-                    if sub_cat.medium_category_no.medium_category_name in category_group[med_cat.main_category_no.main_category_name]:
-                        category_group[med_cat.main_category_no.main_category_name][sub_cat.medium_category_no.medium_category_name].append(sub_cat.sub_category_name)
-
-    
     # general view override -----------------------------------------------------------
 
 
