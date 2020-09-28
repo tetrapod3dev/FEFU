@@ -46,7 +46,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         main_category = request.GET.get('mainCategory',None)
         medium_category = request.GET.get('mediumCategory', None)
         search_word = request.GET.get('content', None)
-        page = request.GET.get('pageNum', 1)
+        curPage = request.GET.get('pageNum', 1)
         
         products = self.queryset
 
@@ -58,12 +58,19 @@ class ProductViewSet(viewsets.ModelViewSet):
 
             products = products.filter(title__icontains=search_word)
 
-        paginator = Paginator(products, 12)
-        products = paginator.get_page(page)
-
-        serializer = self.serializer_class(products, many=True)
-
-        return Response(serializer.data, status=200)
+        perPageNum = 12 #페이지 당 글 수
+        paginator = Paginator(products, perPageNum)
+        totalCount = paginator.count # 글 개수
+        
+        curPage_products = paginator.get_page(curPage) #curPage의 글 목록
+        startPage = 1 #시작 페이지
+        endPage = paginator.num_pages #총 페이지 수
+        prev_bool = curPage_products.has_previous()
+        next_bool = curPage_products.has_next()
+        startIndex = curPage_products.start_index()
+        serializer = self.serializer_class(curPage_products, many=True)
+        page = {"curPage":curPage, "perPageNum":perPageNum, "totalCount":totalCount, "startPage":startPage, "endPage":endPage, "prev":prev_bool, "next":next_bool, "startIndex":startIndex}
+        return Response({"page":page, "list": serializer.data}, status=200)
     
     #상품 상세 정보 가져오기
     def retrieve(self, request, pk):
