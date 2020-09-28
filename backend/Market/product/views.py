@@ -66,15 +66,10 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=200)
     
     #상품 상세 정보 가져오기
-    def retrieve(self, request, product_no):
-        product = self.queryset.get(no=product_no)
-        product_main_name = product.main_category_no.main_category_name
-        product_med_name = product.medium_category_no.medium_category_name
-        product_sub_name = product.sub_category_no.sub_category_name
+    def retrieve(self, request, pk):
+        product = self.queryset.get(no=pk)
         product_detail = ProductDetailSerializer(product)
-
-        product_detail(main_category_name=product_main_name, medium_category_name=product_med_name, sub_category_name=product_sub_name)
-        return Response(product_detail, status=200)
+        return Response(product_detail.data, status=200)
 
 
 
