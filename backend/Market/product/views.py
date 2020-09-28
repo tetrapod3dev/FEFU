@@ -7,7 +7,7 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 
 from .models import User, ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails
-from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer
+from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer, ProductDetailSerializer
 
 from datetime import date
 
@@ -64,6 +64,19 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(products, many=True)
 
         return Response(serializer.data, status=200)
+    
+    #상품 상세 정보 가져오기
+    def retrieve(self, request, product_no):
+        product = self.queryset.get(no=product_no)
+        product_main_name = product.main_category_no.main_category_name
+        product_med_name = product.medium_category_no.medium_category_name
+        product_sub_name = product.sub_category_no.sub_category_name
+        product_detail = ProductDetailSerializer(product)
+
+        product_detail(main_category_name=product_main_name, medium_category_name=product_med_name, sub_category_name=product_sub_name)
+        return Response(product_detail, status=200)
+
+
 
 
     #상품 등록
