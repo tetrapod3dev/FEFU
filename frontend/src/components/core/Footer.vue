@@ -2,22 +2,32 @@
   <v-footer id="custom-footer" :padless="true">
     <v-container>
       <v-col class="py-3"></v-col>
-      <v-row>
-        <v-col cols="12" sm="3" md="3" class="custom-footer-logo text-left align-self-start">
+      <v-row justify="center">
+        <v-col
+          cols="10"
+          sm="3"
+          md="3"
+          class="custom-footer-logo text-left align-self-start"
+        >
           FE For Earth
           <br />FU For Us
         </v-col>
         <v-col
-          cols="12"
+          cols="10"
           sm="3"
           md="3"
           class="custom-footer-text text-left align-self-start"
           align="start"
         >
-          SSAFY 3기 A402
-          <br />Team. Among Earth
+          <p>SSAFY 3기 A402</p>
+          <p>Team. Among Earth</p>
         </v-col>
-        <v-col cols="12" sm="3" md="3" class="custom-footer-text text-left align-self-start">
+        <v-col
+          cols="10"
+          sm="3"
+          md="3"
+          class="custom-footer-text text-left align-self-start"
+        >
           <p>권경은[팀장 / 백엔드]</p>
           <p>김현수[백엔드]</p>
           <p>박태록[프론트]</p>
@@ -25,11 +35,20 @@
           <p>이동혁[데이터분석]</p>
         </v-col>
         <v-col
-          cols="12"
+          cols="10"
           sm="3"
           md="3"
           class="custom-footer-text text-left align-self-start"
-        >Copyright@{{ new Date().getFullYear() }} - FEFU</v-col>
+          ><p>Copyright@{{ new Date().getFullYear() }} - FEFU</p>
+          <p>
+            With
+            <a
+              href="http://edu.ssafy.com"
+              style="color: #000000; text-decoration: none"
+              >SSAFY</a
+            >
+          </p></v-col
+        >
       </v-row>
     </v-container>
   </v-footer>
