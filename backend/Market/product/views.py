@@ -170,26 +170,26 @@ class ProductViewSet(viewsets.ModelViewSet):
         # username = request.data["username"]
         buyer = request.data["buyer"]
         product = self.queryset.get(pk=pk)
-        seller = product.writer.username
-        status = product.status
+        seller = request.data["seller"]
+        status = request.data["status"]
 
         if username == seller:
             if status == 1: #팔 -> 안팔
                 product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
-                purchase_detail = PurchaseDetails.objects.get(product_no=pk)
-                purchase_detail.delete()
+                # purchase_detail = PurchaseDetails.objects.get(product_no=pk)
+                # purchase_detail.delete()
 
             else: # 안팔 -> 팔
                 product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
-                purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
-                purchase_serializer.is_valid(raise_exception=True)
-                if purchase_serializer.is_valid():
-                    purchase_serializer.save()
+                # purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
+                # purchase_serializer.is_valid(raise_exception=True)
+                # if purchase_serializer.is_valid():
+                #     purchase_serializer.save()
                 
 
             if product_serializer.is_valid():
                 product_serializer.save()
-                return Response(status=200)
+                return Response("resource updated successfully", status=200)
         
         return Response("forbidden user", status=403)
 
@@ -201,6 +201,31 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(self.category_group, status=200)
         
         
+class PurchaseDetailsViewSet(viewsets.ModelViewSet):
+    queryset = PurchaseDetails.objects.all()
+    serializer_class = PurchaseDetailsSerializer
+
+    def create(self, request):
+        username = request.META["HTTP_X_USERNAME"]
+        seller = request.data["seller"]
+        serializer = self.serializer_class(data=request.data)
+        if username == seller:
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response("resource created successfully", status=201)
+        else:
+            return Response("forbidden user", status=403)
+    
+    def destroy(self, request, product_no):
+        username = request.META["HTTP_X_USERNAME"]
+        seller = request.data["seller"]
+        if username == seller:
+            instance = self.queryset.get(no=product_no)
+            instance.delete()
+            return Response("resource deleted successfully", status=204)
+        else:
+            return Response("forbidden user", status=403)
+
 
 
 
