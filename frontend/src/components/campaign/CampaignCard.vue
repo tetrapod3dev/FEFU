@@ -1,6 +1,10 @@
 <template>
   <v-card darkclass="mx-auto" max-width="400" outlined class="custom-card">
-    <v-img class="campaign-img" height="200px" :src="campaign.photo"></v-img>
+    <v-img
+      class="campaign-img"
+      height="200px"
+      :src="'http://j3a402.p.ssafy.io:8801/images/download/' + campaign.photo"
+    ></v-img>
 
     <v-card-text class="text--primary text-left">
       <h3>{{ campaign.title }}</h3>
