@@ -30,8 +30,10 @@
         <v-container>
           <v-row>
             <v-col cols="12" sm="3">
-              <market-search />
-              <market-category class="custom-category" />
+              <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
+                <market-search />
+                <market-category class="custom-category" />
+              </div>
             </v-col>
 
             <v-col cols="12" sm="9" class="pt-0">
@@ -338,5 +340,12 @@ export default {
 
 .title-point {
   color: var(--primary-color);
+}
+
+.fixed-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 4rem;
+  z-index: 2;
 }
 </style>

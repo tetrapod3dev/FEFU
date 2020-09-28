@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <core-hero>
+    <core-hero
+      subtitle="우리 함께 지구를 구해요"
+      :mainimage="require('@/assets/illust/hero-title.svg')"
+      backimage="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif"
+    >
       <template slot="footer">
         <v-row align="end">
           <v-col align="center">

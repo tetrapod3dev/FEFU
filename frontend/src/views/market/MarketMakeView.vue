@@ -34,7 +34,7 @@
               <div class="market-make-title">카테고리</div>
               <v-form>
                 <v-row no-gutters>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     <v-select
                       label="대분류"
                       v-model="product.main_category_no"
@@ -45,7 +45,7 @@
                       color="#37cdc2"
                     ></v-select>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     <v-select
                       label="중분류"
                       v-model="product.medium_category_no"
@@ -55,7 +55,7 @@
                       color="#37cdc2"
                     ></v-select>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     <v-select
                       label="소분류"
                       v-model="product.sub_category_no"
@@ -67,7 +67,7 @@
                   ></v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     <v-file-input
                       label="상품 이미지"
                       v-model="images"
@@ -82,12 +82,17 @@
                     <v-img
                       id="Preview_image_create"
                       height="230px"
+                      :style="
+                        !url
+                          ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)'
+                          : ''
+                      "
                       :src="
                         !!url ? url : require('@/assets/images/noimage.jpg')
                       "
                     />
                   </v-col>
-                  <v-col cols="8">
+                  <v-col cols="12" md="8">
                     <v-text-field
                       label="상품명"
                       v-model="product.title"
@@ -102,7 +107,7 @@
                     ></v-text-field>
                     <v-text-field
                       label="판매금액"
-                      v-model="product.price"
+                      v-model.number="product.price"
                       name="price"
                       type="number"
                       required
@@ -114,7 +119,7 @@
 
                     <v-text-field
                       label="에코포인트"
-                      v-model="product.eco_point"
+                      v-model.number="product.eco_point"
                       name="ecopoint"
                       type="number"
                       required
@@ -205,7 +210,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["config"]),
+    ...mapGetters("accounts", ["config"]),
   },
   methods: {
     Preview_image() {
@@ -215,25 +220,33 @@ export default {
         this.url = URL.createObjectURL(this.images);
       }
     },
-    registProduct() {
-      let configs = {
-        headers: {
-          Authorization: this.config,
-        },
-      };
-      axios
-        .post(SERVER.URL + SERVER.products.URL, this.product, configs)
-        .then((res) => {
-          console.log(res);
+
+    checkusername() {
+      var base64Url = this.config.split(".")[1];
+      var decodedValue = JSON.parse(window.atob(base64Url));
+      this.product.writer = decodedValue.sub;
+      // this.authority = decodedValue.role[0]
+    },
+
+    registProduct: async function () {
+      await this.checkusername();
+      await this.uploadImage();
+      await axios
+        .post(SERVER.URL + SERVER.ROUTES.products.URL + "/", this.product, {
+          headers: {
+            Authorization: this.config,
+          },
+        })
+        .then(() => {
           alert("상품 등록 완료 되었습니다.");
           router.push({ name: "MarketListView", params: { pageNo: 1 } });
         })
         .catch((err) => {
-          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
           console.log(err);
         });
     },
-    uploadImage() {
+
+    async uploadImage() {
       let configs = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -241,19 +254,30 @@ export default {
       };
 
       let file = this.images;
-
       let formData = new FormData();
       formData.append("file", file);
 
-      axios
+      await axios
         .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
         .then((res) => {
-          console.log(res);
-          alert("상품 등록 완료 되었습니다.");
+          this.product.photo = res.data.fileName;
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    getUserInfo() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.myPage, configs)
+        .then((res) => {
+          this.user = res.data.user;
+        })
+        .catch((err) => console.log(err.response));
     },
   },
 };

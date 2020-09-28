@@ -28,8 +28,10 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="3">
-          <market-search />
-          <market-category class="custom-category" />
+          <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
+            <market-search />
+            <market-category class="custom-category" />
+          </div>
         </v-col>
         <v-col cols="12" sm="9" class="pt-0">
           <section id="product-list">
@@ -38,7 +40,10 @@
                 <v-col cols="12" md="5">
                   <v-img
                     class="custom-carousel"
-                    :src="product.src"
+                    :src="
+                      'http://j3a402.p.ssafy.io:8801/images/download/' +
+                      product.photo
+                    "
                     height="400px"
                     lazy-src="@/assets/images/lazy-loading.jpg"
                   >
@@ -55,37 +60,26 @@
                       </v-row>
                     </template>
                   </v-img>
-                  <!-- <v-carousel class="custom-carousel" height="360">
-                    <v-carousel-item v-for="(slide, i) in slides" :key="i">
-                      <v-sheet :color="colors[i]" height="100%">
-                        <v-row
-                          class="fill-height"
-                          align="center"
-                          justify="center"
-                        >
-                          <div class="display-3">{{ slide }} Slide</div>
-                        </v-row>
-                      </v-sheet>
-                    </v-carousel-item>
-                  </v-carousel> -->
                 </v-col>
                 <v-col cols="12" md="7">
                   <div
                     class="product-info-wrapper text-left d-flex flex-column pa-3"
                   >
-                    <p class="product-title">{{ product.name }}</p>
+                    <p class="product-title">{{ product.title }}</p>
                     <p>대분류 > 중분류</p>
                     <p class="product-price">{{ product.price }}원</p>
                     <p class="product-ecopoint">
-                      사용가능한 에코포인트는 {{ product.eco }}p 입니다.
+                      사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
                     </p>
                     <div class="seller-info">
                       <p class="mb-2">판매자</p>
                       <div class="d-flex">
                         <v-avatar size="40" color="teal"></v-avatar>
                         <div class="d-flex flex-column ml-3">
-                          <p class="product-owner">지구용사</p>
-                          <p class="product-phonenumber">080-519-1004</p>
+                          <p class="product-owner">{{ product.writer }}</p>
+                          <p class="product-phonenumber">
+                            {{ product.contact }}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -96,8 +90,8 @@
                 </v-col>
 
                 <v-col cols="12">
-                  <p class="product-description">
-                    상품 설명 부분입니다. 이 상품은 무슨 상품 일까요?
+                  <p class="product-description text-left pa-3">
+                    {{ product.content }}
                   </p>
                   <div class="py-12"></div>
                 </v-col>
@@ -161,8 +155,8 @@
 </template>
 
 <script>
-// import axios from "axios";
-// import SERVER from "@/api/api";
+import axios from "axios";
+import SERVER from "@/api/api";
 
 import MarketCategory from "@/components/market/Category";
 import MarketSearch from "@/components/market/Search";
@@ -174,15 +168,7 @@ export default {
     MarketSearch,
   },
   created() {
-    // axios
-    //   .get(SERVER.URL + SERVER.ROUTES.products.URL + "/1")
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    this.product = this.products[this.$route.params.productNo - 1];
+    this.getProduct();
   },
   computed: {
     cardWidth() {
@@ -220,6 +206,23 @@ export default {
           }
         });
     },
+    getProduct() {
+      axios
+        .get(
+          SERVER.URL +
+            SERVER.ROUTES.products.URL +
+            "/" +
+            this.$route.params.productNo +
+            "/"
+        )
+        .then((res) => {
+          console.log(res);
+          this.product = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   data() {
     return {
@@ -227,11 +230,19 @@ export default {
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
       product: {
-        id: 0,
-        name: "",
-        price: "",
-        eco: "",
-        src: "",
+        contact: "",
+        content: "",
+        eco_point: 1,
+        main_category_no: 1,
+        medium_category_no: 1,
+        sub_category_no: 1,
+        no: 45,
+        photo: "",
+        price: 0,
+        reg_time: "",
+        status: null,
+        title: "",
+        writer: "",
       },
       products: [
         {
@@ -368,5 +379,12 @@ export default {
 .market-title {
   margin-top: 10px;
   font-family: "NanumBarunpen";
+}
+
+.fixed-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 4rem;
+  z-index: 2;
 }
 </style>

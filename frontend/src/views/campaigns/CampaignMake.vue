@@ -77,6 +77,11 @@
                           <v-img
                             id="Preview_image_create"
                             height="230px"
+                            :style="
+                              !url
+                                ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)'
+                                : ''
+                            "
                             :src="
                               !!url
                                 ? url
