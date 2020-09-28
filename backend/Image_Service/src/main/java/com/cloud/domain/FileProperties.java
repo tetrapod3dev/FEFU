@@ -6,7 +6,7 @@ public class FileProperties {
 
 	public FileProperties() {
 //		this.uploadDir = "C:\\Users\\multicampus\\Documents\\tmp";
-		this.uploadDir = "/tmp";
+		this.uploadDir = "/upload";
 	}
 
 	public String getUploadDir() {
