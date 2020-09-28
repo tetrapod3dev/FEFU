@@ -26,6 +26,7 @@ public class DailyQuestServiceImpl implements DailyQuestService {
 
 	@Override
 	public int insertComplete(String username, int no) {
+		questMapper.updateExp(username);
 		return questMapper.insertComplete(username, no);
 	}
 
