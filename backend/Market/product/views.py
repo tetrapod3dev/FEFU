@@ -56,7 +56,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
             products = products.filter(title__icontains=search_word)
 
-        paginator = Paginator(products, 3)
+        paginator = Paginator(products, 12)
         products = paginator.get_page(page)
 
         serializer = self.serializer_class(products, many=True)
