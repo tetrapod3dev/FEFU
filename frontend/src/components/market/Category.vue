@@ -2,7 +2,7 @@
   <div>
     <v-list class="custom-list">
       <v-list-group
-        v-for="(mainCategory, index) in Object.keys(marketCategories)"
+        v-for="(mainCategory, index) in MAINCATEGORIES"
         :key="index"
         no-action
         class="custom-list-item"
@@ -12,25 +12,31 @@
       >
         <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title v-text="mainCategory"></v-list-item-title>
+            <v-list-item-title
+              v-text="mainCategory.main_category_name"
+            ></v-list-item-title>
           </v-list-item-content>
         </template>
 
         <v-list-item
-          v-for="mediumCategory in marketCategories[mainCategory]"
-          :key="mediumCategory"
+          v-for="mediumCategory in MEDIUMCATEGORIES[mainCategory.no]"
+          :key="mediumCategory.no"
           :link="true"
           :to="{
             name: 'MarketListView',
             params: {
               pageNum: 1,
-              mainCategory: mainCategory,
-              mediumCategory: mediumCategory,
+              mainCategory: mainCategory.main_category_name,
+              mediumCategory: mediumCategory.medium_category_name,
+              mainCategoryNo: mainCategory.no,
+              mediumCategoryNo: mediumCategory.no,
             },
           }"
         >
           <v-list-item-content class="custom-list-item-content">
-            <v-list-item-title v-text="mediumCategory"></v-list-item-title>
+            <v-list-item-title
+              v-text="mediumCategory.medium_category_name"
+            ></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-group>
@@ -48,8 +54,13 @@
 
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "MarketCategory",
+  computed: {
+    ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
+  },
   data() {
     return {
       listColorName: [
