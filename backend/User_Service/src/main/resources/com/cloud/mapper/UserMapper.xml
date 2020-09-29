@@ -30,4 +30,12 @@
 		values((select no from user where username = #{username}), 'USER_ROLE');					
 	</insert>
 	
+	<update id="updateUser">
+		update user set nickname = #{nickname}, age = #{age}, gender = {gender}, profile_image = #{profileImage}, introduce = #{introduce}
+		where username = #{username}
+	</update>
+	
+	<update id="changePassword">
+		update user set password = #{password} where username = #{username}
+	</update>
 </mapper>
