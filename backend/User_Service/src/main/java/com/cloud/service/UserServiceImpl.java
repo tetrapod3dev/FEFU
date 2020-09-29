@@ -27,6 +27,17 @@ public class UserServiceImpl implements UserService{
 		}
 		return res;
 	}
+	
+	@Override
+	public int changePassword(String password, String username) {
+		password = passwordEncoder.encode(password);
+		return userMapper.changePassword(password, username);
+	}
+	
+	@Override
+	public int updateUser(UserDto dto) {
+		return userMapper.updateUser(dto);
+	}
 
 	@Override
 	public int checkByUsername(String usernmae) {
