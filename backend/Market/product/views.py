@@ -241,9 +241,9 @@ class PurchaseViewSet(viewsets.ModelViewSet):
     
     def destroy(self, request, pk):
         username = request.META["HTTP_X_USERNAME"]
-        seller = request.data["seller"]
+        instance = get_object_or_404(PurchaseDetails, no=pk)
+        seller = instance.seller.username
         if username == seller:
-            instance = get_object_or_404(PurchaseDetails, no=pk)
             instance.delete()
             return Response("resource deleted successfully", status=204)
         else:
