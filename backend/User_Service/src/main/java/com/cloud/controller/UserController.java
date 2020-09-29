@@ -20,6 +20,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@ApiOperation(value= "해당 유저 정보 보기")
+	@GetMapping(value = "/{username}")
+	public ResponseEntity<UserDto> getUser(@PathVariable("username") String username){
+		UserDto dto = userService.findByUsername(username);
+		return new ResponseEntity<UserDto>(dto, HttpStatus.OK);
+	}
+	
 	@ApiOperation(value= "회원가입")
 	@PostMapping(value = "/")
 	public ResponseEntity<String> signup(@RequestBody UserDto dto){
