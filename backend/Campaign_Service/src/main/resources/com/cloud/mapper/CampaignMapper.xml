@@ -86,6 +86,18 @@
 		on ct.campaign_no = #{no} and ct.tag_no = ti.no;
 	</select>
 	
+	<select id="findByJoinCampaign" resultType="com.cloud.domain.CampaignDto">
+		select ci.*
+		from campaign_info ci inner join campaign_user cu
+		on cu.user_id = #{username} and cu.campaign_no = ci.no;
+	</select>
+	
+	<select id="findByRegistCampaign" resultType="com.cloud.domain.CampaignDto">
+		select *
+		from campaign_info
+		where writer = #{username}
+	</select>
+	
 	<insert id="joinCampaign">
 		insert into campaign_user (campaign_no, user_id)
 		values (#{no}, #{username})

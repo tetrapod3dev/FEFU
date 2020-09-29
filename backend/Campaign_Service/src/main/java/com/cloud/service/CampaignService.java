@@ -8,6 +8,8 @@ import com.cloud.domain.CampaignDto;
 public interface CampaignService {
 
 	public List<CampaignDto> findAll(String campaignType, int pageNo, String type, String content, int startIndex, int perPageNum);
+	public List<CampaignDto> findByJoinCampaign(String username);
+	public List<CampaignDto> findByRegistCampaign(String username);
 	public List<String> findTagByNo(int no);
 	public Map<String, Object> findDetail(int no);
 	public int findByCount(String campaignType, int pageNo, String type, String content);
