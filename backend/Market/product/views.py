@@ -182,13 +182,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(methods=["PATCH"], detail=True)
     def sold(self, request, pk):
         # 요청 보내는 사람과 판매글 작성자가 같은지 확인
-        
         username = request.META["HTTP_X_USERNAME"]
         # username = request.data["username"]
         buyer = request.data["buyer"]
         product = self.queryset.get(pk=pk)
-        seller = request.data["seller"]
-        status = request.data["status"]
+        seller = product.writer.username
+        status = product.status
+
 
         if username == seller:
             if status == 1: #팔 -> 안팔
@@ -218,26 +218,32 @@ class ProductViewSet(viewsets.ModelViewSet):
         return Response(self.category_group, status=200)
         
         
-class PurchaseDetailsViewSet(viewsets.ModelViewSet):
+class PurchaseViewSet(viewsets.ModelViewSet):
     queryset = PurchaseDetails.objects.all()
     serializer_class = PurchaseDetailsSerializer
+    # print("=================purchase")
 
-    def create(self, request):
+
+    def create(self, request, *args, **kwargs):
         username = request.META["HTTP_X_USERNAME"]
-        seller = request.data["seller"]
-        serializer = self.serializer_class(data=request.data)
+        product_no = request.data["product_no"]
+        buyer = request.data["buyer"]
+        product = ProductInfo.objects.get(no=product_no)
+        seller = product.writer.username
+        
         if username == seller:
+            serializer = self.serializer_class(data={"seller":seller, "buyer":buyer, "product_no":product_no})
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response("resource created successfully", status=201)
         else:
             return Response("forbidden user", status=403)
     
-    def destroy(self, request, product_no):
+    def destroy(self, request, pk):
         username = request.META["HTTP_X_USERNAME"]
         seller = request.data["seller"]
         if username == seller:
-            instance = self.queryset.get(no=product_no)
+            instance = get_object_or_404(PurchaseDetails, no=pk)
             instance.delete()
             return Response("resource deleted successfully", status=204)
         else:
