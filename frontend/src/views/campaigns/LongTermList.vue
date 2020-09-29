@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     goCampaignDetail() {
-      this.$router.push({ name: "CampaignDetail" });
+      this.$router.push({ name: "CampaignDetail", params: { CampaignNo: 1 } });
     },
   },
 };

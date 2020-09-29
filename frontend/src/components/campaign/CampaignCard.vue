@@ -9,7 +9,7 @@
     <v-img
       class="campaign-img"
       height="200px"
-      :src="'http://j3a402.p.ssafy.io:8801/images/download/' + campaign.photo"
+      :src="imageSrc(campaign.photo)"
     ></v-img>
 
     <v-card-text class="text--primary text-left">
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import SERVER from "@/api/api";
+
 export default {
   data() {
     return {
@@ -36,6 +38,11 @@ export default {
     };
   },
   props: ["campaign", "to"],
+  methods: {
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
+    },
+  },
 };
 </script>
 

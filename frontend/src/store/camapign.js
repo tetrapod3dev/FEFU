@@ -18,7 +18,7 @@ export default {
         .catch((err) => console.log(err));
     },
     goCampaignDetail() {
-      this.$router.push({ name: "CampaignDetail" });
+      this.$router.push({ name: "CampaignDetail", params: { CampaignNo: 1 } });
     },
   },
 };

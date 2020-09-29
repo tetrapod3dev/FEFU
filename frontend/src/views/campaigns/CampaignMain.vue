@@ -186,7 +186,7 @@ export default {
         .catch((err) => console.log(err.response));
     },
     goCampaignDetail() {
-      this.$router.push({ name: "CampaignDetail" });
+      this.$router.push({ name: "CampaignDetail", params: { CampaignNo: 1 } });
     },
     goCompanyCampaignList() {
       this.$router.push({ name: "CompanyCampaignList" });
