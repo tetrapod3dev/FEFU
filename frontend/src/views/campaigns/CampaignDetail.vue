@@ -8,8 +8,8 @@
           src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
         >
           <div class="campaign-header-content">
-            <p class="mb-0">{{campaign_info.title}}</p>
-            <p class="mb-0">{{campaign_info.date}}</p>
+            <p class="mb-0">{{ campaign_info.title }}</p>
+            <p class="mb-0">{{ campaign_info.date }}</p>
           </div>
         </v-img>
 
@@ -19,9 +19,13 @@
           </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
-          <v-tab-item v-for="item in items" :key="item" style="background: #fcfcfc">
-            <CampaignInfo v-if="item=='소개'" />
-            <CampaignCertificate v-if="item=='인증'" />
+          <v-tab-item
+            v-for="item in items"
+            :key="item"
+            style="background: #fcfcfc"
+          >
+            <CampaignInfo v-if="item == '소개'" />
+            <CampaignCertificate v-if="item == '인증'" />
           </v-tab-item>
         </v-tabs-items>
       </v-col>
@@ -33,10 +37,16 @@
 import CampaignCertificate from "../../components/campaign/CampaignCertificate.vue";
 import CampaignInfo from "../../components/campaign/CampaignInfo.vue";
 
+import axios from "axios";
+import SERVER from "@/api/api";
+
 export default {
   components: {
     CampaignCertificate,
     CampaignInfo,
+  },
+  created() {
+    this.getCampaign();
   },
   data() {
     return {
@@ -47,6 +57,25 @@ export default {
       tab: null,
       items: ["소개", "인증"],
     };
+  },
+  methods: {
+    getCampaign() {
+      axios
+        .get(
+          SERVER.URL +
+            SERVER.ROUTES.campaigns.URL +
+            "/" +
+            this.$route.params.campaignNo +
+            "/"
+        )
+        .then((res) => {
+          console.log(res.data["campaign"]);
+          console.log(res.data["official"]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

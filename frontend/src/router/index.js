@@ -49,7 +49,7 @@ const routes = [
     component: CampaignMain,
   },
   {
-    path: "/campaigns/make",
+    path: "/campaigns/make/:type",
     name: "CampaignMake",
     component: CampaignMake,
   },

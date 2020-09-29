@@ -15,7 +15,7 @@ export default {
     },
     campaigns: {
       URL: "/campaigns",
-      search: "/search",
+      search: "/campaigns/search",
     },
     images: {
       upload: "/images/upload",
