@@ -39,4 +39,4 @@ logging:
     file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     org.springframework.web: INFO
-  file: app.log
+  file: /logging/camapign.log
