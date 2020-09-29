@@ -39,6 +39,9 @@
                       label="대분류"
                       v-model="product.main_category_no"
                       :menu-props="{ bottom: true, offsetY: true }"
+                      :items="maincategories"
+                      item-text="main_category_name"
+                      item-value="no"
                       required
                       filled
                       autofocus
@@ -50,9 +53,13 @@
                       label="중분류"
                       v-model="product.medium_category_no"
                       :menu-props="{ bottom: true, offsetY: true }"
+                      :items="mediumcategories[product.main_category_no]"
+                      item-text="medium_category_name"
+                      item-value="no"
                       required
                       filled
                       color="#37cdc2"
+                      @input="getSubcategories"
                     ></v-select>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -60,6 +67,9 @@
                       label="소분류"
                       v-model="product.sub_category_no"
                       :menu-props="{ bottom: true, offsetY: true }"
+                      :items="subcategories"
+                      item-text="sub_category_name"
+                      item-value="no"
                       required
                       filled
                       color="#37cdc2"
@@ -165,7 +175,11 @@
               <v-btn class="custom-market-make-btn" @click="uploadImage"
                 >이미지 업로드 테스트 버튼</v-btn
               >
-              <v-btn class="custom-market-make-btn">취소</v-btn>
+              <v-btn
+                class="custom-market-make-btn"
+                :to="{ name: 'MarketMainView' }"
+                >취소</v-btn
+              >
               <v-btn class="custom-market-make-btn" @click="registProduct"
                 >등록
               </v-btn>
@@ -195,10 +209,13 @@ export default {
         price: "",
         photo: "",
         eco_point: 0,
-        main_category_no: 1,
-        medium_category_no: 1,
-        sub_category_no: 1,
+        main_category_no: null,
+        medium_category_no: null,
+        sub_category_no: null,
       },
+      maincategories: [],
+      mediumcategories: {},
+      subcategories: [],
       url: null,
       images: null,
       imageRules: [
@@ -209,8 +226,13 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.maincategories = this.MAINCATEGORIES;
+    this.mediumcategories = this.MEDIUMCATEGORIES;
+  },
   computed: {
     ...mapGetters("accounts", ["config"]),
+    ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
     Preview_image() {
@@ -239,7 +261,7 @@ export default {
         })
         .then(() => {
           alert("상품 등록 완료 되었습니다.");
-          router.push({ name: "MarketListView", params: { pageNo: 1 } });
+          router.push({ name: "MarketMainView" });
         })
         .catch((err) => {
           console.log(err);
@@ -266,6 +288,7 @@ export default {
           console.log(err);
         });
     },
+
     getUserInfo() {
       let configs = {
         headers: {
@@ -278,6 +301,18 @@ export default {
           this.user = res.data.user;
         })
         .catch((err) => console.log(err.response));
+    },
+    getSubcategories() {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.products.subcategory, {
+          params: { mediumCategoryNo: this.product.medium_category_no },
+        })
+        .then((res) => {
+          this.subcategories = res.data;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
   },
 };
