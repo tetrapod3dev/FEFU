@@ -21,16 +21,18 @@ from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from product.views import ProductViewSet
+from product.views import ProductViewSet,PurchaseViewSet
 
 router = routers.DefaultRouter()
 
 # product
+router.register("purchase", PurchaseViewSet)
 router.register("", ProductViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
 ]
 
 
