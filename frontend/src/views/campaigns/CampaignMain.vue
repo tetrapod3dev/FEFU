@@ -53,35 +53,35 @@
         <v-tabs-slider color="#222"></v-tabs-slider>
         <v-tab
           v-for="item in items"
-          :key="item"
+          :key="item.id"
           class="ml-0"
           style="background: #fcfcfc"
         >
-          <span class="custom-tab">{{ item }}</span>
+          <span class="custom-tab">{{ item.name }}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tab">
         <v-tab-item
           v-for="item in items"
-          :key="item"
+          :key="item.id"
           style="background: #fcfcfc"
         >
           <CampaignList
-            v-if="item == '100일 캠페인'"
-            :type="item"
+            v-if="item.id == 1"
+            :campaign-type="item"
             :campaigninfo="personalCampaignInfo"
           />
           <CampaignList
-            v-if="item == '기업 캠페인'"
-            :type="item"
+            v-if="item.id == 2"
+            :campaign-type="item"
             :campaigninfo="companyCampaignInfo"
           />
           <CampaignList
-            v-if="item == '공식 캠페인'"
-            :type="item"
+            v-if="item.id == 3"
+            :campaign-type="item"
             :campaigninfo="officialCampaignInfo"
           />
-          <DailyQuest v-if="item == '일일 퀘스트'" />
+          <DailyQuest v-if="item.id == 4" />
         </v-tab-item>
       </v-tabs-items>
       <!-- </v-container> -->
@@ -125,7 +125,12 @@ export default {
         },
       ],
       tab: null,
-      items: ["100일 캠페인", "기업 캠페인", "공식 캠페인", "일일 퀘스트"],
+      items: [
+        { id: 1, name: "100일 캠페인" },
+        { id: 2, name: "기업 캠페인" },
+        { id: 3, name: "공식 캠페인" },
+        { id: 4, name: "일일 퀘스트" },
+      ],
       companyCampaignInfo: [],
       officialCampaignInfo: [],
       personalCampaignInfo: [],

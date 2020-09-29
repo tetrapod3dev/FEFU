@@ -3,18 +3,21 @@
     <div class="section">
       <v-container>
         <div class="campaign-title">
-          <div v-if="type == '100일 캠페인'">
+          <div v-if="campaignType.id == 1">
             <v-row>
               <v-col cols="8">
-                <h1 class="text-left">{{ type }} - {{ state }}</h1>
+                <h1 class="text-left">{{ campaignType.name }} - {{ state }}</h1>
               </v-col>
               <v-col cols="2"
                 ><router-link
                   tag="button"
                   class="custom-make-btn"
-                  :to="{ name: 'CampaignMake' }"
+                  :to="{
+                    name: 'CampaignMake',
+                    params: { type: campaignType.id },
+                  }"
                 >
-                  상품 등록
+                  캠페인 등록
                 </router-link></v-col
               >
               <v-col cols="2">
@@ -23,8 +26,15 @@
             </v-row>
           </div>
           <div v-else>
-            <h1>{{ type }}</h1>
-            <p v-if="type == '기업 캠페인'">
+            <h1>{{ campaignType.name }}</h1>
+            <router-link
+              tag="button"
+              class="custom-make-btn"
+              :to="{ name: 'CampaignMake', params: { type: campaignType.id } }"
+            >
+              캠페인 등록
+            </router-link>
+            <p v-if="campaignType.id == 2">
               * 클릭하시면 해당 기업 캠페인 페이지로 이동합니다.
             </p>
           </div>
@@ -56,7 +66,7 @@ import CampaignCard from "../../components/campaign/CampaignCard.vue";
 
 export default {
   props: {
-    type: String,
+    campaignType: Object,
     campaigninfo: Array,
   },
   mounted() {

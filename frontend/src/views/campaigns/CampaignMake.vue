@@ -104,18 +104,6 @@
                             color="#37cdc2"
                           ></v-text-field>
 
-                          <v-text-field
-                            label="참여인원"
-                            name="참여인원"
-                            type="number"
-                            v-model.number="personal.headcount"
-                            required
-                            filled
-                            append-outer-icon
-                            autocomplete="off"
-                            color="#37cdc2"
-                          ></v-text-field>
-
                           <v-menu
                             ref="menu"
                             v-model="menu"
@@ -168,6 +156,23 @@
                             autocomplete="off"
                             color="#37cdc2"
                           ></v-text-field>
+
+                          <v-combobox
+                            label="태그"
+                            name="태그"
+                            v-model="tags"
+                            hide-selected
+                            multiple
+                            filled
+                            small-chips
+                            color="#37cdc2"
+                          >
+                            <template v-slot:selection="data">
+                              <v-chip color="#37cdc2" class="white--text">
+                                {{ data.item }}
+                              </v-chip>
+                            </template>
+                          </v-combobox>
                         </v-col>
                       </v-row>
                       <v-textarea
@@ -182,23 +187,6 @@
                         autocomplete="off"
                         color="#37cdc2"
                       ></v-textarea>
-
-                      <v-combobox
-                        label="태그"
-                        name="태그"
-                        v-model="tags"
-                        hide-selected
-                        multiple
-                        filled
-                        small-chips
-                        color="#37cdc2"
-                      >
-                        <template v-slot:selection="data">
-                          <v-chip color="#37cdc2" class="white--text">
-                            {{ data.item }}
-                          </v-chip>
-                        </template>
-                      </v-combobox>
                     </v-form>
                   </v-card-text>
 
@@ -216,7 +204,7 @@
                 <v-card class="custom-campaign-make-card">
                   <v-card-text>
                     <div class="campaign-make-title">캠페인 상세정보</div>
-                    <v-form>
+                    <v-form v-if="$route.params.type != 2">
                       <v-text-field
                         v-model="personal.mission"
                         label="인증 미션"
@@ -286,8 +274,20 @@
                         autocomplete="off"
                         color="#37cdc2"
                       ></v-text-field>
+
+                      <v-text-field
+                        label="참여인원"
+                        name="참여인원"
+                        type="number"
+                        v-model.number="personal.headcount"
+                        required
+                        filled
+                        append-outer-icon
+                        autocomplete="off"
+                        color="#37cdc2"
+                      ></v-text-field>
                     </v-form>
-                    <!-- <v-form>
+                    <v-form v-else>
                       <v-text-field
                         v-model="company.companyName"
                         label="주최"
@@ -313,7 +313,7 @@
                         autocomplete="off"
                         color="#37cdc2"
                       ></v-text-field>
-                    </v-form> -->
+                    </v-form>
                   </v-card-text>
 
                   <v-card-actions>
@@ -354,7 +354,7 @@ export default {
         content: "",
         startDate: new Date().toISOString().substr(0, 10),
         endDate: "2022-09-11",
-        type: "personal",
+        type: "",
         writer: "",
         photo: "",
       },
@@ -384,6 +384,18 @@ export default {
   },
   computed: {
     ...mapGetters("accounts", ["config"]),
+
+    getCampaignType() {
+      let campaignType = "";
+      if (this.$route.params.type == 1) {
+        campaignType = "personal";
+      } else if (this.$route.params.type == 2) {
+        campaignType = "company";
+      } else {
+        campaignType = "official";
+      }
+      return campaignType;
+    },
   },
   methods: {
     Preview_image() {
@@ -398,39 +410,49 @@ export default {
       var base64Url = this.config.split(".")[1];
       var decodedValue = JSON.parse(window.atob(base64Url));
       this.campaign.writer = decodedValue.sub;
-      console.log(this.campaign.writer);
       // this.authority = decodedValue.role[0]
     },
 
     registCampaign: async function () {
+      let body = {};
+      this.campaign.type = this.getCampaignType;
+
+      if (this.$route.params.type == 2) {
+        body = {
+          campaign: this.campaign,
+          tag: this.tags,
+          company: this.company,
+        };
+      } else if (this.$route.params.type == 1) {
+        body = {
+          campaign: this.campaign,
+          tag: this.tags,
+          personal: this.personal,
+        };
+      } else {
+        body = {
+          campaign: this.campaign,
+          tag: this.tags,
+          official: this.personal,
+        };
+      }
+
       await this.checkusername();
       await this.uploadImage();
       await axios
-        .post(
-          SERVER.URL + SERVER.ROUTES.campaigns.URL + "/",
-          {
-            campaign: this.campaign,
-            tag: this.tags,
-            personal: this.personal,
+        .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
+          headers: {
+            Authorization: this.config,
           },
-          {
-            headers: {
-              Authorization: this.config,
-            },
-          }
-        )
+        })
         .then(() => {
-          alert("상품 등록 완료 되었습니다.");
+          alert("캠페인 등록 완료 되었습니다.");
           router.push({ name: "CampaignMain" });
         })
         .catch((err) => {
           console.log(err);
         });
-      console.log({
-        campaign: this.campaign,
-        tag: this.tags,
-        personal: this.personal,
-      });
+      console.log(body);
     },
 
     async uploadImage() {
