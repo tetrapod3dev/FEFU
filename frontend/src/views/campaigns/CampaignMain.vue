@@ -2,10 +2,10 @@
   <div id="campaign-list">
     <section id="section-hero">
       <v-img
-        id="campaign-hero"
+        id="about-hero"
         style="position: absolute"
         position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49h'"
+        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
         src="@/assets/images/campaign-hero.jpg"
         lazy-src="@/assets/images/lazy-loading.jpg"
       >
@@ -26,7 +26,7 @@
       />
     </section>
     <!-- 헤더 캐로젤 -->
-    <div>
+    <!-- <div>
       <v-carousel
         cycle
         height="400"
@@ -44,9 +44,10 @@
           </v-row>
         </v-carousel-item>
       </v-carousel>
-    </div>
+    </div> -->
 
     <!-- 탭 -->
+
     <v-container style="background: #fcfcfc">
       <!-- <v-container :class="[$vuetify.breakpoint.smAndDown ? '': 'mt-5']"> -->
       <v-tabs v-model="tab" centered grow color="#222">
