@@ -193,16 +193,11 @@ class ProductViewSet(viewsets.ModelViewSet):
         if username == seller:
             if status == 1: #팔 -> 안팔
                 product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
-                # purchase_detail = PurchaseDetails.objects.get(product_no=pk)
-                # purchase_detail.delete()
+                self.destroy_purchase(product.no)
 
             else: # 안팔 -> 팔
                 product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
-                # purchase_serializer = PurchaseDetailsSerializer(data={"seller": seller, "buyer": buyer, "product_no": pk})
-                # purchase_serializer.is_valid(raise_exception=True)
-                # if purchase_serializer.is_valid():
-                #     purchase_serializer.save()
-                
+                self.create_purchase(pk, buyer, seller)               
 
             if product_serializer.is_valid():
                 product_serializer.save()
@@ -217,38 +212,18 @@ class ProductViewSet(viewsets.ModelViewSet):
         
         return Response(self.category_group, status=200)
         
-        
-class PurchaseViewSet(viewsets.ModelViewSet):
-    queryset = PurchaseDetails.objects.all()
-    serializer_class = PurchaseDetailsSerializer
-    # print("=================purchase")
 
-
-    def create(self, request, *args, **kwargs):
-        username = request.META["HTTP_X_USERNAME"]
-        product_no = request.data["product_no"]
-        buyer = request.data["buyer"]
-        product = ProductInfo.objects.get(no=product_no)
-        seller = product.writer.username
+    def create_purchase(self, pk, buyer, seller):
+        serializer = PurchaseDetailsSerializer(data={"seller":seller, "buyer":buyer, "product_no":pk})
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response("resource created successfully", status=201)
         
-        if username == seller:
-            serializer = self.serializer_class(data={"seller":seller, "buyer":buyer, "product_no":product_no})
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response("resource created successfully", status=201)
-        else:
-            return Response("forbidden user", status=403)
     
-    def destroy(self, request, pk):
-        username = request.META["HTTP_X_USERNAME"]
-        instance = get_object_or_404(PurchaseDetails, no=pk)
-        seller = instance.seller.username
-        if username == seller:
-            instance.delete()
-            return Response("resource deleted successfully", status=204)
-        else:
-            return Response("forbidden user", status=403)
-
+    def destroy_purchase(self, product_no):
+        purchase_instance = get_object_or_404(PurchaseDetails, product_no=product_no)
+        purchase_instance.delete()
+        return Response("resource deleted successfully", status=204)
 
 
 
