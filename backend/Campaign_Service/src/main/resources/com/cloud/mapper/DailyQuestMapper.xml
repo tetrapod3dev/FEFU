@@ -15,7 +15,12 @@
 	
 	<insert id="insertComplete">
 		insert into user_quest_complete (user_no, quest_no)
-		values((select no from user where username = #{username}), #{no});					
+		values((select no from user where username = #{username}), #{no});
+		
 	</insert>
+	
+	<update id="updateExp">
+		update user set exp = exp + 10 where username = #{username};	
+	</update>
 	
 </mapper>
