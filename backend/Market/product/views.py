@@ -46,7 +46,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         main_category = request.GET.get('mainCategory',None)
         medium_category = request.GET.get('mediumCategory', None)
         search_word = request.GET.get('content', None)
-        curPage = request.GET.get('pageNum', 1)
+        curPage = int(request.GET.get('pageNum', 1))
         
         products = self.queryset
 
