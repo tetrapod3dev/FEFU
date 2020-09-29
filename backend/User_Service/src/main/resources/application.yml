@@ -20,6 +20,8 @@ mybatis:
   type-aliases-package: com.cloud.mapper
   mapper-locations:
   - classpath:/mapper/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
   
 eureka:
   client:
