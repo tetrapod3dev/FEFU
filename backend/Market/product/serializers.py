@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ProductInfo, MainCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails
+from .models import ProductInfo, MainCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,3 +39,21 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     def get_sub_category_name(self, product):
         return product.sub_category_no.sub_category_name
 
+
+class MainCategoryInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainCategoryInfo
+        fields = "__all__"
+        read_only_fields = (["no"])
+
+class MediumCategoryInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MediumCategoryInfo
+        fields = "__all__"
+        read_only_fields = (["no"])
+
+class SubCategoryInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategoryInfo
+        fields = "__all__"
+        read_only_fields = (["no"])
