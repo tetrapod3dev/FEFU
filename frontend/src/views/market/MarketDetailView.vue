@@ -38,10 +38,7 @@
                 <v-col cols="12" md="5">
                   <v-img
                     class="custom-carousel"
-                    :src="
-                      'http://j3a402.p.ssafy.io:8801/images/download/' +
-                      product.photo
-                    "
+                    :src="imageSrc(product.photo)"
                     height="400px"
                     lazy-src="@/assets/images/lazy-loading.jpg"
                   >
@@ -220,6 +217,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
     },
   },
   data() {
