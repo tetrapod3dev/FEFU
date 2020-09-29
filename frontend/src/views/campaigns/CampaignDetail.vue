@@ -5,11 +5,13 @@
         <v-img
           class="campaign-header-img"
           height="200px"
-          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+          :src="imageSrc(campaign.photo)"
         >
           <div class="campaign-header-content">
-            <p class="mb-0">{{ campaign_info.title }}</p>
-            <p class="mb-0">{{ campaign_info.date }}</p>
+            <p class="mb-0">{{ campaign.title }}</p>
+            <p class="mb-0">
+              {{ campaign.startDate }} - {{ campaign.endDate }}
+            </p>
           </div>
         </v-img>
 
@@ -24,7 +26,11 @@
             :key="item"
             style="background: #fcfcfc"
           >
-            <CampaignInfo v-if="item == '소개'" />
+            <CampaignInfo
+              v-if="item == '소개'"
+              :campaign-info="campaign"
+              :campaign-type-info="campaignTypeInfo"
+            />
             <CampaignCertificate v-if="item == '인증'" />
           </v-tab-item>
         </v-tabs-items>
@@ -56,9 +62,33 @@ export default {
       },
       tab: null,
       items: ["소개", "인증"],
+      campaign: {
+        title: "",
+        content: "",
+        writer: "",
+        startDate: "",
+        endDate: "",
+        photo: "",
+        tag: [],
+        type: "",
+        no: null,
+      },
+      campaginTypeInfo: {
+        authEndTime: "",
+        authProcess: "",
+        authStartTime: "",
+        campaignNo: null,
+        headcount: null,
+        mission: "",
+        no: null,
+        requirement: "",
+      },
     };
   },
   methods: {
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
+    },
     getCampaign() {
       axios
         .get(
@@ -69,8 +99,12 @@ export default {
             "/"
         )
         .then((res) => {
-          console.log(res.data["campaign"]);
-          console.log(res.data["official"]);
+          this.campaign = res.data["campaign"];
+          if (res.data["official"]) {
+            this.campaignTypeInfo = res.data["official"];
+          } else if (res.data["personal"]) {
+            this.campaignTypeInfo = res.data["personal"];
+          }
         })
         .catch((err) => {
           console.log(err);
