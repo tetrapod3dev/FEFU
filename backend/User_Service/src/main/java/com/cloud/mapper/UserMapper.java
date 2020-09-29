@@ -6,6 +6,8 @@ import com.cloud.domain.UserDto;
 
 @Mapper
 public interface UserMapper {
+	
+	public UserDto findByUsername(String username);
 	public int userRegistier(UserDto dto);
 	public int checkByUsername(String usernmae);
 	public int checkByNickname(String nickname);

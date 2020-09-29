@@ -42,5 +42,10 @@ public class UserServiceImpl implements UserService{
 	public int insertUserRole(String usernmae) {
 		return userMapper.insertUserRole(usernmae);
 	}
+	
+	@Override
+	public UserDto findByUsername(String username) {
+		return userMapper.findByUsername(username);
+	}
 
 }
