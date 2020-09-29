@@ -227,7 +227,7 @@ class ProductInfo(models.Model):
     main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
     medium_category_no = models.ForeignKey(MediumCategoryInfo, models.DO_NOTHING, db_column='medium_category_no')
     sub_category_no = models.ForeignKey('SubCategoryInfo', models.DO_NOTHING, db_column='sub_category_no')
-    status = models.IntegerField(blank=True, null=True)
+    status = models.IntegerField(blank=True, null=True, default=0)
     reg_time = models.DateTimeField(blank=True, null=True, auto_now=True)
 
     class Meta:
