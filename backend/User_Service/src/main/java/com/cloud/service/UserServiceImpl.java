@@ -21,12 +21,22 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public int userRegistier(UserDto dto) {
 		dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-		System.out.println(dto.getAge());
 		int res = userMapper.userRegistier(dto);
 		if(res != 0) {
 			userMapper.insertUserRole(dto.getUsername());
 		}
 		return res;
+	}
+	
+	@Override
+	public int changePassword(String password, String username) {
+		password = passwordEncoder.encode(password);
+		return userMapper.changePassword(password, username);
+	}
+	
+	@Override
+	public int updateUser(UserDto dto) {
+		return userMapper.updateUser(dto);
 	}
 
 	@Override
@@ -35,8 +45,18 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public int checkByNickname(String nickname) {
+		return userMapper.checkByNickname(nickname);
+	}
+	
+	@Override
 	public int insertUserRole(String usernmae) {
 		return userMapper.insertUserRole(usernmae);
+	}
+	
+	@Override
+	public UserDto findByUsername(String username) {
+		return userMapper.findByUsername(username);
 	}
 
 }
