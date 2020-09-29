@@ -28,10 +28,8 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="3">
-          <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
-            <market-search />
-            <market-category class="custom-category" />
-          </div>
+          <market-search />
+          <market-category class="custom-category" />
         </v-col>
         <v-col cols="12" sm="9" class="pt-0">
           <section id="product-list">
@@ -379,12 +377,5 @@ export default {
 .market-title {
   margin-top: 10px;
   font-family: "NanumBarunpen";
-}
-
-.fixed-bar {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 4rem;
-  z-index: 2;
 }
 </style>

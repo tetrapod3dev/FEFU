@@ -29,10 +29,8 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="3">
-          <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
-            <market-search />
-            <market-category class="custom-category" />
-          </div>
+          <market-search />
+          <market-category class="custom-category" />
         </v-col>
 
         <v-col cols="12" sm="9" class="pt-0">
@@ -167,13 +165,12 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.products.URL, {
           params: {
             pageNum: this.$route.params.pageNum,
-            mainCategory: 1,
-            mediumCategory: 1,
+            mainCategory: this.$route.params.mainCategoryNo,
+            mediumCategory: this.$route.params.mediumCategoryNo,
             content: this.$route.params.content,
           },
         })
         .then((res) => {
-          console.log(res);
           this.pagination = res.data.page;
           this.products = res.data.list;
         })
@@ -240,12 +237,5 @@ export default {
       background-color: var(--primary-color);
     }
   }
-}
-
-.fixed-bar {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 4rem;
-  z-index: 2;
 }
 </style>
