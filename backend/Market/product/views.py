@@ -7,7 +7,7 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 
 from .models import User, ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails
-from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer, ProductDetailSerializer
+from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer, ProductDetailSerializer, MainCategoryInfoSerializer, MediumCategoryInfoSerializer, SubCategoryInfoSerializer
 
 from datetime import date
 
@@ -21,23 +21,29 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = ProductInfo.objects.order_by("-pk")
     serializer_class = ProductSerializer
 
-    #create category json
-    category_group = dict()
-    main_categories = MainCategoryInfo.objects.all()
-    medium_categories = MediumCategoryInfo.objects.all()
-    sub_categories = SubCategoryInfo.objects.all()
 
-    for main_cat in main_categories:
-        category_group[(main_cat.main_category_name, main_cat.no)] = dict()
-    for med_cat in medium_categories:        
-        category_group[(med_cat.main_category_no.main_category_name, med_cat.main_category_no.no)][(med_cat.medium_category_name, med_cat.no)] = []
-    for sub_cat in sub_categories:        
-        main_name = sub_cat.medium_category_no.main_category_no.main_category_name
-        main_no = sub_cat.medium_category_no.main_category_no.no
-        med_name = sub_cat.medium_category_no.medium_category_name
-        med_no = sub_cat.medium_category_no.no
-        category_group[(main_name, main_no)][(med_name, med_no)].append((sub_cat.sub_category_name, sub_cat.no))
+# category ----------------------------------------------------------------------
+    @action(detail=False)
+    def get_main_category(self, request):
+        main_serializer = MainCategoryInfoSerializer(MainCategoryInfo.objects.all(), many=True)
+        # print(main_serializer, "========================")
+        return Response(main_serializer.data, status=200)
 
+    @action(detail=False)
+    def get_medium_category(self, request):
+        main_no = request.GET.get('mainCategoryNo')
+        medium_categories = MediumCategoryInfo.objects.filter(main_category_no=main_no)
+        medium_serializer = MediumCategoryInfoSerializer(medium_categories, many=True)
+        return Response(medium_serializer.data, status=200)
+
+    @action(detail=False)
+    def get_sub_category(self, request):
+        med_no = request.GET.get('mediumCategoryNo')
+        sub_categories = SubCategoryInfo.objects.filter(medium_category_no=med_no)
+        sub_serializer = SubCategoryInfoSerializer(sub_categories, many=True)
+        return Response(sub_serializer.data, status=200)
+
+    
     # general view override -----------------------------------------------------------
 
 
@@ -209,8 +215,9 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def categories(self, request):
-        
-        return Response(self.category_group, status=200)
+        cat_group = self.category_group
+        print(cat_group[("패션의류", 1)])
+        return Response({"mini": cat_group[("패션의류", 1)]})
         
 
     def create_purchase(self, pk, buyer, seller):
