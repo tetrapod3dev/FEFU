@@ -81,104 +81,9 @@
             </div>
 
             <div class="campaign-info d-flex flex-column">
-              <p class="text-left">{{ campaign.content }}</p>
-
-              <v-list class="campaign-info-list">
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>인증 미션</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title>{{
-                          campaignTypeInfo.mission
-                        }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>인증 방법</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title>{{
-                          campaignTypeInfo.authProcess
-                        }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>인증 시간</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title
-                          >{{ campaignTypeInfo.authStartTime }} -
-                          {{ campaignTypeInfo.authEndTime }}</v-list-item-title
-                        >
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>목표 인원</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title
-                          >{{ campaignTypeInfo.headcount }}명
-                        </v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>멤버 조건</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title>{{
-                          campaignTypeInfo.requirement
-                        }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-              </v-list>
+              <BarChart />
+              <UserCertificate />
             </div>
-            <v-divider class="my-5"></v-divider>
-            <v-chip-group>
-              <v-chip
-                class="ma-2"
-                color="#37cdc2"
-                large
-                outlined
-                v-for="tag in campaign.tag"
-                :key="tag"
-                >{{ tag }}</v-chip
-              >
-            </v-chip-group>
           </v-container>
         </v-col>
       </v-row>
@@ -187,16 +92,16 @@
 </template>
 
 <script>
-// import CampaignCertificate from "../../components/campaign/CampaignCertificate.vue";
-// import CampaignInfo from "../../components/campaign/CampaignInfo.vue";
+import BarChart from "@/components/campaign/BarChart.vue";
+import UserCertificate from "@/components/campaign/UserCertificate";
 
 import axios from "axios";
 import SERVER from "@/api/api";
 
 export default {
   components: {
-    // CampaignCertificate,
-    // CampaignInfo,
+    BarChart,
+    UserCertificate,
   },
   created() {
     this.getCampaign();

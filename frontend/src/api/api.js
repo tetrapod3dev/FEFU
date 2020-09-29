@@ -2,6 +2,7 @@ export default {
   // URL: "http://localhost:8080",
   // URL: "http://j3a402.p.ssafy.io",
   URL: "http://j3a402.p.ssafy.io:8801",
+  IMAGE_URL: "http://j3a402.p.ssafy.io:8888/upload/",
   ROUTES: {
     accounts: {
       URL: "",
@@ -14,7 +15,7 @@ export default {
     },
     campaigns: {
       URL: "/campaigns",
-      search: "/search",
+      search: "/campaigns/search",
     },
     images: {
       upload: "/images/upload",
