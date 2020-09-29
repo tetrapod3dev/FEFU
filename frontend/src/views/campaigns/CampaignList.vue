@@ -5,10 +5,19 @@
         <div class="campaign-title">
           <div v-if="type == '100일 캠페인'">
             <v-row>
-              <v-col cols="9">
+              <v-col cols="8">
                 <h1 class="text-left">{{ type }} - {{ state }}</h1>
               </v-col>
-              <v-col cols="3">
+              <v-col cols="2"
+                ><router-link
+                  tag="button"
+                  class="custom-make-btn"
+                  :to="{ name: 'CampaignMake' }"
+                >
+                  상품 등록
+                </router-link></v-col
+              >
+              <v-col cols="2">
                 <v-select v-model="state" :items="items" outlined></v-select>
               </v-col>
             </v-row>
@@ -28,7 +37,13 @@
             v-for="(campaign, idx) in campaigninfo"
             :key="idx"
           >
-            <CampaignCard :campaign="campaign" />
+            <CampaignCard
+              :campaign="campaign"
+              :to="{
+                name: 'CampaignDetail',
+                params: { campaignNo: campaign.no },
+              }"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -89,5 +104,16 @@ export default {
 .campaign-title {
   margin: 30px 0;
   font-family: "NanumBarunpen";
+}
+
+.custom-make-btn {
+  font-family: "S-CoreDream-7ExtraBold";
+  font-size: 1rem;
+  width: 100%;
+  height: 48px;
+  background-color: var(--primary-color);
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
 }
 </style>

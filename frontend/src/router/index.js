@@ -54,17 +54,10 @@ const routes = [
     component: CampaignMake,
   },
   {
-    path: "/campaigns/detail",
+    path: "/campaigns/:campaignNo",
     name: "CampaignDetail",
     component: CampaignDetail,
   },
-
-  // 데이터 생기면 연결할게용
-  // {
-  //   path: "/campaigns/:campaignNo",
-  //   name: "CampaignDetail",
-  //   component: CampaignDetail,
-  // },
   // Campaign End
 
   // Market Start

@@ -65,7 +65,7 @@
                         <v-col cols="12" md="4">
                           <v-file-input
                             label="캠페인 이미지"
-                            v-model="image"
+                            v-model="images"
                             :roules="imageRules"
                             filled
                             prepend-icon=""
@@ -91,6 +91,7 @@
                         </v-col>
                         <v-col cols="12" md="8">
                           <v-text-field
+                            v-model="campaign.title"
                             label="캠페인명"
                             name="캠페인명"
                             type="text"
@@ -102,10 +103,12 @@
                             autocomplete="off"
                             color="#37cdc2"
                           ></v-text-field>
+
                           <v-text-field
                             label="참여인원"
                             name="참여인원"
                             type="number"
+                            v-model.number="personal.headcount"
                             required
                             filled
                             append-outer-icon
@@ -113,18 +116,45 @@
                             color="#37cdc2"
                           ></v-text-field>
 
-                          <v-text-field
-                            label="시작날짜"
-                            name="시작날짜"
-                            type="number"
-                            required
-                            filled
-                            append-outer-icon
-                            autocapitalize="off"
-                            autocorrect="off"
-                            autocomplete="off"
-                            color="#37cdc2"
-                          ></v-text-field>
+                          <v-menu
+                            ref="menu"
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :return-value.sync="campaign.startDate"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                label="시작날짜"
+                                name="시작날짜"
+                                required
+                                filled
+                                v-model="campaign.startDate"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                color="#37cdc2"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="campaign.startDate"
+                              no-title
+                              scrollable
+                            >
+                              <v-spacer></v-spacer>
+                              <v-btn text color="#37cdc2" @click="menu = false"
+                                >취소</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="#37cdc2"
+                                @click="$refs.menu.save(campaign.startDate)"
+                                >선택</v-btn
+                              >
+                            </v-date-picker>
+                          </v-menu>
 
                           <v-text-field
                             label="종료날짜"
@@ -141,6 +171,7 @@
                         </v-col>
                       </v-row>
                       <v-textarea
+                        v-model="campaign.content"
                         label="상세 내용"
                         name="상세 내용"
                         type="text"
@@ -151,6 +182,23 @@
                         autocomplete="off"
                         color="#37cdc2"
                       ></v-textarea>
+
+                      <v-combobox
+                        label="태그"
+                        name="태그"
+                        v-model="tags"
+                        hide-selected
+                        multiple
+                        filled
+                        small-chips
+                        color="#37cdc2"
+                      >
+                        <template v-slot:selection="data">
+                          <v-chip color="#37cdc2" class="white--text">
+                            {{ data.item }}
+                          </v-chip>
+                        </template>
+                      </v-combobox>
                     </v-form>
                   </v-card-text>
 
@@ -170,8 +218,10 @@
                     <div class="campaign-make-title">캠페인 상세정보</div>
                     <v-form>
                       <v-text-field
+                        v-model="personal.mission"
                         label="인증 미션"
                         name="인증 미션"
+                        placeholder="ex) 하루 한가지 환경을 위한 행동을 나눠요"
                         type="text"
                         required
                         filled
@@ -182,8 +232,10 @@
                         color="#37cdc2"
                       ></v-text-field>
                       <v-text-field
+                        v-model="personal.authProcess"
                         label="인증 방법"
                         name="인증 방법"
+                        placeholder="ex) 일상 속 친환경 행동 실천하고 인증샷을 올려주세요."
                         type="text"
                         required
                         filled
@@ -193,9 +245,25 @@
                       ></v-text-field>
 
                       <v-text-field
-                        label="인증 시간"
-                        name="인증 시간"
+                        v-model="personal.authStartTime"
+                        label="인증 시작시간"
+                        name="인증 시작시간"
                         type="text"
+                        placeholder="ex) 매일 00:00"
+                        required
+                        filled
+                        append-outer-icon
+                        autocapitalize="off"
+                        autocorrect="off"
+                        autocomplete="off"
+                        color="#37cdc2"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="personal.authEndTime"
+                        label="인증 종료시간"
+                        name="인증 종료시간"
+                        type="text"
+                        placeholder="ex) 다음날 00:00"
                         required
                         filled
                         append-outer-icon
@@ -206,9 +274,11 @@
                       ></v-text-field>
 
                       <v-text-field
+                        v-model="personal.requirement"
                         label="참여 조건"
                         name="참여 조건"
                         type="text"
+                        placeholder="ex) 작은 행동 하나라도 지속적으로 꾸준히 환경보호를 실천해나갈 분"
                         required
                         filled
                         autocapitalize="off"
@@ -216,32 +286,45 @@
                         autocomplete="off"
                         color="#37cdc2"
                       ></v-text-field>
-
-                      <v-combobox
-                        label="태그"
-                        name="태그"
-                        v-model="compaign.tags"
-                        hide-selected
-                        multiple
-                        filled
-                        small-chips
-                        color="#37cdc2"
-                      >
-                        <template v-slot:selection="data">
-                          <v-chip color="#37cdc2" class="white--text">
-                            {{ data.item }}
-                          </v-chip>
-                        </template>
-                      </v-combobox>
                     </v-form>
+                    <!-- <v-form>
+                      <v-text-field
+                        v-model="company.companyName"
+                        label="주최"
+                        name="주최"
+                        type="text"
+                        required
+                        filled
+                        autocapitalize="off"
+                        autocorrect="off"
+                        autocomplete="off"
+                        color="#37cdc2"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="company.campaignLink"
+                        label="캠페인 링크"
+                        name="캠페인 링크"
+                        type="text"
+                        placeholder="ex) 캠페인 링크를 작성해주세요."
+                        required
+                        filled
+                        autocapitalize="off"
+                        autocorrect="off"
+                        autocomplete="off"
+                        color="#37cdc2"
+                      ></v-text-field>
+                    </v-form> -->
                   </v-card-text>
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
+
                     <v-btn class="custom-campaign-make-btn" @click="stepper = 1"
                       >이전
                     </v-btn>
-                    <v-btn class="custom-campaign-make-btn" @click="stepper = 1"
+                    <v-btn
+                      class="custom-campaign-make-btn"
+                      @click="registCampaign"
                       >등록
                     </v-btn>
                   </v-card-actions>
@@ -256,16 +339,41 @@
 </template>
 
 <script>
+import axios from "axios";
+import SERVER from "@/api/api";
+import { mapGetters } from "vuex";
+import router from "@/router";
+
 export default {
   name: "CampaignMakeView",
   data() {
     return {
-      compaign: {
-        tags: [],
+      menu: false,
+      campaign: {
+        title: "",
+        content: "",
+        startDate: new Date().toISOString().substr(0, 10),
+        endDate: "2022-09-11",
+        type: "personal",
+        writer: "",
+        photo: "",
+      },
+      tags: JSON.stringify(this.tags),
+      personal: {
+        mission: "",
+        authProcess: "",
+        authStartTime: "",
+        authEndTime: "",
+        headcount: null,
+        requirement: "",
+      },
+      company: {
+        companyName: "",
+        campaignLink: "",
       },
       stepper: 1,
       url: null,
-      image: null,
+      images: null,
       imageRules: [
         (value) =>
           !value ||
@@ -274,13 +382,95 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters("accounts", ["config"]),
+  },
   methods: {
     Preview_image() {
-      if (!this.image) {
+      if (!this.images) {
         this.url = null;
       } else {
-        this.url = URL.createObjectURL(this.image);
+        this.url = URL.createObjectURL(this.images);
       }
+    },
+
+    checkusername() {
+      var base64Url = this.config.split(".")[1];
+      var decodedValue = JSON.parse(window.atob(base64Url));
+      this.campaign.writer = decodedValue.sub;
+      console.log(this.campaign.writer);
+      // this.authority = decodedValue.role[0]
+    },
+
+    registCampaign: async function () {
+      await this.checkusername();
+      await this.uploadImage();
+      await axios
+        .post(
+          SERVER.URL + SERVER.ROUTES.campaigns.URL + "/",
+          {
+            campaign: this.campaign,
+            tag: this.tags,
+            personal: this.personal,
+          },
+          {
+            headers: {
+              Authorization: this.config,
+            },
+          }
+        )
+        .then(() => {
+          alert("상품 등록 완료 되었습니다.");
+          router.push({ name: "CampaignMain" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log({
+        campaign: this.campaign,
+        tag: this.tags,
+        personal: this.personal,
+      });
+    },
+
+    async uploadImage() {
+      let configs = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      let file = this.images;
+      let formData = new FormData();
+      formData.append("file", file);
+
+      await axios
+        .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
+        .then((res) => {
+          this.campaign.photo = res.data.fileName;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
+    },
+
+    getUserInfo() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.myPage, configs)
+        .then((res) => {
+          this.user = res.data.user;
+        })
+        .catch((err) => console.log(err.response));
     },
   },
 };
