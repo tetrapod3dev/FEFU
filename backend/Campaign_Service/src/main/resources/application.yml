@@ -41,4 +41,4 @@ logging:
     org.springframework.web: INFO
   file:
     path: /logging
-    name: camapign.log
+    name: /logging/camapign.log
