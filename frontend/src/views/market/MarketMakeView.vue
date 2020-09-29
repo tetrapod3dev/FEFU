@@ -261,6 +261,7 @@ export default {
         .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
         .then((res) => {
           this.product.photo = res.data.fileName;
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);

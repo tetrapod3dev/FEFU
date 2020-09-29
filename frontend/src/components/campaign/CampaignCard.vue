@@ -1,5 +1,11 @@
 <template>
-  <v-card darkclass="mx-auto" max-width="400" outlined class="custom-card">
+  <v-card
+    darkclass="mx-auto"
+    max-width="400"
+    outlined
+    class="custom-card"
+    :to="to"
+  >
     <v-img
       class="campaign-img"
       height="200px"
@@ -29,7 +35,7 @@ export default {
       valueDeterminate: 50,
     };
   },
-  props: ["campaign"],
+  props: ["campaign", "to"],
 };
 </script>
 

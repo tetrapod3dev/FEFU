@@ -13,6 +13,8 @@ import SignupView from "../views/accounts/SignupView.vue";
 import CampaignMain from "../views/campaigns/CampaignMain.vue";
 import CampaignMake from "../views/campaigns/CampaignMake.vue";
 import CampaignDetail from "../views/campaigns/CampaignDetail.vue";
+import CampaignCertifi from "../views/campaigns/CampaignCertifi.vue";
+import CampaignPostings from "../views/campaigns/CampaignPostings.vue";
 
 // market
 import MarketMainView from "../views/market/MarketMainView.vue";
@@ -49,22 +51,25 @@ const routes = [
     component: CampaignMain,
   },
   {
-    path: "/campaigns/make",
+    path: "/campaigns/make/:type",
     name: "CampaignMake",
     component: CampaignMake,
   },
   {
-    path: "/campaigns/detail",
+    path: "/campaigns/:campaignNo",
     name: "CampaignDetail",
     component: CampaignDetail,
   },
-
-  // 데이터 생기면 연결할게용
-  // {
-  //   path: "/campaigns/:campaignNo",
-  //   name: "CampaignDetail",
-  //   component: CampaignDetail,
-  // },
+  {
+    path: "/campaigns/:campaignNo/certificate",
+    name: "CampaignCertifi",
+    component: CampaignCertifi,
+  },
+  {
+    path: "/campaigns/:campaignNo/postings",
+    name: "CampaignPostings",
+    component: CampaignPostings,
+  },
   // Campaign End
 
   // Market Start
