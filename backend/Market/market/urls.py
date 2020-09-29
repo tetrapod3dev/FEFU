@@ -21,12 +21,12 @@ from rest_framework import routers, permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from product.views import ProductViewSet,PurchaseViewSet
+from product.views import ProductViewSet
 
 router = routers.DefaultRouter()
 
 # product
-router.register("purchase", PurchaseViewSet)
+# router.register("purchase", PurchaseViewSet)
 router.register("", ProductViewSet)
 
 
