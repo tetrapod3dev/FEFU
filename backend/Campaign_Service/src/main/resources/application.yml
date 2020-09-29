@@ -31,7 +31,7 @@ eureka:
       defaultZone: http://j3a402.p.ssafy.io:8761/eureka
   instance:
     instance-id: campaigns
-    prefer-ip-address: true
+    ip-address: http://j3a402.p.ssafy.io
       
 logging:
   pattern:
