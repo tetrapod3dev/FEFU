@@ -30,56 +30,19 @@
       <v-row>
         <v-col cols="12" sm="3">
           <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
-            <v-img
-              class="campaign-header-img"
-              height="200px"
-              :src="imageSrc(campaign.photo)"
-            >
-            </v-img>
-
-            <!-- <div class="campaign-manager d-flex">
-              <v-avatar color="teal" size="60"></v-avatar>
-              <div class="d-flex flex-column justify-center text-left ml-3">
-                <span class="manager-badge text-center">매니저</span>
-                <span class="mb-0">{{ campaign.writer }}</span>
-              </div>
-            </div> -->
-
             <!-- 사이드바 -->
-            <v-list class="custom-list">
-              <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                no-action
-                class="custom-list-item"
-                :class="
-                  `custom-list-item-${
-                    listColorName[index % listColorName.length]
-                  }`
-                "
-                :to="{ name: item.link, params: { campaignNo: campaign.no } }"
-              >
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.name"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-
-            <router-link
-              tag="button"
-              class="custom-make-btn"
-              :to="{ name: 'MarketMakeView' }"
-            >
-              인증글작성
-            </router-link>
+            <SideBar :campaign="campaign" />
+            <ProofCreateBtn :campaign="campaign" />
           </div>
         </v-col>
 
         <v-col cols="12" sm="9" class="pt-0">
           <v-container justify="start">
             <div class="campaign-welcome">
-              <span class="campaign-title">{{ campaign.title }} 😏</span>
-              <small> {{ campaign.startDate }} - {{ campaign.endDate }} </small>
+              <span class="campaign-title">{{ campaign.title }}</span>
+              <small class="ml-3">
+                {{ campaign.startDate }} - {{ campaign.endDate }}
+              </small>
             </div>
 
             <div class="campaign-info d-flex flex-column">
@@ -94,14 +57,18 @@
 </template>
 
 <script>
+import SideBar from "@/components/campaign/SideBar.vue";
 import BarChart from "@/components/campaign/BarChart.vue";
 import UserCertificate from "@/components/campaign/UserCertificate";
+import ProofCreateBtn from "@/components/campaign/ProofCreateBtn.vue";
 
 import axios from "axios";
 import SERVER from "@/api/api";
 
 export default {
   components: {
+    ProofCreateBtn,
+    SideBar,
     BarChart,
     UserCertificate,
   },
@@ -110,20 +77,6 @@ export default {
   },
   data() {
     return {
-      listColorName: [
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "blue",
-        "indigo",
-        "purple",
-      ],
-      campaign_info: {
-        title: "캠페인 제목",
-        date: "2019-11-12",
-      },
-      tab: null,
       items: [
         { name: "캠페인소개", link: "CampaignDetail" },
         { name: "인증현황", link: "CampaignCertifi" },
@@ -138,7 +91,7 @@ export default {
         photo: "",
         tag: [],
         type: "",
-        no: null,
+        no: 0,
       },
       campaignTypeInfo: {
         authEndTime: "",
@@ -190,11 +143,6 @@ export default {
   text-align: start;
 }
 
-.campaign-header-img {
-  border: 2px solid black;
-  border-radius: 15px;
-}
-
 .campaign-title {
   font-size: 1.5rem;
   font-family: "NanumBarunpen";
@@ -204,83 +152,7 @@ export default {
   font-family: "NanumBarunpen";
 }
 
-.custom-list {
-  margin-top: 20px;
-  font-family: "S-CoreDream-7ExtraBold";
-}
-
-.campaign-info-list {
-  font-family: "S-CoreDream-7ExtraBold";
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 5px 0;
-}
-
-.custom-list-item {
-  border: 2px solid black;
-  &:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  &:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-
-  &:not(:last-child) {
-    // border-bottom: 2px solid black;
-    margin-bottom: -2px;
-  }
-
-  &-red.v-list-group--active,
-  &-red:hover {
-    background: #cf6a87;
-  }
-
-  &-orange.v-list-group--active,
-  &-orange:hover {
-    background: #f19066;
-  }
-
-  &-yellow.v-list-group--active,
-  &-yellow:hover {
-    background: #fdcb6e;
-  }
-
-  &-green.v-list-group--active,
-  &-green:hover {
-    background: #b8e994;
-  }
-
-  &-blue.v-list-group--active,
-  &-blue:hover {
-    background: #82ccdd;
-  }
-
-  &-indigo.v-list-group--active,
-  &-indigo:hover {
-    background: #60a3bc;
-  }
-
-  &-purple.v-list-group--active,
-  &-purple:hover {
-    background: #786fa6;
-  }
-}
-
 .custom-white {
   background: var(--white-color);
-}
-
-.custom-make-btn {
-  font-family: "S-CoreDream-7ExtraBold";
-  font-size: 1rem;
-  width: 100%;
-  height: 48px;
-  margin-top: 20px;
-  background-color: var(--primary-color);
-  border: 2px solid black;
-  border-radius: 10px;
-  text-align: center;
 }
 </style>
