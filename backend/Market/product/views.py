@@ -10,6 +10,7 @@ from .models import User, ProductInfo, MainCategoryInfo, MediumCategoryInfo, Sub
 from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer, ProductDetailSerializer, MainCategoryInfoSerializer, MediumCategoryInfoSerializer, SubCategoryInfoSerializer, UserSerializer
 
 from datetime import date
+from itertools import chain
 
 #------Recommendation
 from .recommend.recommendations import recom_simple, recom_ibcf
@@ -326,11 +327,56 @@ class ProductViewSet(viewsets.ModelViewSet):
             results = recom_simple(user_info, merged_df, user_view_boolean, n_items=10)
             # results['category'] = results['category'].apply(lambda x: self.category_dict[x])
 
-        print(list(results['category']))
+        # print(list(results['category']))
 
-        return JsonResponse({'method': method, 'result': list(results['category'])})
+        # results['category']로부터 상품 3개로 이루어진 list 만들기
+
+        recommend_categories = list(results['category'])
+        # recommend_products = ProductInfo.objects.none()
+        recommend_products = []
+        index = 0
+
+        while len(recommend_products) < 3: # 3개가 되면 리턴할거임
+            
+            if index == 10: #마지막 카테고리까지 왔는데 3개를 못채웠다면
+                random_products_queryset = ProductInfo.objects.order_by('?')[:3-len(recommend_products)] # 남은 개수만큼 랜덤으로 채우자
+                recommend_products += random_products_queryset
+                
+            else:
+                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=recommend_categories[index]).order_by('?')[:3] # 소카테고리에서 랜덤으로 3개
+                recommend_products += filtered_products_queryset
+                index += 1
+
+        recommend_products = [ProductSerializer(product).data for product in recommend_products]
+        # print(recommend_products)
+
+        return Response({'recommend_products': recommend_products}, status=200)
 
     
+    # 함께보면 좋을 상품
+    @action(detail=False)
+    def related_products(self, request):
+        product_pk = request.GET.get("product_pk")
+        product = get_object_or_404(ProductInfo, no=product_pk)
 
+        category_relation = self.item_similarity.loc[product.sub_category_no.no].sort_values(ascending=False).reset_index()
+        most_related_cateogries = list(category_relation['category'])[:10]
+        # test['category'] = test['category'].apply(lambda x: self.category_dict[x])
+        # 연관성 높은 카테고리대로 5개 리턴
+        print(most_related_cateogries)
+        related_products = []
+        index = 0
+        while len(related_products) < 5:
+            if index == 10: #마지막 카테고리까지 왔는데 5개를 못채웠다면
+                random_products_queryset = ProductInfo.objects.exclude(no=product.no).order_by('?')[:5-len(recommend_products)] # 남은 개수만큼 랜덤으로 채우자
+                related_products += random_products_queryset
+                
+            else:
+                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=most_related_cateogries[index]).exclude(no=product.no).order_by('?')[:5] # 소카테고리에서 랜덤으로 3개
+                related_products += filtered_products_queryset
+                index += 1
+        related_products = [ProductSerializer(product).data for product in related_products]
+
+        return Response({"related_products": related_products}, status=200)
     
 
