@@ -30,40 +30,8 @@
       <v-row>
         <v-col cols="12" sm="3">
           <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
-            <v-img
-              class="campaign-header-img"
-              height="200px"
-              :src="imageSrc(campaign.photo)"
-            >
-            </v-img>
-
-            <!-- <div class="campaign-manager d-flex">
-              <v-avatar color="teal" size="60"></v-avatar>
-              <div class="d-flex flex-column justify-center text-left ml-3">
-                <span class="manager-badge text-center">매니저</span>
-                <span class="mb-0">{{ campaign.writer }}</span>
-              </div>
-            </div> -->
-
             <!-- 사이드바 -->
-            <v-list class="custom-list">
-              <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                no-action
-                class="custom-list-item"
-                :class="
-                  `custom-list-item-${
-                    listColorName[index % listColorName.length]
-                  }`
-                "
-                :to="{ name: item.link, params: { campaignNo: campaign.no } }"
-              >
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.name"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
+            <SideBar :campaign="campaign" />
 
             <router-link
               tag="button"
@@ -96,6 +64,7 @@
 </template>
 
 <script>
+import SideBar from "@/components/campaign/SideBar.vue";
 import BarChart from "@/components/campaign/BarChart.vue";
 import UserCertificate from "@/components/campaign/UserCertificate";
 
@@ -104,6 +73,7 @@ import SERVER from "@/api/api";
 
 export default {
   components: {
+    SideBar,
     BarChart,
     UserCertificate,
   },
@@ -140,7 +110,7 @@ export default {
         photo: "",
         tag: [],
         type: "",
-        no: null,
+        no: 0,
       },
       campaignTypeInfo: {
         authEndTime: "",
