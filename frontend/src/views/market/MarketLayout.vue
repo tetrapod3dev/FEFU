@@ -1,8 +1,8 @@
 <template>
   <div class="market-main">
-    <section id="section-hero">
+    <!-- market hero start -->
+    <section id="market-hero">
       <v-img
-        id="market-hero"
         style="position: absolute"
         position="top"
         :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
@@ -25,21 +25,26 @@
         src="@/assets/illust/market-hero.svg"
       />
     </section>
+    <!-- market hero end -->
 
+    <!-- market content start -->
     <v-row justify="center">
       <v-col cols="12" xl="8">
         <v-container>
           <v-row>
-            <v-col cols="12" sm="3">
+            <!-- side bar start -->
+            <v-col v-if="sidebar" cols="12" sm="3">
               <market-search />
               <market-category class="custom-category" />
             </v-col>
+            <!-- side bar end -->
 
             <router-view />
           </v-row>
         </v-container>
       </v-col>
     </v-row>
+    <!-- market content end -->
   </div>
 </template>
 
@@ -52,6 +57,12 @@ export default {
   components: {
     MarketCategory,
     MarketSearch,
+  },
+  props: {
+    sidebar: {
+      type: Boolean,
+      default: true,
+    },
   },
 };
 </script>
