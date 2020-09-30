@@ -52,9 +52,11 @@
                 :key="index"
                 no-action
                 class="custom-list-item"
-                :class="`custom-list-item-${
-                  listColorName[index % listColorName.length]
-                }`"
+                :class="
+                  `custom-list-item-${
+                    listColorName[index % listColorName.length]
+                  }`
+                "
                 :to="{ name: item.link, params: { campaignNo: campaign.no } }"
               >
                 <v-list-item-content>
@@ -76,7 +78,7 @@
         <v-col cols="12" sm="9" class="pt-0">
           <v-container justify="start">
             <div class="campaign-welcome">
-              <span class="campaign-title">{{ campaign.title }} 😏</span>
+              <span class="campaign-title">{{ campaign.title }}</span>
               <small> {{ campaign.startDate }} - {{ campaign.endDate }} </small>
             </div>
 
