@@ -1,167 +1,119 @@
 <template>
-  <div class="market-main">
-    <section id="section-hero">
-      <v-img
-        id="about-hero"
-        style="position: absolute"
-        position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
-        src="@/assets/images/market-hero.jpg"
-        lazy-src="@/assets/images/lazy-loading.jpg"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-      <v-img
-        style="position: relative; z-index: 3"
-        position="bottom"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
-        src="@/assets/illust/market-hero.svg"
-      />
-    </section>
-    <v-container>
-      <v-row>
-        <v-col cols="12" sm="3">
-          <market-search />
-          <market-category class="custom-category" />
-        </v-col>
-        <v-col cols="12" sm="9" class="pt-0">
-          <section id="product-list">
-            <v-container>
-              <v-row>
-                <v-col cols="12" md="5">
-                  <v-img
-                    class="custom-carousel"
-                    :src="imageSrc(product.photo)"
-                    height="400px"
-                    lazy-src="@/assets/images/lazy-loading.jpg"
-                  >
-                    <template v-slot:placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <div
-                    class="product-info-wrapper text-left d-flex flex-column pa-3"
-                  >
-                    <p class="product-title">{{ product.title }}</p>
-                    <p>대분류 > 중분류</p>
-                    <p class="product-price">{{ product.price }}원</p>
-                    <p class="product-ecopoint">
-                      사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
+  <v-col cols="12" sm="9" class="pt-0">
+    <section id="product-list">
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="5">
+            <v-img
+              class="custom-carousel"
+              :src="imageSrc(product.photo)"
+              height="400px"
+              lazy-src="@/assets/images/lazy-loading.jpg"
+            >
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center">
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-5"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
+          </v-col>
+          <v-col cols="12" md="7">
+            <div class="product-info-wrapper text-left d-flex flex-column pa-3">
+              <p class="product-title">{{ product.title }}</p>
+              <p>대분류 > 중분류</p>
+              <p class="product-price">{{ product.price }}원</p>
+              <p class="product-ecopoint">
+                사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
+              </p>
+              <div class="seller-info">
+                <p class="mb-2">판매자</p>
+                <div class="d-flex">
+                  <v-avatar size="40" color="teal"></v-avatar>
+                  <div class="d-flex flex-column ml-3">
+                    <p class="product-owner">{{ product.writer }}</p>
+                    <p class="product-phonenumber">
+                      {{ product.contact }}
                     </p>
-                    <div class="seller-info">
-                      <p class="mb-2">판매자</p>
-                      <div class="d-flex">
-                        <v-avatar size="40" color="teal"></v-avatar>
-                        <div class="d-flex flex-column ml-3">
-                          <p class="product-owner">{{ product.writer }}</p>
-                          <p class="product-phonenumber">
-                            {{ product.contact }}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <v-btn class="product-state align-self-end" outlined tile
-                      >판매 중</v-btn
-                    >
                   </div>
-                </v-col>
+                </div>
+              </div>
+              <v-btn class="product-state align-self-end" outlined tile
+                >판매 중</v-btn
+              >
+            </div>
+          </v-col>
 
-                <v-col cols="12">
-                  <p class="product-description text-left pa-3">
-                    {{ product.content }}
-                  </p>
-                  <div class="py-12"></div>
-                </v-col>
-                <v-col cols="12">
-                  <h1 class="market-title">같이 보면 좋을 상품</h1>
-                </v-col>
-                <v-col
-                  v-for="index in 3"
-                  :key="index"
-                  cols="12"
-                  sm="4"
-                  align="center"
-                >
-                  <v-card
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    cols="12"
-                    md="4"
-                    @click="
-                      moveToPage({
-                        name: 'MarketDetailView',
-                        params: { productNo: products[index].id },
-                      })
-                    "
+          <v-col cols="12">
+            <p class="product-description text-left pa-3">
+              {{ product.content }}
+            </p>
+            <div class="py-12"></div>
+          </v-col>
+          <v-col cols="12">
+            <h1 class="market-title">같이 보면 좋을 상품</h1>
+          </v-col>
+          <v-col
+            v-for="index in 3"
+            :key="index"
+            cols="12"
+            sm="4"
+            align="center"
+          >
+            <v-card
+              class="custom-card ma-4"
+              :height="1.6 * cardWidth"
+              :width="cardWidth"
+              cols="12"
+              md="4"
+              @click="
+                moveToPage({
+                  name: 'MarketDetailView',
+                  params: { productNo: products[index].id },
+                })
+              "
+            >
+              <v-img
+                :height="1.1 * cardWidth"
+                :src="products[index]"
+                lazy-src="@/assets/images/lazy-loading.jpg"
+              >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
                   >
-                    <v-img
-                      :height="1.1 * cardWidth"
-                      :src="products[index]"
-                      lazy-src="@/assets/images/lazy-loading.jpg"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            color="grey lighten-5"
-                          ></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-5"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
+              </v-img>
 
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ products[index].name }}</div>
-                      <div>{{ products[index].price }}</div>
-                      <div>{{ products[index].eco }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </section>
-          <div class="py-12"></div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+              <v-card-text class="text-left text--primary">
+                <div>{{ products[index].name }}</div>
+                <div>{{ products[index].price }}</div>
+                <div>{{ products[index].eco }}</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+    <div class="py-12"></div>
+  </v-col>
 </template>
 
 <script>
 import axios from "axios";
 import SERVER from "@/api/api";
 
-import MarketCategory from "@/components/market/Category";
-import MarketSearch from "@/components/market/Search";
-
 export default {
   name: "MarketDetailView",
-  components: {
-    MarketCategory,
-    MarketSearch,
-  },
   created() {
     this.getProduct();
   },
