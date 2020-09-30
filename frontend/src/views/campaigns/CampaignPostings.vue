@@ -52,7 +52,7 @@
             </div>
 
             <div class="campaign-info d-flex flex-column">
-              <UserCertificatePosts />
+              <UserCertificatePosts :campaign-no="campaign.no" />
             </div>
           </v-container>
         </v-col>
