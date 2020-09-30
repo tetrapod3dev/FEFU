@@ -1,5 +1,5 @@
 <template>
-  <div id="custom-header">
+  <div id="c-header">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -14,21 +14,28 @@
           :href="link.href"
         >
           <v-list-item-content>
-            <v-list-item-title class="text-left custom-drawer"
+            <v-list-item-title class="text-left c-drawer"
               >{{ link.textKr }} {{ link.textEn }}</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="!isLoggedIn" href="/user/login">
           <v-list-item-content>
-            <v-list-item-title class="text-left custom-drawer"
+            <v-list-item-title class="text-left c-drawer"
               >로그인 LOGIN</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="isLoggedIn" href="/mypage">
+          <v-list-item-content>
+            <v-list-item-title class="text-left c-drawer"
+              >마이페이지 MyPage</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="isLoggedIn" @click="logout">
           <v-list-item-content>
-            <v-list-item-title class="text-left custom-drawer"
+            <v-list-item-title class="text-left c-drawer"
               >로그아웃 LOGOUT</v-list-item-title
             >
           </v-list-item-content>
@@ -61,6 +68,14 @@
         class="hidden-sm-and-down custom-button mx-1"
         >로그인</router-link
       >
+      <router-link
+        v-if="isLoggedIn"
+        tag="button"
+        to="/mypage"
+        class="hidden-sm-and-down custom-button mx-1"
+      >
+        마이페이지
+      </router-link>
       <button
         v-if="isLoggedIn"
         @click="logout"
@@ -158,11 +173,11 @@ export default {
   }
 }
 
-.custom-drawer {
+.c-drawer {
   font-family: "S-CoreDream-7ExtraBold";
 }
 
-#custom-header .custom-button {
+#c-header .custom-button {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px !important;

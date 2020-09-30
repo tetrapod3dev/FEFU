@@ -71,7 +71,7 @@
             <CampaignCard
               :campaign="campaign"
               :to="{
-                name: 'CampaignDetail',
+                name: 'CampaignDetailInfo',
                 params: { campaignNo: campaign.no },
               }"
             />

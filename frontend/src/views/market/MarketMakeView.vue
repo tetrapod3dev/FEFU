@@ -163,9 +163,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="c-btn" @click="uploadImage(images)"
-              >이미지 업로드 테스트 버튼</v-btn
-            >
+            <v-btn class="c-btn" @click="test">이미지 업로드 테스트 버튼</v-btn>
             <v-btn class="c-btn" :to="{ name: 'MarketMainView' }">취소</v-btn>
             <v-btn class="c-btn" @click="registProduct">등록 </v-btn>
           </v-card-actions>
@@ -182,11 +180,11 @@ import axios from "axios";
 import SERVER from "@/api/api";
 import { mapGetters } from "vuex";
 import router from "@/router";
-import { imageUploadable } from "@/components/mixin/imageUploadable";
+import { mixinUploadImage } from "@/components/mixin/mixinUploadImage";
 
 export default {
   name: "MarketMakeView",
-  mixins: [imageUploadable],
+  mixins: [mixinUploadImage],
   data() {
     return {
       product: {
@@ -228,7 +226,14 @@ export default {
     async registProduct() {
       if (this.$refs.form.validate()) {
         this.product.writer = this.USERNAME;
-        this.product.photo = this.uploadImage(this.images);
+        await this.uploadImage(this.images)
+          .then((res) => {
+            console.log(res);
+            this.product.photo = res.data.fileName;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         // await this.uploadImage();
         await axios
           .post(SERVER.URL + SERVER.ROUTES.products.URL + "/", this.product, {
@@ -269,6 +274,16 @@ export default {
         })
         .catch((err) => {
           console.log(err.response);
+        });
+    },
+    test() {
+      this.uploadImage(this.images)
+        .then((res) => {
+          console.log(res);
+          this.product.photo = res.data.fileName;
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

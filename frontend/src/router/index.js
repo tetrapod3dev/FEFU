@@ -9,13 +9,19 @@ import ErrorPage from "../views/ErrorPage.vue";
 import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
 import Mypage from "../views/accounts/Mypage.vue";
+import MypageListCampaignAdmin from "../views/accounts/MypageListCampaignAdmin.vue";
+import MypageListCampaignJoin from "../views/accounts/MypageListCampaignJoin.vue";
+import MypageListProduct from "../views/accounts/MypageListProduct.vue";
+import MypageInfo from "../views/accounts/MypageInfo.vue";
+import MypageUpdatePwd from "../views/accounts/MypageUpdatePwd.vue";
 
 // Campaigns
 import CampaignMain from "../views/campaigns/CampaignMain.vue";
 import CampaignMake from "../views/campaigns/CampaignMake.vue";
 import CampaignDetail from "../views/campaigns/CampaignDetail.vue";
-import CampaignCertifi from "../views/campaigns/CampaignCertifi.vue";
-import CampaignPostings from "../views/campaigns/CampaignPostings.vue";
+import CampaignDetailCertifi from "../views/campaigns/CampaignDetailCertifi.vue";
+import CampaignDetailInfo from "../views/campaigns/CampaignDetailInfo.vue";
+import CampaignDetailPostings from "../views/campaigns/CampaignDetailPostings.vue";
 
 // market
 import MarketLayout from "../views/market/MarketLayout.vue";
@@ -46,8 +52,34 @@ const routes = [
   },
   {
     path: "/mypage",
-    name: "Mypage",
     component: Mypage,
+    children: [
+      {
+        path: "admin",
+        name: "MypageListCampaignAdmin",
+        component: MypageListCampaignAdmin,
+      },
+      {
+        path: "join",
+        name: "MypageListCampaignJoin",
+        component: MypageListCampaignJoin,
+      },
+      {
+        path: "product",
+        name: "MypageListProduct",
+        component: MypageListProduct,
+      },
+      {
+        path: "",
+        name: "MypageInfo",
+        component: MypageInfo,
+      },
+      {
+        path: "pwd",
+        name: "MypageUpdatePwd",
+        component: MypageUpdatePwd,
+      },
+    ],
   },
   // Account End
 
@@ -58,24 +90,30 @@ const routes = [
     component: CampaignMain,
   },
   {
+    path: "/campaigns/:campaignNo",
+    component: CampaignDetail,
+    children: [
+      {
+        path: "",
+        name: "CampaignDetailInfo",
+        component: CampaignDetailInfo,
+      },
+      {
+        path: "certificate",
+        name: "CampaignDetailCertifi",
+        component: CampaignDetailCertifi,
+      },
+      {
+        path: "postings",
+        name: "CampaignDetailPostings",
+        component: CampaignDetailPostings,
+      },
+    ],
+  },
+  {
     path: "/campaigns/make/:type",
     name: "CampaignMake",
     component: CampaignMake,
-  },
-  {
-    path: "/campaigns/:campaignNo",
-    name: "CampaignDetail",
-    component: CampaignDetail,
-  },
-  {
-    path: "/campaigns/:campaignNo/certificate",
-    name: "CampaignCertifi",
-    component: CampaignCertifi,
-  },
-  {
-    path: "/campaigns/:campaignNo/postings",
-    name: "CampaignPostings",
-    component: CampaignPostings,
   },
   // Campaign End
 

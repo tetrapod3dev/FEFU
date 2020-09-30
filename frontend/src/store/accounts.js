@@ -18,7 +18,7 @@ export default {
       if (!state.authToken) {
         return "";
       }
-      var base64Url = state.config.split(".")[1];
+      var base64Url = `Bearer ${state.authToken}`.split(".")[1];
       var decodedValue = JSON.parse(window.atob(base64Url));
       return decodedValue.sub;
     },
