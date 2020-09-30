@@ -32,14 +32,7 @@
           <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
             <!-- 사이드바 -->
             <SideBar :campaign="campaign" />
-
-            <router-link
-              tag="button"
-              class="custom-make-btn"
-              :to="{ name: 'MarketMakeView' }"
-            >
-              인증글작성
-            </router-link>
+            <ProofCreateBtn :campaign="campaign" />
           </div>
         </v-col>
 
@@ -159,6 +152,7 @@
 
 <script>
 import SideBar from "@/components/campaign/SideBar.vue";
+import ProofCreateBtn from "@/components/campaign/ProofCreateBtn.vue";
 // import CampaignCertificate from "../../components/campaign/CampaignCertificate.vue";
 // import CampaignInfo from "../../components/campaign/CampaignInfo.vue";
 
@@ -168,6 +162,7 @@ import SERVER from "@/api/api";
 export default {
   components: {
     SideBar,
+    ProofCreateBtn,
     // CampaignCertificate,
     // CampaignInfo,
   },
@@ -176,20 +171,6 @@ export default {
   },
   data() {
     return {
-      listColorName: [
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "blue",
-        "indigo",
-        "purple",
-      ],
-      campaign_info: {
-        title: "캠페인 제목",
-        date: "2019-11-12",
-      },
-      tab: null,
       items: [
         { name: "캠페인소개", link: "CampaignDetail" },
         { name: "인증현황", link: "CampaignCertifi" },
@@ -256,11 +237,6 @@ export default {
   text-align: start;
 }
 
-.campaign-header-img {
-  border: 2px solid black;
-  border-radius: 15px;
-}
-
 .campaign-title {
   font-size: 1.5rem;
   font-family: "NanumBarunpen";
@@ -273,83 +249,8 @@ export default {
   padding: 10px 20px;
   margin: 10px 0;
 }
-.custom-list {
-  margin-top: 20px;
-  font-family: "S-CoreDream-7ExtraBold";
-}
-
-.campaign-info-list {
-  margin: 10px 0;
-  background-color: rgba(55, 205, 194, 0.09);
-  border-radius: 10px;
-  font-family: "S-CoreDream-7ExtraBold";
-}
-
-.custom-list-item {
-  border: 2px solid black;
-  &:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  &:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
-
-  &:not(:last-child) {
-    // border-bottom: 2px solid black;
-    margin-bottom: -2px;
-  }
-
-  &-red.v-list-group--active,
-  &-red:hover {
-    background: #cf6a87;
-  }
-
-  &-orange.v-list-group--active,
-  &-orange:hover {
-    background: #f19066;
-  }
-
-  &-yellow.v-list-group--active,
-  &-yellow:hover {
-    background: #fdcb6e;
-  }
-
-  &-green.v-list-group--active,
-  &-green:hover {
-    background: #b8e994;
-  }
-
-  &-blue.v-list-group--active,
-  &-blue:hover {
-    background: #82ccdd;
-  }
-
-  &-indigo.v-list-group--active,
-  &-indigo:hover {
-    background: #60a3bc;
-  }
-
-  &-purple.v-list-group--active,
-  &-purple:hover {
-    background: #786fa6;
-  }
-}
 
 .custom-white {
   background: var(--white-color);
-}
-
-.custom-make-btn {
-  font-family: "S-CoreDream-7ExtraBold";
-  font-size: 1rem;
-  width: 100%;
-  height: 48px;
-  margin-top: 20px;
-  background-color: var(--primary-color);
-  border: 2px solid black;
-  border-radius: 10px;
-  text-align: center;
 }
 </style>
