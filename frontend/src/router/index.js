@@ -17,6 +17,7 @@ import CampaignCertifi from "../views/campaigns/CampaignCertifi.vue";
 import CampaignPostings from "../views/campaigns/CampaignPostings.vue";
 
 // market
+import MarketLayout from "../views/market/MarketLayout.vue";
 import MarketMainView from "../views/market/MarketMainView.vue";
 import MarketListView from "../views/market/MarketListView.vue";
 import MarketMakeView from "../views/market/MarketMakeView.vue";
@@ -75,23 +76,30 @@ const routes = [
   // Market Start
   {
     path: "/market",
-    name: "MarketMainView",
-    component: MarketMainView,
-  },
-  {
-    path: "/market/list/:pageNum/:mainCategory?/:mediumCategory?/:content?",
-    name: "MarketListView",
-    component: MarketListView,
+    name: "MarketLayout",
+    component: MarketLayout,
+    children: [
+      {
+        path: "",
+        name: "MarketMainView",
+        component: MarketMainView,
+      },
+      {
+        path: "list/:pageNum/:mainCategory?/:mediumCategory?/:content?",
+        name: "MarketListView",
+        component: MarketListView,
+      },
+      {
+        path: "detail/:productNo",
+        name: "MarketDetailView",
+        component: MarketDetailView,
+      },
+    ],
   },
   {
     path: "/market/make",
     name: "MarketMakeView",
     component: MarketMakeView,
-  },
-  {
-    path: "/market/detail/:productNo",
-    name: "MarketDetailView",
-    component: MarketDetailView,
   },
   {
     path: "/market/update/:productNo",

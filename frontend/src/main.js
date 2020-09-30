@@ -11,16 +11,4 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
-  async created() {
-    await this.$store.dispatch("market/GET_AXIOS_MAINCATEGORIES", null, {
-      root: true,
-    });
-    await this.$store.dispatch(
-      "market/GET_AXIOS_MEDIUMCATEGORIES",
-      { mainCategoryNo: 1 },
-      {
-        root: true,
-      }
-    );
-  },
 }).$mount("#app");
