@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <!-- hero start -->
     <core-hero
       subtitle="우리 함께 지구를 구해요"
@@ -24,11 +24,7 @@
     <!-- hero end -->
 
     <!-- section the problem start -->
-    <core-section
-      id="section-theproblem"
-      subtitle="THE PROBLEM"
-      min-height="100vh"
-    >
+    <core-section subtitle="THE PROBLEM" min-height="100vh">
       <template slot="title">
         지나친 개발로 인한
         <br />
@@ -43,7 +39,7 @@
     <!-- section the problem end -->
 
     <!-- section the solution start -->
-    <core-section id="section-thesolution" subtitle="THE SOLUTION" pb="12">
+    <core-section subtitle="THE SOLUTION" pb="12">
       <template slot="title">
         작은 실천부터 시작하고,
         <br />
@@ -54,22 +50,10 @@
         <br />불필요한 물건을 다른 사람들과 나눠보면 어떨까요?
       </template>
       <template slot="content">
-        <v-col cols="12" sm="4">
+        <v-col v-for="item in contentSolution" :key="item.src" cols="12" sm="4">
           <card-with-caption
-            caption="캠페인"
-            :src="require('@/assets/images/main-info-campaign.jpg')"
-          />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <card-with-caption
-            caption="중고거래"
-            :src="require('@/assets/images/main-info-market.jpg')"
-          />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <card-with-caption
-            caption="에코포인트"
-            :src="require('@/assets/images/main-info-point.jpg')"
+            :caption="item.text"
+            :src="require(`@/assets/images/${item.src}`)"
           />
         </v-col>
       </template>
@@ -78,7 +62,6 @@
 
     <!-- section campaign start -->
     <core-section
-      id="section-campaign"
       subtitle="CAMPAIGN"
       :centerPadding="false"
       :endPadding="false"
@@ -103,12 +86,7 @@
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
+              <lazy-loading />
             </template>
           </v-img>
         </v-col>
@@ -137,12 +115,7 @@
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
+              <lazy-loading />
             </template>
           </v-img>
         </v-col>
@@ -152,15 +125,16 @@
             tag="button"
             :to="{ name: 'CampaignMain' }"
             class="c-btn c-primary"
-            >더보기</router-link
           >
+            더보기
+          </router-link>
         </v-col>
       </v-row>
     </v-container>
     <!-- section campaign end -->
 
     <!-- section secondhand start -->
-    <core-section id="section-secondhand" subtitle="SECONDHAND" pb="12">
+    <core-section subtitle="SECONDHAND" pb="12">
       <template slot="title">
         <span class="c-highlight">재활용보다 재사용이</span>
         <br />환경을 더욱 보호하는 길이예요
@@ -216,7 +190,6 @@
 
     <!-- section group start -->
     <core-section
-      id="section-group"
       class="c-primary"
       pb="12"
       :centerPadding="false"
@@ -232,7 +205,7 @@
         <v-row justify="center">
           <v-col cols="12" xl="8"
             ><v-row>
-              <v-col cols="12" sm="6" md="4" v-for="index in 6" :key="index">
+              <v-col v-for="index in 6" :key="index" cols="12" sm="6" md="4">
                 <v-img
                   :src="require('@/assets/images/logo' + index + '.jpg')"
                   style="
@@ -245,16 +218,7 @@
                   lazy-src="@/assets/images/lazy-loading.jpg"
                 >
                   <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
+                    <lazy-loading />
                   </template>
                 </v-img>
               </v-col>
@@ -274,24 +238,19 @@ import CardWithCaption from "@/components/home/CardWithCaption";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      contentSolution: [
+        { text: "캠페인", src: "main-info-campaign.jpg" },
+        { text: "중고거래", src: "main-info-market.jpg" },
+        { text: "에코포인트", src: "main-info-point.jpg" },
+      ],
+    };
+  },
   components: {
     CoreHero,
     CoreSection,
     CardWithCaption,
-  },
-  data() {
-    return {
-      logos: [
-        {
-          id: 1,
-          src: "@/assets/images/logo1.jpg",
-        },
-        {
-          id: 2,
-          src: "@/assets/images/logo2.jpg",
-        },
-      ],
-    };
   },
 };
 </script>

@@ -143,7 +143,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="custom-market-make-btn" @click="uploadImage"
+            <v-btn class="custom-market-make-btn" @click="uploadImage(images)"
               >이미지 업로드 테스트 버튼</v-btn
             >
             <v-btn
@@ -166,9 +166,11 @@ import axios from "axios";
 import SERVER from "@/api/api";
 import { mapGetters } from "vuex";
 import router from "@/router";
+import { imageUploadable } from "@/components/mixin/imageUploadable";
 
 export default {
   name: "MarketMakeView",
+  mixins: [imageUploadable],
   data() {
     return {
       product: {
@@ -215,7 +217,8 @@ export default {
 
     registProduct: async function () {
       this.product.writer = this.USERNAME;
-      await this.uploadImage();
+      this.product.photo = this.uploadImage(this.images);
+      // await this.uploadImage();
       await axios
         .post(SERVER.URL + SERVER.ROUTES.products.URL + "/", this.product, {
           headers: {
@@ -231,27 +234,27 @@ export default {
         });
     },
 
-    async uploadImage() {
-      let configs = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+    // async uploadImage() {
+    //   let configs = {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   };
 
-      let file = this.images;
-      let formData = new FormData();
-      formData.append("file", file);
+    //   let file = this.images;
+    //   let formData = new FormData();
+    //   formData.append("file", file);
 
-      await axios
-        .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
-        .then((res) => {
-          this.product.photo = res.data.fileName;
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    //   await axios
+    //     .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
+    //     .then((res) => {
+    //       this.product.photo = res.data.fileName;
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
 
     getUserInfo() {
       let configs = {
