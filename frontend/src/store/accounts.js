@@ -14,6 +14,14 @@ export default {
       return !!state.authToken;
     },
     config: (state) => `Bearer ${state.authToken}`,
+    USERNAME(state) {
+      if (!state.authToken) {
+        return "";
+      }
+      var base64Url = state.config.split(".")[1];
+      var decodedValue = JSON.parse(window.atob(base64Url));
+      return decodedValue.sub;
+    },
   },
   mutations: {
     SET_TOKEN(state, token) {
