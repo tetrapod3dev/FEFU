@@ -105,6 +105,6 @@ def recom_ibcf(user, new_df_counts, n_items=20):
     # 계산된 예측값을 오름차순으로 정렬합니다.
     pred_user_category = user_category.sort_values(ascending=False)[:n_items]
     recommend_category = pd.DataFrame(pred_user_category).reset_index()
-    recommend_category['category'] = recommend_category['category'].map(lambda x: category_dict[x])
+    # recommend_category['category'] = recommend_category['category'].map(lambda x: category_dict[x])
 
     return recommend_category
