@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ProductInfo, MainCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo
+from .models import ProductInfo, MainCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, User
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -57,3 +57,10 @@ class SubCategoryInfoSerializer(serializers.ModelSerializer):
         model = SubCategoryInfo
         fields = "__all__"
         read_only_fields = (["no"])
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'gender', 'age']
+        read_only_fields = (['no'])
