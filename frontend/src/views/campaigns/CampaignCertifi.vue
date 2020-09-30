@@ -29,11 +29,17 @@
     <v-container>
       <v-row>
         <v-col cols="12" sm="3">
-          <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
-            <!-- 사이드바 -->
-            <SideBar :campaign="campaign" />
-            <ProofCreateBtn :campaign="campaign" />
-          </div>
+          <!-- 사이드바 -->
+          <SideBar :campaign="campaign" />
+          <ProofCreateBtn v-if="isJoined" :campaign="campaign" />
+
+          <button
+            v-if="!isJoined"
+            @click="joinCampaign"
+            class="custom-make-btn"
+          >
+            캠페인 신청
+          </button>
         </v-col>
 
         <v-col cols="12" sm="9" class="pt-0">
@@ -62,8 +68,10 @@ import BarChart from "@/components/campaign/BarChart.vue";
 import UserCertificate from "@/components/campaign/UserCertificate";
 import ProofCreateBtn from "@/components/campaign/ProofCreateBtn.vue";
 
+import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
+import router from "@/router";
 
 export default {
   components: {
@@ -74,9 +82,14 @@ export default {
   },
   created() {
     this.getCampaign();
+    this.getIsJoinedCampaign();
+  },
+  computed: {
+    ...mapGetters("accounts", ["config"]),
   },
   data() {
     return {
+      isJoined: false,
       items: [
         { name: "캠페인소개", link: "CampaignDetail" },
         { name: "인증현황", link: "CampaignCertifi" },
@@ -130,6 +143,60 @@ export default {
           console.log(err);
         });
     },
+    getIsJoinedCampaign() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(
+          SERVER.URL +
+            SERVER.ROUTES.campaigns.join +
+            "/" +
+            this.$route.params.campaignNo,
+          configs
+        )
+        .then((res) => {
+          this.isJoined = res.data;
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
+    joinCampaign() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      let body = {
+        campaign_no: this.$route.params.campaignNo,
+      };
+      axios
+        .post(SERVER.URL + SERVER.ROUTES.campaigns.join, body, configs)
+        .then((res) => {
+          if (res.data == "success") {
+            alert("신청 완료 되었습니다.");
+            router
+              .push({
+                name: "CampaignDetail",
+                params: { campaignNo: this.$route.params.campaignNo },
+              })
+              .then(() => {
+                location.reload();
+              })
+              .catch((error) => {
+                if (error.name === "NavigationDuplicated") {
+                  location.reload();
+                }
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
   },
 };
 </script>
@@ -154,5 +221,17 @@ export default {
 
 .custom-white {
   background: var(--white-color);
+}
+
+.custom-make-btn {
+  font-family: "S-CoreDream-7ExtraBold";
+  font-size: 1rem;
+  width: 100%;
+  height: 48px;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
 }
 </style>

@@ -383,7 +383,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("accounts", ["config"]),
+    ...mapGetters("accounts", ["config", "USERNAME"]),
 
     getCampaignType() {
       let campaignType = "";
@@ -404,13 +404,6 @@ export default {
       } else {
         this.url = URL.createObjectURL(this.images);
       }
-    },
-
-    checkusername() {
-      var base64Url = this.config.split(".")[1];
-      var decodedValue = JSON.parse(window.atob(base64Url));
-      this.campaign.writer = decodedValue.sub;
-      // this.authority = decodedValue.role[0]
     },
 
     registCampaign: async function () {
@@ -437,7 +430,7 @@ export default {
         };
       }
 
-      await this.checkusername();
+      this.campaign.writer = this.USERNAME;
       await this.uploadImage();
       await axios
         .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
