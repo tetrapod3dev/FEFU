@@ -30,48 +30,92 @@
       <v-row>
         <v-col cols="12" sm="3">
           <div :class="$vuetify.breakpoint.smAndDown ? '' : 'fixed-bar'">
-            <v-img
-              class="campaign-header-img"
-              height="200px"
-              :src="imageSrc(campaign.photo)"
-            >
-            </v-img>
-
-            <!-- <div class="campaign-manager d-flex">
-              <v-avatar color="teal" size="60"></v-avatar>
-              <div class="d-flex flex-column justify-center text-left ml-3">
-                <span class="manager-badge text-center">매니저</span>
-                <span class="mb-0">{{ campaign.writer }}</span>
-              </div>
-            </div> -->
-
             <!-- 사이드바 -->
-            <v-list class="custom-list">
-              <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                no-action
-                class="custom-list-item"
-                :class="
-                  `custom-list-item-${
-                    listColorName[index % listColorName.length]
-                  }`
-                "
-                :to="{ name: item.link, params: { campaignNo: campaign.no } }"
-              >
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.name"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
+            <SideBar :campaign="campaign" />
 
-            <router-link
-              tag="button"
-              class="custom-make-btn"
-              :to="{ name: 'MarketMakeView' }"
-            >
-              인증글작성
-            </router-link>
+            <v-dialog v-model="dialog" persistent max-width="600px">
+              <template v-slot:activator="{ on, attrs }">
+                <button class="custom-make-btn" v-bind="attrs" v-on="on">
+                  인증글 작성
+                </button>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">인증글 작성</span>
+                </v-card-title>
+                <v-card-text class="py-0">
+                  <v-container class="pb-0">
+                    <v-row>
+                      <v-col cols="12" class="py-0">
+                        <v-img
+                          id="Preview_image_create"
+                          height="230px"
+                          :style="
+                            !url
+                              ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)'
+                              : ''
+                          "
+                          :src="
+                            !!url ? url : require('@/assets/images/noimage.jpg')
+                          "
+                        />
+                        <v-file-input
+                          class="mt-5"
+                          label="오늘의 미션 인증 사진"
+                          v-model="images"
+                          :roules="imageRules"
+                          filled
+                          prepend-icon=""
+                          append-icon="mdi-camera"
+                          color="#37cdc2"
+                          accept="image/*"
+                          @change="Preview_image"
+                        ></v-file-input>
+                      </v-col>
+
+                      <v-col cols="12" class="py-0">
+                        <v-text-field
+                          v-model="proofPost.title"
+                          label="인증글 제목"
+                          name="인증글 제목"
+                          type="text"
+                          required
+                          filled
+                          autofocus
+                          autocapitalize="off"
+                          autocorrect="off"
+                          autocomplete="off"
+                          color="#37cdc2"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" class="py-0">
+                        <v-textarea
+                          v-model="proofPost.content"
+                          label="내용"
+                          name="내용"
+                          type="text"
+                          required
+                          filled
+                          autocapitalize="off"
+                          autocorrect="off"
+                          autocomplete="off"
+                          color="#37cdc2"
+                        ></v-textarea>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions class="px-5">
+                  <v-btn color="blue darken-1" text @click="dialog = false">
+                    취소
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="registProof">
+                    등록
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </div>
         </v-col>
 
@@ -96,17 +140,25 @@
 
 <script>
 import UserCertificatePosts from "@/components/campaign/UserCertificatePosts.vue";
+import SideBar from "@/components/campaign/SideBar.vue";
 
 import axios from "axios";
 import SERVER from "@/api/api";
+import router from "@/router";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     UserCertificatePosts,
+    SideBar,
   },
   created() {
+    this.checkusername();
+  },
+  mounted() {
     this.getCampaign();
   },
+  computed: { ...mapGetters("accounts", ["config"]) },
   data() {
     return {
       listColorName: [
@@ -118,11 +170,6 @@ export default {
         "indigo",
         "purple",
       ],
-      campaign_info: {
-        title: "캠페인 제목",
-        date: "2019-11-12",
-      },
-      tab: null,
       items: [
         { name: "캠페인소개", link: "CampaignDetail" },
         { name: "인증현황", link: "CampaignCertifi" },
@@ -137,7 +184,7 @@ export default {
         photo: "",
         tag: [],
         type: "",
-        no: null,
+        no: 0,
       },
       campaignTypeInfo: {
         authEndTime: "",
@@ -147,14 +194,112 @@ export default {
         headcount: null,
         mission: "",
         no: null,
-        requirement: null,
+        requirement: "",
       },
+      url: null,
+      images: null,
+      imageRules: [
+        (value) =>
+          !value ||
+          value.size < 2000000 ||
+          "이미지 파일은 최대 2 MB까지 가능해요",
+      ],
+      proofPost: {
+        campaignNo: null,
+        title: "",
+        content: "",
+        photo: "",
+        writer: "",
+      },
+      dialog: false,
+      user: null,
     };
   },
   methods: {
+    getUserInfo() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.myPage, configs)
+        .then((res) => {
+          this.user = res.data.user;
+        })
+        .catch((err) => console.log(err.response));
+    },
+    Preview_image() {
+      if (!this.images) {
+        this.url = null;
+      } else {
+        this.url = URL.createObjectURL(this.images);
+      }
+    },
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
+    checkusername() {
+      var base64Url = this.config.split(".")[1];
+      var decodedValue = JSON.parse(window.atob(base64Url));
+      this.proofPost.writer = decodedValue.sub;
+      console.log(this.proofPost.writer);
+      // this.authority = decodedValue.role[0]
+    },
+
+    registProof: async function() {
+      await this.checkusername();
+      await this.uploadImage();
+      await axios
+        .post(
+          SERVER.URL + SERVER.ROUTES.campaigns.URL + "/proof/",
+          this.proofPost,
+          {
+            headers: {
+              Authorization: this.config,
+            },
+          }
+        )
+        .then(() => {
+          alert("캠페인 등록 완료 되었습니다.");
+          this.dialog = false;
+          router
+            .push({ name: "CampaignPostings" })
+            .then(() => {
+              location.reload();
+            })
+            .catch((error) => {
+              if (error.name === "NavigationDuplicated") {
+                location.reload();
+              }
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    async uploadImage() {
+      let configs = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      let file = this.images;
+      let formData = new FormData();
+      formData.append("file", file);
+
+      await axios
+        .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
+        .then((res) => {
+          this.proofPost.photo = res.data.fileName;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
     getCampaign() {
       axios
         .get(
@@ -166,6 +311,7 @@ export default {
         )
         .then((res) => {
           this.campaign = res.data["campaign"];
+          this.proofPost.campaignNo = res.data["campaign"].no;
           if (res.data["official"]) {
             this.campaignTypeInfo = res.data["official"];
           } else if (res.data["personal"]) {
