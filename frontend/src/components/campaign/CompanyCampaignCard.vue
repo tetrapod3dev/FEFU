@@ -1,9 +1,18 @@
 <template>
   <!-- <v-hover v-slot:default="{ hover }" open-delay="200"> -->
   <v-card class="custom-card mx-auto" max-width="400" outlined>
-    <v-img class="campaign-img" height="200px" :src="src">
+    <v-img
+      class="campaign-img"
+      height="200px"
+      :src="src"
+      lazy-src="@/assets/images/lazy-loading.jpg"
+    >
       <!-- <span class="campaign-state">진행여부</span> -->
+      <template v-slot:placeholder>
+        <lazy-loading />
+      </template>
     </v-img>
+
     <v-card-text class="text--primary text-left">
       <h3>{{ campaign.title }}</h3>
       <div>{{ campaign.org }}</div>

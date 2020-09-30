@@ -5,7 +5,11 @@
       height="200px"
       :src="imageSrc(campaign.photo)"
       v-if="campaign.photo != ''"
+      lazy-src="@/assets/images/lazy-loading.jpg"
     >
+      <template v-slot:placeholder>
+        <lazy-loading />
+      </template>
     </v-img>
 
     <div v-if="campaign">
@@ -15,9 +19,9 @@
           :key="index"
           no-action
           class="custom-list-item"
-          :class="
-            `custom-list-item-${listColorName[index % listColorName.length]}`
-          "
+          :class="`custom-list-item-${
+            listColorName[index % listColorName.length]
+          }`"
           :to="{ name: item.link, params: { campaignNo: campaign.no } }"
         >
           <v-list-item-content>
