@@ -1,11 +1,15 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
+      <!-- signup card start -->
       <v-col class="my-12" cols="12" sm="8" md="6" lg="4">
-        <div class="login-welcome">어서와요, 반가워요🙌!</div>
-        <v-card class="custom-login-card">
+        <!-- signup card title -->
+        <div class="c-card__title c-title">어서와요, 반가워요🙌!</div>
+        <!-- signup card content start -->
+        <v-card class="c-card__content c-txt">
           <v-card-text>
-            <div class="login-title">회원가입 해주세요</div>
+            <div class="c-title mb-5">회원가입 해주세요</div>
+
             <v-form ref="form">
               <v-text-field
                 v-model="signupData.username"
@@ -22,7 +26,8 @@
                     '올바른 양식의 이메일을 입력해주세요',
                   checkEmailRule,
                 ]"
-              ></v-text-field>
+              />
+
               <v-text-field
                 v-model="signupData.nickname"
                 label="닉네임"
@@ -38,7 +43,7 @@
                     '2~8글자로 입력해주세요',
                   checkNicknameRule,
                 ]"
-              ></v-text-field>
+              />
 
               <v-text-field
                 id="password"
@@ -52,7 +57,8 @@
                 @click:append="isShowPW = !isShowPW"
                 :type="isShowPW ? 'text' : 'password'"
                 :rules="[rules.required, rules.min]"
-              ></v-text-field>
+              />
+
               <v-text-field
                 id="passwordConfirm"
                 v-model="signupData.passwordConfirm"
@@ -68,7 +74,8 @@
                   (v) => !!v || '비밀번호를 다시 한번 입력해주세요.',
                   passwordConfirmationRule,
                 ]"
-              ></v-text-field>
+              />
+
               <v-row no-gutters>
                 <v-col cols="5">
                   <v-text-field
@@ -110,6 +117,7 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+
               <v-dialog v-model="dialog" width="600px">
                 <template v-slot:activator="{ on, attrs }">
                   <p class="mb-0 text-left">
@@ -123,6 +131,8 @@
                     >을 읽었음을 인정하게 됩니다.
                   </p>
                 </template>
+
+                <!-- modal start -->
                 <v-card>
                   <v-tabs v-model="tab">
                     <v-tab href="#terms">
@@ -149,6 +159,7 @@
                       </v-card-text>
                     </v-tab-item>
                   </v-tabs-items>
+
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -162,6 +173,7 @@
                     >
                   </v-card-actions>
                 </v-card>
+                <!-- modal end -->
               </v-dialog>
               <v-checkbox
                 v-model="checkbox"
@@ -171,28 +183,33 @@
                 :rules="[checkboxRule]"
               ></v-checkbox>
             </v-form>
+
             <v-col class="py-0 px-0">
               <span>이미 회원이신가요? </span>
               <router-link
                 to="/user/login"
                 tag="span"
                 style="cursor: pointer; color: black"
-                >로그인</router-link
               >
+                로그인
+              </router-link>
             </v-col>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              class="custom-login-btn"
+              class="c-btn"
               width="100%"
               large
               @click="preSignup(signupData)"
-              >회원가입
+            >
+              회원가입
             </v-btn>
           </v-card-actions>
         </v-card>
+        <!-- signup card content end -->
       </v-col>
+      <!-- signup card end -->
     </v-row>
   </v-container>
 </template>
@@ -316,14 +333,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-title {
+.c-txt,
+.c-title {
   font-family: "NanumBarunpen";
+}
+
+.c-title {
   text-align: start;
   font-size: 1.3rem;
 }
 
-.login-welcome {
-  @extend .custom-title;
+.c-card__title {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px;
@@ -331,18 +351,12 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.16), 0 1px 5px rgba(0, 0, 0, 0.23);
 }
 
-.login-title {
-  @extend .custom-title;
-  margin-bottom: 20px;
-}
-
-.custom-login-card {
-  font-family: "NanumBarunpen";
+.c-card__content {
   border: 2px solid black;
   padding: 10px 5px;
 }
 
-.custom-login-btn {
+.c-btn {
   border: 2px solid black;
   background: var(--primary-color);
 }
