@@ -8,7 +8,7 @@
             <v-card class="custom-login-card">
               <v-card-text>
                 <div class="login-title">로그인해주세요</div>
-                <v-form>
+                <v-form ref="form">
                   <v-text-field
                     label="아이디"
                     name="email"
@@ -46,7 +46,7 @@
                   <router-link
                     to="/user/signup"
                     tag="span"
-                    style="cursor:pointer; color:black;"
+                    style="cursor: pointer; color: black"
                     >회원 가입</router-link
                   >
                 </v-col>
@@ -57,7 +57,7 @@
                   class="custom-login-btn"
                   width="100%"
                   large
-                  @click="login(loginData)"
+                  @click="preTest"
                   >로그인
                 </v-btn>
               </v-card-actions>
@@ -98,6 +98,11 @@ export default {
     ...mapActions("accounts", ["login"]),
     moveToSignup() {
       this.$router.push({ name: "Signup" });
+    },
+    preTest() {
+      if (this.$refs.form.validate()) {
+        this.login(this.loginData);
+      }
     },
   },
 };

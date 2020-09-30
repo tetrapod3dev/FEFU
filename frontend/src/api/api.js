@@ -5,9 +5,10 @@ export default {
   IMAGE_URL: "http://j3a402.p.ssafy.io:8888/upload/",
   ROUTES: {
     accounts: {
-      URL: "",
+      URL: "/users", // CRUD / 유저 CRUD
       login: "/auth/login",
-      signup: "/users",
+      checkEmail: "/users/check-email/", // GET / 이메일 중복 체크
+      checkNickname: "/users/check-nickname/", // GET / 닉네임 중복 체크
     },
     products: {
       URL: "/products",
