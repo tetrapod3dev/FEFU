@@ -52,9 +52,11 @@
                 :key="index"
                 no-action
                 class="custom-list-item"
-                :class="`custom-list-item-${
-                  listColorName[index % listColorName.length]
-                }`"
+                :class="
+                  `custom-list-item-${
+                    listColorName[index % listColorName.length]
+                  }`
+                "
                 :to="{ name: item.link, params: { campaignNo: campaign.no } }"
               >
                 <v-list-item-content>
@@ -198,7 +200,9 @@ export default {
 .capmaign-info {
   font-family: "NanumBarunpen";
 }
+
 .custom-list {
+  margin-top: 20px;
   font-family: "S-CoreDream-7ExtraBold";
 }
 
