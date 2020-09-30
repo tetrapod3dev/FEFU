@@ -153,8 +153,7 @@ export default {
     checkusername() {
       var base64Url = this.config.split(".")[1];
       var decodedValue = JSON.parse(window.atob(base64Url));
-      this.proofPost.writer = decodedValue.sub;
-      console.log(this.proofPost.writer);
+      this.campaign.writer = decodedValue.sub;
       // this.authority = decodedValue.role[0]
     },
 
