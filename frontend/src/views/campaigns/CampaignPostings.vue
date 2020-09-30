@@ -78,8 +78,10 @@
         <v-col cols="12" sm="9" class="pt-0">
           <v-container justify="start">
             <div class="campaign-welcome">
-              <span class="campaign-title">{{ campaign.title }} 😏</span>
-              <small> {{ campaign.startDate }} - {{ campaign.endDate }} </small>
+              <span class="campaign-title">{{ campaign.title }}</span>
+              <small class="ml-3">
+                {{ campaign.startDate }} - {{ campaign.endDate }}
+              </small>
             </div>
 
             <div class="campaign-info d-flex flex-column">

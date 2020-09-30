@@ -79,7 +79,9 @@
           <v-container justify="start">
             <div class="campaign-welcome">
               <span class="campaign-title">{{ campaign.title }}</span>
-              <small> {{ campaign.startDate }} - {{ campaign.endDate }} </small>
+              <small class="ml-3">
+                {{ campaign.startDate }} - {{ campaign.endDate }}
+              </small>
             </div>
 
             <div class="campaign-info d-flex flex-column">
@@ -167,12 +169,13 @@
                 </v-row>
               </v-list>
 
-              <p class="text-left">{{ campaign.content }}</p>
+              <p class="text-left mt-4 pa-1">{{ campaign.content }}</p>
               <v-chip-group>
                 <v-chip
-                  class="ma-2"
-                  color="#37cdc2"
+                  class="ma-1"
+                  color="#38C0BD"
                   outlined
+                  dense
                   v-for="tag in campaign.tag"
                   :key="tag"
                   >{{ tag }}</v-chip
@@ -306,8 +309,10 @@ export default {
 }
 
 .campaign-info-list {
+  margin: 10px 0;
+  background-color: rgba(55, 205, 194, 0.09);
+  border-radius: 10px;
   font-family: "S-CoreDream-7ExtraBold";
-  border: 2px solid black;
 }
 
 .custom-list-item {
