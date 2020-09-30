@@ -68,6 +68,13 @@ public class CampaignController {
 		return new ResponseEntity<String>("등록 성공", HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "해당 유저가 생성한 캠페인 목록 가져오기")
+	@GetMapping(value = "/my-campaign")
+	public ResponseEntity<List<CampaignDto>> getRegistCampaign(@ApiIgnore @RequestHeader("X-USERNAME") String username) {
+		List<CampaignDto> list = campaignService.findByRegistCampaign(username);
+		return new ResponseEntity<List<CampaignDto>>(list, HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "해당 유저 캠페인 참석 여부 확인")
 	@GetMapping(value = "/join/{campaign_no}")
 	public ResponseEntity<Boolean> checkJoin(@ApiIgnore @RequestHeader("X-USERNAME") String username,
@@ -79,6 +86,13 @@ public class CampaignController {
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "해당 유저 참여 캠페인 목록 가져오기")
+	@GetMapping(value = "/join")
+	public ResponseEntity<List<CampaignDto>> checkJoinList(@ApiIgnore @RequestHeader("X-USERNAME") String username) {
+		List<CampaignDto> list = campaignService.findByJoinCampaign(username);
+		return new ResponseEntity<List<CampaignDto>>(list, HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "해당 캠페인 참석 하기")
 	@PostMapping(value = "/join")
 	public ResponseEntity<String> joinCampaign(@ApiIgnore @RequestHeader("X-USERNAME") String username,

@@ -104,6 +104,16 @@ public class CampaignServiceImpl implements CampaignService {
 
 		return res;
 	}
+	
+	@Override
+	public List<CampaignDto> findByJoinCampaign(String username) {
+		return campaignMapper.findByJoinCampaign(username);
+	}
+	
+	@Override
+	public List<CampaignDto> findByRegistCampaign(String username) {
+		return campaignMapper.findByRegistCampaign(username);
+	}
 
 	@Override
 	public int updateCampaign(CampaignDto dto) {
