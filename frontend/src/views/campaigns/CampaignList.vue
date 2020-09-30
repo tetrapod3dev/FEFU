@@ -5,8 +5,19 @@
         <div class="campaign-title">
           <div v-if="campaignType.id == 1">
             <v-row>
-              <v-col cols="8">
+              <v-col cols="6">
                 <h1 class="text-left">{{ campaignType.name }} - {{ state }}</h1>
+              </v-col>
+
+              <v-col cols="2">
+                <v-select v-model="state" :items="items" outlined></v-select>
+              </v-col>
+              <v-col cols="2"
+                ><input
+                  type="text"
+                  class="campaign-search"
+                  placeholder="🔍 검색어를 입력하세요"
+                />
               </v-col>
               <v-col cols="2"
                 ><router-link
@@ -20,23 +31,33 @@
                   캠페인 등록
                 </router-link></v-col
               >
-              <v-col cols="2">
-                <v-select v-model="state" :items="items" outlined></v-select>
-              </v-col>
             </v-row>
           </div>
           <div v-else>
-            <h1>{{ campaignType.name }}</h1>
-            <router-link
-              tag="button"
-              class="custom-make-btn"
-              :to="{ name: 'CampaignMake', params: { type: campaignType.id } }"
-            >
-              캠페인 등록
-            </router-link>
-            <p v-if="campaignType.id == 2">
-              * 클릭하시면 해당 기업 캠페인 페이지로 이동합니다.
-            </p>
+            <v-row>
+              <v-col cols="8">
+                <h1 class="text-left">{{ campaignType.name }}</h1>
+              </v-col>
+              <v-col cols="2"
+                ><input
+                  type="text"
+                  class="campaign-search"
+                  placeholder="🔍 검색어를 입력하세요"
+                />
+              </v-col>
+              <v-col cols="2"
+                ><router-link
+                  tag="button"
+                  class="custom-make-btn"
+                  :to="{
+                    name: 'CampaignMake',
+                    params: { type: campaignType.id },
+                  }"
+                >
+                  캠페인 등록
+                </router-link></v-col
+              >
+            </v-row>
           </div>
         </div>
 
@@ -78,7 +99,7 @@ export default {
   data() {
     return {
       state: "전체",
-      items: ["전체", "진행 중", "오픈 예정"],
+      items: ["전체", "진행 중", "오픈 예정", "종료 된"],
       // campaigninfo: [
       //   {
       //     title: "분리수거해요",
@@ -104,7 +125,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .section {
   margin-top: 30px;
   margin-bottom: 100px;
@@ -125,5 +146,23 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   text-align: center;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.campaign-search {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 7px 10px;
+  text-align: start;
+  width: 100%;
+  height: 48px;
+  font-family: "NanumBarunpen";
+
+  &:focus {
+    outline: none;
+  }
 }
 </style>
