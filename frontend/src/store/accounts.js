@@ -36,14 +36,13 @@ export default {
           }
         })
         .catch((err) => {
-          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
           console.log(err);
         });
     },
     signup({ dispatch }, signupData) {
       const info = {
         data: signupData,
-        location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.signup,
+        location: SERVER.ROUTES.accounts.URL,
         name: "signup",
       };
       dispatch("postAuthData", info);
@@ -52,7 +51,7 @@ export default {
     login({ dispatch }, loginData) {
       const info = {
         data: loginData,
-        location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.login,
+        location: SERVER.ROUTES.accounts.login,
       };
       dispatch("postAuthData", info);
     },
