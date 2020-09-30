@@ -8,10 +8,14 @@
 
           <div>
             <v-img
-              class="custom-header-img mr-auto ml-auto"
+              class="c-sidebar c-sidebar__img mr-auto ml-auto"
               height="200px"
               width="200px"
-              :src="imageSrc('')"
+              :src="
+                !!userinfo.photo
+                  ? imageSrc(userinfo.photo)
+                  : require(`@/assets/images/${userinfo.gender}.png`)
+              "
               lazy-src="@/assets/images/lazy-loading.jpg"
             >
               <template v-slot:placeholder>
@@ -19,49 +23,56 @@
               </template>
             </v-img>
 
-            <v-list class="custom-list">
-              <v-list-item class="custom-list-item">
-                <v-list-item-content
-                  >test2 test2
-                  <v-list-item-title></v-list-item-title>
+            <div class="[ c-sidebar c-sidebar__name c-sidebar--font ] mt-5">
+              <div>{{ userinfo.username }}</div>
+              <div>{{ userinfo.nickname }}</div>
+            </div>
+            <v-list class="c-list">
+              <v-list-item :to="{ name: 'MypageInfo' }" class="c-list-item">
+                <v-list-item-content>
+                  <v-list-item-title>내정보</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="custom-list-item">
+              <v-list-item
+                :to="{ name: 'MypageListCampaignJoin' }"
+                class="c-list-item"
+              >
                 <v-list-item-content>
                   <v-list-item-title>참여 캠페인</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="custom-list-item">
+              <v-list-item
+                :to="{ name: 'MypageListCampaignAdmin' }"
+                class="c-list-item"
+              >
                 <v-list-item-content>
                   <v-list-item-title>등록 캠페인</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="custom-list-item">
+              <v-list-item
+                :to="{ name: 'MypageListProduct' }"
+                class="c-list-item"
+              >
                 <v-list-item-content>
                   <v-list-item-title>등록 물건</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="custom-list-item">
+              <v-list-item
+                :to="{ name: 'MypageUpdatePwd' }"
+                class="c-list-item"
+              >
                 <v-list-item-content>
-                  <v-list-item-title>회원정보수정</v-list-item-title>
+                  <v-list-item-title>비밀번호변경</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
           </div>
 
-          <button class="custom-make-btn">회원 탈퇴</button>
+          <button class="c-btn">회원 탈퇴</button>
         </v-col>
 
         <v-col cols="12" md="9" class="pt-0">
-          <v-container justify="start">
-            <div class="campaign-welcome">
-              <span class="campaign-title">등록 캠페인</span>
-            </div>
-
-            <div class="campaign-info d-flex flex-column">
-              <router-view />
-            </div>
-          </v-container>
+          <router-view />
         </v-col>
       </v-row>
     </v-container>
@@ -69,12 +80,13 @@
 </template>
 
 <script>
+import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 import { mapGetters } from "vuex";
 import SERVER from "@/api/api";
 
 export default {
   name: "Mypage",
-  created() {},
+  mixins: [mixinGetUserInfo],
   data() {
     return {
       isJoined: false,
@@ -88,20 +100,27 @@ export default {
         "purple",
       ],
       userinfo: {
-        no: 16,
-        username: "sdf7575@naver.com",
+        no: 0,
+        username: "",
         password: null,
-        nickname: "박태록",
-        age: 28,
+        nickname: "",
+        age: 0,
         gender: "남자",
         ecoPoint: 0,
         exp: 0,
-        profileImage: null,
+        profileImage: "",
       },
     };
   },
+  created() {
+    this.getUserInfo()
+      .then((res) => {
+        this.userinfo = res.data;
+      })
+      .catch((err) => console.log(err));
+  },
   computed: {
-    ...mapGetters("accounts", ["config"]),
+    ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
     imageSrc(filename) {
@@ -112,44 +131,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-header-img {
+.c-sidebar {
   border: 2px solid black;
-  border-radius: 50%;
-}
-
-.campaign-welcome {
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin: 10px 0;
-  text-align: start;
-}
-
-.campaign-title {
-  font-size: 1.5rem;
-  font-family: "NanumBarunpen";
-}
-
-.campaign-info {
-  font-family: "NanumBarunpen";
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin: 10px 0;
-}
-
-.campaign-info-list {
-  margin: 10px 0;
-  background-color: rgba(55, 205, 194, 0.09);
   border-radius: 10px;
-  font-family: "S-CoreDream-7ExtraBold";
+  &__img {
+    border-radius: 50%;
+  }
+  &__name {
+    font-size: 1rem;
+    width: 100%;
+    padding: 10px 20px;
+  }
+  &--font {
+    font-family: "S-CoreDream-7ExtraBold";
+    font-size: 1rem;
+  }
 }
 
-.custom-white {
-  background: var(--white-color);
+.c-card__content {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+.c-txt,
+.c-title {
+  font-family: "NanumBarunpen";
 }
 
-.custom-make-btn {
+.c-title {
+  text-align: start;
+  font-size: 1.5rem;
+}
+
+.c-btn {
   font-family: "S-CoreDream-7ExtraBold";
   font-size: 1rem;
   width: 100%;
@@ -161,23 +176,12 @@ export default {
   text-align: center;
 }
 
-.capmaign-info {
-  font-family: "NanumBarunpen";
-}
-
-.custom-list {
+.c-list {
   margin-top: 20px;
   font-family: "S-CoreDream-7ExtraBold";
 }
 
-.campaign-info-list {
-  font-family: "S-CoreDream-7ExtraBold";
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 5px 0;
-}
-
-.custom-list-item {
+.c-list-item {
   border: 2px solid black;
   &:first-child {
     border-top-left-radius: 10px;

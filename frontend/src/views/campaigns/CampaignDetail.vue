@@ -41,115 +41,8 @@
             캠페인 신청
           </button>
         </v-col>
-
-        <v-col cols="12" md="9" class="pt-0">
-          <v-container justify="start">
-            <div class="campaign-welcome">
-              <span class="campaign-title">{{ campaign.title }}</span>
-              <small class="ml-3">
-                {{ campaign.startDate }} - {{ campaign.endDate }}
-              </small>
-            </div>
-
-            <div class="campaign-info d-flex flex-column">
-              <v-list class="campaign-info-list">
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>인증 미션</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title>{{
-                          campaignTypeInfo.mission
-                        }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>인증 방법</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title>{{
-                          campaignTypeInfo.authProcess
-                        }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>인증 시간</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title
-                          >{{ campaignTypeInfo.authStartTime }} -
-                          {{ campaignTypeInfo.authEndTime }}</v-list-item-title
-                        >
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>목표 인원</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title
-                          >{{ campaignTypeInfo.headcount }}명
-                        </v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-                <v-row>
-                  <v-list-item class="campaign-info-list-item">
-                    <v-col cols="2">
-                      <v-list-item-content>
-                        <v-list-item-title>멤버 조건</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                    <v-col cols="10">
-                      <v-list-item-content class="text-left">
-                        <v-list-item-title>{{
-                          campaignTypeInfo.requirement
-                        }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-col>
-                  </v-list-item>
-                </v-row>
-              </v-list>
-
-              <p class="text-left mt-4 pa-1">{{ campaign.content }}</p>
-              <v-chip-group>
-                <v-chip
-                  class="ma-1"
-                  color="#38C0BD"
-                  outlined
-                  dense
-                  v-for="tag in campaign.tag"
-                  :key="tag"
-                  >{{ tag }}</v-chip
-                >
-              </v-chip-group>
-            </div>
-          </v-container>
+        <v-col cols="12" sm="9" class="pt-0">
+          <router-view />
         </v-col>
       </v-row>
     </v-container>
@@ -182,7 +75,7 @@ export default {
     return {
       isJoined: false,
       items: [
-        { name: "캠페인소개", link: "CampaignDetail" },
+        { name: "캠페인소개", link: "CampaignDetailInfo" },
         { name: "인증현황", link: "CampaignCertifi" },
         { name: "인증게시판", link: "CampaignPostings" },
       ],
@@ -274,7 +167,7 @@ export default {
             alert("신청 완료 되었습니다.");
             router
               .push({
-                name: "CampaignDetail",
+                name: "CampaignDetailInfo",
                 params: { campaignNo: this.$route.params.campaignNo },
               })
               .then(() => {

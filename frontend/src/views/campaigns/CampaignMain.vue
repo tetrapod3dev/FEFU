@@ -143,7 +143,7 @@ export default {
     this.getPersonalCampaignInfo("personal", "", 1, "");
   },
   computed: {
-    ...mapGetters(["config"]),
+    ...mapGetters("accounts", ["config"]),
   },
   methods: {
     getCompanyCampaignInfo(campaign_type, content, page_no, type) {
@@ -186,7 +186,10 @@ export default {
         .catch((err) => console.log(err.response));
     },
     goCampaignDetail() {
-      this.$router.push({ name: "CampaignDetail", params: { CampaignNo: 1 } });
+      this.$router.push({
+        name: "CampaignDetailInfo",
+        params: { CampaignNo: 1 },
+      });
     },
     goCompanyCampaignList() {
       this.$router.push({ name: "CompanyCampaignList" });

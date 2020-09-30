@@ -1,45 +1,24 @@
 <template>
   <div>
-    <v-img
-      class="campaign-header-img"
-      height="200px"
-      :src="imageSrc(campaign.photo)"
-      v-if="campaign.photo != ''"
-      lazy-src="@/assets/images/lazy-loading.jpg"
-    >
-      <template v-slot:placeholder>
-        <lazy-loading />
-      </template>
-    </v-img>
+    <v-container justify="start">
+      <div class="c-title c-card__content">참여 캠페인</div>
 
-    <div v-if="campaign">
-      <v-list class="custom-list">
-        <v-list-item
-          v-for="(item, index) in items"
-          :key="index"
-          no-action
-          class="custom-list-item"
-          :class="`custom-list-item-${
-            listColorName[index % listColorName.length]
-          }`"
-          :to="{ name: item.link, params: { campaignNo: campaign.no } }"
-        >
-          <v-list-item-content>
-            <v-list-item-title v-text="item.name"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </div>
+      <div class="c-txt c-card__content d-flex flex-column"></div>
+    </v-container>
   </div>
 </template>
 
 <script>
+import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
+import { mapGetters } from "vuex";
 import SERVER from "@/api/api";
 
 export default {
-  props: ["campaign"],
+  name: "MypageListCampaignJoin",
+  mixins: [mixinGetUserInfo],
   data() {
     return {
+      isJoined: false,
       listColorName: [
         "red",
         "orange",
@@ -49,12 +28,26 @@ export default {
         "indigo",
         "purple",
       ],
-      items: [
-        { name: "캠페인소개", link: "CampaignDetailInfo" },
-        { name: "인증현황", link: "CampaignDetailCertifi" },
-        { name: "인증게시판", link: "CampaignDetailPostings" },
-      ],
+      userinfo: {
+        no: 0,
+        username: "",
+        password: null,
+        nickname: "",
+        age: 0,
+        gender: "남자",
+        ecoPoint: 0,
+        exp: 0,
+        profileImage: "",
+      },
     };
+  },
+  created() {
+    this.getUserInfo()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  },
+  computed: {
+    ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
     imageSrc(filename) {
@@ -65,28 +58,53 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.campaign-header-img {
+.c-sidebar {
   border: 2px solid black;
-  border-radius: 15px;
+  border-radius: 10px;
+  &__img {
+    border-radius: 50%;
+  }
+  &__name {
+    font-size: 1rem;
+    width: 100%;
+    height: 48px;
+  }
 }
 
-.capmaign-info {
+.c-card__content {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+.c-txt,
+.c-title {
   font-family: "NanumBarunpen";
 }
 
-.custom-list {
+.c-title {
+  text-align: start;
+  font-size: 1.5rem;
+}
+
+.c-btn {
+  font-family: "S-CoreDream-7ExtraBold";
+  font-size: 1rem;
+  width: 100%;
+  height: 48px;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.c-list {
   margin-top: 20px;
   font-family: "S-CoreDream-7ExtraBold";
 }
 
-.campaign-info-list {
-  font-family: "S-CoreDream-7ExtraBold";
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 5px 0;
-}
-
-.custom-list-item {
+.c-list-item {
   border: 2px solid black;
   &:first-child {
     border-top-left-radius: 10px;

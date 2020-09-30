@@ -38,7 +38,7 @@
                     '비밀번호는 8글자 이상 입력해주세요',
                   !isWrong || '비밀번호를 틀렸습니다',
                 ]"
-                @keydown.enter.prevent="login(loginData)"
+                @keydown.enter.prevent="preTest"
                 @click:append="isShowPW = !isShowPW"
                 @focus="isWrong = false"
                 required
