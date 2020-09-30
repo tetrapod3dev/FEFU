@@ -42,7 +42,7 @@
           </button>
         </v-col>
 
-        <v-col cols="12" sm="9" class="pt-0">
+        <v-col cols="12" md="9" class="pt-0">
           <v-container justify="start">
             <div class="campaign-welcome">
               <span class="campaign-title">{{ campaign.title }}</span>
@@ -315,6 +315,13 @@ export default {
   border-radius: 5px;
   padding: 10px 20px;
   margin: 10px 0;
+}
+
+.campaign-info-list {
+  margin: 10px 0;
+  background-color: rgba(55, 205, 194, 0.09);
+  border-radius: 10px;
+  font-family: "S-CoreDream-7ExtraBold";
 }
 
 .custom-white {
