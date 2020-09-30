@@ -70,12 +70,8 @@
         </v-card-text>
         <v-card-actions class="px-5">
           <v-spacer></v-spacer>
-          <v-btn class="custom-btn" text @click="dialog = false">
-            취소
-          </v-btn>
-          <v-btn class="custom-btn" text @click="registProof">
-            등록
-          </v-btn>
+          <v-btn class="custom-btn" text @click="dialog = false"> 취소 </v-btn>
+          <v-btn class="custom-btn" text @click="registProof"> 등록 </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,7 +107,9 @@ export default {
       dialog: false,
     };
   },
-  computed: { ...mapGetters("accounts", ["config"]) },
+  computed: {
+    ...mapGetters("accounts", ["config", "USERNAME"]),
+  },
   methods: {
     Preview_image() {
       if (!this.images) {
@@ -120,16 +118,9 @@ export default {
         this.url = URL.createObjectURL(this.images);
       }
     },
-    checkusername() {
-      var base64Url = this.config.split(".")[1];
-      var decodedValue = JSON.parse(window.atob(base64Url));
-      this.proofPost.writer = decodedValue.sub;
-      console.log(this.proofPost.writer);
-      // this.authority = decodedValue.role[0]
-    },
-    registProof: async function() {
+    registProof: async function () {
       this.proofPost.campaignNo = this.campaign.no;
-      await this.checkusername();
+      this.proofPost.writer = this.USERNAME;
       await this.uploadImage();
       await axios
         .post(

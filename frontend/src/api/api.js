@@ -19,7 +19,9 @@ export default {
     },
     campaigns: {
       URL: "/campaigns",
+      join: "/campaigns/join",
       search: "/campaigns/search",
+      proof: "/campaigns/proof",
     },
     images: {
       upload: "/images/upload",

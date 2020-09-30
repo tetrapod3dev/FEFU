@@ -24,13 +24,12 @@
     <core-section
       id="section-theproblem"
       subtitle="THE PROBLEM"
-      text="환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할 수 없어 자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수 입니다."
       min-height="100vh"
     >
       <template slot="title">
-        현 시점에서 인류의 존망을
+        지나친 개발로 인한
         <br />
-        <span class="custom-highlight">크게 위협하는 문제</span>
+        <span class="custom-highlight">엄청난 환경 오염 문제</span>
       </template>
       <template slot="text">
         환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할

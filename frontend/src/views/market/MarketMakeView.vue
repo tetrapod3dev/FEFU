@@ -231,7 +231,7 @@ export default {
     this.mediumcategories = this.MEDIUMCATEGORIES;
   },
   computed: {
-    ...mapGetters("accounts", ["config"]),
+    ...mapGetters("accounts", ["config", "USERNAME"]),
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
@@ -243,15 +243,8 @@ export default {
       }
     },
 
-    checkusername() {
-      var base64Url = this.config.split(".")[1];
-      var decodedValue = JSON.parse(window.atob(base64Url));
-      this.product.writer = decodedValue.sub;
-      // this.authority = decodedValue.role[0]
-    },
-
     registProduct: async function () {
-      await this.checkusername();
+      this.product.writer = this.USERNAME;
       await this.uploadImage();
       await axios
         .post(SERVER.URL + SERVER.ROUTES.products.URL + "/", this.product, {
