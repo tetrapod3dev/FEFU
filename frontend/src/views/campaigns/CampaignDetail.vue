@@ -83,8 +83,6 @@
             </div>
 
             <div class="campaign-info d-flex flex-column">
-              <p class="text-left">{{ campaign.content }}</p>
-
               <v-list class="campaign-info-list">
                 <v-row>
                   <v-list-item class="campaign-info-list-item">
@@ -168,19 +166,19 @@
                   </v-list-item>
                 </v-row>
               </v-list>
+
+              <p class="text-left">{{ campaign.content }}</p>
+              <v-chip-group>
+                <v-chip
+                  class="ma-2"
+                  color="#37cdc2"
+                  outlined
+                  v-for="tag in campaign.tag"
+                  :key="tag"
+                  >{{ tag }}</v-chip
+                >
+              </v-chip-group>
             </div>
-            <v-divider class="my-5"></v-divider>
-            <v-chip-group>
-              <v-chip
-                class="ma-2"
-                color="#37cdc2"
-                large
-                outlined
-                v-for="tag in campaign.tag"
-                :key="tag"
-                >{{ tag }}</v-chip
-              >
-            </v-chip-group>
           </v-container>
         </v-col>
       </v-row>
@@ -295,18 +293,21 @@ export default {
   font-family: "NanumBarunpen";
 }
 
-.capmaign-info {
+.campaign-info {
   font-family: "NanumBarunpen";
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
 }
 .custom-list {
+  margin-top: 20px;
   font-family: "S-CoreDream-7ExtraBold";
 }
 
 .campaign-info-list {
   font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
-  border-radius: 10px;
-  padding: 5px 0;
 }
 
 .custom-list-item {
