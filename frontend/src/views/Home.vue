@@ -143,7 +143,7 @@
         <v-col cols="12" class="py-12">
           <router-link
             tag="button"
-            :to="{ name: 'CampaignList' }"
+            :to="{ name: 'CampaignMain' }"
             class="custom-button custom-primary"
             >더보기</router-link
           >
