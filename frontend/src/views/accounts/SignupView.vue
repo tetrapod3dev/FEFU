@@ -218,6 +218,7 @@
 import axios from "axios";
 import SERVER from "@/api/api";
 import { mapActions } from "vuex";
+import router from "@/router";
 
 import Terms from "@/components/Terms";
 import PrivacyPolicy from "@/components/PrivacyPolicy";
@@ -296,7 +297,7 @@ export default {
       if (this.$refs.form.validate()) {
         data.gender = this.parseGender;
         data.age = this.parseAge;
-        this.signup(data);
+        this.signup(data).then(() => router.push({ name: "LoginView" }));
       }
     },
     checkEmail() {

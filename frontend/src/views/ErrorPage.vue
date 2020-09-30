@@ -11,15 +11,15 @@
             <router-link
               tag="a"
               :to="{ name: 'Home' }"
-              class="custom-text-button"
-              :class="'custom-text-button-' + $vuetify.breakpoint.name"
+              class="c-btn--text"
+              :class="'c-btn--text-' + $vuetify.breakpoint.name"
             >
               메인으로 돌아가기
               <v-img
                 style="cursor: pointer; margin-top: 3px"
                 :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
                 :height="$vuetify.breakpoint.smAndDown ? 15 : 17"
-                class="custom-text-button-icon"
+                class="c-btn--text-icon"
                 contain
                 :src="require('@/assets/illust/arrow-right.svg')"
               />
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-text-button {
+.c-btn--text {
   display: inline-block;
   text-decoration: none;
   border-bottom: 2px solid #000000;
@@ -64,7 +64,7 @@ export default {
   }
 }
 
-.custom-text-button-icon {
+.c-btn--text-icon {
   display: inline-block;
 }
 </style>

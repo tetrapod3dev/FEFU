@@ -1,8 +1,7 @@
 <template>
-  <div class="about">
+  <div>
     <section id="section-hero">
       <v-img
-        id="about-hero"
         style="position: absolute"
         :height="$vuetify.breakpoint.smAndDown ? '50vh' : '100vh'"
         src="@/assets/images/about-hero.jpg"
@@ -25,18 +24,15 @@
       />
     </section>
 
-    <v-col
-      class="py-12 custom-white"
-      style="position: relative; margin: -1px 0 -1px 0"
-    >
-      <h1 class="about-title">TEAM. AMONG EARTH</h1>
+    <v-col class="py-12" style="position: relative; margin: -1px 0 -1px 0">
+      <h1 class="c-title">TEAM. AMONG EARTH</h1>
     </v-col>
 
-    <core-section id="about-us" :centerPadding="false" :endPadding="false">
+    <core-section :centerPadding="false" :endPadding="false">
       <template slot="title">
         환경 보호에 관심을 가진
         <br />
-        <span class="custom-highlight">여러분과 만나 기뻐요.</span>
+        <span class="c-highlight">여러분과 만나 기뻐요.</span>
       </template>
       <template slot="text">
         환경 보호가 중요하다는 것은 알고 있지만 실천하기에는 정말 힘든 일이죠.
@@ -49,39 +45,18 @@
     </core-section>
     <v-container>
       <v-row justify="space-around">
-        <v-col cols="6" sm="4" md="3" lg="2">
+        <v-col
+          v-for="item in items"
+          :key="item.name"
+          cols="6"
+          sm="4"
+          md="3"
+          lg="2"
+        >
           <card-with-caption
             height="220px"
-            caption="권경은"
-            :src="require('@/assets/images/권경은.png')"
-          />
-        </v-col>
-        <v-col cols="6" sm="4" md="3" lg="2">
-          <card-with-caption
-            height="220px"
-            caption="김현수"
-            :src="require('@/assets/images/김현수.jpg')"
-          />
-        </v-col>
-        <v-col cols="6" sm="4" md="3" lg="2">
-          <card-with-caption
-            height="220px"
-            caption="박지윤"
-            :src="require('@/assets/images/박지윤.jpg')"
-          />
-        </v-col>
-        <v-col cols="6" sm="4" md="3" lg="2">
-          <card-with-caption
-            height="220px"
-            caption="박태록"
-            :src="require('@/assets/images/박태록.jpg')"
-          />
-        </v-col>
-        <v-col cols="6" sm="4" md="3" lg="2">
-          <card-with-caption
-            height="220px"
-            caption="이동혁"
-            :src="require('@/assets/images/이동혁.png')"
+            :caption="item.name"
+            :src="require(`@/assets/images/${item.src}`)"
           />
         </v-col>
       </v-row>
@@ -90,8 +65,8 @@
         <v-col cols="12">
           <v-responsive class="mb-8"></v-responsive>
           <v-responsive
-            class="mx-auto mb-8 custom-text"
-            :class="'custom-text-' + $vuetify.breakpoint.name"
+            class="mx-auto mb-8 c-txt"
+            :class="'c-txt-' + $vuetify.breakpoint.name"
             max-width="650"
           >
             <p>
@@ -108,7 +83,7 @@
         </v-col>
         <v-col cols="12" class="py-8"></v-col>
       </v-row>
-      <v-row class="custom-text text-left ml-auto mr-auto py-8 custom-banner">
+      <v-row class="c-txt text-left ml-auto mr-auto py-8 c-banner">
         For Earth For Us의 일원이 되고 싶지 않나요? 환경 보호를 위해 한번 시작해
         보지 않을래요? 그럼 바로 여기예요! 당장의 한번의 활동도 환경보호에 큰
         도움이 된답니다. 얼른 가입해 보세요!
@@ -123,17 +98,26 @@ import CardWithCaption from "@/components/home/CardWithCaption";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      items: [
+        { name: "권경은", src: "권경은.png" },
+        { name: "김현수", src: "김현수.jpg" },
+        { name: "박지윤", src: "박지윤.jpg" },
+        { name: "박태록", src: "박태록.jpg" },
+        { name: "이동혁", src: "이동혁.png" },
+      ],
+    };
+  },
   components: {
     CoreSection,
     CardWithCaption,
   },
-  computed: {},
-  methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
-.custom-highlight {
+.c-highlight {
   background: url("~@/assets/illust/one-line-highlight.svg") no-repeat center;
   background-size: 100%;
 }
@@ -142,12 +126,12 @@ export default {
   z-index: 3;
 }
 
-.about-title {
+.c-title {
   margin-top: 30px;
   font-family: "NanumBarunpen";
 }
 
-.custom-text {
+.c-txt {
   font-size: 16px;
   word-break: keep-all;
   font-weight: bold;
@@ -164,7 +148,7 @@ export default {
   }
 }
 
-.custom-banner {
+.c-banner {
   border-radius: 5px;
   background-color: var(--primary-color);
   padding: 10px 20px;

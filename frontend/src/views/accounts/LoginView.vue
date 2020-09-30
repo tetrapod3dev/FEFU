@@ -31,9 +31,16 @@
                 name="password"
                 :type="isShowPW ? 'text' : 'password'"
                 v-model="loginData.password"
-                :rules="[rules.required, rules.min]"
+                :rules="[
+                  (value) => !!value || '비밀번호를 입력해주세요',
+                  (v) =>
+                    (v && v.length >= 8) ||
+                    '비밀번호는 8글자 이상 입력해주세요',
+                  !isWrong || '비밀번호를 틀렸습니다',
+                ]"
                 @keydown.enter.prevent="login(loginData)"
                 @click:append="isShowPW = !isShowPW"
+                @focus="isWrong = false"
                 required
                 autocomplete="off"
                 :append-icon="isShowPW ? 'mdi-eye' : 'mdi-eye-off'"
@@ -70,6 +77,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import router from "@/router";
 
 export default {
   name: "LoginView",
@@ -80,15 +88,11 @@ export default {
         password: null,
       },
       isShowPW: false,
+      isWrong: false,
       emailRules: [
         (v) => !!v || "가입하신 이메일 계정을 입력해주세요",
         (v) => /.+@.+\..+/.test(v) || "올바른 양식의 이메일을 입력해주세요",
       ],
-      rules: {
-        required: (value) => !!value || "비밀번호를 입력해주세요.",
-        min: (v) =>
-          (v && v.length >= 8) || "비밀번호는 8글자 이상 입력해주세요",
-      },
       valid: true,
     };
   },
@@ -100,7 +104,9 @@ export default {
     },
     preTest() {
       if (this.$refs.form.validate()) {
-        this.login(this.loginData);
+        this.login(this.loginData)
+          .then(() => router.push({ name: "Home" }))
+          .catch(() => (this.isWrong = true));
       }
     },
   },

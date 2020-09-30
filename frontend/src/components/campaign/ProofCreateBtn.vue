@@ -21,7 +21,12 @@
                     !url ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)' : ''
                   "
                   :src="!!url ? url : require('@/assets/images/noimage.jpg')"
-                />
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <lazy-loading />
+                  </template>
+                </v-img>
                 <v-file-input
                   class="mt-5"
                   label="오늘의 미션 인증 사진"
