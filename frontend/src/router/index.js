@@ -8,6 +8,7 @@ import ErrorPage from "../views/ErrorPage.vue";
 // Account
 import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
+import Mypage from "../views/accounts/Mypage.vue";
 
 // Campaigns
 import CampaignMain from "../views/campaigns/CampaignMain.vue";
@@ -43,6 +44,11 @@ const routes = [
     name: "SignupView",
     component: SignupView,
   },
+  {
+    path: "/mypage",
+    name: "Mypage",
+    component: Mypage,
+  },
   // Account End
 
   // Campaign Start
@@ -76,7 +82,6 @@ const routes = [
   // Market Start
   {
     path: "/market",
-    name: "MarketLayout",
     component: MarketLayout,
     children: [
       {
@@ -97,14 +102,21 @@ const routes = [
     ],
   },
   {
-    path: "/market/make",
-    name: "MarketMakeView",
-    component: MarketMakeView,
-  },
-  {
-    path: "/market/update/:productNo",
-    name: "MarketUpdateView",
-    component: MarketUpdateView,
+    path: "/market",
+    component: MarketLayout,
+    props: { sidebar: false },
+    children: [
+      {
+        path: "make",
+        name: "MarketMakeView",
+        component: MarketMakeView,
+      },
+      {
+        path: "update/:productNo",
+        name: "MarketUpdateView",
+        component: MarketUpdateView,
+      },
+    ],
   },
   // Market End
 
