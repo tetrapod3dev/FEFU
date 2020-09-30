@@ -66,11 +66,6 @@ export default {
   border-radius: 15px;
 }
 
-.campaign-title {
-  font-size: 1.5rem;
-  font-family: "NanumBarunpen";
-}
-
 .capmaign-info {
   font-family: "NanumBarunpen";
 }
@@ -137,21 +132,5 @@ export default {
   &-purple:hover {
     background: #786fa6;
   }
-}
-
-.custom-white {
-  background: var(--white-color);
-}
-
-.custom-make-btn {
-  font-family: "S-CoreDream-7ExtraBold";
-  font-size: 1rem;
-  width: 100%;
-  height: 48px;
-  margin-top: 20px;
-  background-color: var(--primary-color);
-  border: 2px solid black;
-  border-radius: 10px;
-  text-align: center;
 }
 </style>
