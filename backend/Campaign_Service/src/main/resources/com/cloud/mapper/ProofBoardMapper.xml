@@ -6,6 +6,7 @@
 		select * 
 		from proof_message_info
 		where campaign_no = #{no} and authenticated = #{flag}
+        order by regtime desc
 		limit #{startIndex}, #{perPageNum};
 	</select>
 	
@@ -35,16 +36,19 @@
 	</select>
 	
 	<select id="findDurationPersonal" resultType="Integer">
-		select (date(end_date) - date(start_date)) as duration
+		select (datediff(end_date, start_date)) as duration
 		from campaign_info
 		where no = #{no};
 	</select>
 
 	<select id="findAllPassPersonal" resultType="java.util.Map">
-		select writer, count(writer) count
-		from proof_message_info
-		where campaign_no = #{no} and authenticated = true
-        group by writer;
+		select writer, count, profile_image
+		from (        
+	        select writer, count(writer) count
+			from proof_message_info 
+			where campaign_no = #{no} and authenticated = true
+	        group by writer) sub inner join user
+        on sub.writer = user.username;
 	</select>
 	
 	<select id="findUserPassPersonal" resultType="Integer">
