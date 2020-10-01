@@ -42,7 +42,7 @@
 	</select>
 
 	<select id="findAllPassPersonal" resultType="java.util.Map">
-		select writer, count, profile_image
+		select writer, count, profile_image, gender
 		from (        
 	        select writer, count(writer) count
 			from proof_message_info 
