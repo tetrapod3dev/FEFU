@@ -29,7 +29,7 @@
         <v-list-item v-if="isLoggedIn" href="/mypage">
           <v-list-item-content>
             <v-list-item-title class="text-left c-drawer"
-              >마이페이지 MyPage</v-list-item-title
+              >마이페이지 MYPAGE</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>

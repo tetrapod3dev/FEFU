@@ -1,94 +1,89 @@
 <template>
-  <div id="campaign-list">
-    <v-col class="py-12"></v-col>
-    <v-container>
-      <v-row>
-        <v-col cols="12" sm="3">
-          <!-- 사이드바 -->
+  <v-row justify="center">
+    <v-col cols="12" xl="8">
+      <v-col class="py-12"></v-col>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="3">
+            <!-- 사이드바 -->
+            <profile-photo :userinfo="userinfo" />
 
-          <div>
-            <v-img
-              class="c-sidebar c-sidebar__img mr-auto ml-auto"
-              height="200px"
-              width="200px"
-              :src="
-                !!userinfo.photo
-                  ? imageSrc(userinfo.photo)
-                  : require(`@/assets/images/${userinfo.gender}.png`)
-              "
-              lazy-src="@/assets/images/lazy-loading.jpg"
-            >
-              <template v-slot:placeholder>
-                <lazy-loading />
-              </template>
-            </v-img>
-
-            <div class="[ c-sidebar c-sidebar__name c-sidebar--font ] mt-5">
-              <div>{{ userinfo.username }}</div>
-              <div>{{ userinfo.nickname }}</div>
+            <div>
+              <div class="c-sidebar c-sidebar__name c-sidebar--font mt-5">
+                <p>{{ userinfo.username }}</p>
+                <p>{{ userinfo.nickname }}</p>
+              </div>
+              <v-list class="c-list">
+                <v-list-item :to="{ name: 'MypageInfo' }" class="c-list-item">
+                  <v-list-item-content>
+                    <v-list-item-title>내정보</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                  :to="{ name: 'MypageListCampaignJoin' }"
+                  class="c-list-item"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>참여 캠페인</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                  :to="{ name: 'MypageListCampaignAdmin' }"
+                  class="c-list-item"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>등록 캠페인</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                  :to="{ name: 'MypageListProduct' }"
+                  class="c-list-item"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>등록 물건</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                  :to="{ name: 'MypageUpdatePwd' }"
+                  class="c-list-item"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>비밀번호변경</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
             </div>
-            <v-list class="c-list">
-              <v-list-item :to="{ name: 'MypageInfo' }" class="c-list-item">
-                <v-list-item-content>
-                  <v-list-item-title>내정보</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                :to="{ name: 'MypageListCampaignJoin' }"
-                class="c-list-item"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>참여 캠페인</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                :to="{ name: 'MypageListCampaignAdmin' }"
-                class="c-list-item"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>등록 캠페인</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                :to="{ name: 'MypageListProduct' }"
-                class="c-list-item"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>등록 물건</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                :to="{ name: 'MypageUpdatePwd' }"
-                class="c-list-item"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>비밀번호변경</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </div>
 
-          <button class="c-btn">회원 탈퇴</button>
-        </v-col>
+            <button class="c-btn">회원 탈퇴</button>
+          </v-col>
 
-        <v-col cols="12" md="9" class="pt-0">
-          <router-view />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+          <v-col cols="12" md="9" class="pt-3">
+            <v-col
+              v-if="$vuetify.breakpoint.mdAndUp"
+              cols="12"
+              class="my-6 py-8"
+              >/</v-col
+            >
+            <router-view />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 import { mapGetters } from "vuex";
-import SERVER from "@/api/api";
+
+import ProfilePhoto from "@/components/accounts/ProfilePhoto.vue";
 
 export default {
   name: "Mypage",
   mixins: [mixinGetUserInfo],
   data() {
     return {
+      isShowIcon: false,
       isJoined: false,
       listColorName: [
         "red",
@@ -112,6 +107,7 @@ export default {
       },
     };
   },
+  components: { ProfilePhoto },
   created() {
     this.getUserInfo()
       .then((res) => {
@@ -120,12 +116,7 @@ export default {
       .catch((err) => console.log(err));
   },
   computed: {
-    ...mapGetters("accounts", ["config", "USERNAME"]),
-  },
-  methods: {
-    imageSrc(filename) {
-      return SERVER.IMAGE_URL + filename;
-    },
+    ...mapGetters("accounts", ["USERNAME"]),
   },
 };
 </script>
@@ -145,21 +136,12 @@ export default {
   &--font {
     font-family: "S-CoreDream-7ExtraBold";
     font-size: 1rem;
+    word-break: break-all;
   }
 }
 
-.c-card__content {
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin: 10px 0;
-}
-.c-txt,
 .c-title {
   font-family: "NanumBarunpen";
-}
-
-.c-title {
   text-align: start;
   font-size: 1.5rem;
 }

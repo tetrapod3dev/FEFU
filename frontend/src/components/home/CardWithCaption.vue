@@ -1,8 +1,8 @@
 <template>
-  <div class="custom-img-group">
-    <p class="custom-img-caption">{{ caption }}</p>
+  <div class="c-img-group">
+    <p class="c-img-caption">{{ caption }}</p>
     <v-img
-      class="custom-img"
+      class="c-img"
       :style="'height: ' + height"
       :src="src"
       aspect-ratio="1"
@@ -27,16 +27,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-img {
+.c-img {
   border: 2px solid black;
   border-radius: 5px;
   height: 260px;
 }
 
-.custom-img-group {
+.c-img-group {
   padding: 6px;
 
-  .custom-img-caption {
+  .c-img-caption {
     position: relative;
     display: inline-block;
     border: 2px solid black;
@@ -48,7 +48,7 @@ export default {
     transition: 0.3s;
     z-index: 2;
   }
-  .custom-img {
+  .c-img {
     position: relative;
     margin-top: -45px;
     overflow: hidden;

@@ -32,6 +32,7 @@ export default {
   },
   created() {
     this.getCampaign();
+    console.log(this.$route.params);
   },
   computed: {
     ...mapGetters("accounts", ["config"]),
