@@ -26,6 +26,7 @@ export default {
       proof: "/campaigns/proof",
       yet: "/campaigns/proof/yet",
       personalPercentTeam: "/campaigns/proof/personal-percent/team",
+      officialPercentWeek: "/campaigns/proof/official-percent/week",
     },
     images: {
       upload: "/images/upload",

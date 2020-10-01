@@ -215,6 +215,16 @@ export default {
   background: var(--white-color);
 }
 
+.campaign-info {
+  font-family: "NanumBarunpen";
+  border: 2px solid black;
+  display: block;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  min-height: 440px;
+}
+
 .custom-make-btn {
   font-family: "S-CoreDream-7ExtraBold";
   font-size: 1rem;

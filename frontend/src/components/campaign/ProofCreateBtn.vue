@@ -119,17 +119,21 @@ export default {
       } else {
         this.url = URL.createObjectURL(this.images);
       }
+      this.preUploadImage();
     },
-    registProof: async function () {
-      this.proofPost.campaignNo = this.campaign.no;
-      this.proofPost.writer = this.USERNAME;
-      await this.uploadImage(this.images)
+    preUploadImage() {
+      this.uploadImage(this.images)
         .then((res) => {
           this.proofPost.photo = res.data.fileName;
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    registProof: async function () {
+      this.proofPost.campaignNo = this.campaign.no;
+      this.proofPost.writer = this.USERNAME;
+
       await axios
         .post(
           SERVER.URL + SERVER.ROUTES.campaigns.URL + "/proof/",
@@ -145,7 +149,7 @@ export default {
           this.dialog = false;
           router
             .push({
-              name: "CampaignDetailPostings",
+              name: "CampaignDetailInfo",
               params: { campaginNo: this.proofPost.campaignNo },
             })
             .then(() => {
