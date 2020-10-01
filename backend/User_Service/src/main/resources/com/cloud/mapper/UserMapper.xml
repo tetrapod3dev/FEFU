@@ -3,7 +3,7 @@
 <mapper namespace="com.cloud.mapper.UserMapper">
 
 	<select id="findByUsername" resultType="com.cloud.domain.UserDto">
-		select no, username, nickname, age, gender, eco_point, exp, profile_image
+		select no, username, nickname, age, gender, eco_point, exp, profile_image, introduce
 		from user
 		where username = #{username}
 	</select>
