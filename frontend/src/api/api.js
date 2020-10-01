@@ -25,6 +25,7 @@ export default {
       search: "/campaigns/search",
       proof: "/campaigns/proof",
       yet: "/campaigns/proof/yet",
+      myCampaign: "/campaigns/my-campaign",
       personalPercentTeam: "/campaigns/proof/personal-percent/team",
     },
     images: {
