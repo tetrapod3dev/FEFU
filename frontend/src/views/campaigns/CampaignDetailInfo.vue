@@ -1,6 +1,9 @@
 <template>
   <div class="campaign-info d-flex flex-column">
-    <v-list class="campaign-info-list text-left">
+    <v-list
+      class="campaign-info-list text-left"
+      v-if="campaign.type != 'company'"
+    >
       <v-row>
         <v-col cols="12" md="2">
           <span class="campaign-info-title">인증 미션</span>
@@ -46,6 +49,25 @@
       </v-row>
     </v-list>
 
+    <v-list class="campaign-info-list text-left" v-else>
+      <v-row>
+        <v-col cols="12" md="3">
+          <span class="campaign-info-title">회사명</span>
+        </v-col>
+        <v-col cols="12" md="9">
+          <span>{{ company.companyName }}</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="3">
+          <span class="campaign-info-title">캠페인링크</span>
+        </v-col>
+        <v-col cols="12" md="9">
+          <span>{{ company.campaignLink }}</span>
+        </v-col>
+      </v-row>
+    </v-list>
+
     <p class="text-left mt-4 pa-1">{{ campaign.content }}</p>
     <v-chip-group>
       <v-chip
@@ -66,7 +88,7 @@ import SERVER from "@/api/api";
 
 export default {
   name: "CampaignDetailInfo",
-  props: ["campaign", "campaignTypeInfo"],
+  props: ["campaign", "campaignTypeInfo", "company"],
   created() {},
   data() {
     return {
