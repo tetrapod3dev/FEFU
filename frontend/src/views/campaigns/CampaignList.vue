@@ -109,6 +109,7 @@ export default {
   },
   mounted() {
     console.log(this.campaigninfo);
+    console.log(this.campaignType);
   },
   components: {
     CampaignCard,

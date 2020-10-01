@@ -30,11 +30,85 @@
       <v-row>
         <v-col cols="12" sm="3">
           <!-- 사이드바 -->
-          <SideBar :campaign="campaign" />
-          <ProofCreateBtn v-if="isJoined" :campaign="campaign" />
+          <!-- <SideBar :campaign="campaign" /> -->
+          <v-img
+            class="campaign-header-img"
+            height="200px"
+            :src="
+              campaign.photo
+                ? imageSrc(campaign.photo)
+                : '@/assets/images/lazy-loading.jpg'
+            "
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <lazy-loading />
+            </template>
+          </v-img>
+
+          <div v-if="campaign">
+            <v-list v-if="campaign.type != 'company'" class="custom-list">
+              <v-list-item
+                v-for="(item, index) in items"
+                :key="index"
+                no-action
+                class="custom-list-item"
+                :class="`custom-list-item-${
+                  listColorName[index % listColorName.length]
+                }`"
+                :to="{
+                  name: item.link,
+                  params: {
+                    campaignNo: campaign.no,
+                  },
+                }"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.name"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+            <v-list v-if="campaign.type == 'company'" class="custom-list">
+              <v-list-item
+                no-action
+                class="custom-list-item"
+                :class="`custom-list-item-${listColorName[1]}`"
+                :to="{
+                  name: 'CampaignDetailInfo',
+                  params: {
+                    campaignNo: campaign.no,
+                  },
+                }"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="'캠페인소개'"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </div>
+
+          <a
+            v-if="campaign.type == 'company'"
+            :href="'//' + company.campaignLink"
+            target="_blank"
+            class="custom-make-btn py-3 mt-5"
+            style="
+              display: block;
+              text-decoration: none;
+              color: black;
+              width: 100%;
+            "
+          >
+            사이트 가기
+          </a>
+
+          <ProofCreateBtn
+            v-if="campaign.type != 'company' && isJoined"
+            :campaign="campaign"
+          />
 
           <button
-            v-if="!isJoined"
+            v-if="campaign.type != 'company' && !isJoined"
             @click="joinCampaign"
             class="custom-make-btn"
           >
@@ -42,7 +116,18 @@
           </button>
         </v-col>
         <v-col cols="12" sm="9" class="pt-0">
-          <router-view />
+          <v-container justify="start">
+            <div class="campaign-welcome">
+              <span class="campaign-title">{{ campaign.title }}</span>
+              <small class="ml-3">
+                {{ campaign.startDate }} - {{ campaign.endDate }}
+              </small>
+            </div>
+            <router-view
+              :campaign="campaign"
+              :campaignTypeInfo="campaignTypeInfo"
+            />
+          </v-container>
         </v-col>
       </v-row>
     </v-container>
@@ -50,7 +135,7 @@
 </template>
 
 <script>
-import SideBar from "@/components/campaign/SideBar.vue";
+// import SideBar from "@/components/campaign/SideBar.vue";
 import ProofCreateBtn from "@/components/campaign/ProofCreateBtn.vue";
 // import CampaignCertificate from "../../components/campaign/CampaignCertificate.vue";
 // import CampaignInfo from "../../components/campaign/CampaignInfo.vue";
@@ -62,7 +147,7 @@ import router from "@/router";
 
 export default {
   components: {
-    SideBar,
+    // SideBar,
     ProofCreateBtn,
     // CampaignCertificate,
     // CampaignInfo,
@@ -74,10 +159,19 @@ export default {
   data() {
     return {
       isJoined: false,
+      listColorName: [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "indigo",
+        "purple",
+      ],
       items: [
         { name: "캠페인소개", link: "CampaignDetailInfo" },
-        { name: "인증현황", link: "CampaignCertifi" },
-        { name: "인증게시판", link: "CampaignPostings" },
+        { name: "인증현황", link: "CampaignDetailCertifi" },
+        { name: "인증게시판", link: "CampaignDetailPostings" },
       ],
       campaign: {
         title: "",
@@ -100,6 +194,12 @@ export default {
         no: null,
         requirement: null,
       },
+      company: {
+        campaignLink: "",
+        campaignNo: 0,
+        companyName: "",
+        no: 0,
+      },
     };
   },
   computed: {
@@ -108,6 +208,9 @@ export default {
   methods: {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
+    },
+    openCompanySite() {
+      window.open(this.company.campaignLink);
     },
     getCampaign() {
       axios
@@ -119,7 +222,11 @@ export default {
             "/"
         )
         .then((res) => {
+          console.log(res);
           this.campaign = res.data["campaign"];
+          if (res.data["company"]) {
+            this.company = res.data["company"];
+          }
           if (res.data["official"]) {
             this.campaignTypeInfo = res.data["official"];
           } else if (res.data["personal"]) {
@@ -231,5 +338,65 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   text-align: center;
+}
+
+.campaign-header-img {
+  border: 2px solid black;
+  border-radius: 15px;
+}
+.custom-list {
+  margin-top: 20px;
+  font-family: "S-CoreDream-7ExtraBold";
+}
+.custom-list-item {
+  border: 2px solid black;
+  &:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  &:not(:last-child) {
+    // border-bottom: 2px solid black;
+    margin-bottom: -2px;
+  }
+
+  &-red.v-list-group--active,
+  &-red:hover {
+    background: #cf6a87;
+  }
+
+  &-orange.v-list-group--active,
+  &-orange:hover {
+    background: #f19066;
+  }
+
+  &-yellow.v-list-group--active,
+  &-yellow:hover {
+    background: #fdcb6e;
+  }
+
+  &-green.v-list-group--active,
+  &-green:hover {
+    background: #b8e994;
+  }
+
+  &-blue.v-list-group--active,
+  &-blue:hover {
+    background: #82ccdd;
+  }
+
+  &-indigo.v-list-group--active,
+  &-indigo:hover {
+    background: #60a3bc;
+  }
+
+  &-purple.v-list-group--active,
+  &-purple:hover {
+    background: #786fa6;
+  }
 }
 </style>
