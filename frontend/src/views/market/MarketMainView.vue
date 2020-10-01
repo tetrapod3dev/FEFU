@@ -1,206 +1,132 @@
 <template>
-  <div class="market-main">
-    <section id="section-hero">
-      <v-img
-        id="about-hero"
-        style="position: absolute"
-        position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
-        src="@/assets/images/market-hero.jpg"
-        lazy-src="@/assets/images/lazy-loading.jpg"
+  <v-col cols="12" sm="9" class="pt-0">
+    <v-row justify="space-around">
+      <v-col cols="12" class="market-section">
+        <h1 class="market-title">
+          <span class="title-point">이 상품</span> 어때요
+        </h1>
+      </v-col>
+      <v-col
+        v-for="(product, index) in products.recommend"
+        :key="index"
+        cols="12"
+        md="4"
+        align="center"
       >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-      <v-img
-        style="position: relative; z-index: 3"
-        position="bottom"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
-        src="@/assets/illust/market-hero.svg"
-      />
-    </section>
-    <v-row justify="center">
-      <v-col cols="12" xl="8">
-        <v-container>
-          <v-row>
-            <v-col cols="12" sm="3">
-              <market-search />
-              <market-category class="custom-category" />
-            </v-col>
+        <v-card
+          class="custom-card"
+          :height="1.6 * cardWidth"
+          :width="cardWidth"
+          :to="{
+            name: 'MarketDetailView',
+            params: { productNo: product.id },
+          }"
+        >
+          <v-img
+            :height="1.1 * cardWidth"
+            :src="product.src"
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <lazy-loading />
+            </template>
+          </v-img>
 
-            <v-col cols="12" sm="9" class="pt-0">
-              <v-row justify="space-around">
-                <v-col cols="12" class="market-section">
-                  <h1 class="market-title">
-                    <span class="title-point">이 상품</span> 어때요
-                  </h1>
-                </v-col>
-                <v-col
-                  v-for="(product, index) in products.recommend"
-                  :key="index"
-                  cols="12"
-                  md="4"
-                  align="center"
-                >
-                  <v-card
-                    class="custom-card"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    :to="{
-                      name: 'MarketDetailView',
-                      params: { productNo: product.id },
-                    }"
-                  >
-                    <v-img
-                      :height="1.1 * cardWidth"
-                      :src="product.src"
-                      lazy-src="@/assets/images/lazy-loading.jpg"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            color="grey lighten-5"
-                          ></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ product.name }}</div>
-                      <div>{{ product.price }}</div>
-                      <div>{{ product.eco }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" class="market-section">
-                  <h1 class="market-title">
-                    지금 바로
-                    <span class="title-point">신상품</span>
-                  </h1>
-                </v-col>
-                <v-col
-                  v-for="(product, index) in products.new"
-                  :key="index"
-                  cols="12"
-                  md="4"
-                  align="center"
-                >
-                  <v-card
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    :to="{
-                      name: 'MarketDetailView',
-                      params: { productNo: product.id },
-                    }"
-                  >
-                    <v-img
-                      :height="1.1 * cardWidth"
-                      :src="product.src"
-                      lazy-src="@/assets/images/lazy-loading.jpg"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            color="grey lighten-5"
-                          ></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ product.name }}</div>
-                      <div>{{ product.price }}</div>
-                      <div>{{ product.eco }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" class="market-section">
-                  <h1 class="market-title">
-                    <span class="title-point">지금 인기</span> 상품
-                  </h1>
-                </v-col>
-                <v-col
-                  v-for="(product, index) in products.popular"
-                  :key="index"
-                  cols="12"
-                  md="4"
-                  align="center"
-                >
-                  <v-card
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    :to="{
-                      name: 'MarketDetailView',
-                      params: { productNo: product.id },
-                    }"
-                  >
-                    <v-img
-                      :height="1.1 * cardWidth"
-                      :src="product.src"
-                      lazy-src="@/assets/images/lazy-loading.jpg"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            color="grey lighten-5"
-                          ></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ product.name }}</div>
-                      <div>{{ product.price }}</div>
-                      <div>{{ product.eco }}</div>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-container>
+          <v-card-text class="text-left text--primary">
+            <div>{{ product.name }}</div>
+            <div>{{ product.price }}</div>
+            <div>{{ product.eco }}</div>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
-  </div>
+    <v-row>
+      <v-col cols="12" class="market-section">
+        <h1 class="market-title">
+          지금 바로
+          <span class="title-point">신상품</span>
+        </h1>
+      </v-col>
+      <v-col
+        v-for="(product, index) in products.new"
+        :key="index"
+        cols="12"
+        md="4"
+        align="center"
+      >
+        <v-card
+          class="custom-card ma-4"
+          :height="1.6 * cardWidth"
+          :width="cardWidth"
+          :to="{
+            name: 'MarketDetailView',
+            params: { productNo: product.id },
+          }"
+        >
+          <v-img
+            :height="1.1 * cardWidth"
+            :src="product.src"
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <lazy-loading />
+            </template>
+          </v-img>
+
+          <v-card-text class="text-left text--primary">
+            <div>{{ product.name }}</div>
+            <div>{{ product.price }}</div>
+            <div>{{ product.eco }}</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" class="market-section">
+        <h1 class="market-title">
+          <span class="title-point">지금 인기</span> 상품
+        </h1>
+      </v-col>
+      <v-col
+        v-for="(product, index) in products.popular"
+        :key="index"
+        cols="12"
+        md="4"
+        align="center"
+      >
+        <v-card
+          class="custom-card ma-4"
+          :height="1.6 * cardWidth"
+          :width="cardWidth"
+          :to="{
+            name: 'MarketDetailView',
+            params: { productNo: product.id },
+          }"
+        >
+          <v-img
+            :height="1.1 * cardWidth"
+            :src="product.src"
+            lazy-src="@/assets/images/lazy-loading.jpg"
+          >
+            <template v-slot:placeholder>
+              <lazy-loading />
+            </template>
+          </v-img>
+
+          <v-card-text class="text-left text--primary">
+            <div>{{ product.name }}</div>
+            <div>{{ product.price }}</div>
+            <div>{{ product.eco }}</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-col>
 </template>
 
 <script>
-import MarketCategory from "@/components/market/Category";
-import MarketSearch from "@/components/market/Search";
-
 export default {
   name: "MarketMainView",
-  components: {
-    MarketCategory,
-    MarketSearch,
-  },
   computed: {
     cardWidth() {
       let resultWidth;

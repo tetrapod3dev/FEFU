@@ -1,6 +1,11 @@
 <template>
-  <div class="home">
-    <core-hero>
+  <div>
+    <!-- hero start -->
+    <core-hero
+      subtitle="우리 함께 지구를 구해요"
+      :mainimage="require('@/assets/illust/hero-title.svg')"
+      backimage="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif"
+    >
       <template slot="footer">
         <v-row align="end">
           <v-col align="center">
@@ -16,17 +21,14 @@
         </v-row>
       </template>
     </core-hero>
+    <!-- hero end -->
 
-    <core-section
-      id="section-theproblem"
-      subtitle="THE PROBLEM"
-      text="환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할 수 없어 자신의 이익을 위해 환경 파괴에 거리낌이 없는 경우가 대다수 입니다."
-      min-height="100vh"
-    >
+    <!-- section the problem start -->
+    <core-section subtitle="THE PROBLEM" min-height="100vh">
       <template slot="title">
-        현 시점에서 인류의 존망을
+        지나친 개발로 인한
         <br />
-        <span class="custom-highlight">크게 위협하는 문제</span>
+        <span class="c-highlight">엄청난 환경 오염 문제</span>
       </template>
       <template slot="text">
         환경 문제에 대해 위기 의식은 공유하지만, 환경 친화와 이해 관계는 함께 할
@@ -34,97 +36,81 @@
         입니다.
       </template>
     </core-section>
+    <!-- section the problem end -->
 
-    <core-section id="section-thesolution" subtitle="THE SOLUTION" pb="12">
+    <!-- section the solution start -->
+    <core-section subtitle="THE SOLUTION" pb="12">
       <template slot="title">
         작은 실천부터 시작하고,
         <br />
-        <span class="custom-highlight">더 이상 버리지 말고 재사용하자!</span>
+        <span class="c-highlight">더 이상 버리지 말고 재사용하자!</span>
       </template>
       <template slot="text">
         쓰레기를 버리는 것만으로도 환경 오염에 영향이 가요.
         <br />불필요한 물건을 다른 사람들과 나눠보면 어떨까요?
       </template>
       <template slot="content">
-        <v-col cols="12" sm="4">
+        <v-col v-for="item in contentSolution" :key="item.src" cols="12" sm="4">
           <card-with-caption
-            caption="캠페인"
-            :src="require('@/assets/images/main-info-campaign.jpg')"
-          />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <card-with-caption
-            caption="중고거래"
-            :src="require('@/assets/images/main-info-market.jpg')"
-          />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <card-with-caption
-            caption="에코포인트"
-            :src="require('@/assets/images/main-info-point.jpg')"
+            :caption="item.text"
+            :src="require(`@/assets/images/${item.src}`)"
           />
         </v-col>
       </template>
     </core-section>
+    <!-- section the solution end -->
 
-    <core-section id="section-campaign" subtitle="CAMPAIGN">
+    <!-- section campaign start -->
+    <core-section
+      subtitle="CAMPAIGN"
+      :centerPadding="false"
+      :endPadding="false"
+    >
       <template slot="title">
-        <span class="custom-highlight">다양한 종류의 캠페인으로</span>
+        <span class="c-highlight">다양한 종류의 캠페인으로</span>
         <br />여러 사람들과 같이 실천해요!
       </template>
       <template slot="text">
         아래 사진들은 다양한 캠페인들을 보여주고 있는 사진이에요.
         <br />어때요? 정말 멋지지 않나요?
       </template>
-      <template slot="content">
-        <v-col cols="12" sm="4" class="pr-3 pb-3">
+    </core-section>
+
+    <v-container>
+      <v-row>
+        <v-col cols="12" sm="4">
           <v-img
-            class="custom-img"
+            class="c-sheet"
             src="@/assets/campaign/4.png"
             position="50% 30%"
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
+              <lazy-loading />
             </template>
           </v-img>
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
-            class="custom-img"
+            class="c-sheet"
             src="@/assets/campaign/5.png"
             position="50% 13%"
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
+              <lazy-loading />
             </template>
           </v-img>
         </v-col>
         <v-col cols="12" sm="4" class="pr-3 pb-3">
           <v-img
-            class="custom-img"
+            class="c-sheet"
             src="@/assets/campaign/6.png"
             position="50% 10%"
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
-              <v-row class="fill-height ma-0" align="center" justify="center">
-                <v-progress-circular
-                  indeterminate
-                  color="grey lighten-5"
-                ></v-progress-circular>
-              </v-row>
+              <lazy-loading />
             </template>
           </v-img>
         </v-col>
@@ -132,17 +118,20 @@
         <v-col cols="12" class="py-12">
           <router-link
             tag="button"
-            :to="{ name: 'CampaignList' }"
-            class="custom-button custom-primary"
-            >더보기</router-link
+            :to="{ name: 'CampaignMain' }"
+            class="c-btn c-primary"
           >
+            더보기
+          </router-link>
         </v-col>
-      </template>
-    </core-section>
+      </v-row>
+    </v-container>
+    <!-- section campaign end -->
 
-    <core-section id="section-secondhand" subtitle="SECONDHAND" pb="12">
+    <!-- section secondhand start -->
+    <core-section subtitle="SECONDHAND" pb="12">
       <template slot="title">
-        <span class="custom-highlight">재활용보다 재사용이</span>
+        <span class="c-highlight">재활용보다 재사용이</span>
         <br />환경을 더욱 보호하는 길이예요
       </template>
       <template slot="text">
@@ -154,15 +143,15 @@
           <router-link
             tag="a"
             :to="{ name: 'MarketMainView' }"
-            class="custom-text-button"
-            :class="'custom-text-button-' + $vuetify.breakpoint.name"
+            class="c-btn--text"
+            :class="'c-btn--text-' + $vuetify.breakpoint.name"
           >
-            더보기
+            중고마켓 둘러보러 가기
             <v-img
               style="cursor: pointer; margin-top: 3px"
               :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
               :height="$vuetify.breakpoint.smAndDown ? 15 : 17"
-              class="custom-text-button-icon"
+              class="c-btn--text-icon"
               contain
               :src="require('@/assets/illust/arrow-right.svg')"
             />
@@ -189,26 +178,31 @@
         </v-container>
       </v-overlay>
     </v-row>
-    <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
-    <v-col class="py-12 custom-primary" style="margin: -1px -1px"></v-col>
+    <!-- section secondhand end -->
 
+    <v-col class="py-12 c-primary" style="margin: -1px 0px -1px 0px"></v-col>
+    <v-col class="py-12 c-primary" style="margin: -1px 0px -1px 0px"></v-col>
+
+    <!-- section group start -->
     <core-section
-      id="section-group"
-      class="custom-primary"
+      class="c-primary"
       pb="12"
       :centerPadding="false"
+      :endPadding="false"
     >
       <template slot="title">
         다양한 환경 단체를
         <br />살펴보세요!
       </template>
-      <template slot="content">
+    </core-section>
+    <section class="c-primary">
+      <v-container>
         <v-row justify="center">
           <v-col cols="12" xl="8"
             ><v-row>
-              <v-col cols="12" sm="6" md="4">
+              <v-col v-for="index in 6" :key="index" cols="12" sm="6" md="4">
                 <v-img
-                  src="@/assets/images/logo1.jpg"
+                  :src="require('@/assets/images/logo' + index + '.jpg')"
                   style="
                     height: 80px;
                     width: 100%;
@@ -219,154 +213,16 @@
                   lazy-src="@/assets/images/lazy-loading.jpg"
                 >
                   <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo2.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo6.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo5.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo4.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-img
-                  src="@/assets/images/logo3.jpg"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
+                    <lazy-loading />
                   </template>
                 </v-img>
               </v-col>
             </v-row>
           </v-col>
         </v-row>
-      </template>
-    </core-section>
+      </v-container>
+    </section>
+    <!-- section group end -->
   </div>
 </template>
 
@@ -377,65 +233,37 @@ import CardWithCaption from "@/components/home/CardWithCaption";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      contentSolution: [
+        { text: "캠페인", src: "main-info-campaign.jpg" },
+        { text: "중고거래", src: "main-info-market.jpg" },
+        { text: "에코포인트", src: "main-info-point.jpg" },
+      ],
+    };
+  },
   components: {
     CoreHero,
     CoreSection,
     CardWithCaption,
   },
-  data() {
-    return {
-      logos: [
-        {
-          id: 1,
-          src: "@/assets/images/logo1.jpg",
-        },
-        {
-          id: 2,
-          src: "@/assets/images/logo2.jpg",
-        },
-      ],
-    };
-  },
 };
 </script>
 
 <style lang="scss" scoped>
-.custom-highlight {
+.c-highlight {
   background: url("~@/assets/illust/one-line-highlight.svg") no-repeat center;
   background-size: 100%;
 }
 
-.custom-img {
+.c-sheet {
   border: 2px solid black;
   border-radius: 5px;
   width: 100%;
   height: 290px;
 }
 
-.custom-img-group {
-  padding: 6px;
-
-  .custom-img-caption {
-    position: relative;
-    display: inline-block;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 15px 20px;
-    background-color: var(--white-color);
-    min-width: 120px;
-    font-family: "S-CoreDream-7ExtraBold";
-    transition: 0.3s;
-    z-index: 2;
-  }
-  .custom-img {
-    position: relative;
-    margin-top: -45px;
-    overflow: hidden;
-    z-index: 1;
-  }
-}
-
-.custom-button {
+.c-btn {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px !important;
@@ -456,11 +284,11 @@ export default {
   }
 }
 
-.custom-primary {
+.c-primary {
   background-color: var(--primary-color);
 }
 
-.custom-text-button {
+.c-btn--text {
   display: inline-block;
   text-decoration: none;
   border-bottom: 2px solid #000000;
@@ -478,7 +306,7 @@ export default {
   }
 }
 
-.custom-text-button-icon {
+.c-btn--text-icon {
   display: inline-block;
 }
 </style>
