@@ -8,16 +8,16 @@
       <v-col class="py-12"></v-col>
       <v-row justify="center" class="ma-0">
         <v-col
-          class="black--text custom-subtitle"
-          :class="'custom-subtitle-' + $vuetify.breakpoint.name"
+          class="black--text c-subtitle"
+          :class="'c-subtitle-' + $vuetify.breakpoint.name"
           cols="12"
         >
           <slot name="subtitle">{{ subtitle }}</slot>
         </v-col>
         <v-col cols="12">
           <h2
-            class="custom-title mb-3"
-            :class="'custom-title-' + $vuetify.breakpoint.name"
+            class="c-title mb-3"
+            :class="'c-title-' + $vuetify.breakpoint.name"
           >
             <slot name="title">{{ title }}</slot>
           </h2>
@@ -25,8 +25,8 @@
         <v-col cols="12">
           <v-responsive class="mb-8"></v-responsive>
           <v-responsive
-            class="mx-auto mb-8 custom-text"
-            :class="'custom-text-' + $vuetify.breakpoint.name"
+            class="mx-auto mb-8 c-txt"
+            :class="'c-txt-' + $vuetify.breakpoint.name"
             max-width="650"
           >
             <p>
@@ -59,12 +59,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-title {
+.c-title {
+  font-family: "Nunito", "NanumBarunpen", sans-serif;
   font-size: 35px;
+  font-weight: 700;
   letter-spacing: -2px;
   line-height: 1.3;
-  font-weight: 700;
-  font-family: "Nunito", "NanumBarunpen", sans-serif;
 
   &-md {
     font-size: 52px;
@@ -79,11 +79,11 @@ export default {
   }
 }
 
-.custom-subtitle {
+.c-subtitle {
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
   font-size: 13px;
   font-weight: bold;
   letter-spacing: 4px;
-  font-family: "Nunito", "NanumSquareRound", sans-serif;
 
   &-md {
     font-size: 15px;
@@ -94,12 +94,12 @@ export default {
   }
 }
 
-.custom-text {
-  font-size: 16px;
-  word-break: keep-all;
-  font-weight: bold;
-  color: black;
+.c-txt {
   font-family: "Nunito", "NanumSquareRound", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  word-break: keep-all;
+  color: black;
   max-width: 650px;
 
   &-md {

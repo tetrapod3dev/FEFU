@@ -1,113 +1,61 @@
 <template>
-  <div id="market-list">
-    <section id="section-hero">
-      <v-img
-        id="about-hero"
-        style="position: absolute"
-        position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
-        src="@/assets/images/market-hero.jpg"
-        lazy-src="@/assets/images/lazy-loading.jpg"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-      <v-img
-        style="position: relative; z-index: 3"
-        position="bottom"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
-        src="@/assets/illust/market-hero.svg"
-      />
-    </section>
-
-    <v-container>
+  <v-col cols="12" sm="9" class="pt-0">
+    <div class="market-section">
+      <h1 class="market-title text-left ml-3">
+        {{ $route.params.mainCategory }} >
+        {{ $route.params.mediumCategory }}
+      </h1>
       <v-row>
-        <v-col cols="12" sm="3">
-          <market-search />
-          <market-category class="custom-category" />
-        </v-col>
+        <v-col
+          v-for="(product, index) in products"
+          :key="index"
+          cols="6"
+          sm="4"
+          justify="center"
+          align="center"
+        >
+          <v-card
+            class="custom-card"
+            :height="1.6 * cardWidth"
+            :width="cardWidth"
+            :to="{
+              name: 'MarketDetailView',
+              params: { productNo: product.no },
+            }"
+          >
+            <v-img
+              :height="1.1 * cardWidth"
+              :src="imageSrc(product.photo)"
+              lazy-src="@/assets/images/lazy-loading.jpg"
+            >
+              <template v-slot:placeholder>
+                <lazy-loading />
+              </template>
+            </v-img>
 
-        <v-col cols="12" sm="9" class="pt-0">
-          <div class="market-section">
-            <h1 class="market-title text-left ml-3">
-              {{ $route.params.mainCategory }} >
-              {{ $route.params.mediumCategory }}
-            </h1>
-            <v-row>
-              <v-col
-                v-for="(product, index) in products"
-                :key="index"
-                cols="6"
-                sm="4"
-                justify="center"
-                align="center"
-              >
-                <v-card
-                  class="custom-card"
-                  :height="1.6 * cardWidth"
-                  :width="cardWidth"
-                  :to="{
-                    name: 'MarketDetailView',
-                    params: { productNo: product.no },
-                  }"
-                >
-                  <v-img
-                    :height="1.1 * cardWidth"
-                    :src="imageSrc(product.photo)"
-                    lazy-src="@/assets/images/lazy-loading.jpg"
-                  >
-                    <template v-slot:placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
-
-                  <v-card-text class="text-left text--primary">
-                    <div>{{ product.title }}</div>
-                    <div>{{ product.price }}</div>
-                    <div>{{ product.eco_point }}</div>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-
-            <div class="py-12"></div>
-            <core-pagination
-              :curPage="pagination.curPage"
-              :maxPage="pagination.endPage"
-              @move-page="movePage"
-            />
-          </div>
+            <v-card-text class="text-left text--primary">
+              <div>{{ product.title }}</div>
+              <div>{{ product.price }}</div>
+              <div>{{ product.eco_point }}</div>
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
-    </v-container>
 
-    <section>
       <div class="py-12"></div>
-    </section>
-  </div>
+      <core-pagination
+        :curPage="pagination.curPage"
+        :maxPage="pagination.endPage"
+        @move-page="movePage"
+      />
+    </div>
+  </v-col>
 </template>
 
 <script>
 import axios from "axios";
 import SERVER from "@/api/api";
 
-import MarketCategory from "@/components/market/Category";
-import MarketSearch from "@/components/market/Search";
 import CorePagination from "@/components/core/Pagination";
 
 export default {
@@ -128,8 +76,6 @@ export default {
     };
   },
   components: {
-    MarketCategory,
-    MarketSearch,
     CorePagination,
   },
   created() {

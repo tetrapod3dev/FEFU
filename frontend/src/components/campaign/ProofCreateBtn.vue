@@ -21,12 +21,17 @@
                     !url ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)' : ''
                   "
                   :src="!!url ? url : require('@/assets/images/noimage.jpg')"
-                />
+                  lazy-src="@/assets/images/lazy-loading.jpg"
+                >
+                  <template v-slot:placeholder>
+                    <lazy-loading />
+                  </template>
+                </v-img>
                 <v-file-input
                   class="mt-5"
                   label="오늘의 미션 인증 사진"
                   v-model="images"
-                  :roules="imageRules"
+                  :rules="imageRules"
                   filled
                   prepend-icon=""
                   append-icon="mdi-camera"
@@ -83,19 +88,16 @@ import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
 import { mapGetters } from "vuex";
+import { mixinUploadImage } from "@/components/mixin/mixinUploadImage";
 
 export default {
   props: ["campaign"],
+  mixins: [mixinUploadImage],
   data() {
     return {
       url: null,
       images: null,
-      imageRules: [
-        (value) =>
-          !value ||
-          value.size < 2000000 ||
-          "이미지 파일은 최대 2 MB까지 가능해요",
-      ],
+      imageRules: [(v) => !!v || "이미지를 첨부해주세요"],
       proofPost: {
         campaignNo: 0,
         title: "",
@@ -121,7 +123,13 @@ export default {
     registProof: async function () {
       this.proofPost.campaignNo = this.campaign.no;
       this.proofPost.writer = this.USERNAME;
-      await this.uploadImage();
+      await this.uploadImage(this.images)
+        .then((res) => {
+          this.proofPost.photo = res.data.fileName;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       await axios
         .post(
           SERVER.URL + SERVER.ROUTES.campaigns.URL + "/proof/",
@@ -133,10 +141,13 @@ export default {
           }
         )
         .then(() => {
-          alert("캠페인 등록 완료 되었습니다.");
+          alert("인증글이 등록되었어요");
           this.dialog = false;
           router
-            .push({ name: "CampaignPostings" })
+            .push({
+              name: "CampaignDetailPostings",
+              params: { campaginNo: this.proofPost.campaignNo },
+            })
             .then(() => {
               location.reload();
             })
@@ -145,27 +156,6 @@ export default {
                 location.reload();
               }
             });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-
-    async uploadImage() {
-      let configs = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      let file = this.images;
-      let formData = new FormData();
-      formData.append("file", file);
-
-      await axios
-        .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
-        .then((res) => {
-          this.proofPost.photo = res.data.fileName;
         })
         .catch((err) => {
           console.log(err);
