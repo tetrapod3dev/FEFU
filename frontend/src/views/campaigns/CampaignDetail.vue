@@ -144,6 +144,7 @@
             <router-view
               :campaign="campaign"
               :campaignTypeInfo="campaignTypeInfo"
+              :company="company"
             />
           </v-container>
         </v-col>
