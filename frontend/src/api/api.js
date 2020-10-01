@@ -24,6 +24,8 @@ export default {
       join: "/campaigns/join",
       search: "/campaigns/search",
       proof: "/campaigns/proof",
+      yet: "/campaigns/proof/yet",
+      personalPercentTeam: "/campaigns/proof/personal-percent/team",
     },
     images: {
       upload: "/images/upload",

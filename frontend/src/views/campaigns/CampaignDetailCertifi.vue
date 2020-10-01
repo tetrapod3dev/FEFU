@@ -10,6 +10,7 @@ import BarChart from "@/components/campaign/BarChart.vue";
 import UserCertificate from "@/components/campaign/UserCertificate";
 
 import { mapGetters } from "vuex";
+import axios from "axios";
 import SERVER from "@/api/api";
 
 export default {
@@ -20,41 +21,32 @@ export default {
     UserCertificate,
   },
   created() {
-    console.log(this.campaign);
-    // this.campaign = this.$route.params.campaign;
-    // this.campaignTypeInfo = this.$route.params.campaignTypeInfo;
+    this.getPersonalPercentTeam();
   },
   computed: {
     ...mapGetters("accounts", ["config"]),
   },
   data() {
-    return {
-      // campaign: {
-      //   title: "",
-      //   content: "",
-      //   writer: "",
-      //   startDate: "",
-      //   endDate: "",
-      //   photo: "",
-      //   tag: [],
-      //   type: "",
-      //   no: 0,
-      // },
-      // campaignTypeInfo: {
-      //   authEndTime: "",
-      //   authProcess: "",
-      //   authStartTime: "",
-      //   campaignNo: null,
-      //   headcount: null,
-      //   mission: "",
-      //   no: null,
-      //   requirement: null,
-      // },
-    };
+    return {};
   },
   methods: {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
+    },
+    getPersonalPercentTeam() {
+      axios
+        .get(
+          SERVER.URL +
+            SERVER.ROUTES.campaigns.personalPercentTeam +
+            "/" +
+            this.$route.params.campaignNo
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
