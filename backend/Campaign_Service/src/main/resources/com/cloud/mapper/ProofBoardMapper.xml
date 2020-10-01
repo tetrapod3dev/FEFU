@@ -24,7 +24,7 @@
 	<select id="findWeekPassOfficial" resultType="java.util.HashMap">
 		select date(regtime) time, count(regtime) count
 		from proof_message_info
-		where date(regtime) between curdate() - 8 and curdate() - 1 and campaign_no = #{no} and authenticated = true
+		where date(regtime) between date_sub(curdate(), interval 8 day) and date_sub(curdate(), interval 1 day) and campaign_no = #{no} and authenticated = true
 		group by date(regtime) order by time asc;
 	</select>
 	
