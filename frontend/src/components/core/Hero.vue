@@ -18,8 +18,8 @@
           <v-overlay :absolute="true" opacity="0" z-index="0">
             <v-container fill-height>
               <v-col
-                class="black--text custom-hero-text"
-                :class="'custom-hero-text-' + $vuetify.breakpoint.name"
+                class="black--text c-txt"
+                :class="'c-txt-' + $vuetify.breakpoint.name"
                 cols="12"
                 >{{ subtitle }}</v-col
               >
@@ -60,7 +60,7 @@ export default {
   font-style: normal;
 }
 
-.custom-hero-text {
+.c-txt {
   font-size: 18px;
   font-family: "Nunito", "NanumSquareRound", sans-serif;
 

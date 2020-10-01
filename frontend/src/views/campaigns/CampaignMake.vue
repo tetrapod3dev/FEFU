@@ -60,13 +60,13 @@
                 <v-card class="custom-campaign-make-card">
                   <v-card-text>
                     <div class="campaign-make-title">캠페인 기본정보</div>
-                    <v-form>
+                    <v-form ref="form">
                       <v-row>
                         <v-col cols="12" md="4">
                           <v-file-input
                             label="캠페인 이미지"
                             v-model="images"
-                            :roules="imageRules"
+                            :rules="imageRules"
                             filled
                             prepend-icon=""
                             append-icon="mdi-camera"
@@ -95,6 +95,7 @@
                             label="캠페인명"
                             name="캠페인명"
                             type="text"
+                            :rules="[(v) => !!v || '캠페인명을 적어주세요']"
                             required
                             filled
                             autofocus
@@ -120,6 +121,7 @@
                                 required
                                 filled
                                 v-model="campaign.startDate"
+                                :rules="[startDateRules]"
                                 readonly
                                 v-bind="attrs"
                                 v-on="on"
@@ -128,11 +130,15 @@
                             </template>
                             <v-date-picker
                               v-model="campaign.startDate"
+                              color="var(--primary-color)"
                               no-title
                               scrollable
                             >
                               <v-spacer></v-spacer>
-                              <v-btn text color="#37cdc2" @click="menu = false"
+                              <v-btn
+                                text
+                                color="#37cdc2"
+                                @click="this.menu = false"
                                 >취소</v-btn
                               >
                               <v-btn
@@ -144,18 +150,51 @@
                             </v-date-picker>
                           </v-menu>
 
-                          <v-text-field
-                            label="종료날짜"
-                            name="종료날짜"
-                            type="text"
-                            required
-                            filled
-                            disabled
-                            autocapitalize="off"
-                            autocorrect="off"
-                            autocomplete="off"
-                            color="#37cdc2"
-                          ></v-text-field>
+                          <v-menu
+                            ref="menu2"
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            :return-value.sync="campaign.endDate"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-text-field
+                                label="종료날짜"
+                                name="종료날짜"
+                                required
+                                filled
+                                :disabled="$route.params.type == 1"
+                                v-model="campaign.endDate"
+                                :rules="[endDateRules]"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                color="#37cdc2"
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="campaign.endDate"
+                              color="var(--primary-color)"
+                              no-title
+                              scrollable
+                            >
+                              <v-spacer></v-spacer>
+                              <v-btn
+                                text
+                                color="#37cdc2"
+                                @click="this.menu2 = false"
+                                >취소</v-btn
+                              >
+                              <v-btn
+                                text
+                                color="#37cdc2"
+                                @click="$refs.menu2.save(campaign.endDate)"
+                                >선택</v-btn
+                              >
+                            </v-date-picker>
+                          </v-menu>
 
                           <v-combobox
                             label="태그"
@@ -180,6 +219,9 @@
                         label="상세 내용"
                         name="상세 내용"
                         type="text"
+                        :rules="[
+                          (v) => !!v || '캠페인명에 대해 이야기해보세요',
+                        ]"
                         required
                         filled
                         autocapitalize="off"
@@ -192,8 +234,12 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="custom-campaign-make-btn">취소 </v-btn>
-                    <v-btn class="custom-campaign-make-btn" @click="stepper = 2"
+                    <v-btn
+                      class="custom-campaign-make-btn"
+                      :to="{ name: 'CampaignMain' }"
+                      >취소
+                    </v-btn>
+                    <v-btn class="custom-campaign-make-btn" @click="preTest"
                       >다음
                     </v-btn>
                   </v-card-actions>
@@ -204,13 +250,14 @@
                 <v-card class="custom-campaign-make-card">
                   <v-card-text>
                     <div class="campaign-make-title">캠페인 상세정보</div>
-                    <v-form v-if="$route.params.type != 2">
+                    <v-form ref="formType1n3" v-if="$route.params.type != 2">
                       <v-text-field
                         v-model="personal.mission"
                         label="인증 미션"
                         name="인증 미션"
                         placeholder="ex) 하루 한가지 환경을 위한 행동을 나눠요"
                         type="text"
+                        :rules="[(v) => !!v || '미션을 정해봐요']"
                         required
                         filled
                         autofocus
@@ -225,6 +272,7 @@
                         name="인증 방법"
                         placeholder="ex) 일상 속 친환경 행동 실천하고 인증샷을 올려주세요."
                         type="text"
+                        :rules="[(v) => !!v || '인증 방법을 적어주세요']"
                         required
                         filled
                         append-outer-icon
@@ -238,6 +286,7 @@
                         name="인증 시작시간"
                         type="text"
                         placeholder="ex) 매일 00:00"
+                        :rules="[(v) => !!v || '인증 시작 시간을 알려주세요']"
                         required
                         filled
                         append-outer-icon
@@ -252,6 +301,7 @@
                         name="인증 종료시간"
                         type="text"
                         placeholder="ex) 다음날 00:00"
+                        :rules="[(v) => !!v || '인증 종료 시간을 알려주세요']"
                         required
                         filled
                         append-outer-icon
@@ -267,6 +317,9 @@
                         name="참여 조건"
                         type="text"
                         placeholder="ex) 작은 행동 하나라도 지속적으로 꾸준히 환경보호를 실천해나갈 분"
+                        :rules="[
+                          (v) => !!v || '어떤 사람이 참여했으면 좋겠나요?',
+                        ]"
                         required
                         filled
                         autocapitalize="off"
@@ -280,6 +333,7 @@
                         name="참여인원"
                         type="number"
                         v-model.number="personal.headcount"
+                        :rules="[(v) => !!v || '몇 명이서 함께 하고 싶나요?']"
                         required
                         filled
                         append-outer-icon
@@ -287,12 +341,15 @@
                         color="#37cdc2"
                       ></v-text-field>
                     </v-form>
-                    <v-form v-else>
+                    <v-form v-else ref="formType2">
                       <v-text-field
                         v-model="company.companyName"
                         label="주최"
                         name="주최"
                         type="text"
+                        :rules="[
+                          (v) => !!v || '어느 회사가 환경에 관심을 가지나요?',
+                        ]"
                         required
                         filled
                         autocapitalize="off"
@@ -306,6 +363,7 @@
                         name="캠페인 링크"
                         type="text"
                         placeholder="ex) 캠페인 링크를 작성해주세요."
+                        :rules="[(v) => !!v || '어떻게 찾아가는지 알려주세요']"
                         required
                         filled
                         autocapitalize="off"
@@ -349,11 +407,12 @@ export default {
   data() {
     return {
       menu: false,
+      menu2: false,
       campaign: {
         title: "",
         content: "",
         startDate: new Date().toISOString().substr(0, 10),
-        endDate: "2022-09-11",
+        endDate: new Date().toISOString().substr(0, 10),
         type: "",
         writer: "",
         photo: "",
@@ -374,13 +433,14 @@ export default {
       stepper: 1,
       url: null,
       images: null,
-      imageRules: [
-        (value) =>
-          !value ||
-          value.size < 2000000 ||
-          "이미지 파일은 최대 2 MB까지 가능해요",
-      ],
+      imageRules: [(v) => !!v || "이미지 파일을 등록해주세요"],
     };
+  },
+  created() {
+    console.log(this.$route.params);
+    if (this.$route.params.type == 1) {
+      this.campaign.endDate = this.add100Day;
+    }
   },
   computed: {
     ...mapGetters("accounts", ["config", "USERNAME"]),
@@ -396,6 +456,23 @@ export default {
       }
       return campaignType;
     },
+    add100Day() {
+      let resultDate = new Date();
+      resultDate.setDate(new Date().getDate() + 100);
+      return resultDate.toISOString().substr(0, 10);
+    },
+    startDateRules() {
+      return (
+        new Date().toISOString().substr(0, 10) <= this.campaign.startDate ||
+        "시작 날짜는 오늘부터 가능합니다"
+      );
+    },
+    endDateRules() {
+      return (
+        this.campaign.startDate <= this.campaign.endDate ||
+        "종료 날짜는 시작 날짜보다 더 늦어야 해요"
+      );
+    },
   },
   methods: {
     Preview_image() {
@@ -405,8 +482,21 @@ export default {
         this.url = URL.createObjectURL(this.images);
       }
     },
-
-    registCampaign: async function () {
+    preTest() {
+      if (this.$refs.form.validate()) {
+        this.stepper = 2;
+      }
+    },
+    async registCampaign() {
+      if (this.$route.params.type == 2) {
+        if (!this.$refs.formType2.validate()) {
+          return;
+        }
+      } else {
+        if (!this.$refs.formType1n3.validate()) {
+          return;
+        }
+      }
       let body = {};
       this.campaign.type = this.getCampaignType;
 

@@ -3,9 +3,16 @@
     <v-img
       class="campaign-header-img"
       height="200px"
-      :src="imageSrc(campaign.photo)"
-      v-if="campaign.photo != ''"
+      :src="
+        campaign.photo
+          ? imageSrc(campaign.photo)
+          : '@/assets/images/lazy-loading.jpg'
+      "
+      lazy-src="@/assets/images/lazy-loading.jpg"
     >
+      <template v-slot:placeholder>
+        <lazy-loading />
+      </template>
     </v-img>
 
     <div v-if="campaign">
@@ -15,9 +22,9 @@
           :key="index"
           no-action
           class="custom-list-item"
-          :class="
-            `custom-list-item-${listColorName[index % listColorName.length]}`
-          "
+          :class="`custom-list-item-${
+            listColorName[index % listColorName.length]
+          }`"
           :to="{ name: item.link, params: { campaignNo: campaign.no } }"
         >
           <v-list-item-content>
@@ -46,9 +53,9 @@ export default {
         "purple",
       ],
       items: [
-        { name: "캠페인소개", link: "CampaignDetail" },
-        { name: "인증현황", link: "CampaignCertifi" },
-        { name: "인증게시판", link: "CampaignPostings" },
+        { name: "캠페인소개", link: "CampaignDetailInfo" },
+        { name: "인증현황", link: "CampaignDetailCertifi" },
+        { name: "인증게시판", link: "CampaignDetailPostings" },
       ],
     };
   },

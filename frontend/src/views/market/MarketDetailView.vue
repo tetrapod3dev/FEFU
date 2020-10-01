@@ -1,169 +1,221 @@
 <template>
-  <div class="market-main">
-    <section id="section-hero">
-      <v-img
-        id="about-hero"
-        style="position: absolute"
-        position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
-        src="@/assets/images/market-hero.jpg"
-        lazy-src="@/assets/images/lazy-loading.jpg"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-      <v-img
-        style="position: relative; z-index: 3"
-        position="bottom"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
-        src="@/assets/illust/market-hero.svg"
-      />
-    </section>
-    <v-container>
-      <v-row>
-        <v-col cols="12" sm="3">
-          <market-search />
-          <market-category class="custom-category" />
-        </v-col>
-        <v-col cols="12" sm="9" class="pt-0">
-          <section id="product-list">
-            <v-container>
-              <v-row>
-                <v-col cols="12" md="5">
-                  <v-img
-                    class="custom-carousel"
-                    :src="imageSrc(product.photo)"
-                    height="400px"
-                    lazy-src="@/assets/images/lazy-loading.jpg"
-                  >
-                    <template v-slot:placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
-                </v-col>
-                <v-col cols="12" md="7">
-                  <div
-                    class="product-info-wrapper text-left d-flex flex-column pa-3"
-                  >
-                    <p class="product-title">{{ product.title }}</p>
-                    <p>대분류 > 중분류</p>
-                    <p class="product-price">{{ product.price }}원</p>
-                    <p class="product-ecopoint">
-                      사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
+  <v-col cols="12" sm="9" class="pt-0">
+    <section id="product-list">
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="5">
+            <v-img
+              class="custom-carousel"
+              :src="
+                product.photo
+                  ? imageSrc(product.photo)
+                  : '@/assets/images/lazy-loading.jpg'
+              "
+              height="400px"
+              lazy-src="@/assets/images/lazy-loading.jpg"
+            >
+              <template v-slot:placeholder>
+                <lazy-loading />
+              </template>
+            </v-img>
+          </v-col>
+          <v-col cols="12" md="7">
+            <div class="product-info-wrapper text-left d-flex flex-column pa-3">
+              <p class="product-title">{{ product.title }}</p>
+              <p>대분류 > 중분류</p>
+              <p class="product-price">{{ product.price }}원</p>
+              <p class="product-ecopoint">
+                사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
+              </p>
+              <div class="seller-info">
+                <p class="mb-2">판매자</p>
+                <div class="d-flex">
+                  <v-avatar size="40" color="teal">
+                    <img
+                      :src="
+                        !!writer.photo
+                          ? imageSrc(writer.photo)
+                          : require(`@/assets/images/${writer.gender}.png`)
+                      "
+                    />
+                  </v-avatar>
+                  <div class="d-flex flex-column ml-3">
+                    <p class="product-owner">{{ product.writer }}</p>
+                    <p class="product-phonenumber">
+                      {{ product.contact }}
                     </p>
-                    <div class="seller-info">
-                      <p class="mb-2">판매자</p>
-                      <div class="d-flex">
-                        <v-avatar size="40" color="teal"></v-avatar>
-                        <div class="d-flex flex-column ml-3">
-                          <p class="product-owner">{{ product.writer }}</p>
-                          <p class="product-phonenumber">
-                            {{ product.contact }}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <v-btn class="product-state align-self-end" outlined tile
-                      >판매 중</v-btn
-                    >
                   </div>
-                </v-col>
-
-                <v-col cols="12">
-                  <p class="product-description text-left pa-3">
-                    {{ product.content }}
-                  </p>
-                  <div class="py-12"></div>
-                </v-col>
-                <v-col cols="12">
-                  <h1 class="market-title">같이 보면 좋을 상품</h1>
-                </v-col>
-                <v-col
-                  v-for="index in 3"
-                  :key="index"
-                  cols="12"
-                  sm="4"
-                  align="center"
-                >
-                  <v-card
-                    class="custom-card ma-4"
-                    :height="1.6 * cardWidth"
-                    :width="cardWidth"
-                    cols="12"
-                    md="4"
-                    @click="
-                      moveToPage({
-                        name: 'MarketDetailView',
-                        params: { productNo: products[index].id },
-                      })
-                    "
+                </div>
+              </div>
+              <v-row no-gutters>
+                <v-spacer></v-spacer>
+                <v-col cols="3" align="end">
+                  <v-btn
+                    v-if="product.writer == USERNAME"
+                    class="product-state"
+                    outlined
+                    tile
+                    @click="deleteProduct"
                   >
-                    <v-img
-                      :height="1.1 * cardWidth"
-                      :src="products[index]"
-                      lazy-src="@/assets/images/lazy-loading.jpg"
-                    >
-                      <template v-slot:placeholder>
-                        <v-row
-                          class="fill-height ma-0"
-                          align="center"
-                          justify="center"
-                        >
-                          <v-progress-circular
-                            indeterminate
-                            color="grey lighten-5"
-                          ></v-progress-circular>
-                        </v-row>
-                      </template>
-                    </v-img>
-
-                    <v-card-text class="text-left text--primary">
-                      <div>{{ products[index].name }}</div>
-                      <div>{{ products[index].price }}</div>
-                      <div>{{ products[index].eco }}</div>
-                    </v-card-text>
-                  </v-card>
+                    삭제
+                  </v-btn>
+                </v-col>
+                <v-col cols="3" align="center">
+                  <v-btn
+                    v-if="product.writer == USERNAME"
+                    class="product-state"
+                    outlined
+                    tile
+                    :to="{
+                      name: 'MarketUpdateView',
+                      params: { productNo: $route.params.productNo },
+                    }"
+                  >
+                    수정
+                  </v-btn>
+                </v-col>
+                <v-col cols="2">
+                  <v-btn class="product-state" outlined tile>판매 중</v-btn>
                 </v-col>
               </v-row>
-            </v-container>
-          </section>
-          <div class="py-12"></div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+            </div>
+          </v-col>
+
+          <v-col cols="12">
+            <p class="product-description text-left pa-3">
+              {{ product.content }}
+            </p>
+            <div class="py-12"></div>
+          </v-col>
+          <v-col cols="12">
+            <h1 class="market-title">같이 보면 좋을 상품</h1>
+          </v-col>
+          <v-col
+            v-for="index in 3"
+            :key="index"
+            cols="12"
+            sm="4"
+            align="center"
+          >
+            <v-card
+              class="custom-card ma-4"
+              :height="1.6 * cardWidth"
+              :width="cardWidth"
+              cols="12"
+              md="4"
+              @click="
+                moveToPage({
+                  name: 'MarketDetailView',
+                  params: { productNo: products[index - 1].no },
+                })
+              "
+            >
+              <v-img
+                :height="1.1 * cardWidth"
+                :src="imageSrc(products[index - 1].photo)"
+                lazy-src="@/assets/images/lazy-loading.jpg"
+              >
+                <template v-slot:placeholder>
+                  <lazy-loading />
+                </template>
+              </v-img>
+              <v-card-text class="text-left text--primary">
+                <div>{{ products[index - 1].title }}</div>
+                <div>{{ products[index - 1].price }}</div>
+                <div>{{ products[index - 1].eco_point }}</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </section>
+    <div class="py-12"></div>
+  </v-col>
 </template>
 
 <script>
+import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
+import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
-
-import MarketCategory from "@/components/market/Category";
-import MarketSearch from "@/components/market/Search";
+import router from "@/router";
 
 export default {
   name: "MarketDetailView",
-  components: {
-    MarketCategory,
-    MarketSearch,
+  mixins: [mixinGetUserInfo],
+
+  data() {
+    return {
+      cardSlide1: null,
+      colors: ["indigo", "warning", "pink darken-2"],
+      slides: ["First", "Second", "Third"],
+      product: {
+        contact: "",
+        content: "",
+        eco_point: 1,
+        main_category_no: 1,
+        medium_category_no: 1,
+        sub_category_no: 1,
+        no: 45,
+        photo: "",
+        price: 0,
+        reg_time: "",
+        status: null,
+        title: "",
+        writer: "",
+      },
+      writer: {
+        gender: "남자",
+        photo: "",
+      },
+      products: [
+        {
+          no: 1,
+          title: "위즈 2단 독서대 60cm(오른팔용)",
+          price: "20,000",
+          eco_point: "5,000",
+          photo: "",
+        },
+        {
+          no: 2,
+          title: "200km 주행 샤오미 전기자전거",
+          price: "560,000",
+          eco_point: "60,000",
+          photo: "",
+        },
+        {
+          no: 3,
+          title: "(정품) 발렌티노 히든 스니커즈",
+          price: "200,000",
+          eco_point: "10,000",
+          photo: "",
+        },
+      ],
+    };
   },
-  created() {
-    this.getProduct();
+  async created() {
+    await this.getProduct();
+    await this.getInfo(this.product.writer)
+      .then((res) => {
+        this.writer = res.data;
+      })
+      .catch((err) => console.log(err));
+    // await axios.post(
+    //   SERVER.URL +
+    //     SERVER.ROUTES.products.URL +
+    //     "/" +
+    //     this.$route.params.productNo +
+    //     SERVER.ROUTES.products.viewed,
+    //   {
+    //     sub_category_no: this.product.sub_category_no,
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: this.config,
+    //     },
+    //   }
+    // );
+    // this.getTopThreeProduct();
   },
   computed: {
     cardWidth() {
@@ -187,6 +239,7 @@ export default {
       }
       return resultWidth;
     },
+    ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
     moveToPage(_url) {
@@ -201,8 +254,8 @@ export default {
           }
         });
     },
-    getProduct() {
-      axios
+    async getProduct() {
+      await axios
         .get(
           SERVER.URL +
             SERVER.ROUTES.products.URL +
@@ -211,8 +264,18 @@ export default {
             "/"
         )
         .then((res) => {
-          console.log(res);
           this.product = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getTopThreeProduct() {
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today)
+        .then((res) => {
+          console.log(res);
+          this.products = res.data;
         })
         .catch((err) => {
           console.log(err);
@@ -221,103 +284,29 @@ export default {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
-  },
-  data() {
-    return {
-      cardSlide1: null,
-      colors: ["indigo", "warning", "pink darken-2"],
-      slides: ["First", "Second", "Third"],
-      product: {
-        contact: "",
-        content: "",
-        eco_point: 1,
-        main_category_no: 1,
-        medium_category_no: 1,
-        sub_category_no: 1,
-        no: 45,
-        photo: "",
-        price: 0,
-        reg_time: "",
-        status: null,
-        title: "",
-        writer: "",
-      },
-      products: [
-        {
-          id: 1,
-          name: "위즈 2단 독서대 60cm(오른팔용)",
-          price: "20,000",
-          eco: "5,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/4F9A716A18F20012DF757BD380AEE17B476263E20DE23F07395ED7692C547F56.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 2,
-          name: "200km 주행 샤오미 전기자전거",
-          price: "560,000",
-          eco: "60,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/24637A81F60C69C9B086CF1ADD0DCEADD400DAFE11F53C8C4A6F55E666CE1DEC.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 3,
-          name: "(정품) 발렌티노 히든 스니커즈",
-          price: "200,000",
-          eco: "10,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/9ED5BC30D37442E3D598BB842AC003165FE3B2B5E99BCFE0EF52EEC9E845928A.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 4,
-          name: "헤이 클로쉐 테이블 스탠드 HAY CLOCHE TABLE LAMP",
-          price: "250,000",
-          eco: "50,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/A8FBF37CCD0F318438B4038EE88E55A0678E67A154FA3208B080D1F4D1CC22EF.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 5,
-          name: "긴급처분)의자",
-          price: "12,000",
-          eco: "2,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/A5AE64A79B6A986825AE405A5955D062C65881B28B1F574534CCF85078E9E016.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 6,
-          name: "의류 쇼룸 매장 집기 일괄 판매합니다!",
-          price: "150,000",
-          eco: "10,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/902CFB62081E669CE8FEEB66F4C91FFA1D67FA2068011933651004A021249BF8.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 7,
-          name: "빈티지 책장식 ✩ 무배 ✩ 종류많아요",
-          price: "20,000",
-          eco: "2,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/4F9A716A18F20012DF757BD380AEE17B476263E20DE23F07395ED7692C547F56.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 8,
-          name:
-            "아이패드 에어 3세대 (256GB, S급, 케이스/아이패드 충전기/에어팟/애플펜슬까지 일괄로 한번에 급처 합니다.",
-          price: "550,000",
-          eco: "50,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/3D5A32C58C62CD9BD5D56D3803B6FE27B230FDEA2D31D76D89F81615493DE480.jpg?q=95&s=1440x1440&t=inside",
-        },
-        {
-          id: 9,
-          name: "원목다용도선반 판매합니다",
-          price: "5,000",
-          eco: "5,000",
-          src:
-            "https://dnvefa72aowie.cloudfront.net/origin/article/202009/b98f44be90258602e79e83e2030fac6c877eb3822848cc7ea7c8518a46b6fbe1.webp?q=95&s=1440x1440&t=inside",
-        },
-      ],
-    };
+    deleteProduct() {
+      if (confirm("정말 삭제하실건가요?")) {
+        axios
+          .delete(
+            SERVER.URL +
+              SERVER.ROUTES.products.URL +
+              "/" +
+              this.$route.params.productNo +
+              "/",
+            {
+              headers: {
+                Authorization: this.config,
+              },
+            }
+          )
+          .then(() => {
+            router.push({ name: "MarketMainView" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   },
 };
 </script>

@@ -9,8 +9,17 @@
     <v-img
       class="campaign-img"
       height="200px"
-      :src="imageSrc(campaign.photo)"
-    ></v-img>
+      :src="
+        campaign.photo
+          ? imageSrc(campaign.photo)
+          : '@/assets/images/lazy-loading.jpg'
+      "
+      lazy-src="@/assets/images/lazy-loading.jpg"
+    >
+      <template v-slot:placeholder>
+        <lazy-loading />
+      </template>
+    </v-img>
 
     <v-card-text class="text--primary text-left">
       <h3>{{ campaign.title }}</h3>
