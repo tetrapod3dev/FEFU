@@ -401,9 +401,11 @@ import axios from "axios";
 import SERVER from "@/api/api";
 import { mapGetters } from "vuex";
 import router from "@/router";
+import { mixinUploadImage } from "@/components/mixin/mixinUploadImage";
 
 export default {
   name: "CampaignMakeView",
+  mixins: [mixinUploadImage],
   data() {
     return {
       menu: false,
@@ -481,6 +483,7 @@ export default {
       } else {
         this.url = URL.createObjectURL(this.images);
       }
+      this.preUploadImage();
     },
     preTest() {
       if (this.$refs.form.validate()) {
@@ -521,7 +524,6 @@ export default {
       }
 
       this.campaign.writer = this.USERNAME;
-      await this.uploadImage();
       await axios
         .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
           headers: {
@@ -538,22 +540,10 @@ export default {
       console.log(body);
     },
 
-    async uploadImage() {
-      let configs = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      let file = this.images;
-      let formData = new FormData();
-      formData.append("file", file);
-
-      await axios
-        .post(SERVER.URL + SERVER.ROUTES.images.upload, formData, configs)
+    preUploadImage() {
+      this.uploadImage(this.images)
         .then((res) => {
           this.campaign.photo = res.data.fileName;
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);

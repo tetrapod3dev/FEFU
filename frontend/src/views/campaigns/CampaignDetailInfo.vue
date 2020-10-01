@@ -159,6 +159,7 @@ export default {
   border-radius: 5px;
   padding: 10px 20px;
   margin: 10px 0;
+  min-height: 440px;
 }
 
 .campaign-info-list {
