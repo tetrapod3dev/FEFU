@@ -1,7 +1,7 @@
 <template>
   <div class="campaign-info d-flex flex-column">
     <v-container class="my-7">
-      <h2 class="text-left">멤버 인증 게시글</h2>
+      <h2 class="text-left">게시글 인증 관리</h2>
       <v-container>
         <v-row>
           <v-col
@@ -70,7 +70,10 @@
                     text
                     @click="$set(dialogs, proof.no, false)"
                   >
-                    닫기
+                    취소
+                  </v-btn>
+                  <v-btn class="custom-btn" text @click="permitProof(proof.no)">
+                    승인
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -99,8 +102,10 @@ import CorePagination from "@/components/core/Pagination";
 export default {
   props: ["campaign", "campaignTypeInfo"],
   created() {
-    this.getProofCampaign();
+    this.getProofYetCampaign();
     this.pagination.curPage = parseInt(this.$route.params.page_no);
+    // this.campaign = this.$route.params.campaign;
+    // this.campaignTypeInfo = this.$route.params.campaignTypeInfo;
   },
   mounted() {},
   computed: {
@@ -132,6 +137,19 @@ export default {
     },
   },
   methods: {
+    permitProof(proofNo) {
+      axios
+        .patch(SERVER.URL + SERVER.ROUTES.campaigns.proof + "/" + proofNo)
+        .then((res) => {
+          console.log(res);
+          this.dialog = false;
+          location.reload();
+        })
+        .catch((err) => {
+          alert("인증 승인 요청 간에 문제가 생겼습니다");
+          console.log(err.response);
+        });
+    },
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
@@ -146,7 +164,7 @@ export default {
       scroll(0, 0);
     },
 
-    getProofCampaign() {
+    getProofYetCampaign() {
       let configs = {
         headers: {
           Authorization: this.config,
@@ -155,7 +173,7 @@ export default {
       axios
         .get(
           SERVER.URL +
-            SERVER.ROUTES.campaigns.proof +
+            SERVER.ROUTES.campaigns.yet +
             "/" +
             this.$route.params.campaignNo +
             "/" +

@@ -60,11 +60,29 @@
                   name: item.link,
                   params: {
                     campaignNo: campaign.no,
+                    ...item.params,
                   },
                 }"
               >
                 <v-list-item-content>
                   <v-list-item-title v-text="item.name"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                v-if="campaign.writer == USERNAME"
+                no-action
+                class="custom-list-item"
+                :class="`custom-list-item-${listColorName[4]}`"
+                :to="{
+                  name: 'CampaignDetailAdmin',
+                  params: {
+                    campaignNo: campaign.no,
+                    page_no: 1,
+                  },
+                }"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="'인증관리'"></v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -169,9 +187,13 @@ export default {
         "purple",
       ],
       items: [
-        { name: "캠페인소개", link: "CampaignDetailInfo" },
-        { name: "인증현황", link: "CampaignDetailCertifi" },
-        { name: "인증게시판", link: "CampaignDetailPostings" },
+        { name: "캠페인소개", link: "CampaignDetailInfo", params: {} },
+        { name: "인증현황", link: "CampaignDetailCertifi", params: {} },
+        {
+          name: "인증게시판",
+          link: "CampaignDetailPostings",
+          params: { page_no: 1 },
+        },
       ],
       campaign: {
         title: "",
@@ -203,7 +225,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("accounts", ["config"]),
+    ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
     imageSrc(filename) {
