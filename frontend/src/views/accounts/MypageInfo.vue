@@ -1,12 +1,48 @@
 <template>
   <div>
-    <v-container justify="start">
-      <div class="c-title c-card__content">내 정보</div>
+    <v-container class="pa-0" fill-height>
+      <v-col cols="12" class="c-title c-card__content mb-5"> 내 정보 </v-col>
 
-      <div class="c-txt c-card__content d-flex flex-column"></div>
+      <v-row
+        class="c-card__content c-txt pa-3"
+        :style="$vuetify.breakpoint.smAndDown ? '' : 'min-height=600px;'"
+        no-gutters
+      >
+        <v-col cols="12">
+          <div
+            class="c-title mb-5"
+            style="background-color: rgba(55, 205, 194, 0.09)"
+          >
+            새로운 비밀번호를 입력하세요
+          </div>
+        </v-col>
+        <v-col class="align-stretch" cols="12">
+          <v-form ref="form">
+            <v-text-field
+              id="password"
+              label="비밀번호"
+              name="password"
+              filled
+              color="#37cdc2"
+              append-outer-icon
+            />
+
+            <v-text-field
+              id="passwordConfirm"
+              label="비밀번호 확인"
+              name="passwordConfirm"
+              filled
+              color="#37cdc2"
+              append-outer-icon
+            />
+          </v-form>
+
+          <v-btn class="c-btn" large> 비밀번호 변경 </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
-</template>
+</template>>
 
 <script>
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";

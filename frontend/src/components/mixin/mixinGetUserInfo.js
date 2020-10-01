@@ -18,5 +18,16 @@ export const mixinGetUserInfo = {
         configs
       );
     },
+    async getInfo(username) {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      return await axios.get(
+        SERVER.URL + SERVER.ROUTES.accounts.URL + "/" + username,
+        configs
+      );
+    },
   },
 };

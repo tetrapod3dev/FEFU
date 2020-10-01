@@ -3,8 +3,11 @@
     <v-img
       class="campaign-header-img"
       height="200px"
-      :src="imageSrc(campaign.photo)"
-      v-if="campaign.photo != ''"
+      :src="
+        campaign.photo
+          ? imageSrc(campaign.photo)
+          : '@/assets/images/lazy-loading.jpg'
+      "
       lazy-src="@/assets/images/lazy-loading.jpg"
     >
       <template v-slot:placeholder>

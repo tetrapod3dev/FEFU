@@ -66,7 +66,7 @@
                           <v-file-input
                             label="캠페인 이미지"
                             v-model="images"
-                            :roules="imageRules"
+                            :rules="imageRules"
                             filled
                             prepend-icon=""
                             append-icon="mdi-camera"
@@ -192,7 +192,11 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="custom-campaign-make-btn">취소 </v-btn>
+                    <v-btn
+                      class="custom-campaign-make-btn"
+                      :to="{ name: 'CampaignMain' }"
+                      >취소
+                    </v-btn>
                     <v-btn class="custom-campaign-make-btn" @click="stepper = 2"
                       >다음
                     </v-btn>
@@ -374,12 +378,7 @@ export default {
       stepper: 1,
       url: null,
       images: null,
-      imageRules: [
-        (value) =>
-          !value ||
-          value.size < 2000000 ||
-          "이미지 파일은 최대 2 MB까지 가능해요",
-      ],
+      imageRules: [(v) => !!v || "이미지 파일을 등록해주세요"],
     };
   },
   computed: {
@@ -406,46 +405,48 @@ export default {
       }
     },
 
-    registCampaign: async function () {
-      let body = {};
-      this.campaign.type = this.getCampaignType;
+    async registCampaign() {
+      if (this.$refs.form.validate()) {
+        let body = {};
+        this.campaign.type = this.getCampaignType;
 
-      if (this.$route.params.type == 2) {
-        body = {
-          campaign: this.campaign,
-          tag: this.tags,
-          company: this.company,
-        };
-      } else if (this.$route.params.type == 1) {
-        body = {
-          campaign: this.campaign,
-          tag: this.tags,
-          personal: this.personal,
-        };
-      } else {
-        body = {
-          campaign: this.campaign,
-          tag: this.tags,
-          official: this.personal,
-        };
+        if (this.$route.params.type == 2) {
+          body = {
+            campaign: this.campaign,
+            tag: this.tags,
+            company: this.company,
+          };
+        } else if (this.$route.params.type == 1) {
+          body = {
+            campaign: this.campaign,
+            tag: this.tags,
+            personal: this.personal,
+          };
+        } else {
+          body = {
+            campaign: this.campaign,
+            tag: this.tags,
+            official: this.personal,
+          };
+        }
+
+        this.campaign.writer = this.USERNAME;
+        await this.uploadImage();
+        await axios
+          .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
+            headers: {
+              Authorization: this.config,
+            },
+          })
+          .then(() => {
+            alert("캠페인 등록 완료 되었습니다.");
+            router.push({ name: "CampaignMain" });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        console.log(body);
       }
-
-      this.campaign.writer = this.USERNAME;
-      await this.uploadImage();
-      await axios
-        .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
-          headers: {
-            Authorization: this.config,
-          },
-        })
-        .then(() => {
-          alert("캠페인 등록 완료 되었습니다.");
-          router.push({ name: "CampaignMain" });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      console.log(body);
     },
 
     async uploadImage() {

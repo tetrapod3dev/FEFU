@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container class="pa-0" fill-height>
-      <v-col cols="12" class="c-title c-card__content mb-3">
+      <v-col cols="12" class="c-title c-card__content mb-5">
         비밀번호변경
       </v-col>
 
@@ -18,7 +18,7 @@
             <v-text-field
               id="password"
               v-model="newPW"
-              label="비밀번호"
+              label="새 비밀번호"
               name="password"
               filled
               color="#37cdc2"
@@ -39,15 +39,17 @@
               append-outer-icon
               :append-icon="isShowPW2 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="isShowPW2 = !isShowPW2"
+              @focus="isFaild = false"
               :type="isShowPW2 ? 'text' : 'password'"
               :rules="[
                 (v) => !!v || '비밀번호를 다시 한번 입력해주세요.',
                 passwordConfirmationRule,
+                () => !isFaild || '비밀번호 변경을 실패했어요',
               ]"
             />
           </v-form>
 
-          <v-btn class="c-btn" large> 비밀번호 변경 </v-btn>
+          <v-btn class="c-btn" large @click="changePW"> 비밀번호 변경 </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -57,13 +59,15 @@
 <script>
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 import { mapGetters } from "vuex";
-// import SERVER from "@/api/api";
+import axios from "axios";
+import SERVER from "@/api/api";
 
 export default {
   name: "MypageUpdatePwd",
   mixins: [mixinGetUserInfo],
   data() {
     return {
+      isFaild: false,
       isShowPW: false,
       isShowPW2: false,
       newPW: null,
@@ -90,7 +94,31 @@ export default {
       return this.newPW === this.newPW2 || "비밀번호가 일치하지 않습니다.";
     },
   },
-  methods: {},
+  methods: {
+    changePW() {
+      if (this.$refs.form.validate()) {
+        axios
+          .patch(
+            SERVER.URL + SERVER.ROUTES.accounts.password,
+            {
+              password: this.newPW,
+            },
+            {
+              headers: {
+                Authorization: this.config,
+              },
+            }
+          )
+          .then(() => {
+            location.reload();
+          })
+          .catch((err) => {
+            console.log(err.response);
+            this.isFaild = true;
+          });
+      }
+    },
+  },
 };
 </script>
 
