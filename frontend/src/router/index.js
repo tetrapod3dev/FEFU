@@ -9,6 +9,7 @@ import ErrorPage from "../views/ErrorPage.vue";
 import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
 import Mypage from "../views/accounts/Mypage.vue";
+import MypageInfoUpdate from "../views/accounts/MypageInfoUpdate.vue";
 import MypageListCampaignAdmin from "../views/accounts/MypageListCampaignAdmin.vue";
 import MypageListCampaignJoin from "../views/accounts/MypageListCampaignJoin.vue";
 import MypageListProduct from "../views/accounts/MypageListProduct.vue";
@@ -71,9 +72,14 @@ const routes = [
         component: MypageListProduct,
       },
       {
-        path: "",
+        path: "info",
         name: "MypageInfo",
         component: MypageInfo,
+      },
+      {
+        path: "update",
+        name: "MypageInfoUpdate",
+        component: MypageInfoUpdate,
       },
       {
         path: "pwd",
@@ -95,7 +101,7 @@ const routes = [
     component: CampaignDetail,
     children: [
       {
-        path: "",
+        path: "info",
         name: "CampaignDetailInfo",
         component: CampaignDetailInfo,
         props: true,
@@ -133,7 +139,7 @@ const routes = [
     component: MarketLayout,
     children: [
       {
-        path: "",
+        path: "main",
         name: "MarketMainView",
         component: MarketMainView,
       },

@@ -3,19 +3,41 @@
     <v-container justify="start">
       <div class="c-title c-card__content">참여 캠페인</div>
 
-      <div class="c-txt c-card__content d-flex flex-column"></div>
+      <div class="c-txt c-card__content d-flex flex-column">
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            v-for="(campaign, idx) in campaigninfo"
+            :key="idx"
+            align="center"
+          >
+            <CampaignCard
+              :campaign="campaign"
+              :to="{
+                name: 'CampaignDetailInfo',
+                params: { campaignNo: campaign.no },
+              }"
+            />
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
   </div>
 </template>
 
 <script>
+import CampaignCard from "@/components/campaign/CampaignCard.vue";
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 import { mapGetters } from "vuex";
 import SERVER from "@/api/api";
+import axios from "axios";
 
 export default {
   name: "MypageListCampaignJoin",
   mixins: [mixinGetUserInfo],
+  components: { CampaignCard },
   data() {
     return {
       isJoined: false,
@@ -39,12 +61,14 @@ export default {
         exp: 0,
         profileImage: "",
       },
+      campaigninfo: [],
     };
   },
   created() {
     this.getUserInfo()
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+    this.getCampaignJoin();
   },
   computed: {
     ...mapGetters("accounts", ["config", "USERNAME"]),
@@ -52,6 +76,22 @@ export default {
   methods: {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
+    },
+    getCampaignJoin() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.campaigns.join, configs)
+        .then((res) => {
+          this.campaigninfo = res.data;
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
   },
 };

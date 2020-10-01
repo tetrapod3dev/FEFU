@@ -118,26 +118,6 @@ export default {
     return {
       state: "전체",
       items: ["전체", "진행 중", "오픈 예정", "종료 된"],
-      // campaigninfo: [
-      //   {
-      //     title: "분리수거해요",
-      //     org: "경기도시공사",
-      //     valueDeterminate: 50,
-      //     src: "4.png",
-      //   },
-      //   {
-      //     title: "에코영수증캠페인",
-      //     org: "환경부",
-      //     valueDeterminate: 34,
-      //     src: "5.png",
-      //   },
-      //   {
-      //     title: "분바스틱캠페인",
-      //     org: "바나나맛우유",
-      //     valueDeterminate: 79,
-      //     src: "6.png",
-      //   },
-      // ],
     };
   },
 };
