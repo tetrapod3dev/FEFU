@@ -1,17 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 import moduleAccounts from "./accounts";
+import moduleMarket from "./market";
 
 Vue.use(Vuex);
 
-const modules = {
-  accounts: moduleAccounts,
-};
-
 export default new Vuex.Store({
-  modules,
-  state: {},
-  mutations: {},
-  actions: {},
+  modules: {
+    accounts: moduleAccounts,
+    market: moduleMarket,
+  },
+  plugins: [
+    createPersistedState({
+      paths: ["market"],
+    }),
+  ],
 });

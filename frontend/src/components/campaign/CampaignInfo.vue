@@ -3,23 +3,90 @@
     <div class="campaign-manager d-flex">
       <v-avatar color="teal" size="60"></v-avatar>
       <div class="d-flex flex-column justify-center text-left ml-3">
-        <span class="manager-badge">매니저</span>
-        <span class="mb-0">캠페인</span>
+        <span class="manager-badge text-center">매니저</span>
+        <span class="mb-0">{{ campaignInfo.writer }}</span>
       </div>
     </div>
     <div class="campaign-info d-flex flex-column">
-      <p class="text-left">캠페인 상세내용</p>
+      <p class="text-left">{{ campaignInfo.content }}</p>
       <v-list class="custom-list">
         <v-row>
-          <v-list-item class="custom-list-item" v-for="(item, i) in items" :key="i">
+          <v-list-item class="custom-list-item">
             <v-col cols="2">
               <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
+                <v-list-item-title>인증 미션</v-list-item-title>
               </v-list-item-content>
             </v-col>
             <v-col cols="10">
               <v-list-item-content class="text-left">
-                <v-list-item-title v-text="item.text"></v-list-item-title>
+                <v-list-item-title>{{
+                  campaignTypeInfo.mission
+                }}</v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+          </v-list-item>
+        </v-row>
+        <v-row>
+          <v-list-item class="custom-list-item">
+            <v-col cols="2">
+              <v-list-item-content>
+                <v-list-item-title>인증 방법</v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+            <v-col cols="10">
+              <v-list-item-content class="text-left">
+                <v-list-item-title>{{
+                  campaignTypeInfo.authProcess
+                }}</v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+          </v-list-item>
+        </v-row>
+        <v-row>
+          <v-list-item class="custom-list-item">
+            <v-col cols="2">
+              <v-list-item-content>
+                <v-list-item-title>인증 시간</v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+            <v-col cols="10">
+              <v-list-item-content class="text-left">
+                <v-list-item-title
+                  >{{ campaignTypeInfo.authStartTime }} -
+                  {{ campaignTypeInfo.authEndTime }}</v-list-item-title
+                >
+              </v-list-item-content>
+            </v-col>
+          </v-list-item>
+        </v-row>
+        <v-row>
+          <v-list-item class="custom-list-item">
+            <v-col cols="2">
+              <v-list-item-content>
+                <v-list-item-title>목표 인원</v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+            <v-col cols="10">
+              <v-list-item-content class="text-left">
+                <v-list-item-title
+                  >{{ campaignTypeInfo.headcount }}명
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+          </v-list-item>
+        </v-row>
+        <v-row>
+          <v-list-item class="custom-list-item">
+            <v-col cols="2">
+              <v-list-item-content>
+                <v-list-item-title>멤버 조건</v-list-item-title>
+              </v-list-item-content>
+            </v-col>
+            <v-col cols="10">
+              <v-list-item-content class="text-left">
+                <v-list-item-title>{{
+                  campaignTypeInfo.requirement
+                }}</v-list-item-title>
               </v-list-item-content>
             </v-col>
           </v-list-item>
@@ -28,13 +95,25 @@
     </div>
     <v-divider class="my-5"></v-divider>
     <v-chip-group>
-      <v-chip class="ma-2" color="#37cdc2" large outlined v-for="tag in tags" :key="tag">{{ tag }}</v-chip>
+      <v-chip
+        class="ma-2"
+        color="#37cdc2"
+        large
+        outlined
+        v-for="tag in campaignInfo.tag"
+        :key="tag"
+        >{{ tag }}</v-chip
+      >
     </v-chip-group>
   </v-container>
 </template>
 
 <script>
 export default {
+  props: ["campaignInfo", "campaignTypeInfo"],
+  mounted() {
+    console.log(this.campaignTypeInfo);
+  },
   data: () => ({
     items: [
       {
