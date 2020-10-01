@@ -231,6 +231,15 @@ class ProductViewSet(viewsets.ModelViewSet):
         purchase_instance.delete()
         return Response("resource deleted successfully", status=204)
 
+#-----------------My Page------------------------------------
+    @action(detail=False)
+    def get_my_products(self, request):
+        username = request.META["HTTP_X_USERNAME"]
+        user_object = get_object_or_404(User, username=username)
+        my_products = ProductInfo.objects.filter(writer=username)
+        my_products_ser = ProductSerializer(my_products, many=True)
+        return Response(my_products_ser.data, status=200)
+
 
 #-----------------Recommendation---------------------------
 
