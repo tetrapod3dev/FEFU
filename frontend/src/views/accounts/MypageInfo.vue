@@ -1,48 +1,76 @@
 <template>
   <div>
-    <v-container class="pa-0" fill-height>
-      <v-col cols="12" class="c-title c-card__content mb-5"> 내 정보 </v-col>
+    <v-container justify="start">
+      <v-col cols="12" class="c-title c-card__content"> 내 정보 </v-col>
 
       <v-row
-        class="c-card__content c-txt pa-3"
+        class="c-card__content c-txt pa-5"
         :style="$vuetify.breakpoint.smAndDown ? '' : 'min-height=600px;'"
         no-gutters
       >
-        <v-col cols="12">
-          <div
-            class="c-title mb-5"
-            style="background-color: rgba(55, 205, 194, 0.09)"
-          >
-            새로운 비밀번호를 입력하세요
-          </div>
-        </v-col>
         <v-col class="align-stretch" cols="12">
           <v-form ref="form">
-            <v-text-field
-              id="password"
-              label="비밀번호"
-              name="password"
-              filled
-              color="#37cdc2"
-              append-outer-icon
-            />
-
-            <v-text-field
-              id="passwordConfirm"
-              label="비밀번호 확인"
-              name="passwordConfirm"
-              filled
-              color="#37cdc2"
-              append-outer-icon
-            />
+            <v-row>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.username"
+                  label="이메일"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  v-model="userinfo.nickname"
+                  label="닉네임"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.age"
+                  label="나이"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.gender"
+                  label="성별"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="py-0">
+                <v-textarea
+                  filled
+                  name="유저"
+                  label="간단한 자기소개"
+                  disabled
+                  :value="userinfo.introduce"
+                ></v-textarea>
+              </v-col>
+            </v-row>
           </v-form>
 
-          <v-btn class="c-btn" large> 비밀번호 변경 </v-btn>
+          <v-btn
+            class="c-btn"
+            large
+            @click="$router.push({ name: 'MypageInfoUpdate' })"
+          >
+            회원정보 수정
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
   </div>
-</template>>
+</template>
 
 <script>
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
@@ -73,13 +101,14 @@ export default {
         gender: "남자",
         ecoPoint: 0,
         exp: 0,
+        introduce: "",
         profileImage: "",
       },
     };
   },
   created() {
     this.getUserInfo()
-      .then((res) => console.log(res))
+      .then((res) => (this.userinfo = res.data))
       .catch((err) => console.log(err));
   },
   computed: {

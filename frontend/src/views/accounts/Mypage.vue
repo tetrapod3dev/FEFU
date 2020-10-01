@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" xl="8">
-      <v-col class="py-12"></v-col>
+      <v-col class="py-10"></v-col>
       <v-container>
         <v-row>
           <v-col cols="12" md="3">
@@ -9,10 +9,6 @@
             <profile-photo :userinfo="userinfo" />
 
             <div>
-              <div class="c-sidebar c-sidebar__name c-sidebar--font mt-5">
-                <p>{{ userinfo.username }}</p>
-                <p>{{ userinfo.nickname }}</p>
-              </div>
               <v-list class="c-list">
                 <v-list-item :to="{ name: 'MypageInfo' }" class="c-list-item">
                   <v-list-item-content>
@@ -61,9 +57,8 @@
             <v-col
               v-if="$vuetify.breakpoint.mdAndUp"
               cols="12"
-              class="my-6 py-8"
-              >/</v-col
-            >
+              class="my-16 py-10"
+            ></v-col>
             <router-view />
           </v-col>
         </v-row>

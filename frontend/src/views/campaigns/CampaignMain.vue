@@ -25,26 +25,6 @@
         src="@/assets/illust/campaign-hero.svg"
       />
     </section>
-    <!-- 헤더 캐로젤 -->
-    <!-- <div>
-      <v-carousel
-        cycle
-        height="400"
-        hide-delimiter-background
-        show-arrows-on-hover
-      >
-        <v-carousel-item v-for="(slide, i) in slides" :key="i" :src="slide.src">
-          <v-row class="fill-height" justify="start" align="center">
-            <v-col>
-              <div class="d-flex flex-column mb-5">
-                <span class="display-1">{{ slide.title }}</span>
-                <span class="body-2 mt-3">{{ slide.content }}</span>
-              </div>
-            </v-col>
-          </v-row>
-        </v-carousel-item>
-      </v-carousel>
-    </div> -->
 
     <!-- 탭 -->
     <v-row justify="center">

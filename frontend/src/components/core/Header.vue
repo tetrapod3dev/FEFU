@@ -71,7 +71,7 @@
       <router-link
         v-if="isLoggedIn"
         tag="button"
-        to="/mypage"
+        to="/mypage/info"
         class="hidden-sm-and-down custom-button mx-1"
       >
         마이페이지
