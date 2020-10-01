@@ -18,14 +18,15 @@ export default {
       mediumcategory: "/products/get_medium_category/", // GET / 중분류 카테고리 목록 불러오기
       subcategory: "/products/get_sub_category/", // GET / 소분류 카테고리 목록 불러오기
       top_three_viewed_today: "/products/top_three_viewed_today/",
+      get_my_products: "/products/get_my_products/", // GET / 내가 등록한 상품 목록 불러오기
     },
     campaigns: {
       URL: "/campaigns",
-      join: "/campaigns/join",
+      join: "/campaigns/join", // POST / 캠페인 참여 신청, GET / 내가 참여한 캠페인 목록 불러오기
       search: "/campaigns/search",
       proof: "/campaigns/proof",
       yet: "/campaigns/proof/yet",
-      myCampaign: "/campaigns/my-campaign",
+      myCampaign: "/campaigns/my-campaign", // GET / 내가 등록한 캠페인 목록 불러오기
       personalPercentTeam: "/campaigns/proof/personal-percent/team",
     },
     images: {
