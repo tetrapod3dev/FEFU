@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from .models import User, ProductInfo, MainCategoryInfo, MediumCategoryInfo, SubCategoryInfo, PurchaseDetails, ViewDetails
 from .serializers import ProductSerializer, PurchaseDetailsSerializer, ViewDetailsSerializer, ProductDetailSerializer, MainCategoryInfoSerializer, MediumCategoryInfoSerializer, SubCategoryInfoSerializer, UserSerializer
 
-from datetime import date
+from datetime import date, datetime, timedelta
 from itertools import chain
 
 #------Recommendation
@@ -167,19 +167,29 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     @action(detail=False)
     def top_three_viewed_today(self, request):
-        today = date.today()
-        today_viewed_products = ViewDetails.objects.filter(reg_time__date=today) # 오늘 조회
-        queryset = today_viewed_products.values('product_no_id').annotate(count=Count('product_no_id')).values('product_no_id')
+
+        date_from = datetime.now() - timedelta(days=1)
+
+        today_viewed_products = ViewDetails.objects.filter(reg_time__gte=date_from) # 오늘 조회
+        queryset = today_viewed_products.annotate(count=Count('product_no'))
         queryset = queryset.order_by("-count")
         queryset = queryset[:3]
         top_product_ids = []
-        
-        for q in queryset:
-            top_product_ids.append(q["product_no_id"])
-        
-        top_products = ProductInfo.objects.filter(no__in=top_product_ids)
-        serializer = self.serializer_class(top_products, many=True)
-        return Response(serializer.data, status=200)
+
+        for q in queryset: #24시간 안의 게시글 중 가장 조회수가 높은 3개의 게시글 리턴 
+            top_product_ids.append(q.product_no.no)
+
+        if len(top_product_ids) < 3: # 3개가 안된다면 나머지는 가장 최신 글로 채우기
+            new = ProductInfo.objects.exclude(no__in= top_product_ids).order_by('-no')[:3-len(top_product_ids)]
+            for n in new:
+                top_product_ids.append(n.no)
+
+        # top_products = ProductInfo.objects.filter(no__in=top_product_ids)
+        top_products = [ProductInfo(no=x) for x in top_product_ids]
+        top_products = [ProductSerializer(product).data for product in top_products]
+
+        # serializer = self.serializer_class(top_products, many=True)
+        return Response({"top_products": top_products}, status=200)
 
 
 
