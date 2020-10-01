@@ -35,7 +35,7 @@ public class ProofBoardController {
 	public ResponseEntity<Map<String, Object>> getProofList(@PathVariable("campaign_no") int campaignNo,
 			@PathVariable("page_no") int pageNo) {
 		Map<String, Object> map = new HashMap<>();
-		PageDto page = new PageDto(pageNo, 5);
+		PageDto page = new PageDto(pageNo, 9);
 		page.setTotalCount(proofService.totalCount(campaignNo, true));
 		List<ProofBoardDto> list = proofService.findAllByProof(campaignNo, true, page.getStartIndex(),
 				page.getPerPageNum());
@@ -51,7 +51,7 @@ public class ProofBoardController {
 	public ResponseEntity<Map<String, Object>> getProofAdminList(@PathVariable("campaign_no") int campaignNo,
 			@PathVariable("page_no") int pageNo) {
 		Map<String, Object> map = new HashMap<>();
-		PageDto page = new PageDto(pageNo, 5);
+		PageDto page = new PageDto(pageNo, 9);
 		page.setTotalCount(proofService.totalCount(campaignNo, false));
 		List<ProofBoardDto> list = proofService.findAllByProof(campaignNo, false, page.getStartIndex(),
 				page.getPerPageNum());
