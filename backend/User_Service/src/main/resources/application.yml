@@ -18,8 +18,6 @@ spring:
       
 mybatis:
   type-aliases-package: com.cloud.mapper
-  configuration:
-    map-underscore-to-camel-case: true
   mapper-locations:
   - classpath:/mapper/**/*Mapper.xml
   configuration:
