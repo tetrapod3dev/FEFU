@@ -1,53 +1,64 @@
 <template>
   <div>
     <v-container justify="start">
-      <v-col cols="12" class="c-title c-card__content"> 비밀번호변경 </v-col>
+      <v-col cols="12" class="c-title c-card__content"> 내 정보 수정</v-col>
 
       <v-row
         class="c-card__content c-txt pa-5"
         :style="$vuetify.breakpoint.smAndDown ? '' : 'min-height=600px;'"
         no-gutters
       >
-        <v-col cols="12">
-          <div class="c-title mb-5">새로운 비밀번호를 입력하세요</div>
-        </v-col>
         <v-col class="align-stretch" cols="12">
           <v-form ref="form">
-            <v-text-field
-              id="password"
-              v-model="newPW"
-              label="새 비밀번호"
-              name="password"
-              filled
-              color="#37cdc2"
-              append-outer-icon
-              :append-icon="isShowPW ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="isShowPW = !isShowPW"
-              :type="isShowPW ? 'text' : 'password'"
-              :rules="[rules.required, rules.min]"
-            />
-
-            <v-text-field
-              id="passwordConfirm"
-              v-model="newPW2"
-              label="비밀번호 확인"
-              name="passwordConfirm"
-              filled
-              color="#37cdc2"
-              append-outer-icon
-              :append-icon="isShowPW2 ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="isShowPW2 = !isShowPW2"
-              @focus="isFaild = false"
-              :type="isShowPW2 ? 'text' : 'password'"
-              :rules="[
-                (v) => !!v || '비밀번호를 다시 한번 입력해주세요.',
-                passwordConfirmationRule,
-                () => !isFaild || '비밀번호 변경을 실패했어요',
-              ]"
-            />
+            <v-row>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.username"
+                  label="이메일"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.nickname"
+                  label="닉네임"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.age"
+                  label="나이"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="py-0">
+                <v-text-field
+                  :value="userinfo.gender"
+                  label="성별"
+                  filled
+                  disabled
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="py-0">
+                <v-textarea
+                  filled
+                  name="유저"
+                  label="간단한 자기소개"
+                  v-model="userinfo.introduce"
+                ></v-textarea>
+              </v-col>
+            </v-row>
           </v-form>
 
-          <v-btn class="c-btn" large @click="changePW"> 비밀번호 변경 </v-btn>
+          <v-btn class="c-btn" large @click="changeInfo"> 변경사항 저장 </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -57,19 +68,15 @@
 <script>
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 import { mapGetters } from "vuex";
-import axios from "axios";
 import SERVER from "@/api/api";
+import axios from "axios";
 
 export default {
-  name: "MypageUpdatePwd",
+  name: "MypageInfo",
   mixins: [mixinGetUserInfo],
   data() {
     return {
-      isFaild: false,
-      isShowPW: false,
-      isShowPW2: false,
-      newPW: null,
-      newPW2: null,
+      isJoined: false,
       listColorName: [
         "red",
         "orange",
@@ -79,27 +86,43 @@ export default {
         "indigo",
         "purple",
       ],
-      rules: {
-        required: (value) => !!value || "비밀번호를 입력해주세요.",
-        min: (v) =>
-          (v && v.length >= 8) || "비밀번호는 8글자 이상 입력해주세요",
+      userinfo: {
+        no: 0,
+        username: "",
+        password: null,
+        nickname: "",
+        age: 0,
+        gender: "남자",
+        ecoPoint: 0,
+        exp: 0,
+        introduce: "",
+        profileImage: "",
       },
     };
   },
+  created() {
+    this.getUserInfo()
+      .then((res) => (this.userinfo = res.data))
+      .catch((err) => console.log(err));
+  },
   computed: {
     ...mapGetters("accounts", ["config", "USERNAME"]),
-    passwordConfirmationRule() {
-      return this.newPW === this.newPW2 || "비밀번호가 일치하지 않습니다.";
-    },
   },
   methods: {
-    changePW() {
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
+    },
+    changeInfo() {
       if (this.$refs.form.validate()) {
         axios
           .patch(
-            SERVER.URL + SERVER.ROUTES.accounts.password,
+            SERVER.URL + SERVER.ROUTES.accounts.URL + "/",
             {
-              password: this.newPW,
+              age: this.userinfo.age,
+              gender: this.userinfo.gender,
+              introduce: this.userinfo.introduce,
+              nickname: this.userinfo.nickname,
+              profileImage: this.userinfo.profileImage,
             },
             {
               headers: {
@@ -107,7 +130,8 @@ export default {
               },
             }
           )
-          .then(() => {
+          .then((res) => {
+            console.log(res);
             location.reload();
           })
           .catch((err) => {
@@ -140,7 +164,6 @@ export default {
   padding: 10px 20px;
   margin: 10px 0;
 }
-
 .c-txt,
 .c-title {
   font-family: "NanumBarunpen";
