@@ -1,18 +1,7 @@
 <template>
-  <div>
-    <v-container justify="start">
-      <div class="campaign-welcome">
-        <span class="campaign-title">{{ campaign.title }}</span>
-        <small class="ml-3">
-          {{ campaign.startDate }} - {{ campaign.endDate }}
-        </small>
-      </div>
-
-      <div class="campaign-info d-flex flex-column">
-        <BarChart />
-        <UserCertificate />
-      </div>
-    </v-container>
+  <div class="campaign-info d-flex flex-column">
+    <BarChart v-if="campaign.type == 'official'" />
+    <UserCertificate v-if="campaign.type == 'personal'" />
   </div>
 </template>
 
@@ -21,71 +10,51 @@ import BarChart from "@/components/campaign/BarChart.vue";
 import UserCertificate from "@/components/campaign/UserCertificate";
 
 import { mapGetters } from "vuex";
-import axios from "axios";
 import SERVER from "@/api/api";
 
 export default {
   name: "CampaignDetailCertifi",
+  props: ["campaign", "campaignTypeInfo"],
   components: {
     BarChart,
     UserCertificate,
   },
   created() {
-    this.getCampaign();
-    console.log(this.$route.params);
+    console.log(this.campaign);
+    // this.campaign = this.$route.params.campaign;
+    // this.campaignTypeInfo = this.$route.params.campaignTypeInfo;
   },
   computed: {
     ...mapGetters("accounts", ["config"]),
   },
   data() {
     return {
-      campaign: {
-        title: "",
-        content: "",
-        writer: "",
-        startDate: "",
-        endDate: "",
-        photo: "",
-        tag: [],
-        type: "",
-        no: 0,
-      },
-      campaignTypeInfo: {
-        authEndTime: "",
-        authProcess: "",
-        authStartTime: "",
-        campaignNo: null,
-        headcount: null,
-        mission: "",
-        no: null,
-        requirement: null,
-      },
+      // campaign: {
+      //   title: "",
+      //   content: "",
+      //   writer: "",
+      //   startDate: "",
+      //   endDate: "",
+      //   photo: "",
+      //   tag: [],
+      //   type: "",
+      //   no: 0,
+      // },
+      // campaignTypeInfo: {
+      //   authEndTime: "",
+      //   authProcess: "",
+      //   authStartTime: "",
+      //   campaignNo: null,
+      //   headcount: null,
+      //   mission: "",
+      //   no: null,
+      //   requirement: null,
+      // },
     };
   },
   methods: {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
-    },
-    getCampaign() {
-      axios
-        .get(
-          SERVER.URL +
-            SERVER.ROUTES.campaigns.URL +
-            "/" +
-            this.$route.params.campaignNo +
-            "/"
-        )
-        .then((res) => {
-          this.campaign = res.data["campaign"];
-          if (res.data["official"]) {
-            this.campaignTypeInfo = res.data["official"];
-          } else if (res.data["personal"]) {
-            this.campaignTypeInfo = res.data["personal"];
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
 };

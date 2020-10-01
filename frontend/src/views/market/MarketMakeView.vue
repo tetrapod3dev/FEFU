@@ -228,7 +228,6 @@ export default {
         this.product.writer = this.USERNAME;
         await this.uploadImage(this.images)
           .then((res) => {
-            console.log(res);
             this.product.photo = res.data.fileName;
           })
           .catch((err) => {
