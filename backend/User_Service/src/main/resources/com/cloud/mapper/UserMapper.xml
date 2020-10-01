@@ -31,7 +31,7 @@
 	</insert>
 	
 	<update id="updateUser">
-		update user set nickname = #{nickname}, age = #{age}, gender = {gender}, profile_image = #{profileImage}, introduce = #{introduce}
+		update user set nickname = #{nickname}, age = #{age}, gender = #{gender}, profile_image = #{profileImage}, introduce = #{introduce}
 		where username = #{username}
 	</update>
 	
