@@ -12,6 +12,7 @@
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 import { mapGetters } from "vuex";
 import SERVER from "@/api/api";
+import axios from "axios";
 
 export default {
   name: "MypageListProduct",
@@ -45,6 +46,8 @@ export default {
     this.getUserInfo()
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+
+    this.getMyProducts();
   },
   computed: {
     ...mapGetters("accounts", ["config", "USERNAME"]),
@@ -52,6 +55,21 @@ export default {
   methods: {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
+    },
+    getMyProducts() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.products.get_my_products, configs)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
