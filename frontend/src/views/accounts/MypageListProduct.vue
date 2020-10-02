@@ -3,7 +3,44 @@
     <v-container justify="start">
       <div class="c-title c-card__content">등록 물건</div>
 
-      <div class="c-txt c-card__content d-flex flex-column"></div>
+      <div class="c-txt c-card__content d-flex flex-column">
+        <v-row>
+          <v-col
+            v-for="(product, index) in myProducts"
+            :key="index"
+            cols="6"
+            sm="4"
+            justify="center"
+            align="center"
+          >
+            <v-card
+              class="custom-card"
+              :height="1.6 * cardWidth"
+              :width="cardWidth"
+              :to="{
+                name: 'MarketDetailView',
+                params: { productNo: product.no },
+              }"
+            >
+              <v-img
+                :height="1.1 * cardWidth"
+                :src="imageSrc(product.photo)"
+                lazy-src="@/assets/images/lazy-loading.jpg"
+              >
+                <template v-slot:placeholder>
+                  <lazy-loading />
+                </template>
+              </v-img>
+
+              <v-card-text class="text-left text--primary">
+                <div>{{ product.title }}</div>
+                <div>{{ product.price }}</div>
+                <div>{{ product.eco_point }}</div>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
     </v-container>
   </div>
 </template>
@@ -40,6 +77,7 @@ export default {
         exp: 0,
         profileImage: "",
       },
+      myProducts: [],
     };
   },
   created() {
@@ -51,21 +89,44 @@ export default {
   },
   computed: {
     ...mapGetters("accounts", ["config", "USERNAME"]),
+    cardWidth() {
+      let resultWidth;
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          resultWidth = 220;
+          break;
+        case "sm":
+          resultWidth = 220;
+          break;
+        case "md":
+          resultWidth = 220;
+          break;
+        case "lg":
+          resultWidth = 280;
+          break;
+        case "xl":
+          resultWidth = 280;
+          break;
+      }
+      return resultWidth;
+    },
   },
+
   methods: {
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
     getMyProducts() {
-      let configs = {
-        headers: {
-          Authorization: this.config,
-        },
-      };
       axios
-        .get(SERVER.URL + SERVER.ROUTES.products.get_my_products, configs)
+        .get(SERVER.URL + SERVER.ROUTES.products.get_my_products, {
+          headers: {
+            Authorization: this.config,
+          },
+        })
         .then((res) => {
-          console.log(res);
+          this.myProducts = res.data;
+          console.log(res.data);
+          console.log("_______");
         })
         .catch((err) => {
           console.log(err);
@@ -76,6 +137,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.custom-card {
+  border: 2px solid black;
+  border-radius: 15px;
+  font-family: "NanumBarunpen";
+
+  &:hover {
+    transform: translate3d(0px, -5px, -5px);
+    box-shadow: 3px 3px black;
+    transition: 0.4s;
+    cursor: pointer;
+  }
+}
+
 .c-sidebar {
   border: 2px solid black;
   border-radius: 10px;
