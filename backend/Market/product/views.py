@@ -181,15 +181,19 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         if len(top_product_ids) < 3: # 3개가 안된다면 나머지는 가장 최신 글로 채우기
             new = ProductInfo.objects.exclude(no__in= top_product_ids).order_by('-no')[:3-len(top_product_ids)]
+
             for n in new:
                 top_product_ids.append(n.no)
-
+        print(top_product_ids)
         # top_products = ProductInfo.objects.filter(no__in=top_product_ids)
-        top_products = [ProductInfo(no=x) for x in top_product_ids]
-        top_products = [ProductSerializer(product).data for product in top_products]
+        # top_products = [ProductInfo(no=x) for x in top_product_ids]
+        # top_products = [ProductSerializer(product).data for product in top_products]
+        top_products = ProductInfo.objects.filter(no__in=top_product_ids)
+        print(top_products)
+        top_products_ser = ProductSerializer(top_products, many=True)
 
         # serializer = self.serializer_class(top_products, many=True)
-        return Response({"top_products": top_products}, status=200)
+        return Response(top_products_ser.data, status=200)
 
 
 
