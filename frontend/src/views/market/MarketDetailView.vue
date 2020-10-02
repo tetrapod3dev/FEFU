@@ -75,11 +75,22 @@
                   </v-btn>
                 </v-col>
                 <v-col cols="2">
-                  <v-btn class="product-state" outlined tile>판매 중</v-btn>
+                  
+                  <v-btn v-if="product.status==0" class="product-state" outlined tile 
+                  @click="handleStatusButton"
+                  >판매 중</v-btn>
+
+                  <v-btn v-else class="product-state" outlined tile 
+                  @click="handleStatusButton"
+                  >판매 완료</v-btn>
+
                 </v-col>
               </v-row>
             </div>
           </v-col>
+
+          <SoldModal :visible="visible" v-if="visible">
+          </SoldModal>
 
           <v-col cols="12">
             <p class="product-description text-left pa-3">
@@ -139,16 +150,21 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
+import SoldModal from "../../components/market/SoldModal"
 
 export default {
   name: "MarketDetailView",
   mixins: [mixinGetUserInfo],
+  components: {
+      SoldModal : SoldModal
+  },
 
   data() {
     return {
       cardSlide1: null,
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
+      visible:false,
       product: {
         contact: "",
         content: "",
@@ -174,21 +190,21 @@ export default {
           title: "",
           price: "",
           eco_point: "",
-          photo: "",
+          photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
         },
         {
           no: 0,
           title: "",
           price: "",
           eco_point: "",
-          photo: "",
+          photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
         },
         {
           no: 0,
           title: "",
           price: "",
           eco_point: "",
-          photo: "",
+          photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
         },
       ],
     };
@@ -318,6 +334,9 @@ export default {
           console.log(res)
           this.products = res.data.related_products
         })
+    },
+    handleStatusButton() {
+      this.visible = !this.visible
     }
   },
 };
