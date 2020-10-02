@@ -285,9 +285,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def recommendation(self, request):
         count = 0
-        user_pk = request.GET.get("user_pk")
+        username = request.META["HTTP_X_USERNAME"]
 
-        user = get_object_or_404(User, no=user_pk)
+        if username == 'anonymousUser':
+            anonymous_recommend = ProductInfo.objects.order_by('?')[:3]
+            anonymous_recommend_ser = ProductSerializer(anonymous_recommend, many=True)
+            return Response(anonymous_recommend_ser.data, status=200)
+
+        user = get_object_or_404(User, username=username)
 
         # dummy data(views)와 DB의 유저-카테고리-조회수를 합치는 작업입니다.
         viewDetails = ViewDetails.objects.all()
