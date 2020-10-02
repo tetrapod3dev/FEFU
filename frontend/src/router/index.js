@@ -98,7 +98,7 @@ const routes = [
     component: CampaignMain,
   },
   {
-    path: "/campaigns/:campaign_type/:page_num",
+    path: "/campaigns/:campaign_type/:page_num/:title?",
     name: "CampaignTypeList",
     component: CampaignTypeList,
   },
