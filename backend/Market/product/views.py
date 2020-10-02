@@ -385,18 +385,20 @@ class ProductViewSet(viewsets.ModelViewSet):
         most_related_cateogries = list(category_relation['category'])[:10]
         # test['category'] = test['category'].apply(lambda x: self.category_dict[x])
         # 연관성 높은 카테고리대로 5개 리턴
-        print(most_related_cateogries)
+
         related_products = []
         index = 0
         while len(related_products) < 5:
+
             if index == 10: #마지막 카테고리까지 왔는데 5개를 못채웠다면
-                random_products_queryset = ProductInfo.objects.exclude(no=product.no).order_by('?')[:5-len(recommend_products)] # 남은 개수만큼 랜덤으로 채우자
+                random_products_queryset = ProductInfo.objects.exclude(no=product_pk).order_by('?')[:5-len(related_products)] # 남은 개수만큼 랜덤으로 채우자
                 related_products += random_products_queryset
                 
             else:
-                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=most_related_cateogries[index]).exclude(no=product.no).order_by('?')[:5] # 소카테고리에서 랜덤으로 3개
+                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=most_related_cateogries[index]).exclude(no=product_pk).order_by('?')[:5] # 소카테고리에서 랜덤으로 3개
                 related_products += filtered_products_queryset
                 index += 1
+
         related_products = [ProductSerializer(product).data for product in related_products]
 
         return Response({"related_products": related_products}, status=200)
