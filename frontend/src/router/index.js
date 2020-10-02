@@ -24,6 +24,7 @@ import CampaignDetailCertifi from "../views/campaigns/CampaignDetailCertifi.vue"
 import CampaignDetailInfo from "../views/campaigns/CampaignDetailInfo.vue";
 import CampaignDetailPostings from "../views/campaigns/CampaignDetailPostings.vue";
 import CampaignDetailAdmin from "../views/campaigns/CampaignDetailAdmin.vue";
+import CampaignTypeList from "../views/campaigns/CampaignTypeList.vue";
 
 // market
 import MarketLayout from "../views/market/MarketLayout.vue";
@@ -95,6 +96,11 @@ const routes = [
     path: "/campaigns",
     name: "CampaignMain",
     component: CampaignMain,
+  },
+  {
+    path: "/campaigns/:campaign_type/:page_num",
+    name: "CampaignTypeList",
+    component: CampaignTypeList,
   },
   {
     path: "/campaigns/:campaignNo",
