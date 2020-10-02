@@ -251,7 +251,7 @@ export default {
           }
         )
         .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.products.recommend = res.data})
         .catch((err) => console.log(err))
     },
@@ -261,7 +261,7 @@ export default {
           SERVER.URL + SERVER.ROUTES.products.get_latest_products
         )
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           this.products.new = res.data
         })
         .catch((err) => {
@@ -274,7 +274,7 @@ export default {
           SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today
         )
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           this.products.popular = res.data
         })
         .catch((err) => {
