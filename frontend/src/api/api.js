@@ -19,7 +19,9 @@ export default {
       subcategory: "/products/get_sub_category/", // GET / 소분류 카테고리 목록 불러오기
       top_three_viewed_today: "/products/top_three_viewed_today/",
       get_my_products: "/products/get_my_products/", // GET / 내가 등록한 상품 목록 불러오기
-      related_products: "/products/related_products/"// GET 연관된 상품 불러오기
+      related_products: "/products/related_products/", // GET 연관된 상품 불러오기
+      recommendation: "/products/recommendation/", //GET 추천상품 불러오기
+      get_latest_products: "/products/get_latest_products/", //GET 가장 최신 물품 3개 불러오기
     },
     campaigns: {
       URL: "/campaigns",
