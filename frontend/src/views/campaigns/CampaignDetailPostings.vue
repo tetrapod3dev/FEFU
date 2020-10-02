@@ -184,6 +184,15 @@ export default {
   text-align: start;
 }
 
+.campaign-info {
+  font-family: "NanumBarunpen";
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px 0;
+  min-height: 440px;
+}
+
 .campaign-title {
   font-size: 1.5rem;
   font-family: "NanumBarunpen";

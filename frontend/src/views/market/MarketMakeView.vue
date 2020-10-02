@@ -163,7 +163,9 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="c-btn" @click="test">이미지 업로드 테스트 버튼</v-btn>
+            <v-btn class="c-btn" @click="preUploadImage"
+              >이미지 업로드 테스트 버튼</v-btn
+            >
             <v-btn class="c-btn" :to="{ name: 'MarketMainView' }">취소</v-btn>
             <v-btn class="c-btn" @click="registProduct">등록 </v-btn>
           </v-card-actions>
@@ -221,19 +223,13 @@ export default {
       } else {
         this.url = URL.createObjectURL(this.images);
       }
+      this.preUploadImage();
     },
 
     async registProduct() {
       if (this.$refs.form.validate()) {
         this.product.writer = this.USERNAME;
-        await this.uploadImage(this.images)
-          .then((res) => {
-            this.product.photo = res.data.fileName;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        // await this.uploadImage();
+
         await axios
           .post(SERVER.URL + SERVER.ROUTES.products.URL + "/", this.product, {
             headers: {
@@ -275,10 +271,9 @@ export default {
           console.log(err.response);
         });
     },
-    test() {
+    preUploadImage() {
       this.uploadImage(this.images)
         .then((res) => {
-          console.log(res);
           this.product.photo = res.data.fileName;
         })
         .catch((err) => {

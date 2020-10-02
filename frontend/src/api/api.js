@@ -28,6 +28,7 @@ export default {
       yet: "/campaigns/proof/yet",
       myCampaign: "/campaigns/my-campaign", // GET / 내가 등록한 캠페인 목록 불러오기
       personalPercentTeam: "/campaigns/proof/personal-percent/team",
+      officialPercentWeek: "/campaigns/proof/official-percent/week",
     },
     images: {
       upload: "/images/upload",
