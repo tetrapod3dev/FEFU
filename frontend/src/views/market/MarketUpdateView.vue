@@ -233,6 +233,7 @@ export default {
       } else {
         this.url = URL.createObjectURL(this.images);
       }
+      this.preUploadImage();
     },
     imageSrc(filename) {
       if (!filename) {
@@ -261,17 +262,7 @@ export default {
     async updateProduct() {
       if (this.$refs.form.validate()) {
         this.product.writer = this.USERNAME;
-        console.log(this.images);
-        if (this.images) {
-          await this.uploadImage(this.images)
-            .then((res) => {
-              console.log(res);
-              this.product.photo = res.data.fileName;
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+
         console.log({
           no: this.product.no,
           photo: this.product.photo,
@@ -347,7 +338,7 @@ export default {
           console.log(err.response);
         });
     },
-    test() {
+    preUploadImage() {
       this.uploadImage(this.images)
         .then((res) => {
           console.log(res);

@@ -136,7 +136,12 @@
         <v-col cols="12" sm="9" class="pt-0">
           <v-container justify="start">
             <div class="campaign-welcome">
-              <span class="campaign-title">{{ campaign.title }}</span>
+              <p v-if="!$vuetify.breakpoint.smAndUp" class="campaign-title">
+                {{ campaign.title }}
+              </p>
+              <span v-if="$vuetify.breakpoint.smAndUp" class="campaign-title">{{
+                campaign.title
+              }}</span>
               <small class="ml-3">
                 {{ campaign.startDate }} - {{ campaign.endDate }}
               </small>
@@ -323,21 +328,12 @@ export default {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px;
-  margin: 10px 0;
   text-align: start;
 }
 
 .campaign-title {
   font-size: 1.5rem;
   font-family: "NanumBarunpen";
-}
-
-.campaign-info {
-  font-family: "NanumBarunpen";
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin: 10px 0;
 }
 
 .campaign-info-list {

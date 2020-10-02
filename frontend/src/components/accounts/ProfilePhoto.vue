@@ -131,18 +131,19 @@ export default {
       } else {
         this.url = URL.createObjectURL(this.images);
       }
+      this.preUploadImage();
+    },
+    preUploadImage() {
+      this.uploadImage(this.images)
+        .then((res) => {
+          this.photo = res.data.fileName;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async updateProfile() {
       if (this.$refs.form.validate()) {
-        console.log(this.images);
-        await this.uploadImage(this.images)
-          .then((res) => {
-            this.photo = res.data.fileName;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-
         await axios
           .patch(
             SERVER.URL + SERVER.ROUTES.accounts.URL + "/",
