@@ -113,7 +113,7 @@ export default {
         {
           textKr: "중고마켓",
           textEn: "MARKET",
-          href: "/market",
+          href: "/market/main",
         },
       ],
     };
