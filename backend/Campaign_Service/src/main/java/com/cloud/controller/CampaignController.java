@@ -39,7 +39,7 @@ public class CampaignController {
 			@RequestParam("type") String type, @RequestParam("content") String content,
 			@RequestParam("page_no") int pageNo) {
 		int totalCount = campaignService.findByCount(campaignType, pageNo, type, content);
-		PageDto page = new PageDto();
+		PageDto page = new PageDto(pageNo);
 		page.setTotalCount(totalCount);
 
 		List<CampaignDto> list = campaignService.findAll(campaignType, pageNo, type, content, page.getStartIndex(),
