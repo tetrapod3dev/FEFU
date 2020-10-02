@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       userList: [],
-      dataList: {},
+      dataList: {'isEnd': false},
       labelList: ["일", "월", "화", "수", "목", "금", "토"],
     };
   },
@@ -120,6 +120,7 @@ export default {
           res.data.forEach((element) => {
             this.dataList[element.time] = element.count;
           });
+          this.dataList['isEnd'] = true;
 
           // console.log(Object.keys(this.dataList));
           // console.log(Object.values(this.dataList).reverse());
