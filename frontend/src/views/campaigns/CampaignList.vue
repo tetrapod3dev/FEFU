@@ -7,16 +7,16 @@
             <h1 class="c-title text-left">
               {{ campaignType.name }} - {{ state }}
               
-                <router-link
+              <router-link
                 :to="{
-                    name: 'CampaignTypeList',
-                    params: { 
-                    campaign_type: campaignType.id,
-                    page_num: 1 },
+                  name: 'CampaignTypeList',
+                  params: { 
+                  campaign_type: campaignType.id,
+                  page_num: 1 },
                 }"
-                >
+              >
                 더보기
-                </router-link>
+              </router-link>
 
             </h1>
           </v-col>
@@ -65,6 +65,18 @@
           <v-col cols="12" md="8">
             <h1 class="c-title text-left">
               {{ campaignType.name }}
+
+              <router-link
+                :to="{
+                  name: 'CampaignTypeList',
+                  params: { 
+                  campaign_type: campaignType.id,
+                  page_num: 1 },
+                }"
+              >
+                더보기
+              </router-link>
+
             </h1>
           </v-col>
           <v-col cols="9" md="3"

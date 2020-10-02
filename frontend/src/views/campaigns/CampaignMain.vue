@@ -144,7 +144,7 @@ export default {
             type: type,
           },
         })
-        .then((res) => (this.companyCampaignInfo = res.data.list))
+        .then((res) => (this.companyCampaignInfo = res.data.list.slice(0, 6)))
         .catch((err) => console.log(err.response));
     },
     getOfficialCampaignInfo(campaign_type, content, page_no, type) {
@@ -157,7 +157,7 @@ export default {
             type: type,
           },
         })
-        .then((res) => (this.officialCampaignInfo = res.data.list))
+        .then((res) => (this.officialCampaignInfo = res.data.list.slice(0, 6)))
         .catch((err) => console.log(err.response));
     },
     getPersonalCampaignInfo(campaign_type, content, page_no, type) {
@@ -170,7 +170,7 @@ export default {
             type: type,
           },
         })
-        .then((res) => (this.personalCampaignInfo = res.data.list))
+        .then((res) => (this.personalCampaignInfo = res.data.list.slice(0, 6)))
         .catch((err) => console.log(err.response));
     },
     getDailyQuest() {
