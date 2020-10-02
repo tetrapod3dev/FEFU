@@ -89,7 +89,8 @@
             </div>
           </v-col>
 
-          <SoldModal :visible="visible" v-if="visible">
+          <SoldModal :product=product v-if="visible"
+          @close="handleStatusButton">
           </SoldModal>
 
           <v-col cols="12">
@@ -190,21 +191,21 @@ export default {
           title: "",
           price: "",
           eco_point: "",
-          photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
+          photo: "",
         },
         {
           no: 0,
           title: "",
           price: "",
           eco_point: "",
-          photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
+          photo: "",
         },
         {
           no: 0,
           title: "",
           price: "",
           eco_point: "",
-          photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
+          photo: "",
         },
       ],
     };
