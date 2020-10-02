@@ -22,7 +22,7 @@ export default {
       related_products: "/products/related_products/", // GET 연관된 상품 불러오기
       recommendation: "/products/recommendation/", //GET 추천상품 불러오기
       get_latest_products: "/products/get_latest_products/", //GET 가장 최신 물품 3개 불러오기
-      sold: "/products/sold/", //PATCH 상품의 판매 status를 변경 + 판매 로그 생성/삭제
+    //   sold: "/products/sold/", //PATCH 상품의 판매 status를 변경 + 판매 로그 생성/삭제
     },
     campaigns: {
       URL: "/campaigns",
