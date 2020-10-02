@@ -125,8 +125,17 @@
 </template>
 
 <script>
+import axios from "axios";
+import SERVER from "@/api/api";
+
+
 export default {
   name: "MarketMainView",
+  created() {
+    this.getRecommendProducts(),
+    this.getNewProducts(),
+    this.getPopularProducts()
+  },
   computed: {
     cardWidth() {
       let resultWidth;
@@ -236,6 +245,36 @@ export default {
       },
     };
   },
+  methods: {
+    getRecommendProducts() {
+      axios
+        .get(
+          SERVER.URL + 
+          SERVER.ROUTES.products.recommendation,
+          {
+            headers: {
+              Authorization: this.config,
+            },
+          }
+        )
+        .then((res) => this.products.recommend = res.data.recommend_products)
+        .catch((err) => console.log(err))
+    },
+    getNewProducts() {
+      axios
+        .get(
+          SERVER.URL + SERVER.ROUTES.products.get_latest_products
+        )
+        .then((res) => this.products.new = res.data)
+    },
+    getPopularProducts() {
+      axios
+        .get(
+          SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today
+        )
+        .then((res) => this.products.popular = res.data.top_products)
+    }
+  }
 };
 </script>
 
