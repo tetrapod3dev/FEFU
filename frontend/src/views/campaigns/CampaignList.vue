@@ -6,6 +6,18 @@
           <v-col cols="12" md="7">
             <h1 class="c-title text-left">
               {{ campaignType.name }} - {{ state }}
+              
+                <router-link
+                :to="{
+                    name: 'CampaignTypeList',
+                    params: { 
+                    campaign_type: campaignType.id,
+                    page_num: 1 },
+                }"
+                >
+                더보기
+                </router-link>
+
             </h1>
           </v-col>
 
