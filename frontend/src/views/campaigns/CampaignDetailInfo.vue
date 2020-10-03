@@ -1,5 +1,10 @@
 <template>
-  <div class="campaign-info d-flex flex-column">
+  <div
+    class="campaign-info d-flex flex-column"
+    :style="
+      campaign.type != 'company' ? 'min-height: 440px;' : 'min-height: 285px;'
+    "
+  >
     <v-list
       class="campaign-info-list text-left"
       v-if="campaign.type != 'company'"
@@ -135,7 +140,6 @@ export default {
   border-radius: 5px;
   padding: 10px 20px;
   margin: 10px 0;
-  min-height: 440px;
 }
 
 .campaign-info-list {

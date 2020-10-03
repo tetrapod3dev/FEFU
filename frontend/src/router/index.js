@@ -17,6 +17,7 @@ import MypageInfo from "../views/accounts/MypageInfo.vue";
 import MypageUpdatePwd from "../views/accounts/MypageUpdatePwd.vue";
 
 // Campaigns
+import CampaignLayout from "../views/campaigns/CampaignLayout.vue";
 import CampaignMain from "../views/campaigns/CampaignMain.vue";
 import CampaignMake from "../views/campaigns/CampaignMake.vue";
 import CampaignDetail from "../views/campaigns/CampaignDetail.vue";
@@ -94,49 +95,57 @@ const routes = [
   // Campaign Start
   {
     path: "/campaigns",
-    name: "CampaignMain",
-    component: CampaignMain,
-  },
-  {
-    path: "/campaigns/:campaign_type/:page_num/:title?",
-    name: "CampaignTypeList",
-    component: CampaignTypeList,
-  },
-  {
-    path: "/campaigns/:campaignNo",
-    component: CampaignDetail,
+    name: "CampaignLayout",
+    component: CampaignLayout,
     children: [
       {
-        path: "info",
-        name: "CampaignDetailInfo",
-        component: CampaignDetailInfo,
-        props: true,
+        path: "main",
+        name: "CampaignMain",
+        component: CampaignMain,
       },
       {
-        path: "certificate",
-        name: "CampaignDetailCertifi",
-        component: CampaignDetailCertifi,
-        props: true,
+        path: "make/:type",
+        name: "CampaignMake",
+        component: CampaignMake,
       },
       {
-        path: "postings/:page_no",
-        name: "CampaignDetailPostings",
-        component: CampaignDetailPostings,
-        props: true,
+        path: "list/:campaign_type/:page_num/:title?",
+        name: "CampaignTypeList",
+        component: CampaignTypeList,
       },
       {
-        path: "admin/:page_no",
-        name: "CampaignDetailAdmin",
-        component: CampaignDetailAdmin,
-        props: true,
+        path: "detail/:campaignNo",
+        component: CampaignDetail,
+        children: [
+          {
+            path: "info",
+            name: "CampaignDetailInfo",
+            component: CampaignDetailInfo,
+            props: true,
+          },
+          {
+            path: "certificate",
+            name: "CampaignDetailCertifi",
+            component: CampaignDetailCertifi,
+            props: true,
+          },
+          {
+            path: "postings/:page_no",
+            name: "CampaignDetailPostings",
+            component: CampaignDetailPostings,
+            props: true,
+          },
+          {
+            path: "admin/:page_no",
+            name: "CampaignDetailAdmin",
+            component: CampaignDetailAdmin,
+            props: true,
+          },
+        ],
       },
     ],
   },
-  {
-    path: "/campaigns/make/:type",
-    name: "CampaignMake",
-    component: CampaignMake,
-  },
+
   // Campaign End
 
   // Market Start
