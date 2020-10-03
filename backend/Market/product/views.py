@@ -220,11 +220,11 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 
-    @action(detail=False)
-    def categories(self, request):
-        cat_group = self.category_group
-        print(cat_group[("패션의류", 1)])
-        return Response({"mini": cat_group[("패션의류", 1)]})
+    # @action(detail=False)
+    # def categories(self, request):
+    #     cat_group = self.category_group
+    #     print(cat_group[("패션의류", 1)])
+    #     return Response({"mini": cat_group[("패션의류", 1)]})
         
 
     def create_purchase(self, pk, buyer, seller):
