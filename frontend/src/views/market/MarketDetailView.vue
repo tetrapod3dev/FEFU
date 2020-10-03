@@ -287,17 +287,7 @@ export default {
           console.log(err);
         });
     },
-    getTopThreeProduct() {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today)
-        .then((res) => {
-          console.log(res);
-          this.products = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
