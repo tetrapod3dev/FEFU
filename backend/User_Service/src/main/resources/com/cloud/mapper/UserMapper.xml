@@ -38,4 +38,19 @@
 	<update id="changePassword">
 		update user set password = #{password} where username = #{username}
 	</update>
+	
+	<update id="updateEco">
+		<selectKey keyProperty="curPoint" resultType="integer" order="BEFORE">
+	 		select eco_point from user where username = #{sender}; 
+  		</selectKey>
+  		<choose>
+	  		<when test="curPoint gte point">
+				update user set eco_point = eco_point - #{point} where username = #{sender};
+				update user set eco_point = eco_point + #{point} where username = #{receiver};
+	  		</when>
+	  		<otherwise>
+	  			select 0;
+	  		</otherwise>
+  		</choose>
+	</update>
 </mapper>
