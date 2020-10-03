@@ -19,6 +19,7 @@ public interface CampaignMapper {
 	public int findByCount(String campaignType, int pageNo, String type, String content);
 	public List<String> findTagByNo(int no);
 	public Map<String, Object> findDetail(int no, String type);
+	public int findByJoinCount(int no);
 	public String findTypeByNo(int no);
 	public int checkJoin(int no, String username);
 	public int joinCampaign(int no, String username);
