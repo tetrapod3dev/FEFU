@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <core-hero
-      subtitle="잘 못 온거 같아요"
+      subtitle="잘못 온 거 같아요"
       :mainimage="require('@/assets/images/error.png')"
       backimage="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif"
       max-height="404"
