@@ -153,7 +153,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         username = request.META["HTTP_X_USERNAME"]
         # product_no = request.data["product_no"]
         product_no = pk
-        sub_category_no = request.data["sub_category_no"]
+        sub_category_no = ProductInfo.objects.get(no=product_no).sub_category_no.no
         # print(product_no, sub_category_no)
 
         if username != 'anonymousUser':
