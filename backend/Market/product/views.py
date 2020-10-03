@@ -155,15 +155,17 @@ class ProductViewSet(viewsets.ModelViewSet):
         product_no = pk
         sub_category_no = request.data["sub_category_no"]
         # print(product_no, sub_category_no)
-        today = date.today()
-        serializer = ViewDetailsSerializer(data={"user":username, "product_no":product_no, "sub_category_no":sub_category_no, "reg_time":today})
-        if serializer.is_valid(raise_exception=True):
-            today_viewed_products = ViewDetails.objects.filter(reg_time__date=today)
 
-            if not today_viewed_products.filter(user=username, product_no=product_no, sub_category_no=sub_category_no).exists():
-                serializer.save()
-                return Response("resource created successfully", status=201)
-            return Response("resource already created", status=200)
+        if username != 'anonymousUser':
+            today = date.today()
+            serializer = ViewDetailsSerializer(data={"user":username, "product_no":product_no, "sub_category_no":sub_category_no, "reg_time":today})
+            if serializer.is_valid(raise_exception=True):
+                today_viewed_products = ViewDetails.objects.filter(reg_time__date=today)
+
+                if not today_viewed_products.filter(user=username, product_no=product_no, sub_category_no=sub_category_no).exists():
+                    serializer.save()
+                    return Response("resource created successfully", status=201)
+                return Response("resource already created", status=200)
     
     @action(detail=False)
     def top_three_viewed_today(self, request):
