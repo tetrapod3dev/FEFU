@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public int updateEco(String sender, String receiver, int point) {
+		return userMapper.updateEco(sender, receiver, point);
+	}
+	
+	@Override
 	public int updateUser(UserDto dto) {
 		return userMapper.updateUser(dto);
 	}
