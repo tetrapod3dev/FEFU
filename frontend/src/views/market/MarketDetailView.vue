@@ -170,24 +170,24 @@ export default {
       },
       products: [
         {
-          no: 1,
-          title: "위즈 2단 독서대 60cm(오른팔용)",
-          price: "20,000",
-          eco_point: "5,000",
+          no: 0,
+          title: "",
+          price: "",
+          eco_point: "",
           photo: "",
         },
         {
-          no: 2,
-          title: "200km 주행 샤오미 전기자전거",
-          price: "560,000",
-          eco_point: "60,000",
+          no: 0,
+          title: "",
+          price: "",
+          eco_point: "",
           photo: "",
         },
         {
-          no: 3,
-          title: "(정품) 발렌티노 히든 스니커즈",
-          price: "200,000",
-          eco_point: "10,000",
+          no: 0,
+          title: "",
+          price: "",
+          eco_point: "",
           photo: "",
         },
       ],
@@ -215,7 +215,7 @@ export default {
     //     },
     //   }
     // );
-    // this.getTopThreeProduct();
+    this.getRelatedProduct();
   },
   computed: {
     cardWidth() {
@@ -307,6 +307,18 @@ export default {
           });
       }
     },
+    getRelatedProduct() {
+      axios
+        .get(
+          SERVER.URL + 
+            SERVER.ROUTES.products.related_products, 
+            {params: {"product_pk": this.$route.params.productNo}}  
+        )
+        .then((res) => {
+          console.log(res)
+          this.products = res.data.related_products
+        })
+    }
   },
 };
 </script>

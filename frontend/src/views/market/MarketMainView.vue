@@ -19,12 +19,12 @@
           :width="cardWidth"
           :to="{
             name: 'MarketDetailView',
-            params: { productNo: product.id },
+            params: { productNo: product.no },
           }"
         >
           <v-img
             :height="1.1 * cardWidth"
-            :src="product.src"
+            :src="imageSrc(product.photo)"
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
@@ -33,9 +33,9 @@
           </v-img>
 
           <v-card-text class="text-left text--primary">
-            <div>{{ product.name }}</div>
+            <div>{{ product.title }}</div>
             <div>{{ product.price }}</div>
-            <div>{{ product.eco }}</div>
+            <div>{{ product.eco_point }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -60,12 +60,12 @@
           :width="cardWidth"
           :to="{
             name: 'MarketDetailView',
-            params: { productNo: product.id },
+            params: { productNo: product.no },
           }"
         >
           <v-img
             :height="1.1 * cardWidth"
-            :src="product.src"
+            :src="imageSrc(product.photo)"
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
@@ -74,9 +74,9 @@
           </v-img>
 
           <v-card-text class="text-left text--primary">
-            <div>{{ product.name }}</div>
+            <div>{{ product.title }}</div>
             <div>{{ product.price }}</div>
-            <div>{{ product.eco }}</div>
+            <div>{{ product.eco_point }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -100,12 +100,12 @@
           :width="cardWidth"
           :to="{
             name: 'MarketDetailView',
-            params: { productNo: product.id },
+            params: { productNo: product.no },
           }"
         >
           <v-img
             :height="1.1 * cardWidth"
-            :src="product.src"
+            :src="imageSrc(product.photo)"
             lazy-src="@/assets/images/lazy-loading.jpg"
           >
             <template v-slot:placeholder>
@@ -114,9 +114,9 @@
           </v-img>
 
           <v-card-text class="text-left text--primary">
-            <div>{{ product.name }}</div>
+            <div>{{ product.title }}</div>
             <div>{{ product.price }}</div>
-            <div>{{ product.eco }}</div>
+            <div>{{ product.eco_point }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -125,8 +125,17 @@
 </template>
 
 <script>
+import axios from "axios";
+import SERVER from "@/api/api";
+
+
 export default {
   name: "MarketMainView",
+  created() {
+    this.getRecommendProducts(),
+    this.getNewProducts(),
+    this.getPopularProducts()
+  },
   computed: {
     cardWidth() {
       let resultWidth;
@@ -156,86 +165,123 @@ export default {
       products: {
         recommend: [
           {
-            id: 1,
-            name: "위즈 2단 독서대 60cm(오른팔용)",
-            price: "20000",
-            eco: "5000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/4F9A716A18F20012DF757BD380AEE17B476263E20DE23F07395ED7692C547F56.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
           {
-            id: 2,
-            name: "200km 주행 샤오미 전기자전거",
-            price: "560000",
-            eco: "60000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/24637A81F60C69C9B086CF1ADD0DCEADD400DAFE11F53C8C4A6F55E666CE1DEC.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
           {
-            id: 3,
-            name: "(정품) 발렌티노 히든 스니커즈",
-            price: "200000",
-            eco: "10000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/9ED5BC30D37442E3D598BB842AC003165FE3B2B5E99BCFE0EF52EEC9E845928A.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
         ],
         new: [
           {
-            id: 4,
-            name: "헤이 클로쉐 테이블 스탠드 HAY CLOCHE TABLE LAMP",
-            price: "250000",
-            eco: "50000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/A8FBF37CCD0F318438B4038EE88E55A0678E67A154FA3208B080D1F4D1CC22EF.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
           {
-            id: 5,
-            name: "긴급처분)의자",
-            price: "12000",
-            eco: "2000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/A5AE64A79B6A986825AE405A5955D062C65881B28B1F574534CCF85078E9E016.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
           {
-            id: 6,
-            name: "의류 쇼룸 매장 집기 일괄 판매합니다!",
-            price: "150000",
-            eco: "10000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/902CFB62081E669CE8FEEB66F4C91FFA1D67FA2068011933651004A021249BF8.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
         ],
         popular: [
           {
-            id: 7,
-            name: "빈티지 책장식 ✩ 무배 ✩ 종류많아요",
-            price: "20000",
-            eco: "2000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/4F9A716A18F20012DF757BD380AEE17B476263E20DE23F07395ED7692C547F56.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
           {
-            id: 8,
-            name:
-              "아이패드 에어 3세대 (256GB, S급, 케이스/아이패드 충전기/에어팟/애플펜슬까지 일괄로 한번에 급처 합니다.",
-            price: "550000",
-            eco: "50000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/3D5A32C58C62CD9BD5D56D3803B6FE27B230FDEA2D31D76D89F81615493DE480.jpg?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
           {
-            id: 9,
-            name: "원목다용도선반 판매합니다",
-            price: "5000",
-            eco: "5000",
-            src:
-              "https://dnvefa72aowie.cloudfront.net/origin/article/202009/b98f44be90258602e79e83e2030fac6c877eb3822848cc7ea7c8518a46b6fbe1.webp?q=95&s=1440x1440&t=inside",
+            no: 0,
+            title: "",
+            price: "",
+            eco_point: "",
+            photo: "a9e5bb88-bbc2-485d-800a-26908a539ba2.png",
           },
         ],
       },
     };
   },
+  methods: {
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
+    },
+    getRecommendProducts() {
+      axios
+        .get(
+          SERVER.URL + 
+          SERVER.ROUTES.products.recommendation,
+          {
+            headers: {
+              Authorization: this.config,
+            },
+          }
+        )
+        .then((res) => {
+        console.log(res.data);
+        this.products.recommend = res.data})
+        .catch((err) => console.log(err))
+    },
+    getNewProducts() {
+      axios
+        .get(
+          SERVER.URL + SERVER.ROUTES.products.get_latest_products
+        )
+        .then((res) => {
+          console.log(res.data)
+          this.products.new = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getPopularProducts() {
+      axios
+        .get(
+          SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today
+        )
+        .then((res) => {
+          console.log(res.data)
+          this.products.popular = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 };
 </script>
 
