@@ -63,7 +63,10 @@
                 :campaign-type="item"
                 :campaigninfo="officialCampaignInfo"
               />
-              <DailyQuest v-if="item.id == 4" />
+              <DailyQuest
+                v-if="item.id == 4"
+                :dailyQuestInfo="dailyQuestInfo"
+              />
             </v-tab-item>
           </v-tabs-items>
           <!-- </v-container> -->
@@ -118,12 +121,14 @@ export default {
       companyCampaignInfo: [],
       officialCampaignInfo: [],
       personalCampaignInfo: [],
+      dailyQuestInfo: [],
     };
   },
   created() {
     this.getCompanyCampaignInfo("company", "", 1, "");
     this.getOfficialCampaignInfo("official", "", 1, "");
     this.getPersonalCampaignInfo("personal", "", 1, "");
+    this.getDailyQuest()
   },
   computed: {
     ...mapGetters("accounts", ["config"]),
@@ -139,7 +144,7 @@ export default {
             type: type,
           },
         })
-        .then((res) => (this.companyCampaignInfo = res.data.list))
+        .then((res) => (this.companyCampaignInfo = res.data.list.slice(0, 6)))
         .catch((err) => console.log(err.response));
     },
     getOfficialCampaignInfo(campaign_type, content, page_no, type) {
@@ -152,7 +157,7 @@ export default {
             type: type,
           },
         })
-        .then((res) => (this.officialCampaignInfo = res.data.list))
+        .then((res) => (this.officialCampaignInfo = res.data.list.slice(0, 6)))
         .catch((err) => console.log(err.response));
     },
     getPersonalCampaignInfo(campaign_type, content, page_no, type) {
@@ -165,8 +170,23 @@ export default {
             type: type,
           },
         })
-        .then((res) => (this.personalCampaignInfo = res.data.list))
+        .then((res) => (this.personalCampaignInfo = res.data.list.slice(0, 6)))
         .catch((err) => console.log(err.response));
+    },
+    getDailyQuest() {
+      // 현재는 단순히 일일퀘스트 정보만 가져오는데... 로그인한 경우 특정 유저의 details를 가져와야 됩니다.
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .get(SERVER.URL + SERVER.ROUTES.campaigns.dailyQuest, configs)
+        .then(res => {
+          console.log(res)
+          this.dailyQuestInfo = res.data
+        })
+        .catch(err => console.log(err))
     },
     goCampaignDetail() {
       this.$router.push({
