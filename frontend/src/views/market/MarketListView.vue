@@ -1,9 +1,15 @@
 <template>
   <v-col cols="12" sm="9" class="pt-0">
     <div class="market-section">
-      <h1 class="market-title text-left ml-3">
+      <h1 v-if="$route.params.mainCategory" class="market-title text-left ml-3">
         {{ $route.params.mainCategory }} >
         {{ $route.params.mediumCategory }}
+      </h1>
+      <h1
+        v-if="!$route.params.mainCategory"
+        class="market-title text-left ml-3"
+      >
+        검색결과 "{{ $route.params.content }}"
       </h1>
       <v-row>
         <v-col

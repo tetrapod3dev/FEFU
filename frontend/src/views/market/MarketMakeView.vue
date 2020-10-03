@@ -163,9 +163,9 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="c-btn" @click="preUploadImage"
+            <!-- <v-btn class="c-btn" @click="preUploadImage"
               >이미지 업로드 테스트 버튼</v-btn
-            >
+            > -->
             <v-btn class="c-btn" :to="{ name: 'MarketMainView' }">취소</v-btn>
             <v-btn class="c-btn" @click="registProduct">등록 </v-btn>
           </v-card-actions>
