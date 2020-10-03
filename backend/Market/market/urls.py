@@ -26,7 +26,6 @@ from product.views import ProductViewSet
 router = routers.DefaultRouter()
 
 # product
-# router.register("purchase", PurchaseViewSet)
 router.register("", ProductViewSet)
 
 

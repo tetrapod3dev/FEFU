@@ -26,9 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hujv*k(8)_t+m=efphbt3!(edp#$&t+%y)=dsbwa02a2r)ysh*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["j3a402.p.ssafy.io","127.0.0.1","172.26.9.232","localhost"]
+ALLOWED_HOSTS = ["j3a402.p.ssafy.io","127.0.0.1"]
 
 
 # Application definition
