@@ -166,6 +166,8 @@ class ProductViewSet(viewsets.ModelViewSet):
                     serializer.save()
                     return Response("resource created successfully", status=201)
                 return Response("resource already created", status=200)
+        else:
+            return Response("unauthorized user", status=200)
     
     @action(detail=False)
     def top_three_viewed_today(self, request):
