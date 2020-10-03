@@ -53,6 +53,12 @@
 		</choose>
 	</select>
 	
+	<select id="findByJoinCount" resultType="Integer">
+		select count(*)
+		from campaign_user
+		where campaign_no = #{no};
+	</select>
+	
 	<select id="findTypeByNo" resultType="String">
 		select type
 		from campaign_info
