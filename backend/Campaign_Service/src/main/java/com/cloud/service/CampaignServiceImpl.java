@@ -62,6 +62,9 @@ public class CampaignServiceImpl implements CampaignService {
 		} else if (type.equals("official") || type.equals("personal")) {
 			list.put(type, setOAP(map));
 		}
+		
+		int total = campaignMapper.findByJoinCount(no);
+		list.put("currentMember", total);
 
 		return list;
 	}
