@@ -1,161 +1,133 @@
 <template>
-  <div id="campaign-list">
-    <section id="section-hero">
-      <v-img
-        id="about-hero"
-        style="position: absolute"
-        position="top"
-        :height="$vuetify.breakpoint.smAndDown ? '24vh' : '49vh'"
-        src="@/assets/images/campaign-hero.jpg"
-        lazy-src="@/assets/images/lazy-loading.jpg"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
-      <v-img
-        style="position: relative; z-index: 3"
-        position="bottom"
-        :height="$vuetify.breakpoint.smAndDown ? '25vh' : '50vh'"
-        src="@/assets/illust/campaign-hero.svg"
-      />
-    </section>
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="3">
+        <!-- 사이드바 -->
+        <!-- <SideBar :campaign="campaign" /> -->
+        <v-img
+          class="campaign-header-img"
+          height="200px"
+          :src="
+            campaign.photo
+              ? imageSrc(campaign.photo)
+              : '@/assets/images/lazy-loading.jpg'
+          "
+          lazy-src="@/assets/images/lazy-loading.jpg"
+        >
+          <template v-slot:placeholder>
+            <lazy-loading />
+          </template>
+        </v-img>
 
-    <v-container>
-      <v-row>
-        <v-col cols="12" sm="3">
-          <!-- 사이드바 -->
-          <!-- <SideBar :campaign="campaign" /> -->
-          <v-img
-            class="campaign-header-img"
-            height="200px"
-            :src="
-              campaign.photo
-                ? imageSrc(campaign.photo)
-                : '@/assets/images/lazy-loading.jpg'
-            "
-            lazy-src="@/assets/images/lazy-loading.jpg"
-          >
-            <template v-slot:placeholder>
-              <lazy-loading />
-            </template>
-          </v-img>
+        <div v-if="campaign">
+          <v-list v-if="campaign.type != 'company'" class="custom-list">
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              no-action
+              class="custom-list-item"
+              :class="`custom-list-item-${
+                listColorName[index % listColorName.length]
+              }`"
+              :to="{
+                name: item.link,
+                params: {
+                  campaignNo: campaign.no,
+                  ...item.params,
+                },
+              }"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="item.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              v-if="campaign.writer == USERNAME"
+              no-action
+              class="custom-list-item"
+              :class="`custom-list-item-${listColorName[4]}`"
+              :to="{
+                name: 'CampaignDetailAdmin',
+                params: {
+                  campaignNo: campaign.no,
+                  page_no: 1,
+                },
+              }"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="'인증관리'"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+          <v-list v-if="campaign.type == 'company'" class="custom-list">
+            <v-list-item
+              no-action
+              class="custom-list-item"
+              :class="`custom-list-item-${listColorName[1]}`"
+              :to="{
+                name: 'CampaignDetailInfo',
+                params: {
+                  campaignNo: campaign.no,
+                },
+              }"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="'캠페인소개'"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </div>
 
-          <div v-if="campaign">
-            <v-list v-if="campaign.type != 'company'" class="custom-list">
-              <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                no-action
-                class="custom-list-item"
-                :class="`custom-list-item-${
-                  listColorName[index % listColorName.length]
-                }`"
-                :to="{
-                  name: item.link,
-                  params: {
-                    campaignNo: campaign.no,
-                    ...item.params,
-                  },
-                }"
-              >
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.name"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                v-if="campaign.writer == USERNAME"
-                no-action
-                class="custom-list-item"
-                :class="`custom-list-item-${listColorName[4]}`"
-                :to="{
-                  name: 'CampaignDetailAdmin',
-                  params: {
-                    campaignNo: campaign.no,
-                    page_no: 1,
-                  },
-                }"
-              >
-                <v-list-item-content>
-                  <v-list-item-title v-text="'인증관리'"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-            <v-list v-if="campaign.type == 'company'" class="custom-list">
-              <v-list-item
-                no-action
-                class="custom-list-item"
-                :class="`custom-list-item-${listColorName[1]}`"
-                :to="{
-                  name: 'CampaignDetailInfo',
-                  params: {
-                    campaignNo: campaign.no,
-                  },
-                }"
-              >
-                <v-list-item-content>
-                  <v-list-item-title v-text="'캠페인소개'"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
+        <a
+          v-if="campaign.type == 'company'"
+          :href="'//' + company.campaignLink"
+          target="_blank"
+          class="custom-make-btn py-3 mt-5"
+          style="
+            display: block;
+            text-decoration: none;
+            color: black;
+            width: 100%;
+          "
+        >
+          사이트 가기
+        </a>
+
+        <ProofCreateBtn
+          v-if="campaign.type != 'company' && isJoined"
+          :campaign="campaign"
+        />
+
+        <button
+          v-if="campaign.type != 'company' && !isJoined"
+          @click="joinCampaign"
+          class="custom-make-btn"
+        >
+          캠페인 신청
+        </button>
+      </v-col>
+      <v-col cols="12" sm="9" class="pt-0">
+        <v-container justify="start">
+          <div class="campaign-welcome">
+            <p v-if="!$vuetify.breakpoint.smAndUp" class="campaign-title">
+              {{ campaign.title }}
+            </p>
+            <span v-if="$vuetify.breakpoint.smAndUp" class="campaign-title">{{
+              campaign.title
+            }}</span>
+            <small class="ml-3">
+              {{ campaign.startDate }} - {{ campaign.endDate }}
+            </small>
           </div>
-
-          <a
-            v-if="campaign.type == 'company'"
-            :href="'//' + company.campaignLink"
-            target="_blank"
-            class="custom-make-btn py-3 mt-5"
-            style="
-              display: block;
-              text-decoration: none;
-              color: black;
-              width: 100%;
-            "
-          >
-            사이트 가기
-          </a>
-
-          <ProofCreateBtn
-            v-if="campaign.type != 'company' && isJoined"
+          <router-view
             :campaign="campaign"
+            :campaignTypeInfo="campaignTypeInfo"
+            :company="company"
           />
-
-          <button
-            v-if="campaign.type != 'company' && !isJoined"
-            @click="joinCampaign"
-            class="custom-make-btn"
-          >
-            캠페인 신청
-          </button>
-        </v-col>
-        <v-col cols="12" sm="9" class="pt-0">
-          <v-container justify="start">
-            <div class="campaign-welcome">
-              <p v-if="!$vuetify.breakpoint.smAndUp" class="campaign-title">
-                {{ campaign.title }}
-              </p>
-              <span v-if="$vuetify.breakpoint.smAndUp" class="campaign-title">{{
-                campaign.title
-              }}</span>
-              <small class="ml-3">
-                {{ campaign.startDate }} - {{ campaign.endDate }}
-              </small>
-            </div>
-            <router-view
-              :campaign="campaign"
-              :campaignTypeInfo="campaignTypeInfo"
-              :company="company"
-            />
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+        </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
