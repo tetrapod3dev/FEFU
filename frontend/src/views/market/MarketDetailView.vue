@@ -212,26 +212,13 @@ export default {
   },
   async created() {
     await this.getProduct();
+    await this.createViewLog();
     await this.getInfo(this.product.writer)
       .then((res) => {
         this.writer = res.data;
       })
       .catch((err) => console.log(err));
-    // await axios.post(
-    //   SERVER.URL +
-    //     SERVER.ROUTES.products.URL +
-    //     "/" +
-    //     this.$route.params.productNo +
-    //     SERVER.ROUTES.products.viewed,
-    //   {
-    //     sub_category_no: this.product.sub_category_no,
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: this.config,
-    //     },
-    //   }
-    // );
+    
     this.getRelatedProduct();
   },
   computed: {
@@ -286,6 +273,24 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    async createViewLog(){
+      await axios
+        .post(
+          SERVER.URL
+            +SERVER.ROUTES.products.URL + '/' + this.$route.params.productNo + '/viewed/', null ,
+          {
+            headers: {
+                Authorization: this.config,
+              },
+          }
+        )
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     
     imageSrc(filename) {
