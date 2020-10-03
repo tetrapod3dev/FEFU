@@ -14,4 +14,5 @@ public interface UserMapper {
 	public int checkByUsername(String usernmae);
 	public int checkByNickname(String nickname);
 	public int insertUserRole(String usernmae);
+	public int updateEco(String sender, String receiver, int point);
 }

@@ -54,6 +54,19 @@ public class UserController {
 		return new ResponseEntity<String>("사용불가능", HttpStatus.OK);
 	}
 	
+	@ApiOperation(value= "에코 포인트 전송하기")
+	@PatchMapping(value = "/eco-point")
+	public ResponseEntity<String> transEcoPoint(@RequestBody Map<String, Object> map, @ApiIgnore @RequestHeader("X-USERNAME") String sender){
+		int point = (int) map.get("point");
+		String receiver = (String) map.get("receiver");
+		int res = userService.updateEco(sender, receiver, point);
+		System.out.println(res);
+		if(res == -1) {
+			return new ResponseEntity<String>("전송실패", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("전송성공", HttpStatus.OK);
+	}
+	
 	@ApiOperation(value= "닉네임 중복 체크")
 	@GetMapping(value = "/check-nickname/{nickname}")
 	public ResponseEntity<String> checkNickname(@PathVariable("nickname") String nickname){
@@ -85,4 +98,6 @@ public class UserController {
 		}
 		return new ResponseEntity<String>("변경완료", HttpStatus.OK);
 	}
+	
+	
 }
