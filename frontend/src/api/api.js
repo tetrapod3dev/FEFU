@@ -27,6 +27,7 @@ export default {
     campaigns: {
       URL: "/campaigns",
       dailyQuest: "/campaigns/daily-quest",
+      dailyQuestDetail: "/campaigns/daily-quest/detail",
       join: "/campaigns/join", // POST / 캠페인 참여 신청, GET / 내가 참여한 캠페인 목록 불러오기
       search: "/campaigns/search",
       proof: "/campaigns/proof",
