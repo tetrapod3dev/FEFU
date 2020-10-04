@@ -78,11 +78,23 @@
                   </v-btn>
                 </v-col>
                 <v-col cols="2">
-                  <v-btn class="product-state" outlined tile>판매 중</v-btn>
+                  
+                  <v-btn v-if="product.status==0" class="product-state" outlined tile 
+                  @click="handleStatusButton"
+                  >판매 중</v-btn>
+
+                  <v-btn v-else class="product-state" outlined tile 
+                  @click="handleStatusButton"
+                  >판매 완료</v-btn>
+
                 </v-col>
               </v-row>
             </div>
           </v-col>
+
+          <SoldModal :product=product v-if="visible"
+          @close="handleStatusButton">
+          </SoldModal>
 
           <v-col cols="12">
             <p class="product-description text-left pa-3">
@@ -142,16 +154,21 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
+import SoldModal from "../../components/market/SoldModal"
 
 export default {
   name: "MarketDetailView",
   mixins: [mixinGetUserInfo],
+  components: {
+      SoldModal : SoldModal
+  },
 
   data() {
     return {
       cardSlide1: null,
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
+      visible:false,
       product: {
         contact: "",
         content: "",
@@ -200,26 +217,13 @@ export default {
   },
   async created() {
     await this.getProduct();
+    await this.createViewLog();
     await this.getInfo(this.product.writer)
       .then((res) => {
         this.writer = res.data;
       })
       .catch((err) => console.log(err));
-    // await axios.post(
-    //   SERVER.URL +
-    //     SERVER.ROUTES.products.URL +
-    //     "/" +
-    //     this.$route.params.productNo +
-    //     SERVER.ROUTES.products.viewed,
-    //   {
-    //     sub_category_no: this.product.sub_category_no,
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: this.config,
-    //     },
-    //   }
-    // );
+    
     this.getRelatedProduct();
   },
   computed: {
@@ -275,16 +279,25 @@ export default {
           console.log(err);
         });
     },
-    getTopThreeProduct() {
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today)
+    async createViewLog(){
+      await axios
+        .post(
+          SERVER.URL
+            +SERVER.ROUTES.products.URL + '/' + this.$route.params.productNo + '/viewed/', null ,
+          {
+            headers: {
+                Authorization: this.config,
+              },
+          }
+        )
         .then((res) => {
           this.products = res.data;
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
+    
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
@@ -319,6 +332,9 @@ export default {
         .then((res) => {
           this.products = res.data.related_products;
         });
+    },
+    handleStatusButton() {
+      this.visible = !this.visible
     },
   },
 };
