@@ -22,7 +22,10 @@
           <v-col cols="12" md="7">
             <div class="product-info-wrapper text-left d-flex flex-column pa-3">
               <p class="product-title">{{ product.title }}</p>
-              <p>대분류 > 중분류</p>
+              <p>
+                {{ product.main_category_name }} >
+                {{ product.medium_category_name }}
+              </p>
               <p class="product-price">{{ product.price }}원</p>
               <p class="product-ecopoint">
                 사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
@@ -172,6 +175,8 @@ export default {
         eco_point: 1,
         main_category_no: 1,
         medium_category_no: 1,
+        main_category_name: "",
+        medium_category_name: "",
         sub_category_no: 1,
         no: 45,
         photo: "",
@@ -286,7 +291,7 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res)
+          this.products = res.data;
         })
         .catch((err) => {
           console.log(err)
@@ -321,19 +326,16 @@ export default {
     },
     getRelatedProduct() {
       axios
-        .get(
-          SERVER.URL + 
-            SERVER.ROUTES.products.related_products, 
-            {params: {"product_pk": this.$route.params.productNo}}  
-        )
-        .then((res) => {
-          console.log(res)
-          this.products = res.data.related_products
+        .get(SERVER.URL + SERVER.ROUTES.products.related_products, {
+          params: { product_pk: this.$route.params.productNo },
         })
+        .then((res) => {
+          this.products = res.data.related_products;
+        });
     },
     handleStatusButton() {
       this.visible = !this.visible
-    }
+    },
   },
 };
 </script>

@@ -1,5 +1,24 @@
 <template>
   <div id="c-header">
+    <img
+      :src="
+        $vuetify.breakpoint.smAndDown
+          ? require('@/assets/images/logo64.png')
+          : require('@/assets/images/logo128.png')
+      "
+      class="rotating"
+      style="z-index: 10; position: fixed; cursor: pointer"
+      :style="
+        $vuetify.breakpoint.smAndDown
+          ? 'height: 64px;width: 64px;top: 0px;left: 0px;'
+          : 'height: 128px;width: 128px;top: 5px;left: 5px;'
+      "
+      @click="
+        moveToPage({
+          name: 'Home',
+        })
+      "
+    />
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -44,14 +63,14 @@
     </v-navigation-drawer>
 
     <v-app-bar fixed flat color="transparent">
-      <v-toolbar-title
+      <!-- <v-toolbar-title
         class="nav-logo text-left"
         @click="$router.push({ name: 'Home' })"
       >
         For
         <span class="js-nametag">Earth</span>
         <span class="js-nametag">Us</span>
-      </v-toolbar-title>
+      </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <router-link
         tag="button"
@@ -108,7 +127,7 @@ export default {
         {
           textKr: "캠페인",
           textEn: "CAMPAIGN",
-          href: "/campaigns",
+          href: "/campaigns/main",
         },
         {
           textKr: "중고마켓",
@@ -123,6 +142,18 @@ export default {
   },
   methods: {
     ...mapActions("accounts", ["logout"]),
+    moveToPage(_url) {
+      this.$router
+        .push(_url)
+        .then(() => {
+          location.reload();
+        })
+        .catch((error) => {
+          if (error.name === "NavigationDuplicated") {
+            location.reload();
+          }
+        });
+    },
   },
 };
 </script>
@@ -195,6 +226,42 @@ export default {
   }
   &:focus {
     outline: 0;
+  }
+}
+
+.rotating:hover {
+  -webkit-animation: rotating 10s linear infinite;
+  -moz-animation: rotating 10s linear infinite;
+  -ms-animation: rotating 10s linear infinite;
+  -o-animation: rotating 10s linear infinite;
+  animation: rotating 10s linear infinite;
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 </style>

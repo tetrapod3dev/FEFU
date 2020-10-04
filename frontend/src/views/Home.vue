@@ -23,6 +23,17 @@
     </core-hero>
     <!-- hero end -->
 
+    <div
+      class="avatar rotating"
+      :style="
+        $vuetify.breakpoint.smAndDown
+          ? 'width: 128px;height: 128px;top: 90vh; left: 10px;'
+          : 'width: 256px;height: 256px;top: 90vh; left: 10px;'
+      "
+    >
+      <img src="@/assets/dailyquest/21-recycle.png" />
+    </div>
+
     <!-- section the problem start -->
     <core-section subtitle="THE PROBLEM" min-height="100vh">
       <template slot="title">
@@ -37,6 +48,20 @@
       </template>
     </core-section>
     <!-- section the problem end -->
+
+    <div
+      class="avatar avatar-floating"
+      :style="
+        $vuetify.breakpoint.smAndDown
+          ? 'width: 128px;height: 128px;top: 180vh; right: 20px;'
+          : 'width: 256px;height: 256px;top: 180vh; right: 20px;'
+      "
+    >
+      <img
+        style="transform: rotate(20deg)"
+        src="@/assets/dailyquest/04-eco light.png"
+      />
+    </div>
 
     <!-- section the solution start -->
     <core-section subtitle="THE SOLUTION" pb="12">
@@ -308,5 +333,67 @@ export default {
 
 .c-btn--text-icon {
   display: inline-block;
+}
+
+.avatar {
+  position: absolute;
+  box-sizing: border-box;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  &-floating {
+    transform: translate(0px, 0px);
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(10px, -20px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 40s linear infinite;
+  -moz-animation: rotating 40s linear infinite;
+  -ms-animation: rotating 40s linear infinite;
+  -o-animation: rotating 40s linear infinite;
+  animation: rotating 40s linear infinite;
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 </style>

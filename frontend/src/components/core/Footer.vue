@@ -9,8 +9,23 @@
           md="3"
           class="c-footer-logo text-left align-self-start"
         >
-          FE For Earth
-          <br />FU For Us
+          <v-row>
+            <v-flex>
+              <img
+                :src="require('@/assets/images/logo64.png')"
+                :style="'height: 64px;width: 64px;'"
+                @click="
+                  moveToPage({
+                    name: 'Home',
+                  })
+                "
+              />
+            </v-flex>
+            <v-flex justify="center" class="mr-auto">
+              <p style="color: #333" class="mt-2 mb-1">For Earth</p>
+              <p style="color: #333">For Us</p>
+            </v-flex>
+          </v-row>
         </v-col>
         <v-col
           cols="10"
@@ -57,6 +72,19 @@
 <script>
 export default {
   name: "CoreFooter",
+
+  moveToPage(_url) {
+    this.$router
+      .push(_url)
+      .then(() => {
+        location.reload();
+      })
+      .catch((error) => {
+        if (error.name === "NavigationDuplicated") {
+          location.reload();
+        }
+      });
+  },
 };
 </script>
 
