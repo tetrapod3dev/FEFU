@@ -1,10 +1,13 @@
 package com.cloud.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cloud.domain.EcoPointDto;
 import com.cloud.domain.UserDto;
 import com.cloud.mapper.UserMapper;
 
@@ -26,6 +29,11 @@ public class UserServiceImpl implements UserService{
 			userMapper.insertUserRole(dto.getUsername());
 		}
 		return res;
+	}
+	
+	@Override
+	public List<EcoPointDto> findByEcoPointList(String username) {
+		return userMapper.findByEcoPointList(username);
 	}
 	
 	@Override
