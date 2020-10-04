@@ -20,6 +20,12 @@
 		where nickname = #{nickname}
 	</select>
 	
+	<select id="findByEcoPointList" resultType="com.cloud.domain.EcoPointDto">
+		select *
+		from eco_point_info
+		where sender = #{username} or receiver = #{username}
+	</select>
+	
 	<insert id="userRegistier" parameterType="com.cloud.domain.UserDto">
 		insert into user (username, password, nickname, age, gender)
 		values (#{username}, #{password}, #{nickname}, #{age}, #{gender});
@@ -47,6 +53,8 @@
 	  		<when test="curPoint gte point">
 				update user set eco_point = eco_point - #{point} where username = #{sender};
 				update user set eco_point = eco_point + #{point} where username = #{receiver};
+				insert into eco_point_info (sender, receiver, point)
+				values (#{sender}, #{receiver}, #{point});
 	  		</when>
 	  		<otherwise>
 	  			select 0;

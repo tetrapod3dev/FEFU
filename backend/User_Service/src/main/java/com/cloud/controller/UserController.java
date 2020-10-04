@@ -1,5 +1,6 @@
 package com.cloud.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloud.domain.EcoPointDto;
 import com.cloud.domain.UserDto;
 import com.cloud.service.UserService;
 
@@ -65,6 +67,14 @@ public class UserController {
 			return new ResponseEntity<String>("전송실패", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("전송성공", HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "에코 포인트 내역 확인")
+	@GetMapping(value = "/eco-point")
+	public ResponseEntity<List<EcoPointDto>> getEcoPointList(@ApiIgnore @RequestHeader("X-USERNAME") String username){
+		List<EcoPointDto> list = userService.findByEcoPointList(username);
+		
+		return new ResponseEntity<List<EcoPointDto>>(list, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value= "닉네임 중복 체크")
