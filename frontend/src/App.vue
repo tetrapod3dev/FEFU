@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <v-app id="inspire" style="background: #fcfcfc">
-      <core-header />
       <v-main>
+        <core-header />
         <router-view />
+        <core-footer />
       </v-main>
-      <core-footer />
     </v-app>
   </div>
 </template>

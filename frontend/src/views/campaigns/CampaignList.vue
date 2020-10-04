@@ -3,13 +3,14 @@
     <div class="section">
       <v-container>
         <v-row v-if="campaignType.id == 1" class="mb-8">
-          <v-col cols="12" md="7">
+          <v-col cols="6" sm="8" lg="10">
             <h1 class="c-title text-left">
-              {{ campaignType.name }} - {{ state }}
+              {{ campaignType.name }}
+              <!-- - {{ state }} -->
             </h1>
           </v-col>
 
-          <v-col cols="3" md="1">
+          <!-- <v-col cols="3" md="1">
             <v-menu offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <button class="c-btn" v-bind="attrs" v-on="on">
@@ -28,15 +29,23 @@
                 </v-list-item>
               </v-list>
             </v-menu>
+          </v-col> -->
+          <v-col cols="3" sm="2" lg="1">
+            <router-link
+              tag="button"
+              class="c-btn"
+              :to="{
+                name: 'CampaignTypeList',
+                params: {
+                  campaign_type: campaignType.id,
+                  page_num: 1,
+                },
+              }"
+            >
+              더보기
+            </router-link>
           </v-col>
-          <v-col cols="6" md="3">
-            <input
-              type="text"
-              class="campaign-search"
-              placeholder="🔍 검색어를 입력하세요"
-            />
-          </v-col>
-          <v-col cols="3" md="1">
+          <v-col cols="3" sm="2" lg="1">
             <router-link
               tag="button"
               class="c-btn c-primary"
@@ -50,19 +59,27 @@
           </v-col>
         </v-row>
         <v-row v-else class="mb-8">
-          <v-col cols="12" md="8">
+          <v-col cols="6" sm="8" lg="10">
             <h1 class="c-title text-left">
               {{ campaignType.name }}
             </h1>
           </v-col>
-          <v-col cols="9" md="3"
-            ><input
-              type="text"
-              class="campaign-search"
-              placeholder="🔍 검색어를 입력하세요"
-            />
+          <v-col cols="3" sm="2" lg="1">
+            <router-link
+              tag="button"
+              class="c-btn"
+              :to="{
+                name: 'CampaignTypeList',
+                params: {
+                  campaign_type: campaignType.id,
+                  page_num: 1,
+                },
+              }"
+            >
+              더보기
+            </router-link>
           </v-col>
-          <v-col cols="3" md="1">
+          <v-col cols="3" sm="2" lg="1">
             <router-link
               tag="button"
               class="c-btn c-primary"
@@ -116,8 +133,8 @@ export default {
   },
   data() {
     return {
-      state: "전체",
-      items: ["전체", "진행 중", "오픈 예정", "종료 된"],
+      // state: "전체",
+      // items: ["전체", "진행 중", "오픈 예정", "종료 된"],
     };
   },
 };
