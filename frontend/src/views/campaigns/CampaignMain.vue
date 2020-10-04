@@ -33,7 +33,11 @@
           :campaign-type="item"
           :campaigninfo="officialCampaignInfo"
         />
-        <DailyQuest v-if="item.id == 4" :dailyQuestInfo="dailyQuestInfo" />
+        <DailyQuest
+          v-if="item.id == 4"
+          :dailyQuestInfo="dailyQuestInfo"
+          :isValid="isValid"
+        />
       </v-tab-item>
     </v-tabs-items>
     <!-- </v-container> -->
@@ -86,6 +90,7 @@ export default {
       officialCampaignInfo: [],
       personalCampaignInfo: [],
       dailyQuestInfo: [],
+      isValid: false,
     };
   },
   created() {
@@ -95,7 +100,7 @@ export default {
     this.getDailyQuest();
   },
   computed: {
-    ...mapGetters("accounts", ["config"]),
+    ...mapGetters("accounts", ["config", "isLoggedIn"]),
   },
   methods: {
     getCompanyCampaignInfo(campaign_type, content, page_no, type) {
@@ -147,10 +152,14 @@ export default {
       axios
         .get(SERVER.URL + SERVER.ROUTES.campaigns.dailyQuest, configs)
         .then((res) => {
+          this.isValid = true;
           console.log(res);
           this.dailyQuestInfo = res.data;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err.response);
+          this.isValid = false;
+        });
     },
     goCampaignDetail() {
       this.$router.push({
