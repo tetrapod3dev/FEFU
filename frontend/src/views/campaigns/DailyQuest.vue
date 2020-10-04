@@ -3,17 +3,18 @@
     <div>
       <h1 class="campaign-title text-left">일일퀘스트</h1>
     </div>
-    <v-row>
-      <v-col
-        v-for="idx in 12"
-        :key="idx"
-        cols="6"
-        sm="6"
-        md="3"
-        lg="3"
-        no-gutter
-      >
-        <!-- <v-hover v-slot:default="{ hover }" open-delay="200">
+    <v-container v-if="isValid">
+      <v-row>
+        <v-col
+          v-for="idx in 12"
+          :key="idx"
+          cols="6"
+          sm="6"
+          md="3"
+          lg="3"
+          no-gutter
+        >
+          <!-- <v-hover v-slot:default="{ hover }" open-delay="200">
           <v-card
             :color="completed[idx - 1] ? 'primary' : ''"
             :img="completed[idx - 1] ? null : images[idx - 1]"
@@ -21,8 +22,8 @@
             class="dailyquest-item d-flex align-center justify-center"
             :height="cardHeight"
           > -->
-        <!-- <v-scroll-y-transition> -->
-        <!-- <div
+          <!-- <v-scroll-y-transition> -->
+          <!-- <div
               v-if="completed[idx - 1]"
               class="display-1 flex-grow-1 text-center"
             >
@@ -35,60 +36,90 @@
                 <v-btn @click="actNow(idx)" color="primary">act now</v-btn>
               </div>
             </div> -->
-        <!-- </v-scroll-y-transition> -->
-        <!-- </v-card>
+          <!-- </v-scroll-y-transition> -->
+          <!-- </v-card>
         </v-hover> -->
 
-        <v-dialog
-          v-model="dialogs[dailyQuestInfo[idx - 1].no]"
-          persistent
-          max-width="600px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-card
-              :img="getCompleted(idx - 1)"
+          <v-dialog
+            v-model="dialogs[dailyQuestInfo[idx - 1].no]"
+            persistent
+            max-width="600px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-card
+                :img="getCompleted(idx - 1)"
+                contain
+                class="dailyquest-item d-flex align-center justify-center"
+                :height="cardHeight"
+                v-bind="attrs"
+                v-on="on"
+              ></v-card>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="headline">{{
+                  dailyQuestInfo[idx - 1].title
+                }}</span>
+              </v-card-title>
+              <v-card-text class="py-0">
+                <v-container class="pb-0">
+                  <v-row>
+                    <v-col cols="12" class="py-12">
+                      {{ dailyQuestInfo[idx - 1].description }}
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions class="px-5">
+                <v-spacer></v-spacer>
+                <v-btn
+                  class="custom-btn"
+                  text
+                  @click="$set(dialogs, dailyQuestInfo[idx - 1].no, false)"
+                >
+                  닫기
+                </v-btn>
+                <v-btn
+                  v-if="!completed[idx - 1]"
+                  class="custom-btn"
+                  text
+                  @click="actNow(idx)"
+                >
+                  완료
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-else>
+      <div>
+        😥 로그인을 하셔야 이용하실 수 있는 서비스입니다. <br />
+        매일매일 퀘스트를 진행하며 지구를 지키고 경험치를 쌓아 매니저가
+        되어보세요!
+      </div>
+      <v-row>
+        <v-col>
+          <router-link
+            tag="a"
+            :to="{ name: 'LoginView' }"
+            class="c-btn--text"
+            :class="'c-btn--text-' + $vuetify.breakpoint.name"
+          >
+            로그인하러 가기
+            <v-img
+              style="cursor: pointer; margin-top: 3px"
+              :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
+              :height="$vuetify.breakpoint.smAndDown ? 15 : 17"
+              class="c-btn--text-icon"
               contain
-              class="dailyquest-item d-flex align-center justify-center"
-              :height="cardHeight"
-              v-bind="attrs"
-              v-on="on"
-            ></v-card>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ dailyQuestInfo[idx - 1].title }}</span>
-            </v-card-title>
-            <v-card-text class="py-0">
-              <v-container class="pb-0">
-                <v-row>
-                  <v-col cols="12" class="py-12">
-                    {{ dailyQuestInfo[idx - 1].description }}
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions class="px-5">
-              <v-spacer></v-spacer>
-              <v-btn
-                class="custom-btn"
-                text
-                @click="$set(dialogs, dailyQuestInfo[idx - 1].no, false)"
-              >
-                닫기
-              </v-btn>
-              <v-btn
-                v-if="!completed[idx - 1]"
-                class="custom-btn"
-                text
-                @click="actNow(idx)"
-              >
-                완료
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
+              :src="require('@/assets/illust/arrow-right.svg')"
+            />
+          </router-link>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
@@ -101,6 +132,7 @@ import { mapGetters } from "vuex";
 export default {
   props: {
     dailyQuestInfo: Array,
+    isValid: Boolean,
   },
   data() {
     return {
@@ -152,7 +184,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("accounts", ["config"]),
+    ...mapGetters("accounts", ["config", "isLoggedIn"]),
     cardHeight() {
       let resultWidth;
       switch (this.$vuetify.breakpoint.name) {
@@ -199,7 +231,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .section {
   margin-top: 30px;
   margin-bottom: 100px;
@@ -214,5 +246,27 @@ export default {
 .dailyquest-item {
   border: 3px solid black;
   border-radius: 15px;
+}
+
+.c-btn--text {
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 2px solid #000000;
+  padding: 2px 0;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
+  font-size: 16px;
+  color: #000000;
+  transition: 0.3s;
+
+  &-md,
+  &-lg,
+  &-xl {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+}
+
+.c-btn--text-icon {
+  display: inline-block;
 }
 </style>
