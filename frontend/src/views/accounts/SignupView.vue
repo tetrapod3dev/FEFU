@@ -328,7 +328,6 @@ export default {
             this.signupData.nickname
         )
         .then((res) => {
-          console.log(res);
           this.isValidNickname = res.data == "사용가능";
         })
         .catch((err) => {

@@ -5,16 +5,18 @@ export default {
   extends: Bar,
   props: ["data", "labels"],
   mounted() {
-    console.log(this.data);
-    console.log(Object.keys(this.data));
-    console.log(Object.entries(this.data));
-    console.log(Object.values(this.data));
-    console.log(Object.keys(this.data).map(key => this.data[key]));
+    // console.log(this.data);
+    // console.log(Object.keys(this.data));
+    // console.log(Object.entries(this.data));
+    // console.log(Object.values(this.data));
+    // console.log(Object.keys(this.data).map(key => this.data[key]));
     this.renderBarChart();
   },
   computed: {
     chartData() {
-      return (this.data['isEnd']) ? Object.values(this.data).reverse().slice(0, -1) : [0, 0, 0, 0, 0, 0, 0]
+      return this.data["isEnd"]
+        ? Object.values(this.data).reverse().slice(0, -1)
+        : [0, 0, 0, 0, 0, 0, 0];
     },
     chartLabels() {
       let today = new Date().getDay();
@@ -29,7 +31,7 @@ export default {
   },
   watch: {
     chartData() {
-      console.log(this.chartData);
+      // console.log(this.chartData);
       this.renderBarChart();
     },
   },

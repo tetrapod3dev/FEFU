@@ -33,12 +33,11 @@ export default {
     postAuthData({ commit }, info) {
       axios
         .post(SERVER.URL + info.location, info.data, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            }
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
         })
         .then((res) => {
-          console.log(res)
           if (info.name != "signup") {
             commit("SET_TOKEN", res.headers.authorization.substr(7));
           }

@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       userList: [],
-      dataList: {'isEnd': false},
+      dataList: { isEnd: false },
       labelList: ["일", "월", "화", "수", "목", "금", "토"],
     };
   },
@@ -74,7 +74,6 @@ export default {
       }
       // console.log(this.dataList);
       this.getOfficialPercentWeek();
-      console.log(this.dataList);
     }
   },
   computed: {
@@ -102,7 +101,6 @@ export default {
         )
         .then((res) => {
           this.userList = res.data;
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -120,7 +118,7 @@ export default {
           res.data.forEach((element) => {
             this.dataList[element.time] = element.count;
           });
-          this.dataList['isEnd'] = true;
+          this.dataList["isEnd"] = true;
 
           // console.log(Object.keys(this.dataList));
           // console.log(Object.values(this.dataList).reverse());
