@@ -272,7 +272,7 @@ export default {
       }
       return resultWidth;
     },
-    ...mapGetters("accounts", ["config", "USERNAME"]),
+    ...mapGetters("accounts", ["isLoggedIn", "config", "USERNAME"]),
   },
   methods: {
     moveToPage(_url) {
@@ -362,7 +362,17 @@ export default {
         });
     },
     handleStatusButton() {
-      this.visible = !this.visible;
+      if (this.isLoggedIn) {
+        if (this.product.writer == this.USERNAME) {
+          this.visible = !this.visible;
+        } else {
+          alert("글 작성자만 상태 변경이 가능합니다.")
+        }
+      } else {
+        alert("글 작성자만 상태 변경이 가능합니다.")
+        
+      }
+      
     },
   },
 };
