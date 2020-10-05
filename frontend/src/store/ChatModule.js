@@ -39,6 +39,7 @@ export default {
     },
     loadUserChats(context) {
       let user = context.rootGetters["auth/USER"];
+      console.log(user);
       firebase
         .database()
         .ref("users")

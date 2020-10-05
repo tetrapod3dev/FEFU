@@ -86,7 +86,6 @@ export default {
                 id: auth.user.uid,
                 username: auth.user.email,
               };
-              console.log(newUser);
               commit("setUser", newUser);
             });
         })
