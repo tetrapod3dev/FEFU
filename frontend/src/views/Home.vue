@@ -221,21 +221,23 @@
           <v-col cols="12" xl="8"
             ><v-row>
               <v-col v-for="index in 6" :key="index" cols="12" sm="6" md="4">
-                <v-img
-                  :src="require('@/assets/images/logo' + index + '.jpg')"
-                  style="
-                    height: 80px;
-                    width: 100%;
-                    border: 2px solid #000000;
-                    border-radius: 5px;
-                    background-color: #ffffff;
-                  "
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <lazy-loading />
-                  </template>
-                </v-img>
+                <a :href="'//' + group[index - 1]" target="_blank">
+                  <v-img
+                    :src="require('@/assets/images/logo' + index + '.jpg')"
+                    style="
+                      height: 80px;
+                      width: 100%;
+                      border: 2px solid #000000;
+                      border-radius: 5px;
+                      background-color: #ffffff;
+                    "
+                    lazy-src="@/assets/images/lazy-loading.jpg"
+                  >
+                    <template v-slot:placeholder>
+                      <lazy-loading />
+                    </template>
+                  </v-img>
+                </a>
               </v-col>
             </v-row>
           </v-col>
@@ -259,6 +261,14 @@ export default {
         { text: "캠페인", src: "main-info-campaign.jpg" },
         { text: "중고거래", src: "main-info-market.jpg" },
         { text: "에코포인트", src: "main-info-point.jpg" },
+      ],
+      group: [
+        "www.epa.or.kr",
+        "www.greenpeace.org/korea/",
+        "ecoinstitute.re.kr/",
+        "www.osean.net/",
+        "actionfornature.org/",
+        "www.foei.org/",
       ],
     };
   },

@@ -32,10 +32,15 @@
         </v-fab-transition>
       </template>
       <v-card
+        style="border: 3px solid #000000"
         :height="$vuetify.breakpoint.smAndDown ? '600px' : '700px'"
         :width="$vuetify.breakpoint.smAndDown ? '400px' : '500px'"
       >
-        <v-toolbar dark color="var(--primary-color)">
+        <v-toolbar
+          style="border-bottom: 2px solid #000000"
+          color="var(--primary-color)"
+          flat
+        >
           <v-toolbar-title>FEFU Chat</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn

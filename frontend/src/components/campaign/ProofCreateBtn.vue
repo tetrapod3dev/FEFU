@@ -6,77 +6,86 @@
           인증글 작성
         </button>
       </template>
-      <v-card>
-        <v-card-title>
+      <v-card style="border: 3px solid #000000">
+        <v-card-title
+          style="
+            background-color: var(--primary-color);
+            border-bottom: 2px solid #000000;
+          "
+        >
           <span class="headline">인증글 작성</span>
         </v-card-title>
         <v-card-text class="py-0">
-          <v-container class="pb-0">
-            <v-row>
-              <v-col cols="12" class="py-0">
-                <v-img
-                  id="Preview_image_create"
-                  height="230px"
-                  :style="
-                    !url ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)' : ''
-                  "
-                  :src="!!url ? url : require('@/assets/images/noimage.jpg')"
-                  lazy-src="@/assets/images/lazy-loading.jpg"
-                >
-                  <template v-slot:placeholder>
-                    <lazy-loading />
-                  </template>
-                </v-img>
-                <v-file-input
-                  class="mt-5"
-                  label="오늘의 미션 인증 사진"
-                  v-model="images"
-                  :rules="imageRules"
-                  filled
-                  prepend-icon=""
-                  append-icon="mdi-camera"
-                  color="#37cdc2"
-                  accept="image/*"
-                  @change="Preview_image"
-                ></v-file-input>
-              </v-col>
+          <v-form ref="form">
+            <v-container class="pb-0">
+              <v-row>
+                <v-col cols="12" class="py-0">
+                  <v-img
+                    id="Preview_image_create"
+                    height="230px"
+                    :style="
+                      !url ? 'border-bottom: 1px solid rgba(0, 0, 0, 0.42)' : ''
+                    "
+                    :src="!!url ? url : require('@/assets/images/noimage.jpg')"
+                    lazy-src="@/assets/images/lazy-loading.jpg"
+                  >
+                    <template v-slot:placeholder>
+                      <lazy-loading />
+                    </template>
+                  </v-img>
+                  <v-file-input
+                    class="mt-5"
+                    label="오늘의 미션 인증 사진"
+                    v-model="images"
+                    :rules="imageRules"
+                    filled
+                    prepend-icon=""
+                    append-icon="mdi-camera"
+                    color="#37cdc2"
+                    accept="image/*"
+                    @change="Preview_image"
+                  ></v-file-input>
+                </v-col>
 
-              <v-col cols="12" class="py-0">
-                <v-text-field
-                  v-model="proofPost.title"
-                  label="인증글 제목"
-                  name="인증글 제목"
-                  type="text"
-                  required
-                  filled
-                  autofocus
-                  autocapitalize="off"
-                  autocorrect="off"
-                  autocomplete="off"
-                  color="#37cdc2"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" class="py-0">
-                <v-textarea
-                  v-model="proofPost.content"
-                  label="내용"
-                  name="내용"
-                  type="text"
-                  required
-                  filled
-                  autocapitalize="off"
-                  autocorrect="off"
-                  autocomplete="off"
-                  color="#37cdc2"
-                ></v-textarea>
-              </v-col>
-            </v-row>
-          </v-container>
+                <v-col cols="12" class="py-0">
+                  <v-text-field
+                    v-model="proofPost.title"
+                    label="인증글 제목"
+                    name="인증글 제목"
+                    type="text"
+                    required
+                    filled
+                    autofocus
+                    :rules="[(v) => !!v || '제목을 적어주세요']"
+                    autocapitalize="off"
+                    autocorrect="off"
+                    autocomplete="off"
+                    color="#37cdc2"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" class="py-0">
+                  <v-textarea
+                    v-model="proofPost.content"
+                    label="내용"
+                    name="내용"
+                    type="text"
+                    required
+                    filled
+                    :rules="[(v) => !!v || '내용을 적어주세요']"
+                    autocapitalize="off"
+                    autocorrect="off"
+                    autocomplete="off"
+                    color="#37cdc2"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions class="px-5">
           <v-spacer></v-spacer>
-          <v-btn class="custom-btn" text @click="dialog = false"> 취소 </v-btn>
-          <v-btn class="custom-btn" text @click="registProof"> 등록 </v-btn>
+          <v-btn class="c-btn" text @click="dialog = false"> 취소 </v-btn>
+          <v-btn class="c-btn" text @click="registProof"> 등록 </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -130,7 +139,11 @@ export default {
           console.log(err);
         });
     },
-    registProof: async function () {
+    async registProof() {
+      if (!this.$refs.form.validate()) {
+        return;
+      }
+
       this.proofPost.campaignNo = this.campaign.no;
       this.proofPost.writer = this.USERNAME;
 
@@ -151,9 +164,6 @@ export default {
             .push({
               name: "CampaignDetailInfo",
               params: { campaginNo: this.proofPost.campaignNo },
-            })
-            .then(() => {
-              location.reload();
             })
             .catch((error) => {
               if (error.name === "NavigationDuplicated") {
@@ -182,8 +192,9 @@ export default {
   text-align: center;
 }
 
-.custom-btn {
+.c-btn {
+  font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
-  // background: var(--primary-color);
+  border-radius: 10px;
 }
 </style>

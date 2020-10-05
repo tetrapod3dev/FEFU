@@ -9,6 +9,26 @@
             <profile-photo :userinfo="userinfo" />
 
             <div>
+              <div class="c-status py-6" style="background-color: #fcfcfc">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <span class="mr-4" v-bind="attrs" v-on="on">
+                      🧡 {{ userinfo.exp }}</span
+                    >
+                  </template>
+                  <span>경험치</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <span v-bind="attrs" v-on="on">
+                      💚 {{ userinfo.ecoPoint }}
+                    </span>
+                  </template>
+                  <span>에코포인트</span>
+                </v-tooltip>
+              </div>
+
               <v-list class="c-list">
                 <v-list-item :to="{ name: 'MypageInfo' }" class="c-list-item">
                   <v-list-item-content>
@@ -144,6 +164,16 @@ export default {
   font-size: 1rem;
   width: 100%;
   height: 48px;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+}
+.c-status {
+  font-family: "S-CoreDream-7ExtraBold";
+  font-size: 1rem;
+  width: 100%;
   margin-top: 20px;
   background-color: var(--primary-color);
   border: 2px solid black;

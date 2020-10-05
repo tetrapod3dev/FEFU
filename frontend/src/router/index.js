@@ -159,9 +159,10 @@ const routes = [
         component: MarketMainView,
       },
       {
-        path: "list/:pageNum/:mainCategory?/:mediumCategory?/:content?",
+        path: "list/:pageNum/:mainCategoryNo?/:mediumCategoryNo?/:content?",
         name: "MarketListView",
         component: MarketListView,
+        props: true,
       },
       {
         path: "detail/:productNo",

@@ -33,8 +33,13 @@
                   ></v-img
                 ></v-card>
               </template>
-              <v-card>
-                <v-card-title>
+              <v-card style="border: 3px solid #000000">
+                <v-card-title
+                  style="
+                    background-color: var(--primary-color);
+                    border-bottom: 2px solid #000000;
+                  "
+                >
                   <span class="headline">{{ proof.title }}</span>
                 </v-card-title>
                 <v-card-text class="py-0">
@@ -66,13 +71,13 @@
                 <v-card-actions class="px-5">
                   <v-spacer></v-spacer>
                   <v-btn
-                    class="custom-btn"
+                    class="c-btn"
                     text
                     @click="$set(dialogs, proof.no, false)"
                   >
                     취소
                   </v-btn>
-                  <v-btn class="custom-btn" text @click="permitProof(proof.no)">
+                  <v-btn class="c-btn" text @click="permitProof(proof.no)">
                     승인
                   </v-btn>
                 </v-card-actions>
@@ -233,5 +238,10 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   text-align: center;
+}
+.c-btn {
+  font-family: "S-CoreDream-7ExtraBold";
+  border: 2px solid black;
+  border-radius: 10px;
 }
 </style>

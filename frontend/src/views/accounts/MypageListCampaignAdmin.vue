@@ -26,7 +26,9 @@
           v-else
           content="등록하신 캠페인이 없네요. 캠페인을 등록해보세요!🌎"
           btn-text="등록하러 가기"
-          :to="{ name: 'CampaignMainView' }"
+          color="#fcfcfc"
+          align="center"
+          :to="{ name: 'CampaignMain' }"
         />
       </div>
     </v-container>

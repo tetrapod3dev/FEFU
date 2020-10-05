@@ -4,8 +4,9 @@
       <v-col
         cols="8"
         md="10"
-        class="c-txt text-left px-15 py-6 c-banner ma-0"
-        :class="'c-banner-' + $vuetify.breakpoint.name"
+        class="c-txt px-15 py-6 c-banner ma-0"
+        :class="'c-banner-' + $vuetify.breakpoint.name + ' text-' + align"
+        :style="'background-color:' + color"
       >
         {{ content }}
       </v-col>
@@ -15,6 +16,7 @@
       md="10"
       class="c-banner ma-0 py-6"
       :class="'c-banner-' + $vuetify.breakpoint.name"
+      :style="'background-color:' + color"
     >
       <router-link
         tag="a"
@@ -38,7 +40,19 @@
 
 <script>
 export default {
-  props: ["content", "btnText", "to"],
+  props: {
+    content: String,
+    btnText: String,
+    to: Object,
+    color: {
+      type: String,
+      default: "#37CDC2",
+    },
+    align: {
+      type: String,
+      default: "left",
+    },
+  },
 };
 </script>
 
@@ -61,7 +75,6 @@ export default {
 
 .c-banner {
   border-radius: 5px;
-  background-color: var(--primary-color);
 
   &-xs:first-child,
   &-sm:first-child {

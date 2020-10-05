@@ -133,8 +133,8 @@
                 </template>
 
                 <!-- modal start -->
-                <v-card>
-                  <v-tabs v-model="tab">
+                <v-card style="border: 3px solid #000000">
+                  <v-tabs v-model="tab" color="var(--primary-color)">
                     <v-tab href="#terms">
                       <v-card-title>
                         <span class="login-title">FEFU 이용 약관</span>
@@ -162,15 +162,10 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn
-                      color="var(--primary-color)"
-                      text
-                      @click="dialog = false"
+                    <v-btn class="c-btn" text @click="dialog = false"
                       >취소</v-btn
                     >
-                    <v-btn color="var(--primary-color)" text @click="agreeTerms"
-                      >동의</v-btn
-                    >
+                    <v-btn class="c-btn" text @click="agreeTerms">동의</v-btn>
                   </v-card-actions>
                 </v-card>
                 <!-- modal end -->
@@ -363,7 +358,8 @@ export default {
 }
 
 .c-btn {
+  font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
-  background: var(--primary-color);
+  border-radius: 10px;
 }
 </style>

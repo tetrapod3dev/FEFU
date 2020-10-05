@@ -1,12 +1,21 @@
 <template>
   <v-col cols="12" sm="9" class="pt-0">
     <div class="market-section">
-      <h1 v-if="$route.params.mainCategory" class="market-title text-left ml-3">
-        {{ $route.params.mainCategory }} >
-        {{ $route.params.mediumCategory }}
+      <h1
+        v-if="
+          $route.params.mainCategoryNo &&
+          FILTER_MAINCATEGORY.no == $route.params.mainCategoryNo
+        "
+        class="market-title text-left ml-3"
+      >
+        {{ FILTER_MAINCATEGORY.name }} >
+        {{ FILTER_MEDIUMCATEGORY.name }}
       </h1>
       <h1
-        v-if="!$route.params.mainCategory"
+        v-if="
+          !$route.params.mainCategoryNo ||
+          FILTER_MAINCATEGORY.no != $route.params.mainCategoryNo
+        "
         class="market-title text-left ml-3"
       >
         검색결과 "{{ $route.params.content }}"
@@ -20,37 +29,14 @@
           justify="center"
           align="center"
         >
-          <v-card
-            class="custom-card"
-            :height="1.6 * cardWidth"
-            :width="cardWidth"
-            :to="{
-              name: 'MarketDetailView',
-              params: { productNo: product.no },
-            }"
-          >
-            <v-img
-              :height="1.1 * cardWidth"
-              :src="imageSrc(product.photo)"
-              lazy-src="@/assets/images/lazy-loading.jpg"
-            >
-              <template v-slot:placeholder>
-                <lazy-loading />
-              </template>
-            </v-img>
-
-            <v-card-text class="text-left text--primary">
-              <div>{{ product.title }}</div>
-              <div>{{ product.price }}</div>
-              <div>{{ product.eco_point }}</div>
-            </v-card-text>
-          </v-card>
+          <market-card :product="product"> </market-card>
         </v-col>
       </v-row>
       <core-banner
         v-else
         content="등록된 상품이 없네요. 당신이 먼저 물건을 등록해보세요!📃"
         btn-text="물건등록하러 가기"
+        align="center"
         :to="{ name: 'MarketMakeView' }"
       />
       <div class="py-12"></div>
@@ -69,8 +55,11 @@
 import axios from "axios";
 import SERVER from "@/api/api";
 
+import { mapGetters } from "vuex";
+
 import CorePagination from "@/components/core/Pagination";
 import CoreBanner from "@/components/core/Banner.vue";
+import MarketCard from "@/components/market/MarketCard.vue";
 
 export default {
   name: "MarketListView",
@@ -92,33 +81,18 @@ export default {
   components: {
     CorePagination,
     CoreBanner,
+    MarketCard,
   },
   created() {
     this.getProducts();
     this.pagination.curPage = parseInt(this.$route.params.pageNum);
   },
   computed: {
-    cardWidth() {
-      let resultWidth;
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          resultWidth = 220;
-          break;
-        case "sm":
-          resultWidth = 220;
-          break;
-        case "md":
-          resultWidth = 220;
-          break;
-        case "lg":
-          resultWidth = 280;
-          break;
-        case "xl":
-          resultWidth = 280;
-          break;
-      }
-      return resultWidth;
-    },
+    ...mapGetters("market", [
+      "FILTER",
+      "FILTER_MAINCATEGORY",
+      "FILTER_MEDIUMCATEGORY",
+    ]),
   },
   methods: {
     getProducts() {
@@ -138,9 +112,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    imageSrc(filename) {
-      return SERVER.IMAGE_URL + filename;
     },
     movePage(page) {
       if (page == "«") {
@@ -164,19 +135,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-card {
-  border: 2px solid black;
-  border-radius: 15px;
-  font-family: "NanumBarunpen";
-
-  &:hover {
-    transform: translate3d(0px, -5px, -5px);
-    box-shadow: 3px 3px black;
-    transition: 0.4s;
-    cursor: pointer;
-  }
-}
-
 .market-section {
   margin-bottom: 0px;
 }
