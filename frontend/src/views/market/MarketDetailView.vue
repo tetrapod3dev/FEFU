@@ -69,7 +69,7 @@
                 </v-col>
                 <v-col cols="3" align="center">
                   <v-btn
-                    v-if="product.writer == USERNAME"
+                    v-if="product.writer == USERNAME && product.status==0"
                     class="product-state"
                     outlined
                     tile
@@ -370,7 +370,6 @@ export default {
         }
       } else {
         alert("글 작성자만 상태 변경이 가능합니다.")
-        
       }
       
     },
