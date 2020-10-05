@@ -10,6 +10,7 @@ export default {
       checkEmail: "/users/check-email/", // GET / 이메일 중복 체크
       checkNickname: "/users/check-nickname/", // GET / 닉네임 중복 체크
       password: "/users/password",
+      ecopoint: "/users/eco-point", //PATCH eco-point 전송
     },
     products: {
       URL: "/products",
