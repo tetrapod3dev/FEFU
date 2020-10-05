@@ -56,6 +56,7 @@
                   >채팅</v-btn
                 >
                 <v-btn disabled v-if="chat.isAlreadyJoined">채팅 중</v-btn>
+								<v-btn @click="handleEcopointButton">에코포인트 전송</v-btn>
                 <v-col cols="3" align="end">
                   <v-btn
                     v-if="product.writer == USERNAME"
@@ -106,10 +107,19 @@
 
           <SoldModal
             :product="product"
-            v-if="visible"
+            v-if="sold_modal_visible"
             @close="handleStatusButton"
           >
           </SoldModal>
+
+					<EcoPointSendModal
+						v-if="ecopoint_modal_visible"
+						:writer="product.writer"
+						@close="handleEcopointButton"
+					>
+					</EcoPointSendModal>
+
+
 
           <v-col cols="12">
             <p class="product-description text-left pa-3">
@@ -176,12 +186,14 @@ import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
 import SoldModal from "../../components/market/SoldModal";
+import EcoPointSendModal from "../../components/market/EcoPointSendModal";
 
 export default {
   name: "MarketDetailView",
   mixins: [mixinGetUserInfo, mixinJoinChat],
   components: {
-    SoldModal: SoldModal,
+		SoldModal,
+		EcoPointSendModal
   },
 
   data() {
@@ -189,7 +201,8 @@ export default {
       cardSlide1: null,
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
-      visible: false,
+			sold_modal_visible: false,
+			ecopoint_modal_visible : false,
       product: {
         contact: "",
         content: "",
@@ -364,7 +377,7 @@ export default {
     handleStatusButton() {
       if (this.isLoggedIn) {
         if (this.product.writer == this.USERNAME) {
-          this.visible = !this.visible;
+          this.sold_modal_visible = !this.sold_modal_visible;
         } else {
           alert("글 작성자만 상태 변경이 가능합니다.")
         }
@@ -372,7 +385,14 @@ export default {
         alert("글 작성자만 상태 변경이 가능합니다.")
       }
       
-    },
+		},
+		handleEcopointButton() {
+			if (this.isLoggedIn) {
+				this.ecopoint_modal_visible = !this.ecopoint_modal_visible
+			} else {
+				alert("에코포인트를 전송하기 위해 로그인해주세요.")
+			}
+		},
   },
 };
 </script>
