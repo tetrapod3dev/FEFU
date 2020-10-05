@@ -138,7 +138,7 @@
                               required
                               filled
                               :disabled="$route.params.type == 1"
-                              v-model="campaign.endDate"
+                              v-model="add100Day"
                               :rules="[endDateRules]"
                               readonly
                               v-bind="attrs"
@@ -147,7 +147,7 @@
                             ></v-text-field>
                           </template>
                           <v-date-picker
-                            v-model="campaign.endDate"
+                            v-model="add100Day"
                             color="var(--primary-color)"
                             no-title
                             scrollable
@@ -431,8 +431,9 @@ export default {
       return campaignType;
     },
     add100Day() {
+      let nowStartDate = new Date(this.campaign.startDate);
       let resultDate = new Date();
-      resultDate.setDate(new Date().getDate() + 100);
+      resultDate.setDate(nowStartDate.getDate() + 100);
       return resultDate.toISOString().substr(0, 10);
     },
     startDateRules() {
@@ -496,6 +497,8 @@ export default {
         };
       }
 
+      body.campaign.endDate = this.add100Day
+
       this.campaign.writer = this.USERNAME;
       await axios
         .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
@@ -508,7 +511,7 @@ export default {
           router.push({ name: "CampaignMain" });
         })
         .catch(() => {
-          alert('로그인 정보가 만료되었습니다...');
+          alert("로그인 정보가 만료되었습니다 ㅠㅠ 다시 입력해주세요..");
           this.logout();
         });
     },
