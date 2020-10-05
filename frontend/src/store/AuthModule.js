@@ -13,6 +13,9 @@ export default {
     },
   },
   mutations: {
+    clearUser(state) {
+      state.user = null;
+    },
     setUser(state, payload) {
       state.user = payload;
       const userListRef = firebase.database().ref("presence");

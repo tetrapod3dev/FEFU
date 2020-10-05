@@ -65,9 +65,7 @@ export default {
     };
   },
   created() {
-    this.getUserInfo()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    this.getUserInfo().catch((err) => console.log(err));
     this.getCampaignAdmin();
   },
   computed: {
@@ -87,8 +85,6 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.campaigns.myCampaign, configs)
         .then((res) => {
           this.campaigninfo = res.data;
-          console.log(res.data);
-          console.log("_________");
         })
         .catch((err) => {
           console.log(err.response);

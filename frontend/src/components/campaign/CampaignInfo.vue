@@ -112,7 +112,7 @@
 export default {
   props: ["campaignInfo", "campaignTypeInfo"],
   mounted() {
-    console.log(this.campaignTypeInfo);
+    // console.log(this.campaignTypeInfo);
   },
   data: () => ({
     items: [

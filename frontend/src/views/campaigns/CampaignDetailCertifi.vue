@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       userList: [],
-      dataList: {'isEnd': false},
+      dataList: { isEnd: false },
       labelList: ["일", "월", "화", "수", "목", "금", "토"],
     };
   },

@@ -30,7 +30,7 @@
         <v-list-item
           v-for="(link, index) in links"
           :key="index"
-          :href="link.href"
+          :to="{ name: link.href }"
         >
           <v-list-item-content>
             <v-list-item-title class="text-left c-drawer"
@@ -38,21 +38,21 @@
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="!isLoggedIn" href="/user/login">
+        <v-list-item v-if="!isLoggedIn" :to="{ name: 'LoginView' }">
           <v-list-item-content>
             <v-list-item-title class="text-left c-drawer"
               >로그인 LOGIN</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="isLoggedIn" href="/mypage">
+        <v-list-item v-if="isLoggedIn" :to="{ name: 'MypageInfo' }">
           <v-list-item-content>
             <v-list-item-title class="text-left c-drawer"
               >마이페이지 MYPAGE</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="isLoggedIn" @click="logout">
+        <v-list-item v-if="isLoggedIn" @click="preLogout">
           <v-list-item-content>
             <v-list-item-title class="text-left c-drawer"
               >로그아웃 LOGOUT</v-list-item-title
@@ -76,7 +76,7 @@
         tag="button"
         v-for="(link, index) in links"
         :key="index"
-        :to="link.href"
+        :to="{ name: link.href }"
         class="hidden-sm-and-down custom-button mx-1"
         >{{ link.textKr }}</router-link
       >
@@ -97,7 +97,7 @@
       </router-link>
       <button
         v-if="isLoggedIn"
-        @click="logout"
+        @click="preLogout"
         class="hidden-sm-and-down custom-button mx-1"
       >
         로그아웃
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 // config
 export default {
   name: "CoreHeader",
@@ -122,17 +122,17 @@ export default {
         {
           textKr: "소개",
           textEn: "ABOUT",
-          href: "/about",
+          href: "About",
         },
         {
           textKr: "캠페인",
           textEn: "CAMPAIGN",
-          href: "/campaigns/main",
+          href: "CampaignMain",
         },
         {
           textKr: "중고마켓",
           textEn: "MARKET",
-          href: "/market/main",
+          href: "MarketMainView",
         },
       ],
     };
@@ -142,17 +142,17 @@ export default {
   },
   methods: {
     ...mapActions("accounts", ["logout"]),
+    ...mapMutations("auth", ["clearUser"]),
+    preLogout() {
+      this.logout();
+      this.clearUser();
+    },
     moveToPage(_url) {
-      this.$router
-        .push(_url)
-        .then(() => {
+      this.$router.push(_url).catch((error) => {
+        if (error.name === "NavigationDuplicated") {
           location.reload();
-        })
-        .catch((error) => {
-          if (error.name === "NavigationDuplicated") {
-            location.reload();
-          }
-        });
+        }
+      });
     },
   },
 };
