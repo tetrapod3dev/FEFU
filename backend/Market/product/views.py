@@ -132,11 +132,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         instance = get_object_or_404(ProductInfo, no=pk)
         writer = instance.writer.username
         pk = pk
-        if username == writer:
-            instance.delete()
-            return Response("resource deleted successfully", status=204)
+        if username == 'anonymousUser':
+            return Response("unauthorized user", status=401)
         else:
-            return Response("forbidden user", status=403)
+            if username == writer:
+                instance.delete()
+                return Response("resource deleted successfully", status=204)
+            else:
+                return Response("forbidden user", status=403)
     
 
     
