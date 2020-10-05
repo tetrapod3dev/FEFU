@@ -1,20 +1,26 @@
 <template>
   <div id="app">
     <v-app id="inspire" style="background: #fcfcfc">
+      <core-header />
       <v-main>
-        <core-header />
         <router-view />
-        <core-footer />
       </v-main>
+      <core-footer />
+      <chat-button />
     </v-app>
   </div>
 </template>
 
 <script>
+import ChatButton from "@/components/Chat/ChatButton.vue";
+import CoreFooter from "@/components/core/Footer";
+import CoreHeader from "@/components/core/Header";
+
 export default {
   components: {
-    CoreFooter: () => import("./components/core/Footer"),
-    CoreHeader: () => import("./components/core/Header"),
+    ChatButton,
+    CoreFooter,
+    CoreHeader,
   },
 };
 </script>

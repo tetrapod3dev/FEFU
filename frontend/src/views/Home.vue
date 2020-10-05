@@ -7,18 +7,14 @@
       backimage="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif"
     >
       <template slot="footer">
-        <v-row align="end">
-          <v-col align="center">
-            <v-img
-              style="cursor: pointer"
-              width="40"
-              height="40"
-              contain
-              @click="$vuetify.goTo('#section-theproblem')"
-              :src="require('@/assets/illust/arrow-down.svg')"
-            />
-          </v-col>
-        </v-row>
+        <v-img
+          style="cursor: pointer; position: relative"
+          width="40"
+          height="40"
+          contain
+          @click="$vuetify.goTo('#section-theproblem')"
+          :src="require('@/assets/illust/arrow-down.svg')"
+        />
       </template>
     </core-hero>
     <!-- hero end -->
@@ -35,7 +31,11 @@
     </div>
 
     <!-- section the problem start -->
-    <core-section subtitle="THE PROBLEM" min-height="100vh">
+    <core-section
+      id="section-theproblem"
+      subtitle="THE PROBLEM"
+      min-height="100vh"
+    >
       <template slot="title">
         지나친 개발로 인한
         <br />
@@ -184,25 +184,20 @@
         </v-col>
       </template>
     </core-section>
-    <v-row
-      align="center"
-      class="mx-auto"
-      justify="center"
-      style="position: relative"
-    >
-      <v-img src="@/assets/illust/wave-line.svg" />
-      <v-overlay :absolute="true" opacity="0">
-        <v-container fill-height>
-          <v-col>
-            <v-img
-              max-height="260"
-              contain
-              :src="require('@/assets/images/ecobag.png')"
-            />
-          </v-col>
-        </v-container>
-      </v-overlay>
-    </v-row>
+    <section>
+      <v-img
+        style="position: absolute"
+        width="100%"
+        :height="$vuetify.breakpoint.smAndDown ? '40vh' : '30vh'"
+        src="@/assets/illust/home-convert.svg"
+      />
+      <v-img
+        :height="$vuetify.breakpoint.smAndDown ? '40vh' : '30vh'"
+        contain
+        style="position: relative; z-index: 2"
+        :src="require('@/assets/images/ecobag.png')"
+      />
+    </section>
     <!-- section secondhand end -->
 
     <v-col class="py-12 c-primary" style="margin: -1px 0px -1px 0px"></v-col>

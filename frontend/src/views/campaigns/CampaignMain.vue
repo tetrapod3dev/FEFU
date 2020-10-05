@@ -153,7 +153,6 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.campaigns.dailyQuest, configs)
         .then((res) => {
           this.isValid = true;
-          console.log(res);
           this.dailyQuestInfo = res.data;
         })
         .catch((err) => {

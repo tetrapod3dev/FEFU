@@ -52,6 +52,10 @@
               </div>
               <v-row no-gutters>
                 <v-spacer></v-spacer>
+                <v-btn @click="enterChat(chat)" v-if="!chat.isAlreadyJoined"
+                  >채팅</v-btn
+                >
+                <v-btn disabled v-if="chat.isAlreadyJoined">채팅 중</v-btn>
                 <v-col cols="3" align="end">
                   <v-btn
                     v-if="product.writer == USERNAME"
@@ -78,22 +82,33 @@
                   </v-btn>
                 </v-col>
                 <v-col cols="2">
-                  
-                  <v-btn v-if="product.status==0" class="product-state" outlined tile 
-                  @click="handleStatusButton"
-                  >판매 중</v-btn>
+                  <v-btn
+                    v-if="product.status == 0"
+                    class="product-state"
+                    outlined
+                    tile
+                    @click="handleStatusButton"
+                    >판매 중</v-btn
+                  >
 
-                  <v-btn v-else class="product-state" outlined tile 
-                  @click="handleStatusButton"
-                  >판매 완료</v-btn>
-
+                  <v-btn
+                    v-else
+                    class="product-state"
+                    outlined
+                    tile
+                    @click="handleStatusButton"
+                    >판매 완료</v-btn
+                  >
                 </v-col>
               </v-row>
             </div>
           </v-col>
 
-          <SoldModal :product=product v-if="visible"
-          @close="handleStatusButton">
+          <SoldModal
+            :product="product"
+            v-if="visible"
+            @close="handleStatusButton"
+          >
           </SoldModal>
 
           <v-col cols="12">
@@ -127,7 +142,11 @@
             >
               <v-img
                 :height="1.1 * cardWidth"
-                :src="imageSrc(products[index - 1].photo)"
+                :src="
+                  products[index - 1].photo
+                    ? imageSrc(products[index - 1].photo)
+                    : '@/assets/images/lazy-loading.jpg'
+                "
                 lazy-src="@/assets/images/lazy-loading.jpg"
               >
                 <template v-slot:placeholder>
@@ -150,17 +169,19 @@
 
 <script>
 import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
+import { mixinJoinChat } from "@/components/mixin/mixinJoinChat";
+
 import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
-import SoldModal from "../../components/market/SoldModal"
+import SoldModal from "../../components/market/SoldModal";
 
 export default {
   name: "MarketDetailView",
-  mixins: [mixinGetUserInfo],
+  mixins: [mixinGetUserInfo, mixinJoinChat],
   components: {
-      SoldModal : SoldModal
+    SoldModal: SoldModal,
   },
 
   data() {
@@ -168,7 +189,7 @@ export default {
       cardSlide1: null,
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
-      visible:false,
+      visible: false,
       product: {
         contact: "",
         content: "",
@@ -215,15 +236,18 @@ export default {
       ],
     };
   },
-  async created() {
-    await this.getProduct();
+  created() {},
+  async mounted() {
+    await this.getProduct().then(() => {
+      this.getChat("p" + this.product.no);
+    });
     await this.createViewLog();
     await this.getInfo(this.product.writer)
       .then((res) => {
         this.writer = res.data;
       })
       .catch((err) => console.log(err));
-    
+
     this.getRelatedProduct();
   },
   computed: {
@@ -279,25 +303,29 @@ export default {
           console.log(err);
         });
     },
-    async createViewLog(){
+    async createViewLog() {
       await axios
         .post(
-          SERVER.URL
-            +SERVER.ROUTES.products.URL + '/' + this.$route.params.productNo + '/viewed/', null ,
+          SERVER.URL +
+            SERVER.ROUTES.products.URL +
+            "/" +
+            this.$route.params.productNo +
+            "/viewed/",
+          null,
           {
             headers: {
-                Authorization: this.config,
-              },
+              Authorization: this.config,
+            },
           }
         )
         .then((res) => {
           this.products = res.data;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    
+
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
@@ -334,7 +362,7 @@ export default {
         });
     },
     handleStatusButton() {
-      this.visible = !this.visible
+      this.visible = !this.visible;
     },
   },
 };
