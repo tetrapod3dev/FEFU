@@ -41,8 +41,9 @@
         </v-list-item>
       </v-list-group>
     </v-list>
-
+    
     <router-link
+      v-if="isLoggedIn"
       tag="button"
       class="custom-make-btn"
       :to="{ name: 'MarketMakeView' }"
@@ -60,6 +61,7 @@ export default {
   name: "MarketCategory",
   computed: {
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
+    ...mapGetters("accounts", ['isLoggedIn'])
   },
   data() {
     return {
