@@ -163,9 +163,23 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <!-- <v-btn class="c-btn" @click="preUploadImage"
-              >이미지 업로드 테스트 버튼</v-btn
-            > -->
+            <v-text-field
+              label="chatName"
+              v-model="chatName"
+              type="text"
+              filled
+              color="#37cdc2"
+            ></v-text-field>
+            <v-text-field
+              label="id"
+              v-model="id"
+              type="text"
+              filled
+              color="#37cdc2"
+            ></v-text-field>
+            <v-btn class="c-btn" @click="testCreateChat"
+              >채팅 생성 테스트 버튼</v-btn
+            >
             <v-btn class="c-btn" :to="{ name: 'MarketMainView' }">취소</v-btn>
             <v-btn class="c-btn" @click="registProduct">등록 </v-btn>
           </v-card-actions>
@@ -183,10 +197,11 @@ import SERVER from "@/api/api";
 import { mapGetters } from "vuex";
 import router from "@/router";
 import { mixinUploadImage } from "@/components/mixin/mixinUploadImage";
+import { mixinCreateChat } from "@/components/mixin/mixinCreateChat";
 
 export default {
   name: "MarketMakeView",
-  mixins: [mixinUploadImage],
+  mixins: [mixinUploadImage, mixinCreateChat],
   data() {
     return {
       product: {
@@ -201,6 +216,7 @@ export default {
         medium_category_no: null,
         sub_category_no: null,
       },
+      id: "",
       maincategories: [],
       mediumcategories: {},
       subcategories: [],
@@ -217,6 +233,7 @@ export default {
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
+    testCreateChat() {},
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -236,8 +253,10 @@ export default {
               Authorization: this.config,
             },
           })
-          .then(() => {
+          .then((res) => {
             alert("상품 등록 완료 되었습니다.");
+            this.chatName = this.product.title;
+            this.createChat("p" + res.data);
             router.push({ name: "MarketMainView" });
           })
           .catch((err) => {

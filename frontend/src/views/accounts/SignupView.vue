@@ -289,6 +289,7 @@ export default {
   },
   methods: {
     ...mapActions("accounts", ["signup"]),
+    ...mapActions("auth", ["signUserUp"]),
     agreeTerms() {
       this.dialog = false;
       this.checkbox = true;
@@ -298,6 +299,11 @@ export default {
         data.gender = this.parseGender;
         data.age = this.parseAge;
         this.signup(data).then(() => router.push({ name: "LoginView" }));
+        this.signUserUp({
+          email: this.signupData.username,
+          password: this.signupData.password,
+          username: this.signupData.nickname,
+        });
       }
     },
     checkEmail() {

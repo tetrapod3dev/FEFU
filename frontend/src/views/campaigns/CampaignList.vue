@@ -124,10 +124,6 @@ export default {
     campaignType: Object,
     campaigninfo: Array,
   },
-  mounted() {
-    console.log(this.campaigninfo);
-    console.log(this.campaignType);
-  },
   components: {
     CampaignCard,
   },

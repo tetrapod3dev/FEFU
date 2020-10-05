@@ -99,6 +99,7 @@ export default {
 
   methods: {
     ...mapActions("accounts", ["login"]),
+    ...mapActions("auth", ["signUserIn"]),
     moveToSignup() {
       this.$router.push({ name: "Signup" });
     },
@@ -107,6 +108,10 @@ export default {
         this.login(this.loginData)
           .then(() => router.push({ name: "Home" }))
           .catch(() => (this.isWrong = true));
+        this.signUserIn({
+          email: this.loginData.username,
+          password: this.loginData.password,
+        });
       }
     },
   },
