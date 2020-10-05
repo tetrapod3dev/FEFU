@@ -115,16 +115,19 @@ class ProductViewSet(viewsets.ModelViewSet):
         username = request.META["HTTP_X_USERNAME"]
         writer = request.data["writer"]
         product_no = request.data["product_no"]
-        if username == writer:
-            kwargs['partial'] = True
-            partial = kwargs.pop('partial', False)
-            instance = get_object_or_404(ProductInfo, pk=product_no)
-            serializer = self.serializer_class(instance, data=request.data, partial=partial)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            return Response("resource updated successfully", status=200)
+        if username == 'anonymousUser':
+            return Response('unauthorized user', status=401)
         else:
-            return Response("forbidden user", status=403)
+            if username == writer:
+                kwargs['partial'] = True
+                partial = kwargs.pop('partial', False)
+                instance = get_object_or_404(ProductInfo, pk=product_no)
+                serializer = self.serializer_class(instance, data=request.data, partial=partial)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response("resource updated successfully", status=200)
+            else:
+                return Response("forbidden user", status=403)
 
     #상품 삭제
     def destroy(self, request, pk):
