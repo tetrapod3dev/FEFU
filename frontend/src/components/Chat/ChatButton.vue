@@ -1,7 +1,7 @@
 <template>
   <div class="text-xs-center">
     <v-menu
-      min-width="300"
+      min-width="100"
       top
       v-model="menu"
       :close-on-click="false"
@@ -31,7 +31,10 @@
           </v-btn>
         </v-fab-transition>
       </template>
-      <v-card height="800px" width="600px">
+      <v-card
+        :height="$vuetify.breakpoint.smAndDown ? '600px' : '700px'"
+        :width="$vuetify.breakpoint.smAndDown ? '400px' : '500px'"
+      >
         <v-toolbar dark color="var(--primary-color)">
           <v-toolbar-title>FEFU Chat</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -48,7 +51,7 @@
 
         <v-container fluid style="padding: 0">
           <v-row no-gutters>
-            <v-col sm="2" class="scrollable">
+            <v-col cols="2" class="scrollable">
               <!-- <chats></chats> -->
               <v-list subheader>
                 <v-list-item
@@ -64,6 +67,7 @@
                 </v-list-item>
               </v-list>
             </v-col>
+
             <chat :id="id"></chat>
           </v-row>
         </v-container>

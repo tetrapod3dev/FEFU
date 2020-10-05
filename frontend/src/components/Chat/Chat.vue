@@ -1,6 +1,13 @@
 <template>
-  <v-col sm="10" style="position: relative">
-    <div class="chat-container" v-on:scroll="onScroll" ref="chatContainer">
+  <v-col cols="10" style="position: relative">
+    <div
+      :style="
+        $vuetify.breakpoint.smAndDown ? 'height: 460px;' : 'height: 550px;'
+      "
+      class="chat-container"
+      v-on:scroll="onScroll"
+      ref="chatContainer"
+    >
       <message :messages="messages" @imageLoad="scrollToEnd"></message>
     </div>
     <emoji-picker
@@ -242,7 +249,6 @@ export default {
 }
 .chat-container {
   box-sizing: border-box;
-  height: 600px;
   overflow-y: auto;
   padding: 10px;
   background-color: #f2f2f2;
