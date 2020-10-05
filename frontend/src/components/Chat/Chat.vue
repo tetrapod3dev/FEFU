@@ -30,9 +30,9 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import Message from "./parts/Message.vue";
-import EmojiPicker from "./parts/EmojiPicker.vue";
-// import Chats from "./parts/Chats.vue";
+import Message from "./part/Message.vue";
+import EmojiPicker from "./part/EmojiPicker.vue";
+// import Chats from "./part/Chats.vue";
 
 import * as firebase from "firebase/app";
 import "firebase/auth";
