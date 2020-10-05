@@ -83,14 +83,14 @@
       <router-link
         v-if="!isLoggedIn"
         tag="button"
-        to="/user/login"
+        :to="{ name: 'LoginView' }"
         class="hidden-sm-and-down custom-button mx-1"
         >로그인</router-link
       >
       <router-link
         v-if="isLoggedIn"
         tag="button"
-        to="/mypage/info"
+        :to="{ name: 'MypageInfo' }"
         class="hidden-sm-and-down custom-button mx-1"
       >
         마이페이지

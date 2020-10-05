@@ -86,41 +86,13 @@
     </v-container>
 
     <v-container>
-      <v-row justify="center" align="stretch">
-        <v-col
-          cols="8"
-          md="10"
-          class="c-txt text-left px-15 py-6 c-banner ma-0"
-          :class="'c-banner-' + $vuetify.breakpoint.name"
-        >
-          For Earth For Us의 일원이 되고 싶지 않나요? 환경 보호를 위해 한번
+      <core-banner
+        content="For Earth For Us의 일원이 되고 싶지 않나요? 환경 보호를 위해 한번
           시작해 보지 않을래요? 그럼 바로 여기예요! 당장의 한번의 활동도
-          환경보호에 큰 도움이 된답니다. 얼른 가입해 보세요!🚀
-        </v-col>
-        <v-col
-          cols="4"
-          md="10"
-          class="c-banner ma-0 py-6"
-          :class="'c-banner-' + $vuetify.breakpoint.name"
-        >
-          <router-link
-            tag="a"
-            :to="{ name: 'SignupView' }"
-            class="c-btn--text"
-            :class="'c-btn--text-' + $vuetify.breakpoint.name"
-          >
-            회원가입하러 가기
-            <v-img
-              style="cursor: pointer; margin-top: 3px"
-              :width="$vuetify.breakpoint.smAndDown ? 15 : 17"
-              :height="$vuetify.breakpoint.smAndDown ? 15 : 17"
-              class="c-btn--text-icon"
-              contain
-              :src="require('@/assets/illust/arrow-right.svg')"
-            />
-          </router-link>
-        </v-col>
-      </v-row>
+          환경보호에 큰 도움이 된답니다. 얼른 가입해 보세요!🚀"
+        btn-text="회원가입하러 가기"
+        :to="{ name: 'SignupView' }"
+      />
     </v-container>
   </div>
 </template>
@@ -178,57 +150,5 @@ export default {
   &-xl {
     font-size: 20px;
   }
-}
-
-.c-banner {
-  border-radius: 5px;
-  background-color: var(--primary-color);
-
-  &-xs:first-child,
-  &-sm:first-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  &-xs:last-child,
-  &-sm:last-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  &-md:first-child,
-  &-lg:first-child,
-  &-xl:first-child {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  &-md:last-child,
-  &-lg:last-child,
-  &-xl:last-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-}
-
-.c-btn--text {
-  display: inline-block;
-  text-decoration: none;
-  border-bottom: 2px solid #000000;
-  padding: 2px 0;
-  font-family: "Nunito", "NanumSquareRound", sans-serif;
-  font-size: 16px;
-  color: #000000;
-  transition: 0.3s;
-
-  &-md,
-  &-lg,
-  &-xl {
-    font-size: 18px;
-    line-height: 1.5;
-  }
-}
-
-.c-btn--text-icon {
-  display: inline-block;
 }
 </style>

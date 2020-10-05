@@ -35,11 +35,6 @@ import MarketMakeView from "../views/market/MarketMakeView.vue";
 import MarketDetailView from "../views/market/MarketDetailView.vue";
 import MarketUpdateView from "../views/market/MarketUpdateView.vue";
 
-// chat
-import Chat from "@/components/Chat/Chat";
-import ChatCreate from "@/components/Chat/Create";
-import ChatList from "@/components/Chat/ChatList";
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -193,27 +188,6 @@ const routes = [
     ],
   },
   // Market End
-
-  // Chat Start
-
-  {
-    path: "/chat/chats/:id",
-    name: "Chat",
-    component: Chat,
-    props: true,
-  },
-  {
-    path: "/chat/create",
-    name: "CreateChat",
-    component: ChatCreate,
-  },
-  {
-    path: "/chat/discover",
-    name: "JoinChat",
-    component: ChatList,
-  },
-  // Chat End
-
   {
     path: "/about",
     name: "About",

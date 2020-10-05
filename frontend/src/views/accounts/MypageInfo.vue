@@ -17,6 +17,7 @@
                   label="이메일"
                   filled
                   disabled
+                  color="#37cdc2"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="py-0">
@@ -25,6 +26,7 @@
                   label="닉네임"
                   filled
                   disabled
+                  color="#37cdc2"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -35,6 +37,7 @@
                   label="나이"
                   filled
                   disabled
+                  color="#37cdc2"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="py-0">
@@ -43,6 +46,7 @@
                   label="성별"
                   filled
                   disabled
+                  color="#37cdc2"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -53,6 +57,7 @@
                   name="유저"
                   label="간단한 자기소개"
                   disabled
+                  color="#37cdc2"
                   :value="userinfo.introduce"
                 ></v-textarea>
               </v-col>
