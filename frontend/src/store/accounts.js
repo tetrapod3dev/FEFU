@@ -38,7 +38,6 @@ export default {
             }
         })
         .then((res) => {
-          console.log(res)
           if (info.name != "signup") {
             commit("SET_TOKEN", res.headers.authorization.substr(7));
           }
