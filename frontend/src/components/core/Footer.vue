@@ -17,7 +17,7 @@
         </v-col>
         <v-col
           cols="10"
-          sm="3"
+          sm="6"
           md="3"
           class="c-footer-text text-left align-self-start"
           align="start"
@@ -27,22 +27,81 @@
         </v-col>
         <v-col
           cols="10"
-          sm="3"
+          sm="6"
           md="3"
           class="c-footer-text text-left align-self-start"
         >
-          <p>권경은[팀장 / 백엔드]</p>
-          <p>김현수[백엔드]</p>
-          <p>박태록[프론트]</p>
-          <p>박지윤[프론트]</p>
-          <p>이동혁[데이터분석]</p>
+          <p v-for="(team, index) in teams" :key="index">
+            {{ team.name }}[{{ team.part }}]
+            <a
+              :href="'//' + team.gitlab"
+              target="_blank"
+              style="text-decoration: none; color: black"
+            >
+              <v-icon
+                style="
+                  border: 1px solid #000000;
+                  border-radius: 50%;
+                  color: #f46a25;
+                "
+                >mdi-gitlab</v-icon
+              >
+            </a>
+          </p>
         </v-col>
         <v-col
           cols="10"
-          sm="3"
+          sm="6"
           md="3"
           class="c-footer-text text-left align-self-start"
-          ><p>Copyright@{{ new Date().getFullYear() }} - FEFU</p>
+        >
+          <v-dialog v-model="dialog" width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <p>
+                <a v-bind="attrs" v-on="on" @click="tab = 'terms'">회원약관</a>
+                |
+                <a v-bind="attrs" v-on="on" @click="tab = 'privacy-policy'">
+                  개인정보처리방침
+                </a>
+              </p>
+            </template>
+
+            <!-- modal start -->
+            <v-card style="border: 3px solid #000000">
+              <v-tabs v-model="tab" color="var(--primary-color)">
+                <v-tab href="#terms">
+                  <v-card-title>
+                    <span class="login-title">FEFU 이용 약관</span>
+                  </v-card-title>
+                </v-tab>
+                <v-tab href="#privacy-policy">
+                  <v-card-title>
+                    <span class="login-title">개인정보 처리방침</span>
+                  </v-card-title>
+                </v-tab>
+              </v-tabs>
+
+              <v-tabs-items v-model="tab">
+                <v-tab-item id="terms">
+                  <v-card-text>
+                    <terms />
+                  </v-card-text>
+                </v-tab-item>
+                <v-tab-item id="privacy-policy">
+                  <v-card-text>
+                    <privacy-policy />
+                  </v-card-text>
+                </v-tab-item>
+              </v-tabs-items>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn class="c-btn" text @click="dialog = false">닫기</v-btn>
+              </v-card-actions>
+            </v-card>
+            <!-- modal end -->
+          </v-dialog>
+          <p>Copyright@{{ new Date().getFullYear() }} - FEFU</p>
           <p>
             With
             <a
@@ -58,9 +117,48 @@
 </template>
 
 <script>
+import Terms from "@/components/Terms";
+import PrivacyPolicy from "@/components/PrivacyPolicy";
+
 export default {
   name: "CoreFooter",
-
+  data() {
+    return {
+      tab: null,
+      dialog: false,
+      teams: [
+        {
+          name: "권경은",
+          part: "팀장/백엔드",
+          gitlab: "https://lab.ssafy.com/chriskwon96",
+        },
+        {
+          name: "김현수",
+          part: "백엔드",
+          gitlab: "https://lab.ssafy.com/gustn16113",
+        },
+        {
+          name: "박지윤",
+          part: "프론트",
+          gitlab: "https://lab.ssafy.com/bellnuite",
+        },
+        {
+          name: "박태록",
+          part: "프론트",
+          gitlab: "https://lab.ssafy.com/sdf7575",
+        },
+        {
+          name: "이동혁",
+          part: "데이터분석",
+          gitlab: "https://lab.ssafy.com/lee33843",
+        },
+      ],
+    };
+  },
+  components: {
+    Terms,
+    PrivacyPolicy,
+  },
   moveToPage(_url) {
     this.$router
       .push(_url)

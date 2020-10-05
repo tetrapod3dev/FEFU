@@ -8,8 +8,9 @@
           <v-col
             v-for="(product, index) in myProducts"
             :key="index"
-            cols="6"
-            sm="4"
+            cols="12"
+            sm="6"
+            md="4"
             justify="center"
             align="center"
           >
@@ -33,9 +34,15 @@
               </v-img>
 
               <v-card-text class="text-left text--primary">
-                <div>{{ product.title }}</div>
-                <div>{{ product.price }}</div>
-                <div>{{ product.eco_point }}</div>
+                <div class="c-product__title my-1">
+                  {{ product.title }}
+                </div>
+                <div class="c-product__price ml-1 mt-2">
+                  {{ commaNumber(product.price) }}원
+                </div>
+                <div class="c-product__eco ml-1 mt-1">
+                  {{ commaNumber(product.eco_point) }}p
+                </div>
               </v-card-text>
             </v-card>
           </v-col>
@@ -44,6 +51,8 @@
           v-else
           content="등록된 상품이 없네요. 당신이 먼저 물건을 등록해보세요!📃"
           btn-text="물건등록하러 가기"
+          color="#fcfcfc"
+          align="center"
           :to="{ name: 'MarketMakeView' }"
         />
       </div>
@@ -122,6 +131,12 @@ export default {
   },
 
   methods: {
+    commaNumber(number) {
+      if (number) {
+        return number.toLocaleString();
+      }
+      return 0;
+    },
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
@@ -253,5 +268,25 @@ export default {
   &-purple:hover {
     background: #786fa6;
   }
+}
+.c-txt--overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.c-product__title {
+  @extend .c-txt--overflow;
+  font-size: 24px;
+  color: #000000;
+}
+.c-product__price {
+  @extend .c-txt--overflow;
+  font-size: 18px;
+  color: #000000;
+}
+.c-product__eco {
+  @extend .c-txt--overflow;
+  font-size: 16px;
+  color: var(--primary-color);
 }
 </style>

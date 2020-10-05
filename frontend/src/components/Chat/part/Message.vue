@@ -54,7 +54,7 @@ export default {
 
 <style>
 span.emoji {
-  font-size: 20px;
+  font-size: 16px;
   vertical-align: middle;
   line-height: 2;
 }

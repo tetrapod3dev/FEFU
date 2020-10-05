@@ -14,32 +14,6 @@
           lg="3"
           no-gutter
         >
-          <!-- <v-hover v-slot:default="{ hover }" open-delay="200">
-          <v-card
-            :color="completed[idx - 1] ? 'primary' : ''"
-            :img="completed[idx - 1] ? null : images[idx - 1]"
-            contain
-            class="dailyquest-item d-flex align-center justify-center"
-            :height="cardHeight"
-          > -->
-          <!-- <v-scroll-y-transition> -->
-          <!-- <div
-              v-if="completed[idx - 1]"
-              class="display-1 flex-grow-1 text-center"
-            >
-              완료
-            </div>
-            <div v-else>
-              <div v-if="hover">
-                <div>{{ dailyQuestInfo[idx - 1].title }}</div>
-                <div>{{ dailyQuestInfo[idx - 1].content }}</div>
-                <v-btn @click="actNow(idx)" color="primary">act now</v-btn>
-              </div>
-            </div> -->
-          <!-- </v-scroll-y-transition> -->
-          <!-- </v-card>
-        </v-hover> -->
-
           <v-dialog
             v-model="dialogs[dailyQuestInfo[idx - 1].no]"
             persistent
@@ -55,16 +29,21 @@
                 v-on="on"
               ></v-card>
             </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{
-                  dailyQuestInfo[idx - 1].title
-                }}</span>
+            <v-card style="border: 3px solid #000000">
+              <v-card-title
+                style="
+                  background-color: var(--primary-color);
+                  border-bottom: 2px solid #000000;
+                "
+                class="headline"
+              >
+                {{ dailyQuestInfo[idx - 1].title }}
               </v-card-title>
+              <v-divider></v-divider>
               <v-card-text class="py-0">
                 <v-container class="pb-0">
                   <v-row>
-                    <v-col cols="12" class="py-12">
+                    <v-col cols="12" class="py-12 text-left c-txt">
                       {{ dailyQuestInfo[idx - 1].description }}
                     </v-col>
                   </v-row>
@@ -73,7 +52,7 @@
               <v-card-actions class="px-5">
                 <v-spacer></v-spacer>
                 <v-btn
-                  class="custom-btn"
+                  class="c-btn"
                   text
                   @click="$set(dialogs, dailyQuestInfo[idx - 1].no, false)"
                 >
@@ -81,7 +60,7 @@
                 </v-btn>
                 <v-btn
                   v-if="!completed[idx - 1]"
-                  class="custom-btn"
+                  class="c-btn"
                   text
                   @click="actNow(idx)"
                 >
@@ -253,7 +232,20 @@ export default {
   }
 }
 
+.c-btn {
+  font-family: "S-CoreDream-7ExtraBold";
+  border: 2px solid black;
+  border-radius: 10px;
+}
 .c-btn--text-icon {
   display: inline-block;
+}
+.c-txt {
+  font-size: 16px;
+  word-break: keep-all;
+  font-weight: bold;
+  line-height: 2;
+  color: black;
+  font-family: "Nunito", "NanumSquareRound", sans-serif;
 }
 </style>

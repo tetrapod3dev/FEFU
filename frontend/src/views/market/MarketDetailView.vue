@@ -26,9 +26,12 @@
                 {{ product.main_category_name }} >
                 {{ product.medium_category_name }}
               </p>
-              <p class="product-price">{{ product.price }}원</p>
+              <p class="product-price">
+                {{ product.price.toLocaleString() }}원
+              </p>
               <p class="product-ecopoint">
-                사용가능한 에코포인트는 {{ product.eco_point }}p 입니다.
+                사용가능한 에코포인트는
+                {{ product.eco_point.toLocaleString() }}p 입니다.
               </p>
               <div class="seller-info">
                 <p class="mb-2">판매자</p>
@@ -85,28 +88,18 @@
               </div>
               <v-row no-gutters>
                 <v-col cols="2">
-                  <v-btn
-                    v-if="product.status == 0"
-                    class="product-state"
-                    outlined
-                    tile
-                    @click="handleStatusButton"
-                    >판매 중</v-btn
-                  >
-
-                  <v-btn
+                  <sold-modal v-if="isWriter" :product="product"> </sold-modal>
+                  <eco-point-send-modal
                     v-else
-                    class="product-state"
-                    outlined
-                    tile
-                    @click="handleStatusButton"
-                    >판매 완료</v-btn
+                    :product="product"
+                    :writer="product.writer"
                   >
+                  </eco-point-send-modal>
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="3" align="end">
                   <v-btn
-                    v-if="product.writer == USERNAME"
+                    v-if="isWriter"
                     class="product-state"
                     outlined
                     tile
@@ -117,7 +110,7 @@
                 </v-col>
                 <v-col cols="3" align="center">
                   <v-btn
-                    v-if="product.writer == USERNAME"
+                    v-if="isWriter"
                     class="product-state"
                     outlined
                     tile
@@ -132,13 +125,6 @@
               </v-row>
             </div>
           </v-col>
-
-          <SoldModal
-            :product="product"
-            v-if="visible"
-            @close="handleStatusButton"
-          >
-          </SoldModal>
 
           <v-col cols="12">
             <p class="product-description text-left pa-3">
@@ -156,38 +142,7 @@
             sm="4"
             align="center"
           >
-            <v-card
-              class="custom-card ma-4"
-              :height="1.6 * cardWidth"
-              :width="cardWidth"
-              cols="12"
-              md="4"
-              @click="
-                moveToPage({
-                  name: 'MarketDetailView',
-                  params: { productNo: products[index - 1].no },
-                })
-              "
-            >
-              <v-img
-                :height="1.1 * cardWidth"
-                :src="
-                  products[index - 1].photo
-                    ? imageSrc(products[index - 1].photo)
-                    : '@/assets/images/lazy-loading.jpg'
-                "
-                lazy-src="@/assets/images/lazy-loading.jpg"
-              >
-                <template v-slot:placeholder>
-                  <lazy-loading />
-                </template>
-              </v-img>
-              <v-card-text class="text-left text--primary">
-                <div>{{ products[index - 1].title }}</div>
-                <div>{{ products[index - 1].price }}</div>
-                <div>{{ products[index - 1].eco_point }}</div>
-              </v-card-text>
-            </v-card>
+            <market-card :product="products[index - 1]"> </market-card>
           </v-col>
         </v-row>
       </v-container>
@@ -197,20 +152,26 @@
 </template>
 
 <script>
-import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
-import { mixinJoinChat } from "@/components/mixin/mixinJoinChat";
-
-import { mapGetters } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
+
+import { mapGetters } from "vuex";
+
+import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
+import { mixinJoinChat } from "@/components/mixin/mixinJoinChat";
+
 import SoldModal from "../../components/market/SoldModal";
+import EcoPointSendModal from "../../components/market/EcoPointSendModal";
+import MarketCard from "@/components/market/MarketCard.vue";
 
 export default {
   name: "MarketDetailView",
   mixins: [mixinGetUserInfo, mixinJoinChat],
   components: {
-    SoldModal: SoldModal,
+    SoldModal,
+    EcoPointSendModal,
+    MarketCard,
   },
 
   data() {
@@ -280,30 +241,18 @@ export default {
     this.getRelatedProduct();
   },
   computed: {
-    cardWidth() {
-      let resultWidth;
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          resultWidth = 220;
-          break;
-        case "sm":
-          resultWidth = 220;
-          break;
-        case "md":
-          resultWidth = 220;
-          break;
-        case "lg":
-          resultWidth = 280;
-          break;
-        case "xl":
-          resultWidth = 280;
-          break;
-      }
-      return resultWidth;
+    isWriter() {
+      return this.product.writer == this.USERNAME;
     },
     ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
+    commaNumber(number) {
+      if (number) {
+        return number.toLocaleString();
+      }
+      return 0;
+    },
     moveToPage(_url) {
       this.$router
         .push(_url)
@@ -398,19 +347,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-card {
-  border: 2px solid black;
-  border-radius: 15px;
-  font-family: "NanumBarunpen";
-
-  &:hover {
-    transform: translate3d(0px, -5px, -5px);
-    box-shadow: 3px 3px black;
-    transition: 0.4s;
-    cursor: pointer;
-  }
-}
-
 .custom-carousel {
   border: 3px solid black;
   background: black;

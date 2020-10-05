@@ -26,7 +26,9 @@
           v-else
           content="참여한 캠페인이 없네요. 캠페인참여해봐요!🌎"
           btn-text="참여하러 가기"
-          :to="{ name: 'CampaignMainView' }"
+          color="#fcfcfc"
+          align="center"
+          :to="{ name: 'CampaignMain' }"
         />
       </div>
     </v-container>

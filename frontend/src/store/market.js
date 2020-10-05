@@ -214,8 +214,8 @@ export default {
       ],
     },
     filter: {
-      maincategory: null,
-      mediumcategory: null,
+      maincategory: { no: null, name: null },
+      mediumcategory: { no: null, name: null },
       pageNum: 1,
       content: null,
     },

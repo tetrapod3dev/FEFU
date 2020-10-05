@@ -93,12 +93,11 @@
           사이트 가기
         </a>
 
-        <router-link
-          to="/user/login"
-        >
+        <router-link to="/user/login">
           <button
             v-if="!isLoggedIn"
             class="custom-make-btn"
+            style="color: #000000"
           >
             로그인하러 가기
           </button>
@@ -311,7 +310,7 @@ export default {
         })
         .catch((err) => {
           if (err.response.status == 401) {
-            alert('로그인 정보가 만료되었습니다.')
+            alert("로그인 정보가 만료되었습니다.");
             this.logout();
           }
         });
@@ -323,10 +322,16 @@ export default {
         },
       };
       axios
-        .delete(SERVER.URL + SERVER.ROUTES.campaigns.leave + '/' + this.$route.params.campaignNo, configs)
+        .delete(
+          SERVER.URL +
+            SERVER.ROUTES.campaigns.leave +
+            "/" +
+            this.$route.params.campaignNo,
+          configs
+        )
         .then((res) => {
           if (res.status == 200) {
-            let response = confirm('정말로 탈퇴하시겠습니까?');
+            let response = confirm("정말로 탈퇴하시겠습니까?");
             if (response) {
               alert("캠페인에서 탈퇴하셨습니다.");
               this.isJoined = !this.isJoined;
@@ -335,11 +340,11 @@ export default {
         })
         .catch((err) => {
           if (err.response.status == 401) {
-            alert('로그인 정보가 만료되었습니다.')
+            alert("로그인 정보가 만료되었습니다.");
             this.logout();
           }
         });
-    }
+    },
   },
 };
 </script>

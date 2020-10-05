@@ -22,7 +22,7 @@ export const mixinJoinChat = {
   },
   methods: {
     enterChat(chat) {
-      if (chat.isAlreadyJoined || chat.userCount == null) {
+      if (chat.isAlreadyJoined) {
         return;
       }
 
@@ -41,9 +41,7 @@ export const mixinJoinChat = {
         .database()
         .ref()
         .update(updates)
-        .then(() => {
-          this.$router.push({ name: "Chat", params: { id: chatId } });
-        });
+        .then(() => {});
     },
     getChat(id) {
       let that = this;

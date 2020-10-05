@@ -46,8 +46,14 @@
           >
         </div>
       </template>
-      <v-card>
-        <v-card-title class="justify-center headline">
+      <v-card style="border: 3px solid #000000">
+        <v-card-title
+          style="
+            background-color: var(--primary-color);
+            border-bottom: 2px solid #000000;
+          "
+          class="justify-center headline"
+        >
           프로필 사진 수정
         </v-card-title>
         <v-card-text class="py-0">
@@ -194,5 +200,6 @@ export default {
 .c-btn {
   font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
+  border-radius: 10px;
 }
 </style>

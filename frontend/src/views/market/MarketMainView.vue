@@ -13,31 +13,7 @@
         md="4"
         align="center"
       >
-        <v-card
-          class="custom-card"
-          :height="1.6 * cardWidth"
-          :width="cardWidth"
-          :to="{
-            name: 'MarketDetailView',
-            params: { productNo: product.no },
-          }"
-        >
-          <v-img
-            :height="1.1 * cardWidth"
-            :src="imageSrc(product.photo)"
-            lazy-src="@/assets/images/lazy-loading.jpg"
-          >
-            <template v-slot:placeholder>
-              <lazy-loading />
-            </template>
-          </v-img>
-
-          <v-card-text class="text-left text--primary">
-            <div>{{ product.title }}</div>
-            <div>{{ product.price }}</div>
-            <div>{{ product.eco_point }}</div>
-          </v-card-text>
-        </v-card>
+        <market-card :product="product"> </market-card>
       </v-col>
     </v-row>
     <v-row>
@@ -54,31 +30,7 @@
         md="4"
         align="center"
       >
-        <v-card
-          class="custom-card ma-4"
-          :height="1.6 * cardWidth"
-          :width="cardWidth"
-          :to="{
-            name: 'MarketDetailView',
-            params: { productNo: product.no },
-          }"
-        >
-          <v-img
-            :height="1.1 * cardWidth"
-            :src="imageSrc(product.photo)"
-            lazy-src="@/assets/images/lazy-loading.jpg"
-          >
-            <template v-slot:placeholder>
-              <lazy-loading />
-            </template>
-          </v-img>
-
-          <v-card-text class="text-left text--primary">
-            <div>{{ product.title }}</div>
-            <div>{{ product.price }}</div>
-            <div>{{ product.eco_point }}</div>
-          </v-card-text>
-        </v-card>
+        <market-card :product="product"> </market-card>
       </v-col>
     </v-row>
     <v-row>
@@ -94,31 +46,7 @@
         md="4"
         align="center"
       >
-        <v-card
-          class="custom-card ma-4"
-          :height="1.6 * cardWidth"
-          :width="cardWidth"
-          :to="{
-            name: 'MarketDetailView',
-            params: { productNo: product.no },
-          }"
-        >
-          <v-img
-            :height="1.1 * cardWidth"
-            :src="imageSrc(product.photo)"
-            lazy-src="@/assets/images/lazy-loading.jpg"
-          >
-            <template v-slot:placeholder>
-              <lazy-loading />
-            </template>
-          </v-img>
-
-          <v-card-text class="text-left text--primary">
-            <div>{{ product.title }}</div>
-            <div>{{ product.price }}</div>
-            <div>{{ product.eco_point }}</div>
-          </v-card-text>
-        </v-card>
+        <market-card :product="product"> </market-card>
       </v-col>
     </v-row>
   </v-col>
@@ -128,36 +56,17 @@
 import axios from "axios";
 import SERVER from "@/api/api";
 
+import MarketCard from "@/components/market/MarketCard.vue";
 
 export default {
   name: "MarketMainView",
   created() {
     this.getRecommendProducts(),
-    this.getNewProducts(),
-    this.getPopularProducts()
+      this.getNewProducts(),
+      this.getPopularProducts();
   },
-  computed: {
-    cardWidth() {
-      let resultWidth;
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          resultWidth = 220;
-          break;
-        case "sm":
-          resultWidth = 220;
-          break;
-        case "md":
-          resultWidth = 220;
-          break;
-        case "lg":
-          resultWidth = 280;
-          break;
-        case "xl":
-          resultWidth = 280;
-          break;
-      }
-      return resultWidth;
-    },
+  components: {
+    MarketCard,
   },
   data() {
     return {
@@ -236,69 +145,46 @@ export default {
     };
   },
   methods: {
-    imageSrc(filename) {
-      return SERVER.IMAGE_URL + filename;
-    },
     getRecommendProducts() {
       axios
-        .get(
-          SERVER.URL + 
-          SERVER.ROUTES.products.recommendation,
-          {
-            headers: {
-              Authorization: this.config,
-            },
-          }
-        )
+        .get(SERVER.URL + SERVER.ROUTES.products.recommendation, {
+          headers: {
+            Authorization: this.config,
+          },
+        })
         .then((res) => {
-        // console.log(res.data);
-        this.products.recommend = res.data})
-        .catch((err) => console.log(err))
+          // console.log(res.data);
+          this.products.recommend = res.data;
+        })
+        .catch((err) => console.log(err));
     },
     getNewProducts() {
       axios
-        .get(
-          SERVER.URL + SERVER.ROUTES.products.get_latest_products
-        )
+        .get(SERVER.URL + SERVER.ROUTES.products.get_latest_products)
         .then((res) => {
           // console.log(res.data)
-          this.products.new = res.data
+          this.products.new = res.data;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     getPopularProducts() {
       axios
-        .get(
-          SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today
-        )
+        .get(SERVER.URL + SERVER.ROUTES.products.top_three_viewed_today)
         .then((res) => {
           // console.log(res.data)
-          this.products.popular = res.data
+          this.products.popular = res.data;
         })
         .catch((err) => {
-          console.log(err)
-        })
-    }
-  }
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.custom-card {
-  border: 2px solid black;
-  border-radius: 15px;
-  font-family: "NanumBarunpen";
-
-  &:hover {
-    transform: translate3d(0px, -5px, -5px);
-    box-shadow: 3px 3px black;
-    transition: 0.4s;
-    cursor: pointer;
-  }
-}
-
 .market-section {
   margin-bottom: 0px;
 }
