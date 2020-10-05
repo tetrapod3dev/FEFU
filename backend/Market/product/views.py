@@ -211,22 +211,24 @@ class ProductViewSet(viewsets.ModelViewSet):
         product = self.queryset.get(pk=pk)
         seller = product.writer.username
         status = product.status
-
-
-        if username == seller:
-            if status == 1: #팔 -> 안팔
-                product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
-                self.destroy_purchase(product.no)
-
-            else: # 안팔 -> 팔
-                product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
-                self.create_purchase(pk, buyer, seller)               
-
-            if product_serializer.is_valid():
-                product_serializer.save()
-                return Response("resource updated successfully", status=200)
         
-        return Response("forbidden user", status=403)
+        if username == 'anonymousUser':
+            return Response('unauthorized user', status=401)
+        else:
+            if username == seller:
+                if status == 1: #팔 -> 안팔
+                    product_serializer = ProductSerializer(product, data={"status": 0}, partial=True)
+                    self.destroy_purchase(product.no)
+
+                else: # 안팔 -> 팔
+                    product_serializer = ProductSerializer(product, data={"status": 1}, partial=True)
+                    self.create_purchase(pk, buyer, seller)               
+
+                if product_serializer.is_valid():
+                    product_serializer.save()
+                    return Response("resource updated successfully", status=200)
+            
+            return Response("forbidden user", status=403)
 
 
 
