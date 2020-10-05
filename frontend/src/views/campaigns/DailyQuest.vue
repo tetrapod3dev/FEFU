@@ -133,6 +133,7 @@ export default {
   props: {
     dailyQuestInfo: Array,
     isValid: Boolean,
+    completed: Array,
   },
   data() {
     return {
@@ -167,20 +168,6 @@ export default {
         require("@/assets/dailyquest/outline/26-paper reuse.png"),
       ],
       // 현재는 completed가 모두 false로 초기화되는데, 이걸 나중에 유저별 완료현황으로 만들어줘야됩니다.
-      completed: [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ],
     };
   },
   computed: {
