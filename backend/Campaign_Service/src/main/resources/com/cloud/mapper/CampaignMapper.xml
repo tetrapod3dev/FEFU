@@ -25,6 +25,7 @@
 				on c.type = #{campaignType} and c.no = sub.campaign_no
 			</when>
 		</choose>
+		order by no desc
 		limit #{startIndex}, #{perPageNum}
 	</select>
 	
