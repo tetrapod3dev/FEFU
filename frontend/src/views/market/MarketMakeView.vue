@@ -163,9 +163,6 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <!-- <v-btn class="c-btn" @click="preUploadImage"
-              >이미지 업로드 테스트 버튼</v-btn
-            > -->
             <v-text-field
               label="chatName"
               v-model="chatName"
@@ -236,9 +233,7 @@ export default {
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
-    testCreateChat() {
-      this.createChat(this.id);
-    },
+    testCreateChat() {},
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -258,8 +253,10 @@ export default {
               Authorization: this.config,
             },
           })
-          .then(() => {
+          .then((res) => {
             alert("상품 등록 완료 되었습니다.");
+            this.chatName = this.product.title;
+            this.createChat(res.data);
             router.push({ name: "MarketMainView" });
           })
           .catch((err) => {

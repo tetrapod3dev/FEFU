@@ -117,7 +117,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
           this.campaigns = res.data.list;
           this.endPage = res.data.page.endPage;
         })
@@ -147,7 +146,6 @@ export default {
       }
     },
     movePage(page) {
-      console.log(page);
       if (page == "«") {
         this.$router.push({ params: { page_num: 1 } });
       } else if (page == "»") {
