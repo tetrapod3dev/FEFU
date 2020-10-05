@@ -255,10 +255,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def get_my_products(self, request):
         username = request.META["HTTP_X_USERNAME"]
-        user_object = get_object_or_404(User, username=username)
-        my_products = ProductInfo.objects.filter(writer=username).order_by('-no')
-        my_products_ser = ProductSerializer(my_products, many=True)
-        return Response(my_products_ser.data, status=200)
+        if username == 'anonymousUser':
+            return Response('unauthorized user', status=401)
+        else:
+            user_object = get_object_or_404(User, username=username)
+            my_products = ProductInfo.objects.filter(writer=username).order_by('-no')
+            my_products_ser = ProductSerializer(my_products, many=True)
+            return Response(my_products_ser.data, status=200)
 
 
 #-----------------Recommendation---------------------------
