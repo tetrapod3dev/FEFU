@@ -10,6 +10,7 @@ export default {
       checkEmail: "/users/check-email/", // GET / 이메일 중복 체크
       checkNickname: "/users/check-nickname/", // GET / 닉네임 중복 체크
       password: "/users/password",
+      ecopoint: "/users/eco-point", //PATCH eco-point 전송
     },
     products: {
       URL: "/products",
@@ -29,6 +30,7 @@ export default {
       dailyQuest: "/campaigns/daily-quest",
       dailyQuestDetail: "/campaigns/daily-quest/detail",
       join: "/campaigns/join", // POST / 캠페인 참여 신청, GET / 내가 참여한 캠페인 목록 불러오기
+      leave: "/campaigns/leave", // POST / 캠페인 참여 신청, GET / 내가 참여한 캠페인 목록 불러오기
       search: "/campaigns/search",
       proof: "/campaigns/proof",
       yet: "/campaigns/proof/yet",

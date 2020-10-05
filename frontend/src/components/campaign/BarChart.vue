@@ -5,11 +5,6 @@ export default {
   extends: Bar,
   props: ["data", "labels"],
   mounted() {
-    // console.log(this.data);
-    // console.log(Object.keys(this.data));
-    // console.log(Object.entries(this.data));
-    // console.log(Object.values(this.data));
-    // console.log(Object.keys(this.data).map(key => this.data[key]));
     this.renderBarChart();
   },
   computed: {
@@ -31,7 +26,6 @@ export default {
   },
   watch: {
     chartData() {
-      // console.log(this.chartData);
       this.renderBarChart();
     },
   },
