@@ -49,7 +49,7 @@
 import CampaignList from "./CampaignList.vue";
 import DailyQuest from "./DailyQuest.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
 
@@ -105,6 +105,7 @@ export default {
     ...mapGetters("accounts", ["config", "isLoggedIn"]),
   },
   methods: {
+    ...mapActions("accounts", ["logout"]),
     getCompanyCampaignInfo(campaign_type, content, page_no, type) {
       axios
         .get(SERVER.URL + SERVER.ROUTES.campaigns.URL, {
@@ -145,6 +146,7 @@ export default {
         .catch((err) => console.log(err.response));
     },
     getDailyQuest() {
+      if (this.isLoggedIn) {
       // 현재는 단순히 일일퀘스트 정보만 가져오는데... 로그인한 경우 특정 유저의 details를 가져와야 됩니다.
       let configs = {
         headers: {
@@ -165,9 +167,14 @@ export default {
               }
             })
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.response.status == 401) {
+            alert('로그인 정보가 만료되었습니다!');
+            this.logout();
+          }
           this.isValid = false;
         });
+      }
     },
     goCampaignDetail() {
       this.$router.push({
