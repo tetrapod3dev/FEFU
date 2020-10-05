@@ -239,7 +239,7 @@ export default {
   created() {},
   async mounted() {
     await this.getProduct().then(() => {
-      this.getChat(this.product.no);
+      this.getChat("p" + this.product.no);
     });
     await this.createViewLog();
     await this.getInfo(this.product.writer)

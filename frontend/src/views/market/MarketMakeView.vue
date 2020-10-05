@@ -256,7 +256,7 @@ export default {
           .then((res) => {
             alert("상품 등록 완료 되었습니다.");
             this.chatName = this.product.title;
-            this.createChat(res.data);
+            this.createChat("p" + res.data);
             router.push({ name: "MarketMainView" });
           })
           .catch((err) => {
