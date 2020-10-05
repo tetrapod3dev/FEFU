@@ -36,9 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/auth/**").permitAll()
 			.antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
-			.antMatchers("/campaigns/daily-quest/**").authenticated()
-			.antMatchers("/campaigns/join/**").authenticated()
-			.antMatchers("/campaigns/leave/**").authenticated()
+			.antMatchers(HttpMethod.POST, "/campaigns/daily-quest/**").authenticated()
+			.antMatchers(HttpMethod.GET, "/campaigns/daily-quest/**").authenticated()
+			.antMatchers(HttpMethod.GET, "/campaigns/join/**").authenticated()
+			.antMatchers(HttpMethod.GET, "/campaigns/my-campaign").authenticated()
+			.antMatchers(HttpMethod.POST, "/campaigns/join/**").authenticated()
+			.antMatchers(HttpMethod.DELETE, "/campaigns/leave/**").authenticated()
 //			.anyRequest().authenticated();
 			.anyRequest().permitAll();
 	}
