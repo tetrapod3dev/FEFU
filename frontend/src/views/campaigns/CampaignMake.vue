@@ -408,7 +408,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params);
     if (this.$route.params.type == 1) {
       this.campaign.endDate = this.add100Day;
     }
@@ -507,7 +506,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      console.log(body);
     },
 
     preUploadImage() {

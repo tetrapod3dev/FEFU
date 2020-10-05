@@ -39,31 +39,35 @@ export default {
     },
     loadUserChats(context) {
       let user = context.rootGetters["auth/USER"];
-      console.log(user);
-      firebase
-        .database()
-        .ref("users")
-        .child(user.id)
-        .child("chats")
-        .orderByChild("timestamp")
-        .once("value", function(snapshot) {
-          let chats = snapshot.val();
-          if (chats == null) {
-            chats = {};
-          }
 
-          for (let chatId in chats) {
-            chats[chatId].name = "로딩 중...";
-            firebase
-              .database()
-              .ref("chats")
-              .child(chatId)
-              .once("value", function(snapshot) {
-                chats[chatId].name = snapshot.val().name;
-                context.commit("setChats", chats);
-              });
-          }
-        });
+      if (user) {
+        if (user.id) {
+          firebase
+            .database()
+            .ref("users")
+            .child(user.id)
+            .child("chats")
+            .orderByChild("timestamp")
+            .once("value", function(snapshot) {
+              let chats = snapshot.val();
+              if (chats == null) {
+                chats = {};
+              }
+
+              for (let chatId in chats) {
+                // chats[chatId].name = "로딩 중...";
+                firebase
+                  .database()
+                  .ref("chats")
+                  .child(chatId)
+                  .once("value", function(snapshot) {
+                    chats[chatId].name = snapshot.val().name;
+                    context.commit("setChats", chats);
+                  });
+              }
+            });
+        }
+      }
     },
   },
 };

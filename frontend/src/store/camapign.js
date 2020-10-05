@@ -14,7 +14,6 @@ export default {
         .get(
           SERVER.URL + SERVER.ROUTES.campaigns.URL + "/" + type + "/" + pageNo
         )
-        .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
     goCampaignDetail() {

@@ -130,8 +130,7 @@ export default {
               },
             }
           )
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             location.reload();
           })
           .catch((err) => {

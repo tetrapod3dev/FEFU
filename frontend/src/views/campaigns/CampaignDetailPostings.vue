@@ -163,7 +163,6 @@ export default {
           configs
         )
         .then((res) => {
-          console.log(res);
           this.pagination = res.data.page;
           this.proofList = res.data.list;
         })

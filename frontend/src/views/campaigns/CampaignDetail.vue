@@ -222,7 +222,6 @@ export default {
             "/"
         )
         .then((res) => {
-          console.log(res);
           this.campaign = res.data["campaign"];
           if (res.data["company"]) {
             this.company = res.data["company"];
