@@ -2,7 +2,7 @@
   <div class="campaign-info d-flex flex-column">
     <v-container class="my-7">
       <h2 class="text-left">멤버 인증 게시글</h2>
-      <v-container>
+      <v-container v-if="proofList.length != 0">
         <v-row>
           <v-col
             v-for="(proof, index) in proofList"
@@ -84,6 +84,9 @@
           :maxPage="pagination.endPage"
           @move-page="movePage"
         />
+      </v-container>
+      <v-container>
+        <h1 class="no-text">인증된 게시글이 없습니다!</h1>
       </v-container>
     </v-container>
   </div>
@@ -215,5 +218,9 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   text-align: center;
+}
+
+.no-text {
+    margin: 100px 0;
 }
 </style>

@@ -84,6 +84,8 @@
       <core-pagination
         :curPage="pagination.curPage"
         :maxPage="pagination.endPage"
+        :next="pagination.next"
+        :prev="pagination.prev"
         @move-page="movePage"
       />
     </div>

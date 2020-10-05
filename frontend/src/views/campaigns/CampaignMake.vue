@@ -138,7 +138,7 @@
                               required
                               filled
                               :disabled="$route.params.type == 1"
-                              v-model="campaign.endDate"
+                              v-model="add100Day"
                               :rules="[endDateRules]"
                               readonly
                               v-bind="attrs"
@@ -147,7 +147,7 @@
                             ></v-text-field>
                           </template>
                           <v-date-picker
-                            v-model="campaign.endDate"
+                            v-model="add100Day"
                             color="var(--primary-color)"
                             no-title
                             scrollable
@@ -368,7 +368,7 @@
 <script>
 import axios from "axios";
 import SERVER from "@/api/api";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import router from "@/router";
 import { mixinUploadImage } from "@/components/mixin/mixinUploadImage";
 
@@ -411,9 +411,13 @@ export default {
     if (this.$route.params.type == 1) {
       this.campaign.endDate = this.add100Day;
     }
+    if (!this.isLoggedIn) {
+      alert('로그인 해주세요!');
+      router.push({ name: "Home" });
+    }
   },
   computed: {
-    ...mapGetters("accounts", ["config", "USERNAME"]),
+    ...mapGetters("accounts", ["config", "USERNAME", "isLoggedIn"]),
 
     getCampaignType() {
       let campaignType = "";
@@ -427,8 +431,9 @@ export default {
       return campaignType;
     },
     add100Day() {
+      let nowStartDate = new Date(this.campaign.startDate);
       let resultDate = new Date();
-      resultDate.setDate(new Date().getDate() + 100);
+      resultDate.setDate(nowStartDate.getDate() + 100);
       return resultDate.toISOString().substr(0, 10);
     },
     startDateRules() {
@@ -445,6 +450,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("accounts", ["logout"]),
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -491,6 +497,8 @@ export default {
         };
       }
 
+      body.campaign.endDate = this.add100Day
+
       this.campaign.writer = this.USERNAME;
       await axios
         .post(SERVER.URL + SERVER.ROUTES.campaigns.URL + "/", body, {
@@ -498,13 +506,13 @@ export default {
             Authorization: this.config,
           },
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           alert("캠페인 등록 완료 되었습니다.");
           router.push({ name: "CampaignMain" });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          alert("로그인 정보가 만료되었습니다 ㅠㅠ 다시 입력해주세요..");
+          this.logout();
         });
     },
 
@@ -520,20 +528,6 @@ export default {
 
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
-    },
-
-    getUserInfo() {
-      let configs = {
-        headers: {
-          Authorization: this.config,
-        },
-      };
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.myPage, configs)
-        .then((res) => {
-          this.user = res.data.user;
-        })
-        .catch((err) => console.log(err.response));
     },
   },
 };
