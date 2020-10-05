@@ -105,7 +105,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             if serializer.is_valid(raise_exception=True):
                 
                 serializer.save()
-                return Response("resource created successfully", status=201)
+                return Response(serializer.data["no"], status=201)
         else:
             return Response("unauthorized user", status=401)
 
