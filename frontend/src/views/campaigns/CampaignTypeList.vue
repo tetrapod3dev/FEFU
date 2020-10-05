@@ -155,38 +155,6 @@ export default {
       }
       scroll(0, 0);
     },
-
-    // movePage(event) {
-    //   // 페이지를 이동할 경우 router link를 바꾸기 위한 함수입니다.
-    //   // router push에서 title: ""이 들어갈 경우 문제가 되기 때문에 분기를 나누어서
-    //   // title이 없는 경우는 아예 안 보내도록 했습니다.
-    //   let targetPage = 1;
-    //   if (event.target.outerText == "처음") {
-    //     targetPage = 1;
-    //   } else if (event.target.outerText == "마지막") {
-    //     targetPage = this.endPage;
-    //   } else {
-    //     targetPage = event.target.outerText;
-    //   }
-    //   if (this.searchInput != "") {
-    //     this.$router.push({
-    //       name: "CampaignTypeList",
-    //       params: {
-    //         campaign_type: this.campaignType,
-    //         page_num: targetPage,
-    //         title: this.searchInput,
-    //       },
-    //     });
-    //   } else {
-    //     this.$router.push({
-    //       name: "CampaignTypeList",
-    //       params: {
-    //         campaign_type: this.campaignType,
-    //         page_num: targetPage,
-    //       },
-    //     });
-    //   }
-    // },
   },
 };
 </script>

@@ -368,7 +368,7 @@
 <script>
 import axios from "axios";
 import SERVER from "@/api/api";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import router from "@/router";
 import { mixinUploadImage } from "@/components/mixin/mixinUploadImage";
 
@@ -408,13 +408,16 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params);
     if (this.$route.params.type == 1) {
       this.campaign.endDate = this.add100Day;
     }
+    if (!this.isLoggedIn) {
+      alert('로그인 해주세요!');
+      router.push({ name: "Home" });
+    }
   },
   computed: {
-    ...mapGetters("accounts", ["config", "USERNAME"]),
+    ...mapGetters("accounts", ["config", "USERNAME", "isLoggedIn"]),
 
     getCampaignType() {
       let campaignType = "";
@@ -446,6 +449,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("accounts", ["logout"]),
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -499,15 +503,14 @@ export default {
             Authorization: this.config,
           },
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           alert("캠페인 등록 완료 되었습니다.");
           router.push({ name: "CampaignMain" });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          alert('로그인 정보가 만료되었습니다...');
+          this.logout();
         });
-      console.log(body);
     },
 
     preUploadImage() {
@@ -522,20 +525,6 @@ export default {
 
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
-    },
-
-    getUserInfo() {
-      let configs = {
-        headers: {
-          Authorization: this.config,
-        },
-      };
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.myPage, configs)
-        .then((res) => {
-          this.user = res.data.user;
-        })
-        .catch((err) => console.log(err.response));
     },
   },
 };

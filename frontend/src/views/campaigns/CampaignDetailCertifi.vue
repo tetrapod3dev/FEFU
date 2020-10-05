@@ -72,9 +72,8 @@ export default {
       for (let i = 1; i < 8; i++) {
         this.dataList[this.parseDate(this.addDays(new Date(), -i))] = 0;
       }
-      // console.log(this.dataList);
+    //   console.log(this.dataList);
       this.getOfficialPercentWeek();
-      console.log(this.dataList);
     }
   },
   computed: {
@@ -102,7 +101,6 @@ export default {
         )
         .then((res) => {
           this.userList = res.data;
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -121,9 +119,6 @@ export default {
             this.dataList[element.time] = element.count;
           });
           this.dataList['isEnd'] = true;
-
-          // console.log(Object.keys(this.dataList));
-          // console.log(Object.values(this.dataList).reverse());
           // console.log(
           //   Object.keys(this.dataList).map((e) => {
           //     return this.dataList[e];

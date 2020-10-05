@@ -140,8 +140,7 @@ export default {
     permitProof(proofNo) {
       axios
         .patch(SERVER.URL + SERVER.ROUTES.campaigns.proof + "/" + proofNo)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.dialog = false;
           location.reload();
         })
@@ -181,7 +180,6 @@ export default {
           configs
         )
         .then((res) => {
-          console.log(res);
           this.pagination = res.data.page;
           this.proofList = res.data.list;
         })
