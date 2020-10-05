@@ -93,17 +93,36 @@
           사이트 가기
         </a>
 
+        <router-link
+          to="/user/login"
+        >
+          <button
+            v-if="!isLoggedIn"
+            class="custom-make-btn"
+          >
+            로그인하러 가기
+          </button>
+        </router-link>
+
+        <button
+          v-if="campaign.type != 'company' && isLoggedIn && !isJoined"
+          @click="joinCampaign"
+          class="custom-make-btn"
+        >
+          캠페인 신청
+        </button>
+
         <ProofCreateBtn
           v-if="campaign.type != 'company' && isJoined"
           :campaign="campaign"
         />
 
         <button
-          v-if="campaign.type != 'company' && !isJoined"
-          @click="joinCampaign"
-          class="custom-make-btn"
+          v-if="campaign.type != 'company' && isJoined"
+          @click="leaveCampaign"
+          class="custom-quit-btn"
         >
-          캠페인 신청
+          캠페인 탈퇴
         </button>
       </v-col>
       <v-col cols="12" sm="9" class="pt-0">
@@ -136,10 +155,10 @@ import ProofCreateBtn from "@/components/campaign/ProofCreateBtn.vue";
 // import CampaignCertificate from "../../components/campaign/CampaignCertificate.vue";
 // import CampaignInfo from "../../components/campaign/CampaignInfo.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 import SERVER from "@/api/api";
-import router from "@/router";
+// import router from "@/router";
 
 export default {
   components: {
@@ -203,9 +222,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("accounts", ["config", "USERNAME"]),
+    ...mapGetters("accounts", ["config", "USERNAME", "isLoggedIn"]),
   },
   methods: {
+    ...mapActions("accounts", ["logout"]),
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
@@ -222,7 +242,6 @@ export default {
             "/"
         )
         .then((res) => {
-          console.log(res);
           this.campaign = res.data["campaign"];
           if (res.data["company"]) {
             this.company = res.data["company"];
@@ -238,25 +257,27 @@ export default {
         });
     },
     getIsJoinedCampaign() {
-      let configs = {
-        headers: {
-          Authorization: this.config,
-        },
-      };
-      axios
-        .get(
-          SERVER.URL +
-            SERVER.ROUTES.campaigns.join +
-            "/" +
-            this.$route.params.campaignNo,
-          configs
-        )
-        .then((res) => {
-          this.isJoined = res.data;
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
+      if (this.isLoggedIn) {
+        let configs = {
+          headers: {
+            Authorization: this.config,
+          },
+        };
+        axios
+          .get(
+            SERVER.URL +
+              SERVER.ROUTES.campaigns.join +
+              "/" +
+              this.$route.params.campaignNo,
+            configs
+          )
+          .then((res) => {
+            this.isJoined = res.data;
+          })
+          .catch((err) => {
+            console.log(err.response);
+          });
+      }
     },
     joinCampaign() {
       let configs = {
@@ -272,25 +293,53 @@ export default {
         .then((res) => {
           if (res.data == "success") {
             alert("신청 완료 되었습니다.");
-            router
-              .push({
-                name: "CampaignDetailInfo",
-                params: { campaignNo: this.$route.params.campaignNo },
-              })
-              .then(() => {
-                location.reload();
-              })
-              .catch((error) => {
-                if (error.name === "NavigationDuplicated") {
-                  location.reload();
-                }
-              });
+            this.isJoined = !this.isJoined;
+            // router
+            //   .push({
+            //     name: "CampaignDetailInfo",
+            //     params: { campaignNo: this.$route.params.campaignNo },
+            //   })
+            //   .then(() => {
+            //     location.reload();
+            //   })
+            //   .catch((error) => {
+            //     if (error.name === "NavigationDuplicated") {
+            //       location.reload();
+            //     }
+            //   });
           }
         })
         .catch((err) => {
-          console.log(err.response);
+          if (err.response.status == 401) {
+            alert('로그인 정보가 만료되었습니다.')
+            this.logout();
+          }
         });
     },
+    leaveCampaign() {
+      let configs = {
+        headers: {
+          Authorization: this.config,
+        },
+      };
+      axios
+        .delete(SERVER.URL + SERVER.ROUTES.campaigns.leave + '/' + this.$route.params.campaignNo, configs)
+        .then((res) => {
+          if (res.status == 200) {
+            let response = confirm('정말로 탈퇴하시겠습니까?');
+            if (response) {
+              alert("캠페인에서 탈퇴하셨습니다.");
+              this.isJoined = !this.isJoined;
+            }
+          }
+        })
+        .catch((err) => {
+          if (err.response.status == 401) {
+            alert('로그인 정보가 만료되었습니다.')
+            this.logout();
+          }
+        });
+    }
   },
 };
 </script>
@@ -326,6 +375,18 @@ export default {
   height: 48px;
   margin-top: 20px;
   background-color: var(--primary-color);
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.custom-quit-btn {
+  font-family: "S-CoreDream-7ExtraBold";
+  font-size: 1rem;
+  width: 100%;
+  height: 48px;
+  margin-top: 20px;
+  background-color: #b0bec5;
   border: 2px solid black;
   border-radius: 10px;
   text-align: center;
