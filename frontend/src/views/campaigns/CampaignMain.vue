@@ -37,6 +37,7 @@
           v-if="item.id == 4"
           :dailyQuestInfo="dailyQuestInfo"
           :isValid="isValid"
+          :completed="completed"
         />
       </v-tab-item>
     </v-tabs-items>
@@ -91,6 +92,7 @@ export default {
       personalCampaignInfo: [],
       dailyQuestInfo: [],
       isValid: false,
+      completed : [false, false, false, false, false, false, false, false, false, false, false, false],
     };
   },
   created() {
@@ -154,9 +156,16 @@ export default {
         .then((res) => {
           this.isValid = true;
           this.dailyQuestInfo = res.data;
+          axios
+            .get(SERVER.URL + SERVER.ROUTES.campaigns.dailyQuestDetail, configs)
+            .then(response => {
+              let completedDailyQuests = response.data
+              for (let idx in completedDailyQuests) {
+                this.completed[completedDailyQuests[idx].no - 1] = true
+              }
+            })
         })
-        .catch((err) => {
-          console.log(err.response);
+        .catch(() => {
           this.isValid = false;
         });
     },
