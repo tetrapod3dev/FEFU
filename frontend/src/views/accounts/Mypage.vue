@@ -49,8 +49,6 @@
                 </v-list-item>
               </v-list>
             </div>
-
-            <button class="c-btn">회원 탈퇴</button>
           </v-col>
 
           <v-col cols="12" md="9" class="pt-3">

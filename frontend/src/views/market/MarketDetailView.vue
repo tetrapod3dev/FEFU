@@ -48,40 +48,42 @@
                       {{ product.contact }}
                     </p>
                   </div>
+                  <div class="d-flex flex-column ml-3">
+                    <v-tooltip v-if="!chat.isAlreadyJoined" right>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          @click="enterChat(chat)"
+                          color="var(--primary-color)"
+                          fab
+                          text
+                          small
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon> mdi-comment </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>채팅 입장</span>
+                    </v-tooltip>
+                    <v-tooltip v-if="chat.isAlreadyJoined" right>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          color="grey"
+                          fab
+                          text
+                          small
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon> mdi-comment </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>이미 채팅 중입니다</span>
+                    </v-tooltip>
+                  </div>
                 </div>
               </div>
               <v-row no-gutters>
-                <v-spacer></v-spacer>
-                <v-btn @click="enterChat(chat)" v-if="!chat.isAlreadyJoined"
-                  >채팅</v-btn
-                >
-                <v-btn disabled v-if="chat.isAlreadyJoined">채팅 중</v-btn>
-								<v-btn @click="handleEcopointButton">에코포인트 전송</v-btn>
-                <v-col cols="3" align="end">
-                  <v-btn
-                    v-if="product.writer == USERNAME"
-                    class="product-state"
-                    outlined
-                    tile
-                    @click="deleteProduct"
-                  >
-                    삭제
-                  </v-btn>
-                </v-col>
-                <v-col cols="3" align="center">
-                  <v-btn
-                    v-if="product.writer == USERNAME && product.status==0"
-                    class="product-state"
-                    outlined
-                    tile
-                    :to="{
-                      name: 'MarketUpdateView',
-                      params: { productNo: $route.params.productNo },
-                    }"
-                  >
-                    수정
-                  </v-btn>
-                </v-col>
                 <v-col cols="2">
                   <v-btn
                     v-if="product.status == 0"
@@ -101,25 +103,42 @@
                     >판매 완료</v-btn
                   >
                 </v-col>
+                <v-spacer></v-spacer>
+                <v-col cols="3" align="end">
+                  <v-btn
+                    v-if="product.writer == USERNAME"
+                    class="product-state"
+                    outlined
+                    tile
+                    @click="deleteProduct"
+                  >
+                    삭제
+                  </v-btn>
+                </v-col>
+                <v-col cols="3" align="center">
+                  <v-btn
+                    v-if="product.writer == USERNAME"
+                    class="product-state"
+                    outlined
+                    tile
+                    :to="{
+                      name: 'MarketUpdateView',
+                      params: { productNo: $route.params.productNo },
+                    }"
+                  >
+                    수정
+                  </v-btn>
+                </v-col>
               </v-row>
             </div>
           </v-col>
 
           <SoldModal
             :product="product"
-            v-if="sold_modal_visible"
+            v-if="visible"
             @close="handleStatusButton"
           >
           </SoldModal>
-
-					<EcoPointSendModal
-						v-if="ecopoint_modal_visible"
-						:writer="product.writer"
-						@close="handleEcopointButton"
-					>
-					</EcoPointSendModal>
-
-
 
           <v-col cols="12">
             <p class="product-description text-left pa-3">
@@ -186,14 +205,12 @@ import axios from "axios";
 import SERVER from "@/api/api";
 import router from "@/router";
 import SoldModal from "../../components/market/SoldModal";
-import EcoPointSendModal from "../../components/market/EcoPointSendModal";
 
 export default {
   name: "MarketDetailView",
   mixins: [mixinGetUserInfo, mixinJoinChat],
   components: {
-		SoldModal,
-		EcoPointSendModal
+    SoldModal: SoldModal,
   },
 
   data() {
@@ -201,8 +218,7 @@ export default {
       cardSlide1: null,
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
-			sold_modal_visible: false,
-			ecopoint_modal_visible : false,
+      visible: false,
       product: {
         contact: "",
         content: "",
@@ -285,7 +301,7 @@ export default {
       }
       return resultWidth;
     },
-    ...mapGetters("accounts", ["isLoggedIn", "config", "USERNAME"]),
+    ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
     moveToPage(_url) {
@@ -375,24 +391,8 @@ export default {
         });
     },
     handleStatusButton() {
-      if (this.isLoggedIn) {
-        if (this.product.writer == this.USERNAME) {
-          this.sold_modal_visible = !this.sold_modal_visible;
-        } else {
-          alert("글 작성자만 상태 변경이 가능합니다.")
-        }
-      } else {
-        alert("글 작성자만 상태 변경이 가능합니다.")
-      }
-      
-		},
-		handleEcopointButton() {
-			if (this.isLoggedIn) {
-				this.ecopoint_modal_visible = !this.ecopoint_modal_visible
-			} else {
-				alert("에코포인트를 전송하기 위해 로그인해주세요.")
-			}
-		},
+      this.visible = !this.visible;
+    },
   },
 };
 </script>
@@ -447,6 +447,10 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   padding: 5px 10px;
+}
+
+.product-chat {
+  border: 2px solid black;
 }
 
 .market-title {

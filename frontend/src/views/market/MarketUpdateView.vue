@@ -164,7 +164,6 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="c-btn" @click="test">이미지 업로드 테스트 버튼</v-btn>
             <v-btn
               class="c-btn"
               :to="{
@@ -261,6 +260,7 @@ export default {
     async updateProduct() {
       if (this.$refs.form.validate()) {
         this.product.writer = this.USERNAME;
+
         await axios
           .patch(
             SERVER.URL + SERVER.ROUTES.products.URL + "/",

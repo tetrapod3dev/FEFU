@@ -4,7 +4,7 @@
       <div class="c-title c-card__content">등록 캠페인</div>
 
       <div class="c-txt c-card__content d-flex flex-column">
-        <v-row>
+        <v-row v-if="campaigninfo.length != 0">
           <v-col
             cols="12"
             sm="6"
@@ -22,21 +22,31 @@
             />
           </v-col>
         </v-row>
+        <core-banner
+          v-else
+          content="등록하신 캠페인이 없네요. 캠페인을 등록해보세요!🌎"
+          btn-text="등록하러 가기"
+          :to="{ name: 'CampaignMainView' }"
+        />
       </div>
     </v-container>
   </div>
 </template>
 
 <script>
-import CampaignCard from "@/components/campaign/CampaignCard.vue";
-import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
-import { mapGetters } from "vuex";
 import SERVER from "@/api/api";
 import axios from "axios";
 
+import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
+
+import { mapGetters } from "vuex";
+
+import CampaignCard from "@/components/campaign/CampaignCard.vue";
+import CoreBanner from "@/components/core/Banner.vue";
+
 export default {
   name: "MypageListCampaignAdmin",
-  components: { CampaignCard },
+  components: { CampaignCard, CoreBanner },
   mixins: [mixinGetUserInfo],
   data() {
     return {

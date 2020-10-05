@@ -4,7 +4,7 @@
       <div class="c-title c-card__content">등록 물건</div>
 
       <div class="c-txt c-card__content d-flex flex-column">
-        <v-row>
+        <v-row v-if="myProducts.length != 0">
           <v-col
             v-for="(product, index) in myProducts"
             :key="index"
@@ -40,20 +40,31 @@
             </v-card>
           </v-col>
         </v-row>
+        <core-banner
+          v-else
+          content="등록된 상품이 없네요. 당신이 먼저 물건을 등록해보세요!📃"
+          btn-text="물건등록하러 가기"
+          :to="{ name: 'MarketMakeView' }"
+        />
       </div>
     </v-container>
   </div>
 </template>
 
 <script>
-import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
-import { mapGetters } from "vuex";
 import SERVER from "@/api/api";
 import axios from "axios";
+
+import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
+
+import { mapGetters } from "vuex";
+
+import CoreBanner from "@/components/core/Banner.vue";
 
 export default {
   name: "MypageListProduct",
   mixins: [mixinGetUserInfo],
+  components: { CoreBanner },
   data() {
     return {
       isJoined: false,

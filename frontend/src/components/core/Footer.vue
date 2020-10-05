@@ -3,29 +3,17 @@
     <v-container>
       <v-col class="py-3"></v-col>
       <v-row justify="center">
-        <v-col
-          cols="10"
-          sm="3"
-          md="3"
-          class="c-footer-logo text-left align-self-start"
-        >
-          <v-row>
-            <v-flex>
-              <img
-                :src="require('@/assets/images/logo64.png')"
-                :style="'height: 64px;width: 64px;'"
-                @click="
-                  moveToPage({
-                    name: 'Home',
-                  })
-                "
-              />
-            </v-flex>
-            <v-flex justify="center" class="mr-auto">
-              <p style="color: #333" class="mt-2 mb-1">For Earth</p>
-              <p style="color: #333">For Us</p>
-            </v-flex>
-          </v-row>
+        <v-col cols="10" sm="6" md="3" class="text-left align-self-start">
+          <img
+            :src="require('@/assets/images/footerlogo.png')"
+            class="ml-auto"
+            :style="'height: 64px;width: 180px; cursor: pointer;'"
+            @click="
+              moveToPage({
+                name: 'Home',
+              })
+            "
+          />
         </v-col>
         <v-col
           cols="10"
@@ -92,11 +80,6 @@ export default {
 .c-footer {
   border-top: 2px solid #000000;
   background-color: #fcfcfc;
-  &-logo {
-    font-family: "S-CoreDream-7ExtraBold";
-    font-size: 24px;
-    line-height: 24px;
-  }
   &-text {
     font-family: "Nunito", "NanumSquareRound", sans-serif;
     font-size: 16px;

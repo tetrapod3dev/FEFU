@@ -233,7 +233,9 @@ export default {
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
-    testCreateChat() {},
+    testCreateChat() {
+      this.createChat("p" + this.id);
+    },
     Preview_image() {
       if (!this.images) {
         this.url = null;
