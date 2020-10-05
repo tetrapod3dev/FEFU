@@ -33,9 +33,9 @@ export default {
     postAuthData({ commit }, info) {
       axios
         .post(SERVER.URL + info.location, info.data, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            }
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
         })
         .then((res) => {
           if (info.name != "signup") {

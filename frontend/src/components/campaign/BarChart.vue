@@ -9,7 +9,9 @@ export default {
   },
   computed: {
     chartData() {
-      return (this.data['isEnd']) ? Object.values(this.data).reverse().slice(0, -1) : [0, 0, 0, 0, 0, 0, 0]
+      return this.data["isEnd"]
+        ? Object.values(this.data).reverse().slice(0, -1)
+        : [0, 0, 0, 0, 0, 0, 0];
     },
     chartLabels() {
       let today = new Date().getDay();

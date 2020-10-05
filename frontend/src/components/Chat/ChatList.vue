@@ -53,7 +53,6 @@ export default {
   computed: {
     ...mapGetters("auth", ["USER"]),
     user() {
-      console.log(this.USER);
       return this.USER;
     },
     chats() {

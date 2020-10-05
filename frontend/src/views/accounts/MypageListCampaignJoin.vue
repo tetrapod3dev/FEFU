@@ -65,9 +65,7 @@ export default {
     };
   },
   created() {
-    this.getUserInfo()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    this.getUserInfo().catch((err) => console.log(err));
     this.getCampaignJoin();
   },
   computed: {
@@ -87,7 +85,6 @@ export default {
         .get(SERVER.URL + SERVER.ROUTES.campaigns.join, configs)
         .then((res) => {
           this.campaigninfo = res.data;
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err.response);

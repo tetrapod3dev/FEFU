@@ -81,9 +81,7 @@ export default {
     };
   },
   created() {
-    this.getUserInfo()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    this.getUserInfo().catch((err) => console.log(err));
 
     this.getMyProducts();
   },
@@ -125,8 +123,6 @@ export default {
         })
         .then((res) => {
           this.myProducts = res.data;
-          console.log(res.data);
-          console.log("_______");
         })
         .catch((err) => {
           console.log(err);

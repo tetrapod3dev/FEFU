@@ -251,7 +251,6 @@ export default {
             "/"
         )
         .then((res) => {
-          console.log(res);
           this.product = res.data;
         })
         .catch((err) => {
@@ -262,21 +261,6 @@ export default {
     async updateProduct() {
       if (this.$refs.form.validate()) {
         this.product.writer = this.USERNAME;
-
-        console.log({
-          no: this.product.no,
-          photo: this.product.photo,
-          price: this.product.price,
-          title: this.product.title,
-          writer: this.product.writer,
-          status: this.product.status,
-          contact: this.product.contact,
-          content: this.product.content,
-          eco_point: this.product.eco_point,
-          sub_category_no: this.product.sub_category_no,
-          main_category_no: this.product.main_category_no,
-          medium_category_no: this.product.medium_category_no,
-        });
         await axios
           .patch(
             SERVER.URL + SERVER.ROUTES.products.URL + "/",
@@ -341,7 +325,6 @@ export default {
     preUploadImage() {
       this.uploadImage(this.images)
         .then((res) => {
-          console.log(res);
           this.product.photo = res.data.fileName;
         })
         .catch((err) => {
