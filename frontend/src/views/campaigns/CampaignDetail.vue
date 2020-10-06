@@ -95,7 +95,7 @@
 
         <router-link to="/user/login">
           <button
-            v-if="!isLoggedIn"
+            v-if="!isLoggedIn && campaign.type != 'company'"
             class="custom-make-btn"
             style="color: #000000"
           >
