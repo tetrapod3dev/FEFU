@@ -370,20 +370,24 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         recommend_categories = list(results['category'])
         # recommend_products = ProductInfo.objects.none()
+        recommend_products_id = []
         recommend_products = []
         index = 0
 
-        while len(recommend_products) < 3: # 3개가 되면 리턴할거임
+        while len(recommend_products_id) < 3: # 3개가 되면 리턴할거임
             
             if index == 10: #마지막 카테고리까지 왔는데 3개를 못채웠다면
-                random_products_queryset = ProductInfo.objects.order_by('?')[:3-len(recommend_products)] # 남은 개수만큼 랜덤으로 채우자
-                recommend_products += random_products_queryset
+                filtered_products_queryset = ProductInfo.objects.order_by('?').exclude(no__in=recommend_products_id)[:3-len(recommend_products_id)] # 남은 개수만큼 랜덤으로 채우자
                 
             else:
-                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=recommend_categories[index]).order_by('?')[:3] # 소카테고리에서 랜덤으로 3개
-                recommend_products += filtered_products_queryset
+                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=recommend_categories[index]).exclude(no__in=recommend_products_id).order_by('?')[:3-len(recommend_products_id)] # 소카테고리에서 랜덤으로 3개
                 index += 1
+            for products_object in filtered_products_queryset:
+                    recommend_products_id.append(products_object.no)
 
+        for product_id in recommend_products_id:
+            recommend_products.append(ProductInfo.objects.get(no=product_id))
+            
         recommend_products = [ProductSerializer(product).data for product in recommend_products]
         # print(recommend_products)
 
