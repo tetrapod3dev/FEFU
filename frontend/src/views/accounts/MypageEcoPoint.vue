@@ -10,7 +10,16 @@
           <v-col cols="4" align="center" class="table-head">받은 날짜</v-col>
           <v-col cols="12" v-for="(eco, idx) in ecoList" :key="idx">
             <v-row>
-              <v-col cols="4" align="center">{{ eco.sender }}  <span @click="pasteUsername(idx)" class="paste-btn">📃</span></v-col>
+              <v-col cols="4" align="center">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <span v-bind="attrs" v-on="on" @click="pasteUsername(idx)" class="paste-btn">
+                      {{ eco.sender }}  📃
+                    </span>
+                  </template>
+                  <span>복사하기</span>
+                </v-tooltip>
+              </v-col>
               <v-col cols="4" align="center">{{ eco.point }}</v-col>
               <v-col cols="4" align="center">{{ changeDate(eco.transDate) }}</v-col>
             </v-row>
