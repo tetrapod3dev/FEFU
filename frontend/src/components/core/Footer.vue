@@ -34,7 +34,7 @@
           <p v-for="(team, index) in teams" :key="index">
             {{ team.name }}[{{ team.part }}]
             <a
-              :href="'//' + team.gitlab"
+              :href="gitlabUrl(team.gitlab)"
               target="_blank"
               style="text-decoration: none; color: black"
             >
@@ -130,27 +130,27 @@ export default {
         {
           name: "권경은",
           part: "팀장/백엔드",
-          gitlab: "https://lab.ssafy.com/chriskwon96",
+          gitlab: "chriskwon96",
         },
         {
           name: "김현수",
           part: "백엔드",
-          gitlab: "https://lab.ssafy.com/gustn16113",
+          gitlab: "gustn16113",
         },
         {
           name: "박지윤",
           part: "프론트",
-          gitlab: "https://lab.ssafy.com/bellnuite",
+          gitlab: "bellnuite",
         },
         {
           name: "박태록",
           part: "프론트",
-          gitlab: "https://lab.ssafy.com/sdf7575",
+          gitlab: "sdf7575",
         },
         {
           name: "이동혁",
           part: "데이터분석",
-          gitlab: "https://lab.ssafy.com/lee33843",
+          gitlab: "lee33843",
         },
       ],
     };
@@ -171,6 +171,11 @@ export default {
         }
       });
   },
+  methods: {
+    gitlabUrl(gitlab) {
+      return 'https://lab.ssafy.com/' + gitlab
+    }
+  }
 };
 </script>
 
