@@ -2,7 +2,7 @@
   <div class="campaign-info d-flex flex-column">
     <v-container class="my-7">
       <h2 class="text-left">게시글 인증 관리</h2>
-      <v-container>
+      <v-container v-if="proofList.length != 0">
         <v-row>
           <v-col
             v-for="(proof, index) in proofList"
@@ -90,8 +90,13 @@
         <core-pagination
           :curPage="pagination.curPage"
           :maxPage="pagination.endPage"
+          :next="pagination.next"
+          :prev="pagination.prev"
           @move-page="movePage"
         />
+      </v-container>
+      <v-container v-else>
+        <h1 class="no-text">작성된 인증글이 없습니다!</h1>
       </v-container>
     </v-container>
   </div>
@@ -187,6 +192,12 @@ export default {
         .then((res) => {
           this.pagination = res.data.page;
           this.proofList = res.data.list;
+          if (res.data.page.curPage != 1) {
+            this.pagination.prev = true
+          }
+          if (res.data.page.curPage < res.data.page.endPage) {
+            this.pagination.next = true
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -243,5 +254,9 @@ export default {
   font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
   border-radius: 10px;
+}
+
+.no-text {
+  margin: 100px 0;
 }
 </style>

@@ -37,10 +37,10 @@ export default {
       type: Number,
     },
     next: {
-        type: Boolean
+      type: Boolean
     },
     prev: {
-        type: Boolean
+      type: Boolean
     }
   },
   methods: {

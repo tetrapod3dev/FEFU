@@ -10,12 +10,14 @@ import LoginView from "../views/accounts/LoginView.vue";
 import SignupView from "../views/accounts/SignupView.vue";
 import Mypage from "../views/accounts/Mypage.vue";
 import MypageInfoUpdate from "../views/accounts/MypageInfoUpdate.vue";
+import MypageEcoPoint from "../views/accounts/MypageEcoPoint.vue";
 import MypageListCampaignAdmin from "../views/accounts/MypageListCampaignAdmin.vue";
 import MypageListCampaignJoin from "../views/accounts/MypageListCampaignJoin.vue";
 import MypageListProduct from "../views/accounts/MypageListProduct.vue";
 import MypageInfo from "../views/accounts/MypageInfo.vue";
 import MypageUpdatePwd from "../views/accounts/MypageUpdatePwd.vue";
 
+MypageEcoPoint
 // Campaigns
 import CampaignLayout from "../views/campaigns/CampaignLayout.vue";
 import CampaignMain from "../views/campaigns/CampaignMain.vue";
@@ -77,6 +79,11 @@ const routes = [
         path: "info",
         name: "MypageInfo",
         component: MypageInfo,
+      },
+      {
+        path: "eco",
+        name: "MypageEcoPoint",
+        component: MypageEcoPoint,
       },
       {
         path: "update",

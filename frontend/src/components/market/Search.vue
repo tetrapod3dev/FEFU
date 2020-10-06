@@ -22,7 +22,10 @@ export default {
   },
   methods: {
     gotoMarketList() {
-      // console.log(this.searchWord)
+      if (this.searchWord == "") {
+        alert("검색어를 입력해주세요!")
+        return
+      }
       this.$router.push({
         name: "MarketListView", 
         params: {

@@ -1,37 +1,28 @@
 <template>
   <div>
     <v-container justify="start">
-      <div class="c-title c-card__content">등록 캠페인</div>
+      <div class="c-title c-card__content">에코 포인트 거래 내역</div>
 
       <div class="c-txt c-card__content d-flex flex-column">
-        <v-row v-if="campaigninfo.length != 0">
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-            v-for="(campaign, idx) in campaigninfo"
-            :key="idx"
-            align="center"
-          >
-            <CampaignCard
-              :campaign="campaign"
-              :to="{
-                name: 'CampaignDetailInfo',
-                params: { campaignNo: campaign.no },
-              }"
-            />
+        <v-row v-if="ecoList.length != 0">
+          <v-col cols="4" align="center" class="table-head">보낸 사람</v-col>
+          <v-col cols="4" align="center" class="table-head">에코 포인트</v-col>
+          <v-col cols="4" align="center" class="table-head">받은 날짜</v-col>
+          <v-col cols="12" v-for="(eco, idx) in ecoList" :key="idx">
+            <v-row>
+              <v-col cols="4" align="center">{{ eco.sender }}  <span @click="pasteUsername(idx)" class="paste-btn">📃</span></v-col>
+              <v-col cols="4" align="center">{{ eco.point }}</v-col>
+              <v-col cols="4" align="center">{{ changeDate(eco.transDate) }}</v-col>
+            </v-row>
           </v-col>
         </v-row>
         <core-banner
           v-else
-          content="등록하신 캠페인이 없네요. 캠페인을 등록해보세요!🌎"
-          btn-text="등록하러 가기"
+          content="에코포인트 거래 내역이 없습니다. 중고거래 기능을 활용해보세요!🌎"
+          btn-text="중고거래하러 가기"
           color="#fcfcfc"
           align="center"
-          :to="{
-            name: 'CampaignMake',
-            params: { type: 1 },
-          }"
+          :to="{ name: 'MarketMainView' }"
         />
       </div>
     </v-container>
@@ -46,13 +37,12 @@ import { mixinGetUserInfo } from "@/components/mixin/mixinGetUserInfo";
 
 import { mapGetters } from "vuex";
 
-import CampaignCard from "@/components/campaign/CampaignCard.vue";
 import CoreBanner from "@/components/core/Banner.vue";
 
 export default {
-  name: "MypageListCampaignAdmin",
-  components: { CampaignCard, CoreBanner },
+  name: "MypageListCampaignJoin",
   mixins: [mixinGetUserInfo],
+  components: { CoreBanner },
   data() {
     return {
       isJoined: false,
@@ -77,29 +67,43 @@ export default {
         profileImage: "",
       },
       campaigninfo: [],
+      ecoList: {}
     };
   },
   created() {
     this.getUserInfo().catch((err) => console.log(err));
-    this.getCampaignAdmin();
+    this.getEcoList();
   },
   computed: {
     ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
+    pasteUsername(idx) {
+      var temp_textarea = document.createElement("textarea");
+      document.body.appendChild(temp_textarea);
+      temp_textarea.value = this.ecoList[idx]['sender'];
+      temp_textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp_textarea);
+
+      alert('보낸 사람의 아이디를 복사했습니다!\n\n' + this.ecoList[idx]['sender']);
+    },
+    changeDate(date) {
+      return date.slice(0, 10) + ' ' + date.slice(11, 16);
+    },
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
-    getCampaignAdmin() {
+    getEcoList() {
       let configs = {
         headers: {
           Authorization: this.config,
         },
       };
       axios
-        .get(SERVER.URL + SERVER.ROUTES.campaigns.myCampaign, configs)
+        .get(SERVER.URL + SERVER.ROUTES.accounts.ecopoint, configs)
         .then((res) => {
-          this.campaigninfo = res.data;
+          this.ecoList = res.data
         })
         .catch((err) => {
           console.log(err.response);
@@ -206,5 +210,13 @@ export default {
   &-purple:hover {
     background: #786fa6;
   }
+}
+
+.table-head {
+  font-weight: bold;
+}
+
+.paste-btn {
+  cursor: pointer;
 }
 </style>
