@@ -400,19 +400,25 @@ class ProductViewSet(viewsets.ModelViewSet):
         most_related_cateogries = list(category_relation['category'])[:10]
         # test['category'] = test['category'].apply(lambda x: self.category_dict[x])
         # 연관성 높은 카테고리대로 5개 리턴
-
+        print(most_related_cateogries)
+        related_products_id = []
         related_products = []
         index = 0
-        while len(related_products) < 5:
+        while len(related_products_id) < 5:
 
             if index == 10: #마지막 카테고리까지 왔는데 5개를 못채웠다면
-                random_products_queryset = ProductInfo.objects.exclude(no=product_pk).order_by('?')[:5-len(related_products)] # 남은 개수만큼 랜덤으로 채우자
-                related_products += random_products_queryset
+                random_products_queryset = ProductInfo.objects.exclude(no=product_pk).exclude(no__in=related_products_id).order_by('?')[:5-len(related_products)] # 남은 개수만큼 랜덤으로 채우자
+                for product_object in random_products_queryset:
+                    related_products_id.append(product_object.no)
                 
             else:
-                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=most_related_cateogries[index]).exclude(no=product_pk).order_by('?')[:5] # 소카테고리에서 랜덤으로 3개
-                related_products += filtered_products_queryset
+                filtered_products_queryset = ProductInfo.objects.filter(sub_category_no=most_related_cateogries[index]).exclude(no=product_pk).exclude(no__in=related_products_id).order_by('?')[:5-len(related_products_id)] # 소카테고리에서 랜덤으로 3개
+                for product_object in filtered_products_queryset:
+                    related_products_id.append(product_object.no)
                 index += 1
+
+        for product_id in related_products_id:
+            related_products.append(ProductInfo.objects.get(no=product_id))
 
         related_products = [ProductSerializer(product).data for product in related_products]
 
