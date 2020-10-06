@@ -17,7 +17,7 @@
         />
       </v-col>
     </v-row>
-    <v-row v-if="endPage == 0">
+    <v-row v-if="pagination.endPage == 0">
       <h1 class="mx-auto">없어요!</h1>
     </v-row>
     <v-row v-else>
@@ -40,8 +40,10 @@
     </v-row>
 
     <core-pagination
-      :curPage="curPage"
-      :maxPage="endPage"
+      :curPage="pagination.curPage"
+      :maxPage="pagination.endPage"
+      :next="pagination.next"
+      :prev="pagination.prev"
       @move-page="movePage"
     />
   </v-container>
@@ -70,8 +72,17 @@ export default {
         { type: "official", name: "공식캠페인" },
       ],
       campaigns: [],
-      endPage: 0,
       searchInput: "",
+      pagination: {
+        curPage: 1,
+        endPage: 1,
+        next: false,
+        perPageNum: 12,
+        prev: false,
+        startIndex: 1,
+        startPage: 1,
+        totalCount: 6,
+      },
     };
   },
   created() {
@@ -117,8 +128,14 @@ export default {
           },
         })
         .then((res) => {
+          this.pagination = res.data.page;
           this.campaigns = res.data.list;
-          this.endPage = res.data.page.endPage;
+          if (res.data.page.curPage != 1) {
+            this.pagination.prev = true
+          }
+          if (res.data.page.curPage < res.data.page.endPage) {
+            this.pagination.next = true
+          }
         })
         .catch((err) => console.log(err));
     },
@@ -149,7 +166,7 @@ export default {
       if (page == "«") {
         this.$router.push({ params: { page_num: 1 } });
       } else if (page == "»") {
-        this.$router.push({ params: { page_num: this.endPage } });
+        this.$router.push({ params: { page_num: this.pagination.endPage } });
       } else {
         this.$router.push({ params: { page_num: parseInt(page) } });
       }

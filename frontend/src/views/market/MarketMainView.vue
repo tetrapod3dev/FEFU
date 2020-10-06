@@ -62,8 +62,8 @@ export default {
   name: "MarketMainView",
   created() {
     this.getRecommendProducts(),
-      this.getNewProducts(),
-      this.getPopularProducts();
+    this.getNewProducts(),
+    this.getPopularProducts();
   },
   components: {
     MarketCard,
