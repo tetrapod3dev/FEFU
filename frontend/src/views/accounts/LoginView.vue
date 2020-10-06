@@ -77,7 +77,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import router from "@/router";
 
 export default {
   name: "LoginView",
@@ -106,8 +105,6 @@ export default {
     preTest() {
       if (this.$refs.form.validate()) {
         this.login(this.loginData)
-          .then(() => router.push({ name: "Home" }))
-          .catch(() => (this.isWrong = true));
         this.signUserIn({
           email: this.loginData.username,
           password: this.loginData.password,
