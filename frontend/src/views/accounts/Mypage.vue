@@ -36,6 +36,14 @@
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item
+                  :to="{ name: 'MypageEcoPoint' }"
+                  class="c-list-item"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>에코포인트 내역</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
                   :to="{ name: 'MypageListCampaignJoin' }"
                   class="c-list-item"
                 >

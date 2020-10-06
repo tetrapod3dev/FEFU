@@ -87,10 +87,12 @@
         <core-pagination
           :curPage="pagination.curPage"
           :maxPage="pagination.endPage"
+          :next="pagination.next"
+          :prev="pagination.prev"
           @move-page="movePage"
         />
       </v-container>
-      <v-container>
+      <v-container v-else>
         <h1 class="no-text">인증된 게시글이 없습니다!</h1>
       </v-container>
     </v-container>
@@ -136,7 +138,7 @@ export default {
   watch: {
     $route() {
       this.pagination.curPage = parseInt(this.$route.params.page_no);
-      this.getProducts();
+      this.getProofCampaign();
     },
   },
   methods: {
@@ -145,11 +147,11 @@ export default {
     },
     movePage(page) {
       if (page == "«") {
-        this.$router.push({ params: { pageNum: 1 } });
+        this.$router.push({ params: { page_no: 1 } });
       } else if (page == "»") {
-        this.$router.push({ params: { pageNum: this.pagination.endPage } });
+        this.$router.push({ params: { page_no: this.pagination.endPage } });
       } else {
-        this.$router.push({ params: { pageNum: parseInt(page) } });
+        this.$router.push({ params: { page_no: parseInt(page) } });
       }
       scroll(0, 0);
     },
@@ -173,6 +175,13 @@ export default {
         .then((res) => {
           this.pagination = res.data.page;
           this.proofList = res.data.list;
+          console.log(res)
+          if (res.data.page.curPage != 1) {
+            this.pagination.prev = true
+          }
+          if (res.data.page.curPage < res.data.page.endPage) {
+            this.pagination.next = true
+          }
         })
         .catch((err) => {
           console.log(err);
