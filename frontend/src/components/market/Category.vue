@@ -93,7 +93,7 @@ export default {
         pageNum: 1,
         content: null,
       });
-      console.log(this.FILTER);
+      // console.log(this.FILTER);
       this.$router.push(_url).catch((error) => {
         if (error.name === "NavigationDuplicated") {
           location.reload();

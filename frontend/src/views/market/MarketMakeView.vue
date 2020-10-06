@@ -163,7 +163,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-text-field
+            <!-- <v-text-field
               label="chatName"
               v-model="chatName"
               type="text"
@@ -179,7 +179,7 @@
             ></v-text-field>
             <v-btn class="c-btn" @click="testCreateChat"
               >채팅 생성 테스트 버튼</v-btn
-            >
+            > -->
             <v-btn class="c-btn" :to="{ name: 'MarketMainView' }">취소</v-btn>
             <v-btn class="c-btn" @click="registProduct">등록 </v-btn>
           </v-card-actions>
