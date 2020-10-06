@@ -175,7 +175,7 @@ export default {
         .then((res) => {
           this.pagination = res.data.page;
           this.proofList = res.data.list;
-          console.log(res)
+          // console.log(res)
           if (res.data.page.curPage != 1) {
             this.pagination.prev = true
           }

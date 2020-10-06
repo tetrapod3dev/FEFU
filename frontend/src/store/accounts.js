@@ -41,6 +41,10 @@ export default {
           if (info.name != "signup") {
             commit("SET_TOKEN", res.headers.authorization.substr(7));
           }
+          router.push({ name: "Home" })
+        })
+        .catch(() => {
+          alert('아이디 혹은 비밀번호를 확인해주세요!');
         });
     },
     signup({ dispatch }, signupData) {
