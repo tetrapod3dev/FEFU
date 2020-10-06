@@ -77,6 +77,8 @@
       class="text-left mt-4 pa-1"
       rows="1"
       auto-grow
+      readonly
+      color="var(--primary-color)"
       :value="campaign.content">
     </v-textarea>
 
