@@ -52,10 +52,10 @@
                     </p>
                   </div>
                   <div class="d-flex flex-column ml-3">
-                    <v-tooltip v-if="!chat.isAlreadyJoined" right>
+                    <v-tooltip v-if="!chat.isAlreadyJoined && !newJoined" right>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          @click="enterChat(chat)"
+                          @click="checkEnter(chat)"
                           color="var(--primary-color)"
                           fab
                           text
@@ -68,7 +68,7 @@
                       </template>
                       <span>채팅 입장</span>
                     </v-tooltip>
-                    <v-tooltip v-if="chat.isAlreadyJoined" right>
+                    <v-tooltip v-if="chat.isAlreadyJoined || newJoined" right>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
                           color="grey"
@@ -180,6 +180,7 @@ export default {
       colors: ["indigo", "warning", "pink darken-2"],
       slides: ["First", "Second", "Third"],
       visible: false,
+      newJoined: false,
       product: {
         contact: "",
         content: "",
@@ -248,6 +249,10 @@ export default {
     ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
+    checkEnter(chat) {
+        this.newJoined = !this.newJoined;
+        this.enterChat(chat)
+    },
     async enterDetail() {
       await this.getProduct().then(() => {
         this.getChat("p" + this.product.no);

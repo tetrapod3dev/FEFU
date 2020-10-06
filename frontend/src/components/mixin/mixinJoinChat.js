@@ -1,4 +1,4 @@
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 import * as firebase from "firebase/app";
 import "firebase/auth";
@@ -21,6 +21,7 @@ export const mixinJoinChat = {
     },
   },
   methods: {
+    ...mapActions("chat", ["loadUserChats"]),
     enterChat(chat) {
       if (chat.isAlreadyJoined) {
         return;
@@ -42,6 +43,9 @@ export const mixinJoinChat = {
         .ref()
         .update(updates)
         .then(() => {});
+    
+      this.loadUserChats();
+      this.chat.isAlreadyJoined = !this.chat.isAlreadyJoined;
     },
     getChat(id) {
       let that = this;
