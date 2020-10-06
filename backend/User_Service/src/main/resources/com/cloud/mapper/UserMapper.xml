@@ -24,6 +24,7 @@
 		select *
 		from eco_point_info
 		where sender = #{username} or receiver = #{username}
+		order by trans_date desc;
 	</select>
 	
 	<insert id="userRegistier" parameterType="com.cloud.domain.UserDto">
