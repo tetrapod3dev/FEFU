@@ -73,7 +73,13 @@
       </v-row>
     </v-list>
 
-    <p class="text-left mt-4 pa-1">{{ campaign.content }}</p>
+    <v-textarea
+      class="text-left mt-4 pa-1"
+      rows="1"
+      auto-grow
+      :value="campaign.content">
+    </v-textarea>
+
     <v-chip-group>
       <v-chip
         class="ma-1"

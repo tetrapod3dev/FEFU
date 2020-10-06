@@ -228,17 +228,18 @@ export default {
   },
   created() {},
   async mounted() {
-    await this.getProduct().then(() => {
-      this.getChat("p" + this.product.no);
-    });
-    await this.createViewLog();
-    await this.getInfo(this.product.writer)
-      .then((res) => {
-        this.writer = res.data;
-      })
-      .catch((err) => console.log(err));
+    await this.enterDetail();
+    // await this.getProduct().then(() => {
+    //   this.getChat("p" + this.product.no);
+    // });
+    // await this.createViewLog();
+    // await this.getInfo(this.product.writer)
+    //   .then((res) => {
+    //     this.writer = res.data;
+    //   })
+    //   .catch((err) => console.log(err));
 
-    this.getRelatedProduct();
+    // this.getRelatedProduct();
   },
   computed: {
     isWriter() {
@@ -247,6 +248,19 @@ export default {
     ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
+    async enterDetail() {
+      await this.getProduct().then(() => {
+        this.getChat("p" + this.product.no);
+      });
+      await this.createViewLog();
+      await this.getInfo(this.product.writer)
+        .then((res) => {
+          this.writer = res.data;
+        })
+        .catch((err) => console.log(err));
+
+      this.getRelatedProduct();
+    },
     commaNumber(number) {
       if (number) {
         return number.toLocaleString();
@@ -341,6 +355,11 @@ export default {
     },
     handleStatusButton() {
       this.visible = !this.visible;
+    },
+  },
+  watch: {
+    async $route() {
+      await this.enterDetail();
     },
   },
 };

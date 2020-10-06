@@ -40,7 +40,7 @@
               전송할 에코포인트를 입력해주세요!
             </v-col>
             <v-col cols="12">
-              <v-form ref="form">
+              <div>
                 <v-text-field
                   v-model="point"
                   label="에코 포인트"
@@ -54,8 +54,9 @@
                   autocomplete="off"
                   color="#37cdc2"
                   :rules="[(v) => !!v || '에코 포인트를 입력해주세요']"
+                  @keydown.enter="sendEcoPoint"
                 ></v-text-field>
-              </v-form>
+              </div>
             </v-col>
           </v-row>
         </v-container>
@@ -127,8 +128,14 @@ export default {
   },
   methods: {
     sendEcoPoint() {
-      if (!this.$refs.form.validate()) {
-        return;
+      if (this.point < 0) {
+        alert('전송 가능한 최소 에코포인트는 1포인트입니다.');
+        this.point = null;
+        return
+      } else if (this.point > this.product.eco_point) {
+        alert('최대 전송 가능한 에코포인트는' + this.product.eco_point + '입니다.');
+        this.point = null;
+        return
       }
 
       axios
@@ -144,9 +151,12 @@ export default {
             },
           }
         )
-        .then(() => {
+        .then((res) => {
           this.dialog = false;
-        })
+          if (res.data == "전송실패") {
+            alert("보유중인 에코포안트보다 많은 에코포인트를 입력하셨습니다.");
+        this.point = null;
+        }})
         .catch((err) => {
           console.log(err);
         });
