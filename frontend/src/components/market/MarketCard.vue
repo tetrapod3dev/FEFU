@@ -1,5 +1,6 @@
 <template>
   <v-card
+    v-if="product.no"
     class="c-card ma-4"
     :height="1.6 * cardWidth"
     :width="cardWidth"
@@ -10,8 +11,11 @@
   >
     <v-img
       :height="1.1 * cardWidth"
-      :src="imageSrc(product.photo)"
-      lazy-src="@/assets/images/lazy-loading.jpg"
+      :src="
+        product.photo
+          ? imageSrc(product.photo)
+          : '@/assets/images/lazy-loading.jpg'
+      "
     >
       <template v-slot:placeholder>
         <lazy-loading />
