@@ -227,7 +227,7 @@ class ProductInfo(models.Model):
     main_category_no = models.ForeignKey(MainCategoryInfo, models.DO_NOTHING, db_column='main_category_no')
     medium_category_no = models.ForeignKey(MediumCategoryInfo, models.DO_NOTHING, db_column='medium_category_no')
     sub_category_no = models.ForeignKey('SubCategoryInfo', models.DO_NOTHING, db_column='sub_category_no')
-    status = models.IntegerField(blank=True, null=True, default=0)
+    status = models.IntegerField(blank=True, null=True)
     reg_time = models.DateTimeField(blank=True, null=True, auto_now=True)
 
     class Meta:
@@ -251,8 +251,8 @@ class ProofMessageInfo(models.Model):
 
 class PurchaseDetails(models.Model):
     no = models.AutoField(primary_key=True)
-    seller = models.ForeignKey('User', models.DO_NOTHING, db_column='seller', related_name='seller', to_field="username")
-    buyer = models.ForeignKey('User', models.DO_NOTHING, db_column='buyer', related_name='buyer', to_field="username")
+    seller = models.ForeignKey('User', models.DO_NOTHING, db_column='seller', related_name='seller')
+    buyer = models.ForeignKey('User', models.DO_NOTHING, db_column='buyer', related_name='buyer')
     product_no = models.ForeignKey(ProductInfo, models.DO_NOTHING, db_column='product_no')
 
     class Meta:

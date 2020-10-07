@@ -8,17 +8,23 @@
         <v-row align="start"></v-row>
       </slot>
       <slot>
-        <v-row align="center" class="mx-auto" justify="center" style="position: relative;">
-          <v-img src="https://cdn.imweb.me/upload/S20200610f999ac5b4f199/be7483f8a30b9.gif" />
+        <v-row
+          align="center"
+          class="mx-auto"
+          justify="center"
+          style="position: relative"
+        >
+          <v-img :src="backimage" />
           <v-overlay :absolute="true" opacity="0" z-index="0">
             <v-container fill-height>
               <v-col
-                class="black--text custom-hero-text"
-                :class="'custom-hero-text-'+$vuetify.breakpoint.name"
+                class="black--text c-txt"
+                :class="'c-txt-' + $vuetify.breakpoint.name"
                 cols="12"
-              >우리 함께 지구를 구해요</v-col>
+                >{{ subtitle }}</v-col
+              >
               <v-col>
-                <v-img max-height="260" contain :src="require('@/assets/illust/hero-title.svg')" />
+                <v-img :max-height="maxHeight" contain :src="mainimage" />
               </v-col>
             </v-container>
           </v-overlay>
@@ -32,6 +38,15 @@
 <script>
 export default {
   name: "CoreHero",
+  props: {
+    backimage: String,
+    subtitle: String,
+    mainimage: String,
+    maxHeight: {
+      type: String,
+      default: "260",
+    },
+  },
 };
 </script>
 
@@ -45,7 +60,7 @@ export default {
   font-style: normal;
 }
 
-.custom-hero-text {
+.c-txt {
   font-size: 18px;
   font-family: "Nunito", "NanumSquareRound", sans-serif;
 

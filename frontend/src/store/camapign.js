@@ -14,11 +14,13 @@ export default {
         .get(
           SERVER.URL + SERVER.ROUTES.campaigns.URL + "/" + type + "/" + pageNo
         )
-        .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
     goCampaignDetail() {
-      this.$router.push({ name: "CampaignDetail" });
+      this.$router.push({
+        name: "CampaignDetailInfo",
+        params: { CampaignNo: 1 },
+      });
     },
   },
 };
