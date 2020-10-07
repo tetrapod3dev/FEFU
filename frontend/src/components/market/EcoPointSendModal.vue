@@ -154,9 +154,12 @@ export default {
         .then((res) => {
           this.dialog = false;
           if (res.data == "전송실패") {
-            alert("보유중인 에코포안트보다 많은 에코포인트를 입력하셨습니다.");
-        this.point = null;
-        }})
+            alert("보유중인 에코포인트보다 많은 에코포인트를 입력하셨습니다.");
+          } else {
+            alert("에코포인트 전송에 성공했습니다!\n\n유저 아이디: " + this.writer + " / 에코포인트: " + this.point);
+          }
+          this.point = null;
+        })
         .catch((err) => {
           console.log(err);
         });
