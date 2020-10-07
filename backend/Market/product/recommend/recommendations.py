@@ -1,7 +1,9 @@
-import pandas as pd
-import numpy as np
 import pickle
 import os
+
+import pandas as pd
+import numpy as np
+from scipy.sparse.linalg import svds
 
 with open(os.path.dirname(os.path.realpath(__file__)) + '/recommend_data/category_dict.pkl', 'rb') as handle:
     category_dict = pickle.load(handle)
@@ -105,6 +107,27 @@ def recom_ibcf(user, new_df_counts, n_items=20):
     # 계산된 예측값을 오름차순으로 정렬합니다.
     pred_user_category = user_category.sort_values(ascending=False)[:n_items]
     recommend_category = pd.DataFrame(pred_user_category).reset_index()
-    # recommend_category['category'] = recommend_category['category'].map(lambda x: category_dict[x])
 
+    return recommend_category
+
+
+def recom_mf(user, new_df_counts, n_items=20):
+    view_matrix = new_df_counts.pivot(index='user', columns='category', values='sum').fillna(0)
+    matrix_values = view_matrix.values
+    user_view_mean = np.mean(matrix_values, axis=1)
+    matrix_user_mean = matrix_values - user_view_mean.reshape(-1, 1)
+
+    users, sigma, vt = svds(matrix_user_mean, k = 15)
+    sigma = np.diag(sigma)
+
+    svd_user_prediction = np.dot(np.dot(users, sigma), vt) + user_view_mean.reshape(-1, 1)
+
+    user_idx = list(view_matrix.index).index(user['username'])
+    categories = list(view_matrix.columns)
+
+    recommend_category = pd.DataFrame(svd_user_prediction[user_idx], columns=['pred'])
+    recommend_category['category'] = recommend_category.index.map(lambda cat_idx: categories[cat_idx])
+    recommend_category = recommend_category.sort_values(by='pred', ascending=False)
+
+    recommend_category = recommend_category[:n_items]
     return recommend_category
