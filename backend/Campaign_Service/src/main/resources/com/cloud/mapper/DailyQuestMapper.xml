@@ -10,12 +10,17 @@
 	<select id="findByCompleteList" resultType="com.cloud.domain.DailyQuestDto">
 		select quest_no as no
 		from user_quest_complete uqc INNER JOIN user u
-		on u.username = #{username}
+		on u.username = #{username} and u.no = uqc.user_no and date(uqc.complete_date) = curdate()
 	</select>
 	
 	<insert id="insertComplete">
 		insert into user_quest_complete (user_no, quest_no)
-		values((select no from user where username = #{username}), #{no});					
+		values((select no from user where username = #{username}), #{no});
+		
 	</insert>
+	
+	<update id="updateExp">
+		update user set exp = exp + 10 where username = #{username};	
+	</update>
 	
 </mapper>

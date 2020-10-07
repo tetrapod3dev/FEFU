@@ -12,15 +12,23 @@ spring:
       idle-timeout: 300000
       max-lifetime: 1200000
       auto-commit: true
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://j3a402.p.ssafy.io:8761/eureka
+#      defaultZone: http://localhost:8761/eureka
 
 zuul:
+  ignored-headers:
+  - Access-Control-Allow-Credentials
+  - Access-Control-Allow-Origin
   routes:
    service-user:
      path: /users/**
@@ -48,5 +56,7 @@ logging:
     file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     org.springframework.web: INFO
-  file: app.log
+  file:
+    path: /logging
+    name: /logging/API-Gateway.log
   
