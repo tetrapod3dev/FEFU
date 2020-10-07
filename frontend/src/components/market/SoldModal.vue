@@ -124,7 +124,9 @@ export default {
           this.$router.go();
         })
         .catch((err) => {
-          console.log(err);
+          if (err.response.status == 400) {
+            alert('판매 처리에 실패했습니다.\n구매자 이메일을 정확하게 입력해주세요.')
+          }
         });
     },
   },
