@@ -4,12 +4,37 @@
       type="text"
       class="custom-search"
       placeholder="🔍 검색어를 입력하세요"
+      v-model="searchWord"
+      @keyup.enter="gotoMarketList"
     />
   </div>
 </template>
 
 <script>
-export default {};
+
+
+export default {
+  name: "MarketSearchView",
+  data() {
+    return{
+      searchWord: ""
+    }
+  },
+  methods: {
+    gotoMarketList() {
+      if (this.searchWord == "") {
+        alert("검색어를 입력해주세요!")
+        return
+      }
+      this.$router.push({
+        name: "MarketListView", 
+        params: {
+          pageNum:1,
+          content: this.searchWord
+          }})
+    }
+  }
+};
 </script>
 
 <style scoped>

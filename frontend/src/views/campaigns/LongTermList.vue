@@ -38,10 +38,6 @@
         </v-row>
       </v-container>
     </div>
-
-    <div class="section">
-      <v-btn>캠페인 만들기</v-btn>
-    </div>
   </div>
 </template>
 
@@ -78,7 +74,10 @@ export default {
   },
   methods: {
     goCampaignDetail() {
-      this.$router.push({ name: "CampaignDetail" });
+      this.$router.push({
+        name: "CampaignDetailInfo",
+        params: { CampaignNo: 1 },
+      });
     },
   },
 };
