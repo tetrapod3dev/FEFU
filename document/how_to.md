@@ -1,3 +1,55 @@
+### Preparation
+
+- Please must install Java 1.8  or even higher version
+
+- install Node.js / NPM / yarn
+
+- Clone Repository
+
+    ```
+    git clone https://lab.ssafy.com/s03-webmobile1-sub3/s03p23a402.git
+      
+    cd s03p23a402
+    ```
+
+
+
+### Installation
+
+- Build front-end environment & run front-end server
+
+    ```
+    cd s03p23a402/frontend
+    
+    yarn install
+    
+    yarn serve
+    ```
+
+    Build back-end & run back-end server (Django)
+
+    ```
+    cd s03p23a402/backend/
+    
+    python -m venv venv
+    source venv/Script/Activate
+    
+    pip install -r requirements.txt
+    
+    cd Market/
+    python manage.py runserver
+    ```
+
+- Use Nginx & pm2
+
+    ``` 
+    pm2 start co-ok
+    ```
+
+
+
+### Server Deploy
+
 ```bash
 # docker 설치
 apt-get update
