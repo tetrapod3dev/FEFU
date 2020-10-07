@@ -1,11 +1,31 @@
 <template>
-  <v-card darkclass="mx-auto" max-width="400" outlined class="custom-card">
-    <v-img class="campaign-img" height="200px" :src="src"></v-img>
+  <v-card
+    darkclass="mx-auto"
+    max-width="400"
+    outlined
+    class="custom-card"
+    :to="to"
+  >
+    <v-img
+      class="campaign-img"
+      height="200px"
+      :src="
+        campaign.photo
+          ? imageSrc(campaign.photo)
+          : '@/assets/images/lazy-loading.jpg'
+      "
+      lazy-src="@/assets/images/lazy-loading.jpg"
+    >
+      <template v-slot:placeholder>
+        <lazy-loading />
+      </template>
+    </v-img>
 
     <v-card-text class="text--primary text-left">
       <h3>{{ campaign.title }}</h3>
-      <div>{{ campaign.org }}</div>
-      <div class="mt-2">
+      <div>{{ campaign.writer }}</div>
+
+      <div class="mt-2" v-if="campaign.valueDeterminate">
         <v-progress-linear
           class="custom-progress"
           v-model="campaign.valueDeterminate"
@@ -18,13 +38,20 @@
 </template>
 
 <script>
+import SERVER from "@/api/api";
+
 export default {
   data() {
     return {
       valueDeterminate: 50,
     };
   },
-  props: ["campaign", "src"],
+  props: ["campaign", "to"],
+  methods: {
+    imageSrc(filename) {
+      return SERVER.IMAGE_URL + filename;
+    },
+  },
 };
 </script>
 

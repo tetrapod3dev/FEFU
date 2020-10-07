@@ -2,10 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cloud.mapper.UserMapper">
 
+	<select id="findByUsername" resultType="com.cloud.domain.UserDto">
+		select no, username, nickname, age, gender, eco_point, exp, profile_image, introduce
+		from user
+		where username = #{username}
+	</select>
+
 	<select id="checkByUsername" resultType="Integer">
 		select count(*)
 		from user
 		where username = #{username}
+	</select>
+	
+	<select id="checkByNickname" resultType="Integer">
+		select count(*)
+		from user
+		where nickname = #{nickname}
+	</select>
+	
+	<select id="findByEcoPointList" resultType="com.cloud.domain.EcoPointDto">
+		select *
+		from eco_point_info
+		where sender = #{username} or receiver = #{username}
+		order by trans_date desc;
 	</select>
 	
 	<insert id="userRegistier" parameterType="com.cloud.domain.UserDto">
@@ -18,4 +37,29 @@
 		values((select no from user where username = #{username}), 'USER_ROLE');					
 	</insert>
 	
+	<update id="updateUser">
+		update user set nickname = #{nickname}, age = #{age}, gender = #{gender}, profile_image = #{profileImage}, introduce = #{introduce}
+		where username = #{username}
+	</update>
+	
+	<update id="changePassword">
+		update user set password = #{password} where username = #{username}
+	</update>
+	
+	<update id="updateEco">
+		<selectKey keyProperty="curPoint" resultType="integer" order="BEFORE">
+	 		select eco_point from user where username = #{sender}; 
+  		</selectKey>
+  		<choose>
+	  		<when test="curPoint gte point">
+				update user set eco_point = eco_point - #{point} where username = #{sender};
+				update user set eco_point = eco_point + #{point} where username = #{receiver};
+				insert into eco_point_info (sender, receiver, point)
+				values (#{sender}, #{receiver}, #{point});
+	  		</when>
+	  		<otherwise>
+	  			select 0;
+	  		</otherwise>
+  		</choose>
+	</update>
 </mapper>

@@ -6,15 +6,25 @@
         <router-view />
       </v-main>
       <core-footer />
+      <chat-button v-if="isLoggedIn" />
     </v-app>
   </div>
 </template>
 
 <script>
+import ChatButton from "@/components/Chat/ChatButton.vue";
+import CoreFooter from "@/components/core/Footer";
+import CoreHeader from "@/components/core/Header";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
-    CoreFooter: () => import("./components/core/Footer"),
-    CoreHeader: () => import("./components/core/Header"),
+    ChatButton,
+    CoreFooter,
+    CoreHeader,
+  },
+  computed: {
+    ...mapGetters("accounts", ["isLoggedIn"]),
   },
 };
 </script>

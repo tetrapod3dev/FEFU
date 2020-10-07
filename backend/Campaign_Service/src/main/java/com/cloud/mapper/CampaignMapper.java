@@ -14,9 +14,12 @@ import com.cloud.domain.OfficialAndPersonalDto;
 public interface CampaignMapper {
 
 	public List<CampaignDto> findAll(String campaignType, int pageNo, String type, String content, int startIndex, int perPageNum);
+	public List<CampaignDto> findByJoinCampaign(String username);
+	public List<CampaignDto> findByRegistCampaign(String username);
 	public int findByCount(String campaignType, int pageNo, String type, String content);
 	public List<String> findTagByNo(int no);
 	public Map<String, Object> findDetail(int no, String type);
+	public int findByJoinCount(int no);
 	public String findTypeByNo(int no);
 	public int checkJoin(int no, String username);
 	public int joinCampaign(int no, String username);

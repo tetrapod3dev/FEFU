@@ -13,4 +13,6 @@ public interface DailyQuestMapper {
 	public List<DailyQuestDto> findAll();
 	public List<DailyQuestDto> findByCompleteList(String username);
 	public int insertComplete(@Param("username") String username, @Param("no") int no);
+	public int updateExp(@Param("username") String username);
+	
 }

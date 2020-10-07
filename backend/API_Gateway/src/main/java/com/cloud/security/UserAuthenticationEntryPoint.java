@@ -22,7 +22,7 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json;charset=utf-8");
 		Gson gson = new Gson();
-		String json = "{'status' : '401', 'message' : '아이디나 비밀번호가 일치하지 않습니다'}";
+		String json = "{'status' : '401', 'message' : '권한 없음!!!'}";
 		
 		response.getWriter().print(gson.toJson(json));
 	}

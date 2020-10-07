@@ -1,5 +1,24 @@
 <template>
-  <div id="custom-header">
+  <div id="c-header">
+    <img
+      :src="
+        $vuetify.breakpoint.smAndDown
+          ? require('@/assets/images/logo64.png')
+          : require('@/assets/images/logo128.png')
+      "
+      class="rotating"
+      style="z-index: 10; position: fixed; cursor: pointer"
+      :style="
+        $vuetify.breakpoint.smAndDown
+          ? 'height: 64px;width: 64px;top: 0px;left: 0px;'
+          : 'height: 128px;width: 128px;top: 5px;left: 5px;'
+      "
+      @click="
+        moveToPage({
+          name: 'Home',
+        })
+      "
+    />
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -11,24 +30,31 @@
         <v-list-item
           v-for="(link, index) in links"
           :key="index"
-          :href="link.href"
+          :to="{ name: link.href }"
         >
           <v-list-item-content>
-            <v-list-item-title class="text-left custom-drawer"
+            <v-list-item-title class="text-left c-drawer"
               >{{ link.textKr }} {{ link.textEn }}</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="!isLoggedIn" href="/user/login">
+        <v-list-item v-if="!isLoggedIn" :to="{ name: 'LoginView' }">
           <v-list-item-content>
-            <v-list-item-title class="text-left custom-drawer"
+            <v-list-item-title class="text-left c-drawer"
               >로그인 LOGIN</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="isLoggedIn" @click="logout">
+        <v-list-item v-if="isLoggedIn" :to="{ name: 'MypageInfo' }">
           <v-list-item-content>
-            <v-list-item-title class="text-left custom-drawer"
+            <v-list-item-title class="text-left c-drawer"
+              >마이페이지 MYPAGE</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="isLoggedIn" @click="preLogout">
+          <v-list-item-content>
+            <v-list-item-title class="text-left c-drawer"
               >로그아웃 LOGOUT</v-list-item-title
             >
           </v-list-item-content>
@@ -37,33 +63,41 @@
     </v-navigation-drawer>
 
     <v-app-bar fixed flat color="transparent">
-      <v-toolbar-title
+      <!-- <v-toolbar-title
         class="nav-logo text-left"
         @click="$router.push({ name: 'Home' })"
       >
         For
         <span class="js-nametag">Earth</span>
         <span class="js-nametag">Us</span>
-      </v-toolbar-title>
+      </v-toolbar-title> -->
       <v-spacer></v-spacer>
       <router-link
         tag="button"
         v-for="(link, index) in links"
         :key="index"
-        :to="link.href"
+        :to="{ name: link.href }"
         class="hidden-sm-and-down custom-button mx-1"
         >{{ link.textKr }}</router-link
       >
       <router-link
         v-if="!isLoggedIn"
         tag="button"
-        to="/user/login"
+        :to="{ name: 'LoginView' }"
         class="hidden-sm-and-down custom-button mx-1"
         >로그인</router-link
       >
+      <router-link
+        v-if="isLoggedIn"
+        tag="button"
+        :to="{ name: 'MypageInfo' }"
+        class="hidden-sm-and-down custom-button mx-1"
+      >
+        마이페이지
+      </router-link>
       <button
         v-if="isLoggedIn"
-        @click="logout"
+        @click="preLogout"
         class="hidden-sm-and-down custom-button mx-1"
       >
         로그아웃
@@ -77,7 +111,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 // config
 export default {
   name: "CoreHeader",
@@ -88,17 +122,17 @@ export default {
         {
           textKr: "소개",
           textEn: "ABOUT",
-          href: "/about",
+          href: "About",
         },
         {
           textKr: "캠페인",
           textEn: "CAMPAIGN",
-          href: "/campaigns",
+          href: "CampaignMain",
         },
         {
           textKr: "중고마켓",
           textEn: "MARKET",
-          href: "/market",
+          href: "MarketMainView",
         },
       ],
     };
@@ -108,6 +142,18 @@ export default {
   },
   methods: {
     ...mapActions("accounts", ["logout"]),
+    ...mapMutations("auth", ["clearUser"]),
+    preLogout() {
+      this.logout();
+      this.clearUser();
+    },
+    moveToPage(_url) {
+      this.$router.push(_url).catch((error) => {
+        if (error.name === "NavigationDuplicated") {
+          location.reload();
+        }
+      });
+    },
   },
 };
 </script>
@@ -158,11 +204,11 @@ export default {
   }
 }
 
-.custom-drawer {
+.c-drawer {
   font-family: "S-CoreDream-7ExtraBold";
 }
 
-#custom-header .custom-button {
+#c-header .custom-button {
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px 20px !important;
@@ -180,6 +226,42 @@ export default {
   }
   &:focus {
     outline: 0;
+  }
+}
+
+.rotating:hover {
+  -webkit-animation: rotating 10s linear infinite;
+  -moz-animation: rotating 10s linear infinite;
+  -ms-animation: rotating 10s linear infinite;
+  -o-animation: rotating 10s linear infinite;
+  animation: rotating 10s linear infinite;
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 </style>
