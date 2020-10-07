@@ -5,7 +5,7 @@ spring:
   application:
     name: users
   datasource:
-    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
     username: user
     password: a402
     hikari:
@@ -20,15 +20,19 @@ mybatis:
   type-aliases-package: com.cloud.mapper
   mapper-locations:
   - classpath:/mapper/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
   
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://j3a402.p.ssafy.io:8761/eureka
+#      defaultZone: http://localhost:8761/eureka
   instance:
     instance-id: users
+    prefer-ip-address: true
       
 logging:
   pattern:
@@ -36,4 +40,6 @@ logging:
     file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     org.springframework.web: INFO
-  file: app.log
+  file:
+    path: /logging
+    name: /logging/user.log

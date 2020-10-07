@@ -28,9 +28,10 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://j3a402.p.ssafy.io:8761/eureka
   instance:
     instance-id: campaigns
+    prefer-ip-address: true  # 도커에 올릴때 해줘야 찾음
       
 logging:
   pattern:
@@ -38,4 +39,6 @@ logging:
     file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   level:
     org.springframework.web: INFO
-  file: app.log
+  file:
+    path: /logging
+    name: /logging/camapign.log

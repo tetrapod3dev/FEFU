@@ -25,6 +25,7 @@
 				on c.type = #{campaignType} and c.no = sub.campaign_no
 			</when>
 		</choose>
+		order by no desc
 		limit #{startIndex}, #{perPageNum}
 	</select>
 	
@@ -51,6 +52,12 @@
 				on c.type = #{campaignType} and c.no = sub.campaign_no
 			</when>
 		</choose>
+	</select>
+	
+	<select id="findByJoinCount" resultType="Integer">
+		select count(*)
+		from campaign_user
+		where campaign_no = #{no};
 	</select>
 	
 	<select id="findTypeByNo" resultType="String">
@@ -84,6 +91,18 @@
 		select ti.tag_name
 		from campaign_tag ct inner join tag_info ti
 		on ct.campaign_no = #{no} and ct.tag_no = ti.no;
+	</select>
+	
+	<select id="findByJoinCampaign" resultType="com.cloud.domain.CampaignDto">
+		select ci.*
+		from campaign_info ci inner join campaign_user cu
+		on cu.user_id = #{username} and cu.campaign_no = ci.no;
+	</select>
+	
+	<select id="findByRegistCampaign" resultType="com.cloud.domain.CampaignDto">
+		select *
+		from campaign_info
+		where writer = #{username}
 	</select>
 	
 	<insert id="joinCampaign">

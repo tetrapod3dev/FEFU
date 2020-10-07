@@ -11,6 +11,7 @@ public class UserDto {
 	private int ecoPoint;
 	private int exp;
 	private String profileImage;
+	private String introduce;
 
 	public int getNo() {
 		return no;
@@ -82,6 +83,14 @@ public class UserDto {
 
 	public void setProfileImage(String profileImage) {
 		this.profileImage = profileImage;
+	}
+
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
 	}
 
 }
