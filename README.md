@@ -1,4 +1,6 @@
-# A402 - Among Earth / F E F U
+![logo](images/FEFU.png)
+
+<center><h2>A402 - Among Earth</h2></center>
 
 <center>
     <img src="https://img.shields.io/badge/platform-web-green">
@@ -10,13 +12,25 @@
     <img src="https://img.shields.io/badge/language-python%2C java%2C javascript-yellowgreen">
     <img src="https://img.shields.io/badge/swagger-valid-brightgreen">
 </center>
+![main_page](images/main_page.JPG)
+
+<center><a href="http://j3a402.p.ssafy.io/"><h2>FEFU 바로가기</h2></a></center>
+
+<center><a href="document/DEMO.md"><h3>Demo 바로가기</h3></a></center>
+
+<center>
+    캠페인 기능을 활용하여 다른 사용자들과 함께 환경을 지키기위한 노력을 계속할 수 있습니다.<br>
+    캠페인 활동을 통해 얻은 에코포인트를 활용하여 중고물품을 저렴하게 구입하며,<br>
+    함께, 그리고 지속 가능한 환경 보호 활동을 할 수 있을 것입니다.
+</center>
+
+
 
 ## :book: 목차
+
 - [FEFU](#:earth_asia:-FEFU)
-- [와이어프레임](#:desktop_computer:-와이어프레임)
 - [기술 설명](#:gear:-기술-설명)
 	- [ERD](#ERD)
-	- [디렉토리 구조도](#디렉토리-구조도)
 	- [시스템 구성도](#시스템-구성도)
 	- [기타](#기타)
 - [Among Earth Team](#🍀-Among-Earth-Team)
@@ -28,19 +42,16 @@
 > **For Earth, For Us**
 >
 > 자연과 공존할 수 있는 삶터를 지키고 행복한 미래를 만들어 가는 녹색의 길에서
+>
 > 지구 그리고 당신과 함께 하겠습니다.
 
-지구의 날은 1970년 부터 시작하여 50주년을 맞은 이 시점에서
-환경 보호에 대한 중요성을 다시 한번 상기하고
-사람들로부터 참여할 수 있도록 도와주어 
-아름답고 건강한 미래를 위해 실현하는데 매진합니다.  
+지구의 날은 1970년 부터 시작되었고, 올해로 50주년을 맞이했습니다.
 
+저희 FEFU는 지구의 날 50주년을 맞이하여 환경 보호에 대한 중요성을 다시 한번 상기하고자 합니다.
 
+FEFU를 통해 사람들은 함께, 그리고 지속적으로 환경 보호 활동에 참여할 수 있을 것이고,
 
-## :desktop_computer: 와이어프레임
-> Adobe XD를 활용하여 만든 와이어 프레임입니다.
->
-> [와이어프레임 바로가기](https://xd.adobe.com/view/3881961c-b080-4c11-84fe-019b89b3ba21-6dd2/?fullscreen&hints=off)
+모두의 아름답고 건강한 미래를 실현할 수 있을 것입니다.  
 
 
 
@@ -50,10 +61,6 @@
 ![ERD](images/ERD.png)
 
 
-
-### 디렉토리 구조도
-> 폴더 구조가 어떻게 되는지 폴더, 파일별 역할들을 간략하게 적어주세요  
-> 너무 자세히 적을 필요는 없습니다
 
 
 ### 시스템 구성도
