@@ -1,8 +1,8 @@
 import cookies from "vue-cookies";
 import axios from "axios";
+import router from "@/router";
 
 import SERVER from "@/api/api";
-import router from "@/router";
 
 export default {
   namespaced: true,
@@ -14,6 +14,14 @@ export default {
       return !!state.authToken;
     },
     config: (state) => `Bearer ${state.authToken}`,
+    USERNAME(state) {
+      if (!state.authToken) {
+        return "";
+      }
+      var base64Url = `Bearer ${state.authToken}`.split(".")[1];
+      var decodedValue = JSON.parse(window.atob(base64Url));
+      return decodedValue.sub;
+    },
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -24,37 +32,36 @@ export default {
   actions: {
     postAuthData({ commit }, info) {
       axios
-        .post(SERVER.URL + info.location, info.data)
-        .then((res) => {
-          if (info.name == "signup") {
-            alert("회원 가입에 성공했습니다");
-            router.push({ name: "LoginView" });
-          } else {
-            console.log(res);
-            commit("SET_TOKEN", res.headers.authorization.substr(7));
-            router.push({ name: "Home" });
-          }
+        .post(SERVER.URL + info.location, info.data, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
         })
-        .catch((err) => {
-          // alert("아이디 혹은 비밀번호를 다시 한 번 확인해주세요.");
-          console.log(err);
+        .then((res) => {
+          if (info.name != "signup") {
+            commit("SET_TOKEN", res.headers.authorization.substr(7));
+          }
+          router.push({ name: "Home" })
+        })
+        .catch(() => {
+          alert('아이디 혹은 비밀번호를 확인해주세요!');
         });
     },
     signup({ dispatch }, signupData) {
       const info = {
         data: signupData,
-        location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.signup,
+        location: SERVER.ROUTES.accounts.URL,
         name: "signup",
       };
-      dispatch("postAuthData", info);
+      return dispatch("postAuthData", info);
     },
 
     login({ dispatch }, loginData) {
       const info = {
         data: loginData,
-        location: SERVER.ROUTES.accounts.URL + SERVER.ROUTES.accounts.login,
+        location: SERVER.ROUTES.accounts.login,
       };
-      dispatch("postAuthData", info);
+      return dispatch("postAuthData", info);
     },
 
     logout({ commit }) {

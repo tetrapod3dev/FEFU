@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.cloud.security.JwtAuthorizationFilter;
 import com.cloud.security.JwtProperties;
@@ -35,26 +35,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.addFilterBefore(new JwtAuthorizationFilter(new JwtProperties()), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/auth/**").permitAll()
-			.antMatchers("/campaigns/daily-quest/**").authenticated()
-			.antMatchers("/campaigns/join/**").authenticated()
-			.antMatchers("/campaigns/leave/**").authenticated()
+			.antMatchers(HttpMethod.PATCH, "/users/**").authenticated()
+			.antMatchers(HttpMethod.POST, "/campaigns/daily-quest/**").authenticated()
+			.antMatchers(HttpMethod.GET, "/campaigns/daily-quest/**").authenticated()
+			.antMatchers(HttpMethod.GET, "/campaigns/join/**").authenticated()
+			.antMatchers(HttpMethod.GET, "/campaigns/my-campaign").authenticated()
+			.antMatchers(HttpMethod.POST, "/campaigns/join/**").authenticated()
+			.antMatchers(HttpMethod.DELETE, "/campaigns/leave/**").authenticated()
 //			.anyRequest().authenticated();
 			.anyRequest().permitAll();
 	}
 	
 	@Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
-        configuration.addExposedHeader("Authorization");
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+	public CorsFilter corsFilter() {
+	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    final CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowCredentials(true);
+	    config.addAllowedOrigin("*");
+	    config.addAllowedHeader("*");
+	    config.addAllowedMethod("OPTIONS");
+	    config.addAllowedMethod("HEAD");
+	    config.addAllowedMethod("GET");
+	    config.addAllowedMethod("PUT");
+	    config.addAllowedMethod("POST");
+	    config.addAllowedMethod("DELETE");
+	    config.addAllowedMethod("PATCH");
+	    config.addExposedHeader("Authorization");
+	    source.registerCorsConfiguration("/**", config);
+	    return new CorsFilter(source);
+	}
 
 }

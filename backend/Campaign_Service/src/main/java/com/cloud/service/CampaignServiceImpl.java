@@ -62,6 +62,9 @@ public class CampaignServiceImpl implements CampaignService {
 		} else if (type.equals("official") || type.equals("personal")) {
 			list.put(type, setOAP(map));
 		}
+		
+		int total = campaignMapper.findByJoinCount(no);
+		list.put("currentMember", total);
 
 		return list;
 	}
@@ -103,6 +106,16 @@ public class CampaignServiceImpl implements CampaignService {
 		}
 
 		return res;
+	}
+	
+	@Override
+	public List<CampaignDto> findByJoinCampaign(String username) {
+		return campaignMapper.findByJoinCampaign(username);
+	}
+	
+	@Override
+	public List<CampaignDto> findByRegistCampaign(String username) {
+		return campaignMapper.findByRegistCampaign(username);
 	}
 
 	@Override

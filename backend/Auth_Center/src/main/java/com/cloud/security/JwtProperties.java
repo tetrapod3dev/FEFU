@@ -8,7 +8,7 @@ public class JwtProperties {
 
 	private String secret = "custom";
 
-	private int expirationTime = 300000;
+	private int expirationTime = 500000000;
 
 	public String getHeader() {
 		return header;
