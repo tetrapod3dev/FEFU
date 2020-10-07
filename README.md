@@ -32,8 +32,8 @@
 
 ### :gear: [환경 보호 준비 과정](#환경-보호-준비-과정)
 
-- ERD 소개
-- 시스템 구성도 소개
+- ERD
+- 시스템 구성도
 - 기타 (와이어프레임 / API 문서 / 추천 시스템 소개)
 
 ### :package: [환경 보호 수단](#환경-보호-수단)​
@@ -96,11 +96,12 @@ FEFU를 통해 사람들은 함께, 그리고 지속적으로 환경 보호 활�
 
 ### 기타
 
-[와이어 프레임](document/wire_frame.md)
-
-[API Documentation](document/REST_API_document.md)
-
-[추천 시스템 구성 방법](document/recommendation_summary.md)
+* [와이어프레임](https://xd.adobe.com/view/3881961c-b080-4c11-84fe-019b89b3ba21-6dd2/?fullscreen&hints=off)
+    * Adobe XD를 사용하여 제작된 와이어프레임
+* [API Documentation](document/REST_API_document.md)
+    * RESTful 서버의 API 문서입니다.
+* [추천 시스템 구성 방법](document/recommendation_summary.md)
+    * 어떠한 방식으로 추천 시스템이 구성되어 있는지와 그러한 판단의 근거를 기록해놨습니다.
 
 
 
@@ -116,7 +117,7 @@ FEFU를 통해 사람들은 함께, 그리고 지속적으로 환경 보호 활�
 |          vuex          |     3.5.1     | 상태 관리 패턴 + 라이브러리                     |
 |      vue-cookies       |     1.7.4     | 로그인 상태를 유지하기 위해 사용 (token 저장)   |
 |         axios          |    0.20.0     | REST API 서버로부터 데이터를 받아오기 위해 사용 |
-|        vuetify         |     2.3.8     |                                                 |
+|        vuetify         |     2.3.8     | UI 구성을 위해 사용                             |
 | chart.js / vue-chartjs | 2.9.3 / 3.5.1 | 데이터를 시각화하여 보여주기 위해 사용          |
 |        firebase        |    7.22.0     | 중고마켓의 채팅 시스템 구현을 위해 사용         |
 
@@ -159,61 +160,7 @@ FEFU를 통해 사람들은 함께, 그리고 지속적으로 환경 보호 활�
 
 
 
-### 코드 실행 방법
-
-### Preparation
-
-- Please must install Java 1.8  or even higher version
-
-- install Node.js / NPM / yarn
-
-- Clone Repository
-
-    ```
-    git clone https://lab.ssafy.com/s03-webmobile1-sub3/s03p23a402.git
-      
-    cd s03p23a402
-    ```
-
-### Installation
-
-- Build front-end environment & run front-end server
-
-    ```
-    cd s03p23a402/frontend
-    
-    yarn install
-    
-    yarn serve
-    ```
-
-- Build back-end & run back-end server (Spring)
-
-    ```
-    mvn clean package
-    
-    java -jar target/cookblog-0.0.1-SNAPSHOT.war
-    ```
-
-- Build back-end & run back-end server (Django)
-
-    ```
-    cd s03p23a402/backend/
-    
-    python -m venv venv
-    source venv/Script/Activate
-    
-    pip install -r requirements.txt
-    
-    cd Market/
-    python manage.py runserver
-    ```
-
-- Use Nginx & pm2
-
-    ``` 
-    pm2 start co-ok
-    ```
+### [코드 실행 방법](document/how_to.md)
 
 
 
@@ -231,7 +178,7 @@ FEFU를 통해 사람들은 함께, 그리고 지속적으로 환경 보호 활�
 
 
 
-### Git Branch 전략
+### :star: Git Branch 전략
 
 ### branch
 
@@ -265,3 +212,8 @@ merge 권한은 모두가 가지고 있지만 같은 팀의 다른 사람에게 
 merge 후 불필요한 branch 지우기
 ```
 
+
+
+### :calendar: 개발 일정
+
+![calendar](images/calendar.JPG)
