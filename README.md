@@ -14,9 +14,9 @@
 </div>
 <img src="images/main_page.JPG" align=center>
 
-<a href="http://j3a402.p.ssafy.io/" align=center><h3>FEFU 바로가기</h3></a>
+<h3 align=center><a href="http://j3a402.p.ssafy.io/">FEFU 바로가기</a></h3>
 
-<a href="document/DEMO.md" align=center><h3>Demo 바로가기</h3></a>
+<h3 align=center><a href="document/DEMO.md">DEMO 바로가기</a></h3>
 
 <div align=center>
     캠페인 기능을 활용하여 다른 사용자들과 함께 환경을 지키기위한 노력을 계속할 수 있습니다.<br>
