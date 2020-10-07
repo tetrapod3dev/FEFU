@@ -13,7 +13,7 @@ from datetime import date, datetime, timedelta
 from itertools import chain
 
 #------Recommendation
-from .recommend.recommendations import recom_simple, recom_ibcf
+from .recommend.recommendations import recom_simple, recom_ibcf, recom_mf
 
 import pandas as pd
 import numpy as np
@@ -340,14 +340,24 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         # 현재는 중분류 2개 이상, 모든 중분류 조회수의 평균값이 2이상으로 설정해두었습니다.
         # 추후 수정해야됩니다 (MF를 도입하여 Hybrid도입 시)
-        if size_med >= 2 and mean_med >= 2:
-            method = 'IBCF'
+        
+        if size_med >= 2:
+            method = 'hybrid'
             user_info = {
                 'username': user.username,
                 'gender': self.transform_gender(user.gender),
                 'age': self.transform_age(user.age)
             }
-            results = recom_ibcf(user_info, new_df_counts, n_items=10)
+            results_ibcf = recom_ibcf(user_info, new_df_counts, n_items=423)
+
+            results_mf = recom_mf(user_info, new_df_counts, n_items=423)
+
+
+            results_ibcf = results_ibcf.set_index('category').rename(columns={user.username: 'pred'}).fillna(0)
+            results_mf = results_mf.set_index('category').fillna(0)
+            results = (results_ibcf * 0.51 + results_mf * 0.49).reset_index().sort_values(by='pred', ascending=False)[:10]
+        
+
 
         else:
             method = 'Simple'
