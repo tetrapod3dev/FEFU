@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "LoginView",
@@ -90,12 +90,20 @@ export default {
       isWrong: false,
       emailRules: [
         (v) => !!v || "가입하신 이메일 계정을 입력해주세요",
-        (v) => /.+@.+\..+/.test(v) || "올바른 양식의 이메일을 입력해주세요",
+        (v) => /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(v) || "올바른 양식의 이메일을 입력해주세요",
       ],
       valid: true,
     };
   },
-
+  mounted() {
+    if (this.isLoggedIn) {
+      alert("이미 로그인한 유저입니다!")
+      this.$router.push({ name: "Home" });
+    }
+  },
+  computed: {
+    ...mapGetters("accounts", ["isLoggedIn"])
+  },
   methods: {
     ...mapActions("accounts", ["login"]),
     ...mapActions("auth", ["signUserIn"]),
