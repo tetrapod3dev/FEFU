@@ -62,6 +62,7 @@
                 <v-col cols="12" md="4">
                   <v-file-input
                     label="상품 이미지"
+                    ref="imageInput"
                     v-model="images"
                     accept="image/*"
                     @change="Preview_image"
@@ -71,6 +72,7 @@
                     color="#37cdc2"
                   ></v-file-input>
                   <v-img
+                    @click="onClickImageUpload"
                     id="Preview_image_create"
                     height="230px"
                     :src="!!url ? url : imageSrc(product.photo)"
@@ -226,6 +228,9 @@ export default {
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
+    onClickImageUpload() {
+      this.$refs.imageInput.$refs.input.click()
+    },
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -251,6 +256,14 @@ export default {
         )
         .then((res) => {
           this.product = res.data;
+          
+          let base64Url = this.config.split('.')[1]
+          let decodedValue = JSON.parse(window.atob(base64Url))
+
+          if (decodedValue.sub != res.data.writer) {
+            alert("글쓴이가 아닙니다!")
+            this.$router.go(-1)
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -297,19 +310,6 @@ export default {
       }
     },
 
-    getUserInfo() {
-      let configs = {
-        headers: {
-          Authorization: this.config,
-        },
-      };
-      axios
-        .get(SERVER.URL + SERVER.ROUTES.myPage, configs)
-        .then((res) => {
-          this.user = res.data.user;
-        })
-        .catch((err) => console.log(err.response));
-    },
     async getSubcategories() {
       await axios
         .get(SERVER.URL + SERVER.ROUTES.products.subcategory, {
@@ -363,5 +363,9 @@ export default {
 .c-btn {
   border: 2px solid black;
   background: var(--primary-color);
+}
+
+#Preview_image_create {
+  cursor: pointer;
 }
 </style>
