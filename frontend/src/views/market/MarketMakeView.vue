@@ -62,6 +62,7 @@
                 <v-col cols="12" md="4">
                   <v-file-input
                     label="상품 이미지"
+                    ref="imageInput"
                     v-model="images"
                     :rules="[(v) => !!v || '이미지를 등록해주세요']"
                     accept="image/*"
@@ -72,6 +73,7 @@
                     color="#37cdc2"
                   ></v-file-input>
                   <v-img
+                    @click="onClickImageUpload"
                     id="Preview_image_create"
                     height="230px"
                     :style="
@@ -233,6 +235,9 @@ export default {
     ...mapGetters("market", ["MAINCATEGORIES", "MEDIUMCATEGORIES"]),
   },
   methods: {
+    onClickImageUpload() {
+      this.$refs.imageInput.$refs.input.click()
+    },
     testCreateChat() {
       this.createChat("p" + this.id);
     },
@@ -333,5 +338,9 @@ export default {
 .c-btn {
   border: 2px solid black;
   background: var(--primary-color);
+}
+
+#Preview_image_create {
+  cursor: pointer;
 }
 </style>

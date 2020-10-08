@@ -39,8 +39,8 @@
                   <v-avatar size="40" color="teal">
                     <img
                       :src="
-                        !!writer.photo
-                          ? imageSrc(writer.photo)
+                        !!writer.profileImage
+                          ? imageSrc(writer.profileImage)
                           : require(`@/assets/images/${writer.gender}.png`)
                       "
                     />
@@ -200,7 +200,7 @@ export default {
       },
       writer: {
         gender: "남자",
-        photo: "",
+        profileImage: "",
       },
       products: [
         {

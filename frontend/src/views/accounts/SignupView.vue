@@ -22,7 +22,7 @@
                 :rules="[
                   (v) => !!v || '아이디로 사용하실 이메일을 입력해주세요',
                   (v) =>
-                    /.+@.+\..+/.test(v) ||
+                    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(v) ||
                     '올바른 양식의 이메일을 입력해주세요',
                   checkEmailRule,
                 ]"
@@ -85,6 +85,7 @@
                     type="text"
                     filled
                     color="#37cdc2"
+                    maxlength="6"
                     :rules="ageRules"
                   ></v-text-field>
                 </v-col>
@@ -212,7 +213,7 @@
 <script>
 import axios from "axios";
 import SERVER from "@/api/api";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import router from "@/router";
 
 import Terms from "@/components/Terms";
@@ -239,8 +240,8 @@ export default {
         age: this.age,
         gender: this.parseGender,
       },
-      genderRules: [(v) => !!v || "", (v) => /^\d{1}$/.test(v) || ""],
-      ageRules: [(v) => !!v || "", (v) => /^\d{6}$/.test(v) || ""],
+      genderRules: [(v) => !!v || "", (v) => /[1-4]/.test(v) || ""],
+      ageRules: [(v) => !!v || "", (v) => /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/.test(v) || ""],
       rules: {
         required: (value) => !!value || "비밀번호를 입력해주세요.",
         min: (v) =>
@@ -255,6 +256,7 @@ export default {
     PrivacyPolicy,
   },
   computed: {
+    ...mapGetters("accounts", ["isLoggedIn"]),
     parseGender() {
       return this.genderNum % 2 ? "남자" : "여자";
     },
@@ -281,6 +283,12 @@ export default {
     checkboxRule() {
       return this.checkbox || "약관에 동의해주세요";
     },
+  },
+  mounted() {
+    if (this.isLoggedIn) {
+      alert("이미 로그인한 유저입니다!")
+      this.$router.push({ name: "Home" });
+    }
   },
   methods: {
     ...mapActions("accounts", ["signup"]),
