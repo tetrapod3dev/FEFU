@@ -62,6 +62,8 @@
               <v-col cols="12" class="py-0">
                 <v-form ref="form">
                   <v-img
+                    @click="onClickImageUpload"
+                    id="Preview_image_create"
                     class="c-sidebar c-sidebar__img mr-auto ml-auto"
                     height="200px"
                     width="200px"
@@ -81,6 +83,7 @@
                   <v-file-input
                     class="mt-5"
                     label="프로필 사진"
+                    ref="imageInput"
                     v-model="images"
                     :rules="[(v) => !!v || '이미지를 등록해주세요']"
                     filled
@@ -128,6 +131,9 @@ export default {
     ...mapGetters("accounts", ["config"]),
   },
   methods: {
+    onClickImageUpload() {
+      this.$refs.imageInput.$refs.input.click()
+    },
     imageSrc(filename) {
       return SERVER.IMAGE_URL + filename;
     },
@@ -201,5 +207,9 @@ export default {
   font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
   border-radius: 10px;
+}
+
+#Preview_image_create {
+  cursor: pointer;
 }
 </style>
