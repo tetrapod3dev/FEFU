@@ -39,6 +39,7 @@
                       <v-col cols="12" md="4">
                         <v-file-input
                           label="캠페인 이미지"
+                          ref="imageInput"
                           v-model="images"
                           :rules="imageRules"
                           filled
@@ -49,6 +50,7 @@
                           @change="Preview_image"
                         ></v-file-input>
                         <v-img
+                          @click="onClickImageUpload"
                           id="Preview_image_create"
                           height="230px"
                           :style="
@@ -451,6 +453,9 @@ export default {
   },
   methods: {
     ...mapActions("accounts", ["logout"]),
+    onClickImageUpload() {
+      this.$refs.imageInput.$refs.input.click()
+    },
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -561,5 +566,9 @@ export default {
 .custom-campaign-make-btn {
   border: 2px solid black;
   background: var(--primary-color);
+}
+
+#Preview_image_create {
+  cursor: pointer;
 }
 </style>

@@ -21,6 +21,7 @@
               <v-row>
                 <v-col cols="12" class="py-0">
                   <v-img
+                    @click="onClickImageUpload"
                     id="Preview_image_create"
                     height="230px"
                     :style="
@@ -36,6 +37,7 @@
                   <v-file-input
                     class="mt-5"
                     label="오늘의 미션 인증 사진"
+                    ref="imageInput"
                     v-model="images"
                     :rules="imageRules"
                     filled
@@ -122,6 +124,9 @@ export default {
     ...mapGetters("accounts", ["config", "USERNAME"]),
   },
   methods: {
+    onClickImageUpload() {
+      this.$refs.imageInput.$refs.input.click()
+    },
     Preview_image() {
       if (!this.images) {
         this.url = null;
@@ -196,5 +201,9 @@ export default {
   font-family: "S-CoreDream-7ExtraBold";
   border: 2px solid black;
   border-radius: 10px;
+}
+
+#Preview_image_create {
+  cursor: pointer;
 }
 </style>
