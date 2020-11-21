@@ -163,18 +163,15 @@ FEFU를 통해 사람들은 함께, 그리고 지속적으로 환경 보호 활�
 ### [코드 실행 방법](document/how_to.md)
 
 
-
-
-
 ## 크루원 소개
 
 ### 🍀 Among Earth 팀
 
-* **권경은** - *PM, backend*- [chriskwon96](https://lab.ssafy.com/chriskwon96)
-* **김현수** - *backend* - [gustn16113](https://lab.ssafy.com/gustn16113)
-* **박지윤** - *frontend* - [bellnuite](https://lab.ssafy.com/bellnuite)
-* **박태록** - *frontend* - [sdf7575](https://lab.ssafy.com/sdf7575)
-* **이동혁** - *data analysis* - [lee33843](https://lab.ssafy.com/lee33843)
+* **권경은** - *PM, backend*- chriskwon96
+* **김현수** - *backend* - gustn16113
+* **박지윤** - *frontend* - bellnuite
+* **박태록** - *frontend* - sdf7575
+* **이동혁** - *data analysis* - lee33843
 
 
 
