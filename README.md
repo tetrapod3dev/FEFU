@@ -14,8 +14,6 @@
 </div>
 <img src="images/main_page.JPG" align=center>
 
-<h3 align=center><a href="http://j3a402.p.ssafy.io/">FEFU 바로가기</a></h3>
-
 <h3 align=center><a href="document/DEMO.md">DEMO 바로가기</a></h3>
 
 <div align=center>
