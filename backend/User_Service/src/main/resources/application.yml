@@ -5,9 +5,9 @@ spring:
   application:
     name: users
   datasource:
-    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
-    username: user
-    password: a402
+    url: jdbc:mysql://**.**.**:****/****?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
+    username: ****
+    password: ****
     hikari:
       connection-timeout: 20000
       minimum-idle: 5
