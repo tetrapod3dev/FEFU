@@ -4,7 +4,7 @@ spring:
   application:
     name: api-gateway
   datasource:
-    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://****.****.****:3306/****?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     hikari:
       connection-timeout: 20000
       minimum-idle: 5
