@@ -4,9 +4,9 @@ spring:
   application:
     name: auth-center
   datasource:
-    url: jdbc:mysql://j3a402.p.ssafy.io:3306/ssafy?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: user
-    password: a402
+    url: jdbc:mysql://****.****.****:3306/****?allowPublicKeyRetrieval=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ****
+    password: ****
     hikari:
       connection-timeout: 20000
       minimum-idle: 5
@@ -25,7 +25,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://j3a402.p.ssafy.io:8761/eureka
+      defaultZone: http://****.****.****:8761/eureka
       
 logging:
   pattern:
