@@ -28,7 +28,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://j3a402.p.ssafy.io:8761/eureka
+      defaultZone: http://****.****.****:8761/eureka
   instance:
     instance-id: campaigns
     prefer-ip-address: true  # 도커에 올릴때 해줘야 찾음
