@@ -8,7 +8,7 @@ drf-yasg==1.17.1
 idna==2.10
 inflection==0.5.1
 itypes==1.2.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 joblib==1.2.0
 MarkupSafe==1.1.1
 numpy==1.22.0
